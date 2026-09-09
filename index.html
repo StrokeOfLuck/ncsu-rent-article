@@ -815,6 +815,28 @@ th:first-child, td:first-child {
   gap:12px;
 }
 
+.burden-hours-meta{
+  display:flex;
+  align-items:baseline;
+  justify-content:flex-end;
+  gap:8px;
+  min-width:0;
+}
+
+.burden-hours-warning{
+  display:none;
+  color:var(--accent);
+  font-size:8px;
+  line-height:1.2;
+  font-weight:760;
+  text-align:right;
+  max-width:230px;
+}
+
+.burden-hours-warning.over-limit{
+  display:inline;
+}
+
 .burden-hours-readout{
   flex:0 0 auto;
   min-width:58px;
@@ -1854,7 +1876,7 @@ th:first-child, td:first-child {
 
 @media(min-width:701px){
   .hours-context{
-    grid-template-columns:19fr 20fr;
+    grid-template-columns:calc(48.7179487% - 3px) 1fr;
   }
 
   .hours-line{
@@ -2614,7 +2636,10 @@ th:first-child, td:first-child {
       <div class="burden-card">
         <div class="burden-card-head">
           <div class="card-kicker" id="burdenKickerLow">Monthly income at $7.25/hour</div>
-          <div class="burden-hours-readout"><span id="hoursLowVal">20</span> hrs</div>
+          <div class="burden-hours-meta">
+            <span class="burden-hours-warning">Hours above 20 are beyond NC State's Federal Work-Study limit.</span>
+            <div class="burden-hours-readout"><span id="hoursLowVal">20</span> hrs</div>
+          </div>
         </div>
         <div class="burden-income-line">
           <div class="card-title">$<span id="burdenIncomeLow">628</span></div>
@@ -2662,7 +2687,10 @@ th:first-child, td:first-child {
       <div class="burden-card">
         <div class="burden-card-head">
           <div class="card-kicker" id="burdenKickerHigh">Monthly income at $15/hour</div>
-          <div class="burden-hours-readout"><span id="hoursHighVal">20</span> hrs</div>
+          <div class="burden-hours-meta">
+            <span class="burden-hours-warning">Hours above 20 are beyond NC State's Federal Work-Study limit.</span>
+            <div class="burden-hours-readout"><span id="hoursHighVal">20</span> hrs</div>
+          </div>
         </div>
         <div class="burden-income-line">
           <div class="card-title">$<span id="burdenIncomeHigh">1,300</span></div>
@@ -3347,8 +3375,10 @@ function updateWorkStudy() {
   const status = document.getElementById("status");
   const readout = document.querySelector(".hours-readout");
   const burdenReadouts = document.querySelectorAll(".burden-hours-readout");
+  const burdenWarnings = document.querySelectorAll(".burden-hours-warning");
   if (readout) readout.classList.toggle("over-limit", h > 20);
   burdenReadouts.forEach(el => el.classList.toggle("over-limit", h > 20));
+  burdenWarnings.forEach(el => el.classList.toggle("over-limit", h > 20));
 
   if (h <= 20) {
     status.className = "status info-status";
