@@ -282,6 +282,106 @@ h2 {
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 01</div>
+          <div class="ref-title">NC State Off-Campus Housing Listings — Source and Scrape Methodology</div>
+        </div>
+        <div class="tags">
+          <span class="tag">Primary source</span>
+          <span class="tag">NC State</span>
+          <span class="tag">Rental listings</span>
+          <span class="tag">Scrape methodology</span>
+        </div>
+      </div>
+
+      <div class="ref-body">
+        <div class="meta-grid">
+          <div class="meta-label">Organization</div>
+          <div class="meta-value">North Carolina State University, Off-Campus Housing</div>
+
+          <div class="meta-label">Source page</div>
+          <div class="meta-value"><a href="https://offcampus.dasa.ncsu.edu/housing" target="_blank" rel="noopener noreferrer">NC State Off-Campus Housing</a></div>
+
+          <div class="meta-label">Collection date</div>
+          <div class="meta-value">Sept. 9, 2026</div>
+
+          <div class="meta-label">Scrape timestamp</div>
+          <div class="meta-value"><code>2026-09-09T02:24:45.953Z</code></div>
+
+          <div class="meta-label">Collection method</div>
+          <div class="meta-value">Browser-console scraper run on the NC State housing site, collecting the structured JSON returned by the site's own search and property-detail backend requests.</div>
+
+          <div class="meta-label">Search endpoint pattern</div>
+          <div class="meta-value"><code>/bff/listing/search/combined?url=/housing...</code></div>
+
+          <div class="meta-label">Detail endpoint pattern</div>
+          <div class="meta-value"><code>/bff/listing/{siteId}?campus=&amp;v=5&amp;locale=en</code></div>
+
+          <div class="meta-label">Scraper</div>
+          <div class="meta-value"><a href="https://github.com/StrokeOfLuck/ncsu-rent-article/blob/main/scripts/ncsu-rental-scraper.js" target="_blank" rel="noopener noreferrer">ncsu-rental-scraper.js</a></div>
+
+          <div class="meta-label">Reproduction notes</div>
+          <div class="meta-value"><a href="https://github.com/StrokeOfLuck/ncsu-rent-article/blob/main/docs/scraper-README.md" target="_blank" rel="noopener noreferrer">Scraper README and rerun instructions</a></div>
+
+          <div class="meta-label">Source type</div>
+          <div class="meta-value">Official university-hosted listing portal / structured listing data</div>
+        </div>
+
+        <hr class="rule">
+
+        <h2>Reference citation</h2>
+        <div class="citation">
+          North Carolina State University. “Off-Campus Housing.” Rental listings advertised through NC State's Off-Campus Housing website, collected Sept. 9, 2026.
+        </div>
+
+        <hr class="rule">
+
+        <h2>What was collected</h2>
+        <div class="facts">
+          <div class="fact">
+            <div class="fact-label">Portal search metadata</div>
+            <div class="fact-value">The unrestricted search reported <strong>527 total results</strong>, <strong>168 exact listings</strong>, <strong>168 map pins</strong> and <strong>5 result pages</strong>. These counts describe different parts of the portal and are not treated as interchangeable.</div>
+          </div>
+
+          <div class="fact">
+            <div class="fact-label">Unique properties</div>
+            <div class="fact-value">The scraper collected <strong>all 168 unique exact property records</strong> returned by the unrestricted search.</div>
+          </div>
+
+          <div class="fact">
+            <div class="fact-label">Property details</div>
+            <div class="fact-value">A detail request was successfully collected for <strong>all 168 properties</strong>, producing <strong>537 floor-plan rows</strong>.</div>
+          </div>
+
+          <div class="fact">
+            <div class="fact-label">Map reporting unit</div>
+            <div class="fact-value">The map uses the <strong>unique property/location</strong> as its reporting unit rather than counting every floor plan as a separate rental location.</div>
+          </div>
+
+          <div class="fact">
+            <div class="fact-label">Price treatment</div>
+            <div class="fact-value"><strong>Per-bedroom and whole-unit prices are kept separate.</strong> Listings without a positive numeric advertised price are excluded from the corresponding price average rather than treated as zero.</div>
+          </div>
+
+          <div class="fact">
+            <div class="fact-label">Distance treatment</div>
+            <div class="fact-value">Distances used in the interactive are recalculated from each listing's latitude and longitude as straight-line geographic distance. The portal's supplied campus-distance field is not used for the radius calculations.</div>
+          </div>
+        </div>
+
+        <div class="use-note">
+          <strong>Article use:</strong> This is the source and collection record for the rental data shown on the map. Preferred wording is <strong>“Listings advertised through NC State's Off-Campus Housing website, collected on September 9, 2026.”</strong> The dataset should not be described as every rental available around NC State or Raleigh.
+        </div>
+
+        <div class="filter-note">
+          <strong>Reproducibility and privacy:</strong> The scraper runs in the browser while the NC State housing page is open and does not save copied cookies or login credentials. The public repository includes cleaned analysis files and the scraper, but not the lossless raw response archive. Listings marked by the portal to hide an address have exact street-address text removed from the public checkpoint.
+        </div>
+      </div>
+    </article>
+
+
+    <article class="ref">
+      <div class="ref-head">
+        <div>
+          <div class="ref-no">Reference 02</div>
           <div class="ref-title">NC State Federal Work-Study Program</div>
         </div>
         <div class="tags">
@@ -360,7 +460,7 @@ h2 {
     <article class="ref">
       <div class="ref-head">
         <div>
-          <div class="ref-no">Reference 02</div>
+          <div class="ref-no">Reference 03</div>
           <div class="ref-title">NC State Common Data Set 2025–2026 — Financial Aid</div>
         </div>
         <div class="tags">
@@ -462,7 +562,7 @@ h2 {
     <article class="ref">
       <div class="ref-head">
         <div>
-          <div class="ref-no">Reference 03</div>
+          <div class="ref-no">Reference 04</div>
           <div class="ref-title">Apartment List Rent Estimates — Raleigh Rent Trend</div>
         </div>
         <div class="tags">
@@ -596,7 +696,7 @@ h2 {
     <article class="ref">
       <div class="ref-head">
         <div>
-          <div class="ref-no">Reference 04</div>
+          <div class="ref-no">Reference 05</div>
           <div class="ref-title">HUD CHAS — Housing Cost-Burden Definition</div>
         </div>
         <div class="tags">
