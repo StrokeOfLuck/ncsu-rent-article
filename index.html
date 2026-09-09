@@ -2107,8 +2107,8 @@ map.on("load", () => {
     type:"fill",
     source:"campus-perimeters",
     paint:{
-      "fill-color":"#85b1ce",
-      "fill-opacity":0.06
+      "fill-color":"#6b7280",
+      "fill-opacity":0.08
     }
   });
   map.addLayer({
@@ -2116,9 +2116,9 @@ map.on("load", () => {
     type:"line",
     source:"campus-perimeters",
     paint:{
-      "line-color":"#6f9fbe",
-      "line-width":0.9,
-      "line-opacity":0.45
+      "line-color":"#6b7280",
+      "line-width":1.0,
+      "line-opacity":0.65
     }
   });
 
@@ -2276,14 +2276,20 @@ function setCampus(key) {
   if(map.getSource("campus-point")) map.getSource("campus-point").setData(campusPoint(c));
 
   if(map.getLayer("campus-perimeters-fill")) {
+    map.setPaintProperty("campus-perimeters-fill","fill-color",[
+      "case",["==",["get","story_group"],key],"#1d4ed8","#6b7280"
+    ]);
     map.setPaintProperty("campus-perimeters-fill","fill-opacity",[
-      "case",["==",["get","story_group"],key],0.22,0.06
+      "case",["==",["get","story_group"],key],0.20,0.08
     ]);
     map.setPaintProperty("campus-perimeters-line","line-color",[
-      "case",["==",["get","story_group"],key],"#4e7fa3","#95a9b8"
+      "case",["==",["get","story_group"],key],"#1e3a8a","#6b7280"
     ]);
     map.setPaintProperty("campus-perimeters-line","line-width",[
-      "case",["==",["get","story_group"],key],2.1,1.0
+      "case",["==",["get","story_group"],key],2.5,1.0
+    ]);
+    map.setPaintProperty("campus-perimeters-line","line-opacity",[
+      "case",["==",["get","story_group"],key],0.95,0.65
     ]);
   }
 
