@@ -820,6 +820,10 @@ th:first-child, td:first-child {
   gap:10px;
 }
 
+.burden-hours-meta{
+  display:contents;
+}
+
 .burden-hours-warning{
   display:none;
   color:var(--accent);
@@ -2160,8 +2164,18 @@ th:first-child, td:first-child {
     max-width:190px;
   }
 
+  .burden-axis-scale{
+    font-size:8px;
+  }
+
   .burden-axis-scale .axis-300{
-    display:none;
+    display:none !important;
+  }
+
+  .burden-axis-scale .axis-350{
+    right:0;
+    left:auto;
+    transform:none;
   }
   .context-strip-head{
     align-items:flex-start;
