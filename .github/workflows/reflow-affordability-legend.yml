@@ -1,60 +1,23 @@
 name: Reflow affordability legend
-
-on:
+'on':
   push:
     paths:
-      - '.github/workflows/reflow-affordability-legend.yml'
-
+      - .github/workflows/reflow-affordability-legend.yml
 permissions:
   contents: write
-
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Reflow legend
+      - name: Update legend layout
+        shell: bash
+        run: python -c "from pathlib import Path; p=Path('index.html'); s=p.read_text(); marker='</style>'; css='\\n/* Reflow affordability legend */\\n@media (min-width: 721px) {\\n  .burden-legend { grid-template-columns:minmax(250px,.95fr) minmax(300px,1.05fr) auto; gap:6px 14px; align-items:center; }\\n  .burden-legend .legend-column { min-width:0; }\\n  .burden-legend .legend-action { grid-column:auto; grid-row:1; align-self:center; justify-self:end; margin:0; }\\n  .burden-legend .hud-info-btn { white-space:nowrap; }\\n}\\n'; s=s if '/* Reflow affordability legend */' in s else s.replace(marker,css+marker,1); p.write_text(s)"
+      - name: Commit changes
+        shell: bash
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          p = Path('index.html')
-          text = p.read_text(encoding='utf-8')
-          marker = '</style>'
-          css = r'''
-
-/* Reflow affordability legend: keep HUD button on the right */
-@media (min-width: 721px) {
-  .burden-legend {
-    grid-template-columns:minmax(250px, .95fr) minmax(300px, 1.05fr) auto;
-    gap:6px 14px;
-    align-items:center;
-  }
-
-  .burden-legend .legend-column {
-    min-width:0;
-  }
-
-  .burden-legend .legend-action {
-    grid-column:auto;
-    grid-row:1;
-    align-self:center;
-    justify-self:end;
-    margin:0;
-  }
-
-  .burden-legend .hud-info-btn {
-    white-space:nowrap;
-  }
-}
-'''
-          if '/* Reflow affordability legend: keep HUD button on the right */' not in text:
-              text = text.replace(marker, css + '\n' + marker, 1)
-          p.write_text(text, encoding='utf-8')
-          PY
-      - name: Commit update
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           rm .github/workflows/reflow-affordability-legend.yml
           git add index.html .github/workflows/reflow-affordability-legend.yml
           git commit -m "Reflow affordability legend and HUD button"
