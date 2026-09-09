@@ -686,9 +686,14 @@ th:first-child, td:first-child {
 
 .burden-legend{
   display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;
   gap:8px 18px;
   align-items:start;
+}
+
+.legend-action{
+  align-self:start;
+  justify-self:end;
 }
 
 .legend-column{
@@ -2059,6 +2064,11 @@ th:first-child, td:first-child {
     gap:8px 10px;
   }
 
+  .legend-action{
+    grid-column:1 / -1;
+    justify-self:end;
+  }
+
   .legend-column{
     gap:6px;
   }
@@ -2581,7 +2591,6 @@ th:first-child, td:first-child {
   <section class="block affordability-block">
     <div class="afford-header">
       <div class="section-label">How much of a student's monthly income goes to rent?</div>
-      <button class="hud-info-btn" type="button" onclick="document.getElementById('hudInfoDialog').showModal()">HUD 30% rule explanation</button>
     </div>
 
     <div class="aid-panel">
@@ -2631,6 +2640,9 @@ th:first-child, td:first-child {
         <div class="legend-column">
           <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100% of monthly income</span>
           <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> HUD's 30% benchmark</span>
+        </div>
+        <div class="legend-action">
+          <button class="hud-info-btn" type="button" onclick="document.getElementById('hudInfoDialog').showModal()">HUD 30% rule explanation</button>
         </div>
       </div>
       <div class="burden-card">
