@@ -2503,6 +2503,50 @@ th:first-child, td:first-child {
   }
 }
 
+
+
+/* Compact affordability-chart legend */
+.burden-legend {
+  border:1px solid var(--line);
+  background:var(--soft2);
+  border-radius:4px;
+  padding:9px 10px;
+  margin:10px 0 14px;
+  gap:6px 14px;
+  align-items:center;
+}
+
+.burden-legend .legend-column {
+  gap:4px;
+}
+
+.burden-legend .legend-piece {
+  grid-template-columns:14px auto minmax(0,1fr);
+  column-gap:5px;
+  align-items:center;
+  line-height:1.25;
+}
+
+@media (max-width: 720px) {
+  .burden-legend {
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:6px 10px;
+    padding:8px 9px;
+  }
+
+  .burden-legend .legend-action {
+    grid-column:1 / -1;
+    justify-self:end;
+    margin-top:1px;
+  }
+
+  .burden-legend .legend-piece {
+    grid-template-columns:12px auto minmax(0,1fr);
+    column-gap:4px;
+    font-size:9px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2752,11 +2796,11 @@ th:first-child, td:first-child {
     <div class="burden-grid">
       <div class="burden-key burden-legend" aria-label="Chart legend">
         <div class="legend-column">
-          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">How much of monthly income would go to rent</span></span>
-          <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong><span class="legend-desc">More than 30% of income goes to rent</span></span>
+          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">Rent as % of income</span></span>
+          <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong><span class="legend-desc">Above 30%</span></span>
         </div>
         <div class="legend-column">
-          <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong><span class="legend-desc">100% of monthly income</span></span>
+          <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong><span class="legend-desc">100% of income</span></span>
           <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong><span class="legend-desc">HUD's 30% benchmark</span></span>
         </div>
         <div class="legend-action">
@@ -2875,11 +2919,11 @@ th:first-child, td:first-child {
 
         <div class="burden-key burden-legend" aria-label="Chart legend">
           <div class="legend-column">
-            <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">How much of monthly income would go to rent</span></span>
-            <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong><span class="legend-desc">More than 30% of income goes to rent</span></span>
+            <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">Rent as % of income</span></span>
+            <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong><span class="legend-desc">Above 30%</span></span>
           </div>
           <div class="legend-column">
-            <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong><span class="legend-desc">100% of monthly income</span></span>
+            <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong><span class="legend-desc">100% of income</span></span>
             <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong><span class="legend-desc">HUD's 30% benchmark</span></span>
           </div>
         </div>
