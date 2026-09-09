@@ -791,6 +791,25 @@ th:first-child, td:first-child {
   padding:16px 16px 15px;
 }
 
+.burden-income-line{
+  display:grid;
+  grid-template-columns:max-content minmax(120px,1fr);
+  gap:16px;
+  align-items:center;
+  margin-top:4px;
+}
+
+.burden-income-line .card-title{
+  margin-top:0;
+}
+
+.mini-hours-slider{
+  width:100%;
+  min-width:0;
+  margin:0;
+  accent-color:#63759a;
+}
+
 .burden-sub {
   color:var(--muted);
   font-size:10.5px;
@@ -2494,7 +2513,10 @@ th:first-child, td:first-child {
       </div>
       <div class="burden-card">
         <div class="card-kicker" id="burdenKickerLow">Monthly income at $7.25/hour</div>
-        <div class="card-title">$<span id="burdenIncomeLow">628</span></div>
+        <div class="burden-income-line">
+          <div class="card-title">$<span id="burdenIncomeLow">628</span></div>
+          <input id="hoursLow" class="mini-hours-slider synced-hours" type="range" min="1" max="40" value="20" step="1" aria-label="Hours worked in a week">
+        </div>
         <div class="burden-sub" id="burdenSubLow">Gross monthly work pay at the selected weekly hours</div>
 
         <div class="burden-chart">
@@ -2536,7 +2558,10 @@ th:first-child, td:first-child {
 
       <div class="burden-card">
         <div class="card-kicker" id="burdenKickerHigh">Monthly income at $15/hour</div>
-        <div class="card-title">$<span id="burdenIncomeHigh">1,300</span></div>
+        <div class="burden-income-line">
+          <div class="card-title">$<span id="burdenIncomeHigh">1,300</span></div>
+          <input id="hoursHigh" class="mini-hours-slider synced-hours" type="range" min="1" max="40" value="20" step="1" aria-label="Hours worked in a week">
+        </div>
         <div class="burden-sub" id="burdenSubHigh">Gross monthly work pay at the selected weekly hours</div>
 
         <div class="burden-chart">
@@ -3198,6 +3223,9 @@ function updateWorkStudy() {
   const semHigh = highW * 15;
 
   document.getElementById("hoursVal").textContent = h;
+  document.querySelectorAll(".synced-hours").forEach(slider => {
+    slider.value = h;
+  });
 
   formatIncomeCards(lowW, highW, monthlyLow, monthlyHigh, semLow, semHigh);
 
@@ -3328,6 +3356,12 @@ function updateAffordability() {
 }
 
 document.getElementById("hours").addEventListener("input", updateWorkStudy);
+document.querySelectorAll(".synced-hours").forEach(slider => {
+  slider.addEventListener("input", () => {
+    document.getElementById("hours").value = slider.value;
+    updateWorkStudy();
+  });
+});
 document.getElementById("includeGrant").addEventListener("change", updateAffordability);
 document.getElementById("includeLoan").addEventListener("change", updateAffordability);
 
