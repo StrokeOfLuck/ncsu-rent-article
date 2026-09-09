@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unused graphics · NC State rent article</title>
+<style>
+:root{
+  --ink:#202020;
+  --muted:#69645d;
+  --line:#ddd9d1;
+  --soft2:#faf9f6;
+  --blue:#2b5f97;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#fff;
+  color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+.wrapper{
+  width:min(1120px,100%);
+  margin:0 auto;
+  padding:24px 18px 40px;
+}
+.archive-kicker{
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-size:10px;
+  font-weight:800;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+h1{
+  margin:0 0 7px;
+  font:700 30px/1.08 Georgia,"Times New Roman",serif;
+}
+.archive-note{
+  max-width:760px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+  margin-bottom:22px;
+}
+.section-label{
+  margin:0 0 7px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  font-size:10px;
+  font-weight:800;
+  color:var(--muted);
+}
+.debt-block{margin-top:16px}
+.debt-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  margin-bottom:8px;
+}
+.debt-head .section-label{margin-bottom:2px}
+.debt-deck{
+  color:var(--muted);
+  font-size:9.5px;
+  line-height:1.35;
+}
+.debt-source{
+  color:#2b5f97;
+  font-size:9.5px;
+  font-weight:750;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.debt-source:hover{text-decoration:underline}
+.debt-card{
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);
+  border:1px solid var(--line);
+  background:var(--soft2);
+}
+.debt-left{
+  padding:16px 18px;
+  border-right:1px solid var(--line);
+}
+.debt-right{
+  padding:18px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.debt-statline{
+  display:flex;
+  align-items:baseline;
+  gap:12px;
+  margin-bottom:12px;
+}
+.debt-big{
+  font:700 30px/1 Georgia,"Times New Roman",serif;
+  font-variant-numeric:tabular-nums;
+}
+.debt-copy{
+  max-width:430px;
+  color:#4e4a45;
+  font-size:11px;
+  line-height:1.4;
+}
+.grad-grid{
+  display:grid;
+  grid-template-columns:repeat(10,1fr);
+  gap:5px;
+  max-width:390px;
+}
+.grad-dot{
+  aspect-ratio:1;
+  border-radius:50%;
+  display:block;
+}
+.grad-dot.borrower,.legend-dot.borrower{background:var(--blue)}
+.grad-dot.nonborrower,.legend-dot.nonborrower{background:#ddd9d1}
+.debt-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px 16px;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.3;
+}
+.debt-legend span{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.legend-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  display:inline-block;
+  flex:0 0 auto;
+}
+.debt-callout-label{
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+  line-height:1.3;
+}
+.debt-callout{
+  margin-top:5px;
+  font:700 34px/1 Georgia,"Times New Roman",serif;
+  font-variant-numeric:tabular-nums;
+}
+.debt-callout-note{
+  margin-top:7px;
+  color:#4e4a45;
+  font-size:10px;
+  line-height:1.45;
+}
+.private-note{
+  margin-top:14px;
+  padding-top:11px;
+  border-top:1px solid var(--line);
+  color:#4e4a45;
+  font-size:10px;
+  line-height:1.45;
+}
+.debt-footnote{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.4;
+}
+.archive-meta{
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.5;
+}
+.archive-meta a{color:#2b5f97}
+@media(max-width:700px){
+  .debt-head{align-items:flex-start}
+  .debt-card{grid-template-columns:1fr}
+  .debt-left{
+    border-right:0;
+    border-bottom:1px solid var(--line);
+  }
+  .grad-grid{max-width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="archive-kicker">Unused graphics archive</div>
+  <h1>NC State rent article</h1>
+  <div class="archive-note">
+    Graphics preserved from reporting and design work but not used in the final article. This page is intentionally not linked from the article navigation.
+  </div>
+
+  <section class="debt-block">
+    <div class="debt-head">
+      <div>
+        <div class="section-label">Borrowing by graduation</div>
+        <div class="debt-deck">NC State Common Data Set 2025–26 · H5</div>
+      </div>
+      <a class="debt-source" href="https://report.isa.ncsu.edu/ir/cds/pdfs/CDS_2025-26.v1.pdf" target="_blank" rel="noopener noreferrer">NC State CDS source</a>
+    </div>
+
+    <div class="debt-card">
+      <div class="debt-left">
+        <div class="debt-statline">
+          <span class="debt-big">44%</span>
+          <span class="debt-copy">of the graduating class borrowed from at least one reported loan source.</span>
+        </div>
+
+        <div class="grad-grid" role="img" aria-label="100 dots representing graduates. 44 are highlighted to represent the 44 percent of the graduating class who borrowed.">
+          <span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span><span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot borrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+<span class="grad-dot nonborrower" aria-hidden="true"></span>
+        </div>
+
+        <div class="debt-legend">
+          <span><i class="legend-dot borrower"></i>44 borrowers</span>
+          <span><i class="legend-dot nonborrower"></i>56 without reported borrowing in H5</span>
+        </div>
+      </div>
+
+      <div class="debt-right">
+        <div class="debt-callout-label">Average cumulative principal among borrowers</div>
+        <div class="debt-callout">$25,393</div>
+        <div class="debt-callout-note">Average total principal borrowed across undergraduate study among graduates who borrowed from any reported loan source.</div>
+
+        <div class="private-note">
+          <strong>Private loans:</strong> 7% of the graduating class used private student loans; those borrowers averaged <strong>$37,306</strong> in private-loan principal.
+        </div>
+      </div>
+    </div>
+
+    <div class="debt-footnote">
+      H5 reports borrowing at graduation. It does not identify which expenses caused students to borrow, so this graphic should not be read as proof that housing costs caused the debt.
+    </div>
+  </section>
+
+  <div class="archive-meta">
+    <strong>Status:</strong> Not used in the article because H5 reports borrowing at graduation but does not identify which expenses caused students to borrow.<br>
+    <strong>Verification source:</strong> <a href="https://report.isa.ncsu.edu/ir/cds/pdfs/CDS_2025-26.v1.pdf" target="_blank" rel="noopener noreferrer">NC State Common Data Set 2025–26, H5 (official PDF)</a>.
+  </div>
+</div>
+</body>
+</html>
