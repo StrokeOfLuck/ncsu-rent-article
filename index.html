@@ -730,6 +730,38 @@ th:first-child, td:first-child {
   font-weight:700;
 }
 
+.burden-percent.over-benchmark {
+  color:var(--accent);
+}
+
+.burden-percent.over-benchmark small {
+  color:var(--accent);
+}
+
+.burden-point.over-benchmark {
+  background:var(--accent) !important;
+}
+
+.benchmark-note {
+  margin-top:8px;
+  padding:9px 11px;
+  border-left:3px solid var(--accent);
+  background:#fbf7f4;
+  color:#4e4a45;
+  font-size:10px;
+  line-height:1.45;
+}
+
+.benchmark-note a {
+  color:#2b5f97;
+  font-weight:750;
+  text-decoration:none;
+}
+
+.benchmark-note a:hover {
+  text-decoration:underline;
+}
+
 .burden-track {
   position:relative;
   height:22px;
@@ -1779,6 +1811,9 @@ th:first-child, td:first-child {
       <div>
         <div class="section-label">How much of those monthly resources goes to rent?</div>
         <div id="selectedBlurb" class="selected-blurb"></div>
+        <div class="benchmark-note">
+          <strong>HUD 30% housing benchmark:</strong> HUD treats monthly housing costs above 30% of monthly income as cost burdened. Red markers here flag modeled rent shares above 30%. HUD's measure includes utilities; this interactive uses advertised rent, and when grants or loans are added the denominator is modeled monthly resources rather than HUD-defined household income, so the red flag is a benchmark comparison, not a formal HUD classification. <a href="references.html#hud-30-percent">Source and explanation</a>
+        </div>
       </div>
       </div>
 
@@ -1865,7 +1900,7 @@ th:first-child, td:first-child {
     </div>
 
     <div class="footer-note">
-      The blue and orange dots use the overall per-bedroom and whole-unit midpoints shown above. The vertical line marks 100% of the selected monthly resources.
+      Blue and orange identify per-bedroom and whole-unit rent. A marker turns red when the modeled rent share exceeds HUD's 30% housing-affordability benchmark. The vertical line marks 100% of the selected monthly resources.
     </div>
   </section>
 </div>
@@ -2476,6 +2511,8 @@ function setBurdenRange(rangeId, pointId, labelId, pctId, incomeMonthly, stats) 
     rangeEl.style.left = "0%";
     rangeEl.style.width = "0%";
     pointEl.style.left = "0%";
+    pointEl.classList.remove("over-benchmark");
+    pctEl.classList.remove("over-benchmark");
     labelEl.innerHTML = `<span class="midline">Call for pricing</span>`;
     pctEl.innerHTML = `—<small>of resources</small>`;
     return;
@@ -2494,8 +2531,12 @@ function setBurdenRange(rangeId, pointId, labelId, pctId, incomeMonthly, stats) 
   rangeEl.style.width = `${Math.max(1.2, ((rightPct - leftPct) / 350) * 100)}%`;
   pointEl.style.left = `${(midClamped / 350) * 100}%`;
 
+  const aboveHudBenchmark = midPct != null && midPct > 30;
+  pointEl.classList.toggle("over-benchmark", aboveHudBenchmark);
+  pctEl.classList.toggle("over-benchmark", aboveHudBenchmark);
+
   labelEl.innerHTML = `<span class="midline">${money(mid)} midpoint</span>`;
-  pctEl.innerHTML = `${pctFormat(midPct)}<small>of resources</small>`;
+  pctEl.innerHTML = `${pctFormat(midPct)}<small>${aboveHudBenchmark ? "above 30% benchmark" : "of resources"}</small>`;
 }
 
 
