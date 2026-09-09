@@ -1415,6 +1415,14 @@ th:first-child, td:first-child {
   color:#2f2d2a;
 }
 
+.context-wide{
+  grid-column:1 / -1;
+}
+
+.affordability-context{
+  margin-top:12px;
+}
+
 
 
 
@@ -1694,7 +1702,7 @@ th:first-child, td:first-child {
     <div class="info-note">Hover a rental for pricing. Click a point to open the original NC State listing. Ring labels show 1, 3 and 5 mile straight-line distances.</div>
   </div>
 
-  <div class="footer-note" style="margin-top:6px; margin-bottom:14px; border-top:1px solid var(--line); padding-top:7px;">
+  <div class="footer-note" style="margin-top:3px; margin-bottom:10px;">
     Source: Listings advertised through NC State’s Off-Campus Housing website, collected Sept. 9, 2026. Campus boundaries and building footprints: NC State Facilities GIS. Distances are straight-line calculations from each campus reference point.
   </div>
 
@@ -1891,19 +1899,6 @@ th:first-child, td:first-child {
 
     </div>
 
-    <div class="context-strip">
-      <div class="context-strip-head">
-        <div class="context-strip-title">How to read this comparison</div>
-        <a class="context-strip-link" href="references.html" target="_blank" rel="noopener noreferrer">Methods and sources</a>
-      </div>
-      <div class="context-strip-grid">
-        <div class="context-strip-item"><strong>Listings:</strong> Advertised through NC State’s Off-Campus Housing site and collected Sept. 9, 2026; they are not the full Raleigh rental market.</div>
-        <div class="context-strip-item"><strong>Rent:</strong> Advertised rent may not include utilities. HUD’s 30% housing-cost benchmark does include utilities.</div>
-        <div class="context-strip-item"><strong>Aid:</strong> CDS figures are 2025–26 averages among recipients. Loans are borrowed funds, and the grant and loan averages are not a typical combined package.</div>
-        <div class="context-strip-item"><strong>Overall:</strong> Affordability uses the combined Main, Centennial and Vet School 1-, 3- and 5-mile summaries. NC State housing-budget benchmarks are 2025–26.</div>
-      </div>
-    </div>
-
   </section>
 
 
@@ -2006,8 +2001,18 @@ th:first-child, td:first-child {
       </div>
     </div>
 
-    <div class="footer-note">
-      Blue circles show the rent midpoint. <strong>Red circles mean the rent midpoint is above HUD's 30% housing-affordability benchmark.</strong> The red line marks 30%, and the gray line marks 100% of the selected monthly resources.
+    <div class="context-strip affordability-context">
+      <div class="context-strip-head">
+        <div class="context-strip-title">How to read this comparison</div>
+        <a class="context-strip-link" href="references.html" target="_blank" rel="noopener noreferrer">Methods and sources</a>
+      </div>
+      <div class="context-strip-grid">
+        <div class="context-strip-item context-wide"><strong>Chart:</strong> Blue circles show the rent midpoint. <strong>Red circles mean the rent midpoint is above HUD's 30% housing-affordability benchmark.</strong> The red line marks 30%, and the gray line marks 100% of the selected monthly resources.</div>
+        <div class="context-strip-item"><strong>Listings:</strong> Advertised through NC State’s Off-Campus Housing site and collected Sept. 9, 2026; they are not the full Raleigh rental market.</div>
+        <div class="context-strip-item"><strong>Rent:</strong> Advertised rent may not include utilities. HUD’s 30% housing-cost benchmark does include utilities.</div>
+        <div class="context-strip-item"><strong>Aid:</strong> CDS figures are 2025–26 averages among recipients. Loans are borrowed funds, and the grant and loan averages are not a typical combined package.</div>
+        <div class="context-strip-item"><strong>Overall:</strong> Affordability uses the combined Main, Centennial and Vet School 1-, 3- and 5-mile summaries. NC State housing-budget benchmarks are 2025–26.</div>
+      </div>
     </div>
   </section>
 </div>
