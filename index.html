@@ -1639,7 +1639,7 @@ th:first-child, td:first-child {
           </div>
         </div>
         <div class="combined-bottom-note">
-          <span id="combinedRentMeta">Main Campus · overall average of the displayed 1-, 3- and 5-mile summary ranges</span>
+          <span id="combinedRentMeta">Main, Centennial and Vet School · overall average of all displayed 1-, 3- and 5-mile summary ranges</span>
           <span class="combined-source">NC State housing benchmark: <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/" target="_blank" rel="noopener noreferrer">official cost of attendance</a></span>
         </div>
       </div>
@@ -2032,6 +2032,25 @@ function overallDisplayedRadiiSummary(campusKey) {
 
   const perOverall = combinedStats(perRadiusPerStats);
   const wholeOverall = combinedStats(perRadiusWholeStats);
+  const overall = combinedStats([perOverall, wholeOverall]);
+
+  return { perOverall, wholeOverall, overall };
+}
+
+function overallAllCampusesSummary() {
+  const perStats = [];
+  const wholeStats = [];
+
+  for (const campusKey of Object.keys(campuses)) {
+    for (const r of radii) {
+      const audit = getRadiusAudit(campusKey, r);
+      perStats.push(audit.perStats);
+      wholeStats.push(audit.wholeStats);
+    }
+  }
+
+  const perOverall = combinedStats(perStats);
+  const wholeOverall = combinedStats(wholeStats);
   const overall = combinedStats([perOverall, wholeOverall]);
 
   return { perOverall, wholeOverall, overall };
@@ -2599,7 +2618,6 @@ function resourceBreakdown(baseMonthly, aid) {
 }
 
 function updateAffordability() {
-  const audit = getRadiusAudit(currentCampusKey, currentRadius);
   const h = Number(document.getElementById("hours").value);
   const baseMonthLow = 7.25 * h * 52 / 12;
   const baseMonthHigh = 15 * h * 52 / 12;
@@ -2607,13 +2625,13 @@ function updateAffordability() {
   const aidTotal = aid.grant + aid.loan;
   const monthLow = baseMonthLow + aidTotal;
   const monthHigh = baseMonthHigh + aidTotal;
-  const summary = overallDisplayedRadiiSummary(currentCampusKey);
+  const summary = overallAllCampusesSummary();
 
   document.getElementById("selectedBlurb").textContent =
-    `${audit.campus.label} · using the overall per-bedroom and whole-unit averages shown above`;
+    "All three campus reference views · combined overall per-bedroom and whole-unit averages";
 
   document.getElementById("combinedRentMeta").textContent =
-    `${audit.campus.label} · overall average of the displayed 1-, 3- and 5-mile summary ranges`;
+    "Main, Centennial and Vet School · overall average of all displayed 1-, 3- and 5-mile summary ranges";
   document.getElementById("combinedPerOverall").textContent = summary.perOverall.display;
   document.getElementById("combinedPerMid").textContent = money(summary.perOverall.midpoint);
   document.getElementById("combinedWholeOverall").textContent = summary.wholeOverall.display;
