@@ -646,41 +646,51 @@ th:first-child, td:first-child {
 
 .burden-axis-scale {
   position:relative;
-  height:12px;
+  height:24px;
 }
 
 .burden-axis-middle {
-  margin-top:8px;
+  margin-top:7px;
   margin-bottom:0;
 }
 
 .burden-axis-scale span {
   position:absolute;
-  top:0;
+  top:12px;
   transform:translateX(-50%);
   white-space:nowrap;
 }
 
-.burden-axis-scale span:nth-child(1) {
+.burden-axis-scale .axis-0 {
   left:0%;
   transform:none;
 }
 
-.burden-axis-scale span:nth-child(2) {
+.burden-axis-scale .axis-100 {
   left:28.5714%;
 }
 
-.burden-axis-scale span:nth-child(3) {
+.burden-axis-scale .axis-200 {
   left:57.1429%;
 }
 
-.burden-axis-scale span:nth-child(4) {
+.burden-axis-scale .axis-300 {
   left:85.7143%;
 }
 
-.burden-axis-scale span:nth-child(5) {
+.burden-axis-scale .axis-350 {
   left:100%;
   transform:translateX(-100%);
+}
+
+.burden-axis-scale .axis-hud {
+  left:8.5714%;
+  top:0;
+  transform:translateX(-15%);
+  color:var(--accent);
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:.02em;
 }
 
 .burden-row {
@@ -778,8 +788,20 @@ th:first-child, td:first-child {
   bottom:0;
   width:2px;
   margin-left:-1px;
+  background:#777168;
+  opacity:.75;
+  z-index:1;
+}
+
+.hud-benchmark-line {
+  position:absolute;
+  left:8.5714%;
+  top:0;
+  bottom:0;
+  width:2px;
+  margin-left:-1px;
   background:var(--accent);
-  opacity:.8;
+  opacity:.95;
   z-index:1;
 }
 
@@ -1868,6 +1890,7 @@ th:first-child, td:first-child {
             </div>
             <div class="burden-percent" id="burdenPctBedLow">0%<small>of resources</small></div>
             <div class="burden-track">
+              <div class="hud-benchmark-line"></div>
               <div class="threshold-line"></div>
               <div id="rangeBedLow" class="burden-range bed-range"></div>
               <div id="pointBedLow" class="burden-point bed-point"></div>
@@ -1877,7 +1900,7 @@ th:first-child, td:first-child {
           <div class="burden-axis burden-axis-middle">
             <div class="burden-axis-spacer"></div>
             <div class="burden-axis-spacer"></div>
-            <div class="burden-axis-scale"><span>0%</span><span>100%</span><span>200%</span><span>300%</span><span>350%</span></div>
+            <div class="burden-axis-scale"><span class="axis-hud">30% HUD</span><span class="axis-0">0%</span><span class="axis-100">100%</span><span class="axis-200">200%</span><span class="axis-300">300%</span><span class="axis-350">350%</span></div>
           </div>
 
           <div class="burden-row">
@@ -1887,6 +1910,7 @@ th:first-child, td:first-child {
             </div>
             <div class="burden-percent" id="burdenPctUnitLow">0%<small>of resources</small></div>
             <div class="burden-track">
+              <div class="hud-benchmark-line"></div>
               <div class="threshold-line"></div>
               <div id="rangeUnitLow" class="burden-range unit-range"></div>
               <div id="pointUnitLow" class="burden-point unit-point"></div>
@@ -1908,6 +1932,7 @@ th:first-child, td:first-child {
             </div>
             <div class="burden-percent" id="burdenPctBedHigh">0%<small>of resources</small></div>
             <div class="burden-track">
+              <div class="hud-benchmark-line"></div>
               <div class="threshold-line"></div>
               <div id="rangeBedHigh" class="burden-range bed-range"></div>
               <div id="pointBedHigh" class="burden-point bed-point"></div>
@@ -1917,7 +1942,7 @@ th:first-child, td:first-child {
           <div class="burden-axis burden-axis-middle">
             <div class="burden-axis-spacer"></div>
             <div class="burden-axis-spacer"></div>
-            <div class="burden-axis-scale"><span>0%</span><span>100%</span><span>200%</span><span>300%</span><span>350%</span></div>
+            <div class="burden-axis-scale"><span class="axis-hud">30% HUD</span><span class="axis-0">0%</span><span class="axis-100">100%</span><span class="axis-200">200%</span><span class="axis-300">300%</span><span class="axis-350">350%</span></div>
           </div>
 
           <div class="burden-row">
@@ -1927,6 +1952,7 @@ th:first-child, td:first-child {
             </div>
             <div class="burden-percent" id="burdenPctUnitHigh">0%<small>of resources</small></div>
             <div class="burden-track">
+              <div class="hud-benchmark-line"></div>
               <div class="threshold-line"></div>
               <div id="rangeUnitHigh" class="burden-range unit-range"></div>
               <div id="pointUnitHigh" class="burden-point unit-point"></div>
@@ -1937,7 +1963,7 @@ th:first-child, td:first-child {
     </div>
 
     <div class="footer-note">
-      Blue and orange identify per-bedroom and whole-unit rent. A marker turns red when the modeled rent share exceeds HUD's 30% housing-affordability benchmark. The vertical line marks 100% of the selected monthly resources.
+      Blue and orange identify per-bedroom and whole-unit rent. The <strong>red line marks HUD's 30% housing-affordability benchmark</strong>; the gray line marks 100% of the selected monthly resources. A rent marker turns red when it exceeds the 30% benchmark.
     </div>
   </section>
 </div>
