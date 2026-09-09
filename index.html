@@ -1369,6 +1369,57 @@ th:first-child, td:first-child {
   background:#fbfaf7;
 }
 
+.context-strip{
+  margin-top:14px;
+  border:1px solid var(--line);
+  background:#fbfaf7;
+  padding:10px 12px;
+}
+
+.context-strip-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:baseline;
+  margin-bottom:7px;
+}
+
+.context-strip-title{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  color:var(--muted);
+  font-weight:800;
+}
+
+.context-strip-link{
+  color:#2b5f97;
+  font-size:8.8px;
+  font-weight:750;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.context-strip-link:hover{
+  text-decoration:underline;
+}
+
+.context-strip-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:6px 18px;
+}
+
+.context-strip-item{
+  color:#4e4a45;
+  font-size:9.3px;
+  line-height:1.4;
+}
+
+.context-strip-item strong{
+  color:#2f2d2a;
+}
+
 
 
 
@@ -1579,6 +1630,12 @@ th:first-child, td:first-child {
   .benchmark-legend {
     justify-self:start;
     white-space:normal;
+  }
+  .context-strip-head{
+    align-items:flex-start;
+  }
+  .context-strip-grid{
+    grid-template-columns:1fr;
   }
   .combined-details{
     grid-template-columns:1fr;
@@ -1910,6 +1967,19 @@ th:first-child, td:first-child {
         CDS figures are averages among recipients, not a typical-student package. The grant and loan averages come from different recipient groups and should not be assumed to occur together.
       </div>
 
+    </div>
+
+    <div class="context-strip">
+      <div class="context-strip-head">
+        <div class="context-strip-title">How to read this comparison</div>
+        <a class="context-strip-link" href="references.html" target="_blank" rel="noopener noreferrer">Methods and sources</a>
+      </div>
+      <div class="context-strip-grid">
+        <div class="context-strip-item"><strong>Listings:</strong> Advertised through NC State’s Off-Campus Housing site and collected Sept. 9, 2026; they are not the full Raleigh rental market.</div>
+        <div class="context-strip-item"><strong>Rent:</strong> Advertised rent may not include utilities. HUD’s 30% housing-cost benchmark does include utilities.</div>
+        <div class="context-strip-item"><strong>Aid:</strong> CDS figures are 2025–26 averages among recipients. Loans are borrowed funds, and the grant and loan averages are not a typical combined package.</div>
+        <div class="context-strip-item"><strong>Overall:</strong> Affordability uses the combined Main, Centennial and Vet School 1-, 3- and 5-mile summaries. NC State housing-budget benchmarks are 2025–26.</div>
+      </div>
     </div>
 
   </section>
