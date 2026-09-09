@@ -515,6 +515,10 @@ th:first-child, td:first-child {
   gap:12px;
 }
 
+.affordability-block{
+  border-top:0;
+}
+
 .hud-info-btn{
   flex:0 0 auto;
   border:1px solid #aaa397;
@@ -2449,7 +2453,7 @@ th:first-child, td:first-child {
   </section>
 
 
-  <section class="block">
+  <section class="block affordability-block">
     <div class="afford-header">
       <div class="section-label">How much of a student's monthly income goes to rent?</div>
       <button class="hud-info-btn" type="button" onclick="document.getElementById('hudInfoDialog').showModal()">HUD 30% rule &amp; legend</button>
@@ -2457,10 +2461,10 @@ th:first-child, td:first-child {
 
     <div class="burden-grid">
       <div class="burden-key burden-legend" aria-label="Chart legend">
-        <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> rent midpoint as % of income</span>
-        <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> above HUD 30%</span>
-        <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> 30%</span>
-        <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100%</span>
+        <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> How much of monthly income would go to rent</span>
+        <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> More than 30% of income goes to rent</span>
+        <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> HUD's 30% benchmark</span>
+        <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100% of monthly income</span>
       </div>
       <div class="burden-card">
         <div class="card-kicker" id="burdenKickerLow">Monthly income at $7.25/hour</div>
@@ -2559,10 +2563,10 @@ th:first-child, td:first-child {
         </div>
 
         <div class="burden-key burden-legend" aria-label="Chart legend">
-          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> rent midpoint as % of income</span>
-          <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> above HUD 30%</span>
-          <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> 30%</span>
-          <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100%</span>
+          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> How much of monthly income would go to rent</span>
+          <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> More than 30% of income goes to rent</span>
+          <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> HUD's 30% benchmark</span>
+          <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100% of monthly income</span>
         </div>
 
         <div class="benchmark-note">
