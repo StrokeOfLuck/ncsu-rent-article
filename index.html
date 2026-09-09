@@ -720,14 +720,15 @@ th:first-child, td:first-child {
 
 .burden-percent small {
   display:block;
-  margin-top:3px;
+  margin-top:4px;
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   font-size:8px;
-  line-height:1;
+  line-height:1.1;
   text-transform:uppercase;
   letter-spacing:.06em;
   color:var(--muted);
   font-weight:700;
+  white-space:normal;
 }
 
 .burden-percent.over-benchmark {
@@ -2572,7 +2573,7 @@ function setBurdenRange(rangeId, pointId, labelId, pctId, incomeMonthly, stats) 
   pctEl.classList.toggle("over-benchmark", aboveHudBenchmark);
 
   labelEl.innerHTML = `<span class="midline">${money(mid)} midpoint</span>`;
-  pctEl.innerHTML = `${pctFormat(midPct)}<small>${aboveHudBenchmark ? "above 30% benchmark" : "of resources"}</small>`;
+  pctEl.innerHTML = `${pctFormat(midPct)}<small>${aboveHudBenchmark ? "above 30%" : "of resources"}</small>`;
 }
 
 
