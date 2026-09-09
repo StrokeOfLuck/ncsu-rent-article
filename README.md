@@ -4,6 +4,11 @@ Working data-journalism project examining advertised rental prices around NC Sta
 
 This is a source checkpoint for the article and interactive map as of September 9, 2026. The project is still in development and is not yet linked from the public portfolio site.
 
+## Quick links
+
+- [Open the main interactive](https://strokeofluck.github.io/ncsu-rent-article/)
+- [Open the reporting references](https://strokeofluck.github.io/ncsu-rent-article/references.html)
+
 ## Current map
 
 `index.html` contains the current interactive MapLibre preview. It includes:
