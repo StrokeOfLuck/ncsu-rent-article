@@ -642,6 +642,28 @@ th:first-child, td:first-child {
   margin-top:14px;
 }
 
+.burden-key{
+  grid-column:1 / -1;
+  margin-bottom:-6px;
+  color:var(--muted);
+  font-size:9.5px;
+  line-height:1.4;
+}
+
+.burden-key strong{
+  color:#3f3b36;
+}
+
+.burden-key a{
+  color:#2b5f97;
+  font-weight:750;
+  text-decoration:none;
+}
+
+.burden-key a:hover{
+  text-decoration:underline;
+}
+
 .burden-card {
   border:1px solid var(--line);
   background:var(--soft2);
@@ -1943,7 +1965,7 @@ th:first-child, td:first-child {
         <div class="section-label">How much of those monthly resources goes to rent?</div>
         <div id="selectedBlurb" class="selected-blurb"></div>
         <div class="benchmark-note">
-          <strong>What the HUD 30% rule means:</strong> The U.S. Department of Housing and Urban Development uses 30% as a housing-cost-burden threshold. Spending <strong>30% or less</strong> of income on housing is treated as not cost burdened; spending <strong>more than 30%</strong> is cost burdened, and <strong>more than 50%</strong> is severely cost burdened. It does not mean everyone should spend exactly 30%.
+          <strong>What the HUD 30% rule means:</strong> The U.S. Department of Housing and Urban Development uses 30% as a housing-cost-burden threshold. Spending <strong>30% or less</strong> of income on housing is treated as not cost burdened; spending <strong>more than 30%</strong> is cost burdened, and <strong>more than 50%</strong> is severely cost burdened. <a href="https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html" target="_blank" rel="noopener noreferrer">HUD CHAS definitions</a>
           <div class="benchmark-source-quote"><strong>HUD:</strong> “A household is said to be cost-burdened when it pays more than 30% of its income toward housing expenses and may have difficulty affording necessities such as food, clothing, transportation, and medical care.”</div>
           Advertised rent may not include utilities, while HUD's housing-cost measure does. Because this interactive uses advertised rent and modeled monthly resources, the comparison is not a formal HUD classification. Published June 25, 2024 · <a href="https://www.hud.gov/sites/dfiles/PIH/documents/FY24_ICDBG_FAQs.pdf#page=8" target="_blank" rel="noopener noreferrer">HUD plain-language definition, p. 8</a> · <a href="references.html#hud-30-percent">Methods and explanation</a>
         </div>
@@ -1952,6 +1974,9 @@ th:first-child, td:first-child {
     </div>
 
     <div class="burden-grid">
+      <div class="burden-key">
+        <strong>How to read:</strong> Blue circles show the rent midpoint. <strong>Red circles mean the midpoint is above HUD's 30% housing-affordability benchmark.</strong> The red line marks 30%; the gray line marks 100% of the selected monthly resources. <a href="references.html" target="_blank" rel="noopener noreferrer">Methods and sources</a>
+      </div>
       <div class="burden-card">
         <div class="card-kicker">Monthly resources at $7.25/hour</div>
         <div class="card-title">$<span id="burdenIncomeLow">628</span></div>
@@ -2037,15 +2062,6 @@ th:first-child, td:first-child {
       </div>
     </div>
 
-    <div class="context-strip affordability-context">
-      <div class="context-strip-head">
-        <div class="context-strip-title">How to read this comparison</div>
-        <a class="context-strip-link" href="references.html" target="_blank" rel="noopener noreferrer">Methods and sources</a>
-      </div>
-      <div class="context-strip-grid">
-        <div class="context-strip-item context-wide"><strong>Chart:</strong> Blue circles show the rent midpoint. <strong>Red circles mean the rent midpoint is above HUD's 30% housing-affordability benchmark.</strong> The red line marks 30%, and the gray line marks 100% of the selected monthly resources.</div>
-      </div>
-    </div>
   </section>
 </div>
 
