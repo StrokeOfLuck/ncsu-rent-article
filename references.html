@@ -170,6 +170,61 @@ h2 {
   font-size:11px;
   line-height:1.45;
 }
+
+.ref-table-wrap {
+  overflow-x:auto;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.ref-table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:11px;
+  font-variant-numeric:tabular-nums;
+}
+.ref-table th,
+.ref-table td {
+  padding:7px 9px;
+  border-bottom:1px solid #ece8e1;
+  text-align:right;
+  white-space:nowrap;
+}
+.ref-table th {
+  background:var(--soft);
+  color:var(--muted);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.ref-table th:first-child,
+.ref-table td:first-child {
+  text-align:left;
+}
+.ref-table tbody tr:last-child td {
+  border-bottom:0;
+}
+.ref-table .peak-row td {
+  background:#fbf5eb;
+  font-weight:700;
+}
+.ref-table .latest-row td {
+  background:#f1f5f7;
+  font-weight:700;
+}
+.filter-note {
+  margin:10px 0 12px;
+  padding:10px 12px;
+  background:#f3f0e9;
+  font-size:11px;
+  line-height:1.45;
+}
+.filter-note code {
+  background:#fff;
+  padding:1px 4px;
+  border:1px solid #e2ddd5;
+  border-radius:3px;
+}
+
 @media(max-width:700px) {
   main { padding:20px 12px 36px; }
   .ref-head { flex-direction:column; }
@@ -493,11 +548,12 @@ h2 {
     </article>
 
 
+    
     <article class="ref">
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 04</div>
-          <div class="ref-title">Apartment List Rent Estimates — Raleigh Rent Trend</div>
+          <div class="ref-title">Apartment List Rent Estimates — Raleigh</div>
         </div>
         <div class="tags">
           <span class="tag">Dataset</span>
@@ -509,65 +565,112 @@ h2 {
 
       <div class="ref-body">
         <div class="meta-grid">
-          <div class="meta-label">Organization</div>
-          <div class="meta-value">Apartment List</div>
-
-          <div class="meta-label">Dataset</div>
-          <div class="meta-value">Apartment List Rent Estimates 2026-08</div>
-
-          <div class="meta-label">File used</div>
-          <div class="meta-value">Apartment_List_Rent_Estimates_2026_08.csv</div>
-
-          <div class="meta-label">Geography used</div>
-          <div class="meta-value">Raleigh, NC — City</div>
-
-          <div class="meta-label">Series used</div>
-          <div class="meta-value">Overall, 1-bedroom and 2-bedroom monthly rent estimates, Jan. 2017 through Aug. 2026</div>
-
-          <div class="meta-label">Data page</div>
+          <div class="meta-label">Original source</div>
           <div class="meta-value"><a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener noreferrer">Apartment List rent estimate data downloads</a></div>
+
+          <div class="meta-label">Dataset file used</div>
+          <div class="meta-value">Apartment_List_Rent_Estimates_2026_08.csv</div>
 
           <div class="meta-label">Accessed</div>
           <div class="meta-value">Sept. 9, 2026</div>
-
-          <div class="meta-label">Source type</div>
-          <div class="meta-value">Rental market dataset</div>
         </div>
 
-        <hr class="rule">
-
-        <h2>Reference citation</h2>
-        <div class="citation">
-          Apartment List. <em>Apartment List Rent Estimates 2026-08</em>. Raleigh, NC city-level monthly rent estimates. Accessed Sept. 9, 2026.
+        <div class="filter-note">
+          <strong>How to reproduce the Raleigh table:</strong>
+          Filter the downloaded CSV to <code>location_name = Raleigh, NC</code> and <code>location_type = City</code>.
+          Keep the <code>1br</code> and <code>2br</code> rows, then compare the August columns
+          (<code>2017_08</code> through <code>2026_08</code>). August is used each year so the comparison holds the month constant.
         </div>
 
-        <hr class="rule">
-
-        <h2>Key facts for reporting</h2>
-        <div class="facts">
-          <div class="fact">
-            <div class="fact-label">Overall rent</div>
-            <div class="fact-value">Raleigh's overall estimated rent increased from <strong>$1,107 in Aug. 2017</strong> to <strong>$1,375 in Aug. 2026</strong>, a rise of <strong>$268 or 24.2%</strong>.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">1-bedroom rent</div>
-            <div class="fact-value">The estimated 1-bedroom rent increased from <strong>$975</strong> to <strong>$1,212</strong>, a rise of <strong>$237 or 24.3%</strong>.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">2-bedroom rent</div>
-            <div class="fact-value">The estimated 2-bedroom rent increased from <strong>$1,111</strong> to <strong>$1,381</strong>, a rise of <strong>$270 or 24.3%</strong>.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Trend shape</div>
-            <div class="fact-value">The monthly series shows rents rising sharply through the early 2020s, reaching higher levels around 2022 before easing, while remaining well above 2017 levels.</div>
-          </div>
+        <div class="ref-table-wrap">
+          <table class="ref-table" aria-label="Raleigh one-bedroom and two-bedroom August rent estimates and change from 2017">
+            <thead>
+              <tr>
+                <th>August</th>
+                <th>1 bedroom</th>
+                <th>Change vs. 2017</th>
+                <th>2 bedroom</th>
+                <th>Change vs. 2017</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>2017</td>
+              <td>$975</td>
+              <td>Baseline</td>
+              <td>$1,111</td>
+              <td>Baseline</td>
+            </tr>
+            <tr>
+              <td>2018</td>
+              <td>$989</td>
+              <td>+1.4%</td>
+              <td>$1,127</td>
+              <td>+1.4%</td>
+            </tr>
+            <tr>
+              <td>2019</td>
+              <td>$1,034</td>
+              <td>+6.1%</td>
+              <td>$1,179</td>
+              <td>+6.1%</td>
+            </tr>
+            <tr>
+              <td>2020</td>
+              <td>$1,035</td>
+              <td>+6.2%</td>
+              <td>$1,180</td>
+              <td>+6.2%</td>
+            </tr>
+            <tr>
+              <td>2021</td>
+              <td>$1,226</td>
+              <td>+25.7%</td>
+              <td>$1,397</td>
+              <td>+25.7%</td>
+            </tr>
+            <tr class="peak-row">
+              <td>2022</td>
+              <td>$1,367</td>
+              <td>+40.2%</td>
+              <td>$1,558</td>
+              <td>+40.2%</td>
+            </tr>
+            <tr>
+              <td>2023</td>
+              <td>$1,334</td>
+              <td>+36.8%</td>
+              <td>$1,521</td>
+              <td>+36.9%</td>
+            </tr>
+            <tr>
+              <td>2024</td>
+              <td>$1,260</td>
+              <td>+29.2%</td>
+              <td>$1,436</td>
+              <td>+29.3%</td>
+            </tr>
+            <tr>
+              <td>2025</td>
+              <td>$1,233</td>
+              <td>+26.5%</td>
+              <td>$1,405</td>
+              <td>+26.5%</td>
+            </tr>
+            <tr class="latest-row">
+              <td>2026</td>
+              <td>$1,212</td>
+              <td>+24.3%</td>
+              <td>$1,381</td>
+              <td>+24.3%</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="use-note">
-          <strong>Article use:</strong> Historical Raleigh rent trend used to provide context for the current NC State-area listing snapshot. The figures above compare the same month, August, in 2017 and 2026 to avoid a month-of-year mismatch.
+          <strong>Calculation:</strong> Percentage change is measured from the August 2017 value for the same bedroom size.
+          In August 2022, both series were about 40% above 2017. By August 2026, both remained about 24.3% above 2017.
         </div>
       </div>
     </article>
