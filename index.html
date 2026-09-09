@@ -685,17 +685,22 @@ th:first-child, td:first-child {
 }
 
 .burden-legend{
-  display:flex;
-  flex-wrap:wrap;
-  gap:7px 16px;
-  align-items:center;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:8px 18px;
+  align-items:start;
+}
+
+.legend-column{
+  display:grid;
+  gap:7px;
 }
 
 .legend-piece{
-  display:inline-flex;
+  display:flex;
   align-items:center;
-  gap:5px;
-  white-space:nowrap;
+  gap:6px;
+  white-space:normal;
 }
 
 .legend-dot-small{
@@ -803,11 +808,95 @@ th:first-child, td:first-child {
   margin-top:0;
 }
 
+.burden-card-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:12px;
+}
+
+.burden-hours-readout{
+  flex:0 0 auto;
+  min-width:58px;
+  white-space:nowrap;
+  text-align:right;
+  font-weight:820;
+  font-variant-numeric:tabular-nums;
+  font-size:14px;
+  line-height:1;
+}
+
+.burden-hours-readout.over-limit{
+  color:var(--accent);
+}
+
 .mini-hours-slider{
   width:100%;
   min-width:0;
   margin:0;
-  accent-color:#63759a;
+}
+
+#hours,
+.mini-hours-slider{
+  --range-pct:48.7179487%;
+  -webkit-appearance:none;
+  appearance:none;
+  height:6px;
+  border:0;
+  border-radius:999px;
+  outline:none;
+  background:linear-gradient(
+    to right,
+    #63759a 0%,
+    #63759a var(--range-pct),
+    #e0dfe3 var(--range-pct),
+    #e0dfe3 100%
+  );
+  cursor:pointer;
+}
+
+#hours::-webkit-slider-runnable-track,
+.mini-hours-slider::-webkit-slider-runnable-track{
+  height:6px;
+  border-radius:999px;
+  background:transparent;
+}
+
+#hours::-webkit-slider-thumb,
+.mini-hours-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:18px;
+  height:18px;
+  margin-top:-6px;
+  border-radius:50%;
+  border:2px solid #fff;
+  background:#70717d;
+  box-shadow:0 0 0 1px rgba(45,45,45,.55);
+}
+
+#hours::-moz-range-track,
+.mini-hours-slider::-moz-range-track{
+  height:6px;
+  border-radius:999px;
+  background:#e0dfe3;
+}
+
+#hours::-moz-range-progress,
+.mini-hours-slider::-moz-range-progress{
+  height:6px;
+  border-radius:999px;
+  background:#63759a;
+}
+
+#hours::-moz-range-thumb,
+.mini-hours-slider::-moz-range-thumb{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  border:2px solid #fff;
+  background:#70717d;
+  box-shadow:0 0 0 1px rgba(45,45,45,.55);
 }
 
 .burden-sub {
@@ -1765,7 +1854,7 @@ th:first-child, td:first-child {
 
 @media(min-width:701px){
   .hours-context{
-    grid-template-columns:calc(48.7179487% + 4px) 1fr;
+    grid-template-columns:19fr 20fr;
   }
 
   .hours-line{
@@ -1944,7 +2033,12 @@ th:first-child, td:first-child {
   }
 
   .burden-legend{
-    gap:6px 10px;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:8px 10px;
+  }
+
+  .legend-column{
+    gap:6px;
   }
 
   .legend-piece{
@@ -2458,6 +2552,16 @@ th:first-child, td:first-child {
       </div>
     </div>
 
+
+  </section>
+
+
+  <section class="block affordability-block">
+    <div class="afford-header">
+      <div class="section-label">How much of a student's monthly income goes to rent?</div>
+      <button class="hud-info-btn" type="button" onclick="document.getElementById('hudInfoDialog').showModal()">HUD 30% rule explanation</button>
+    </div>
+
     <div class="aid-panel">
       <div class="aid-panel-head">
         <div>
@@ -2495,24 +2599,23 @@ th:first-child, td:first-child {
         CDS figures are averages among recipients, not a typical-student package. The grant and loan averages come from different recipient groups and should not be assumed to occur together.
       </div>
     </div>
-  </section>
-
-
-  <section class="block affordability-block">
-    <div class="afford-header">
-      <div class="section-label">How much of a student's monthly income goes to rent?</div>
-      <button class="hud-info-btn" type="button" onclick="document.getElementById('hudInfoDialog').showModal()">HUD 30% rule explanation</button>
-    </div>
 
     <div class="burden-grid">
       <div class="burden-key burden-legend" aria-label="Chart legend">
-        <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> How much of monthly income would go to rent</span>
-        <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> More than 30% of income goes to rent</span>
-        <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> HUD's 30% benchmark</span>
-        <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100% of monthly income</span>
+        <div class="legend-column">
+          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> How much of monthly income would go to rent</span>
+          <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> More than 30% of income goes to rent</span>
+        </div>
+        <div class="legend-column">
+          <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100% of monthly income</span>
+          <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> HUD's 30% benchmark</span>
+        </div>
       </div>
       <div class="burden-card">
-        <div class="card-kicker" id="burdenKickerLow">Monthly income at $7.25/hour</div>
+        <div class="burden-card-head">
+          <div class="card-kicker" id="burdenKickerLow">Monthly income at $7.25/hour</div>
+          <div class="burden-hours-readout"><span id="hoursLowVal">20</span> hrs</div>
+        </div>
         <div class="burden-income-line">
           <div class="card-title">$<span id="burdenIncomeLow">628</span></div>
           <input id="hoursLow" class="mini-hours-slider synced-hours" type="range" min="1" max="40" value="20" step="1" aria-label="Hours worked in a week">
@@ -2557,7 +2660,10 @@ th:first-child, td:first-child {
       </div>
 
       <div class="burden-card">
-        <div class="card-kicker" id="burdenKickerHigh">Monthly income at $15/hour</div>
+        <div class="burden-card-head">
+          <div class="card-kicker" id="burdenKickerHigh">Monthly income at $15/hour</div>
+          <div class="burden-hours-readout"><span id="hoursHighVal">20</span> hrs</div>
+        </div>
         <div class="burden-income-line">
           <div class="card-title">$<span id="burdenIncomeHigh">1,300</span></div>
           <input id="hoursHigh" class="mini-hours-slider synced-hours" type="range" min="1" max="40" value="20" step="1" aria-label="Hours worked in a week">
@@ -2605,7 +2711,7 @@ th:first-child, td:first-child {
     <dialog id="hudInfoDialog" class="hud-dialog">
       <div class="hud-dialog-card">
         <div class="hud-dialog-top">
-          <div class="hud-dialog-title">HUD 30% rule and chart legend</div>
+          <div class="hud-dialog-title">HUD 30% rule explanation</div>
           <button class="hud-close" type="button" onclick="document.getElementById('hudInfoDialog').close()">Close</button>
         </div>
 
@@ -2614,10 +2720,14 @@ th:first-child, td:first-child {
         </div>
 
         <div class="burden-key burden-legend" aria-label="Chart legend">
-          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> How much of monthly income would go to rent</span>
-          <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> More than 30% of income goes to rent</span>
-          <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> HUD's 30% benchmark</span>
-          <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100% of monthly income</span>
+          <div class="legend-column">
+            <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> How much of monthly income would go to rent</span>
+            <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> More than 30% of income goes to rent</span>
+          </div>
+          <div class="legend-column">
+            <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100% of monthly income</span>
+            <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> HUD's 30% benchmark</span>
+          </div>
         </div>
 
         <div class="benchmark-note">
@@ -3223,15 +3333,22 @@ function updateWorkStudy() {
   const semHigh = highW * 15;
 
   document.getElementById("hoursVal").textContent = h;
-  document.querySelectorAll(".synced-hours").forEach(slider => {
+  document.getElementById("hoursLowVal").textContent = h;
+  document.getElementById("hoursHighVal").textContent = h;
+
+  const rangePct = ((h - 1) / 39) * 100;
+  document.querySelectorAll("#hours, .synced-hours").forEach(slider => {
     slider.value = h;
+    slider.style.setProperty("--range-pct", rangePct + "%");
   });
 
   formatIncomeCards(lowW, highW, monthlyLow, monthlyHigh, semLow, semHigh);
 
   const status = document.getElementById("status");
   const readout = document.querySelector(".hours-readout");
+  const burdenReadouts = document.querySelectorAll(".burden-hours-readout");
   if (readout) readout.classList.toggle("over-limit", h > 20);
+  burdenReadouts.forEach(el => el.classList.toggle("over-limit", h > 20));
 
   if (h <= 20) {
     status.className = "status info-status";
