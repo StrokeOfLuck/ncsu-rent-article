@@ -2335,7 +2335,7 @@ th:first-child, td:first-child {
               <b>Per bedroom</b>
               <div id="burdenLabelBedLow"><span class="midline">$0 midpoint</span></div>
             </div>
-            <div class="burden-percent" id="burdenPctBedLow">0%<small>of resources</small></div>
+            <div class="burden-percent" id="burdenPctBedLow">0%<small>of income</small></div>
             <div class="burden-track">
               <div class="hud-benchmark-line"></div>
               <div class="threshold-line"></div>
@@ -2355,7 +2355,7 @@ th:first-child, td:first-child {
               <b>Whole unit</b>
               <div id="burdenLabelUnitLow"><span class="midline">$0 midpoint</span></div>
             </div>
-            <div class="burden-percent" id="burdenPctUnitLow">0%<small>of resources</small></div>
+            <div class="burden-percent" id="burdenPctUnitLow">0%<small>of income</small></div>
             <div class="burden-track">
               <div class="hud-benchmark-line"></div>
               <div class="threshold-line"></div>
@@ -2377,7 +2377,7 @@ th:first-child, td:first-child {
               <b>Per bedroom</b>
               <div id="burdenLabelBedHigh"><span class="midline">$0 midpoint</span></div>
             </div>
-            <div class="burden-percent" id="burdenPctBedHigh">0%<small>of resources</small></div>
+            <div class="burden-percent" id="burdenPctBedHigh">0%<small>of income</small></div>
             <div class="burden-track">
               <div class="hud-benchmark-line"></div>
               <div class="threshold-line"></div>
@@ -2397,7 +2397,7 @@ th:first-child, td:first-child {
               <b>Whole unit</b>
               <div id="burdenLabelUnitHigh"><span class="midline">$0 midpoint</span></div>
             </div>
-            <div class="burden-percent" id="burdenPctUnitHigh">0%<small>of resources</small></div>
+            <div class="burden-percent" id="burdenPctUnitHigh">0%<small>of income</small></div>
             <div class="burden-track">
               <div class="hud-benchmark-line"></div>
               <div class="threshold-line"></div>
@@ -3047,7 +3047,7 @@ function setBurdenRange(rangeId, pointId, labelId, pctId, incomeMonthly, stats) 
     pointEl.classList.remove("over-benchmark");
     pctEl.classList.remove("over-benchmark");
     labelEl.innerHTML = `<span class="midline">Call for pricing</span>`;
-    pctEl.innerHTML = `—<small>of resources</small>`;
+    pctEl.innerHTML = `—<small>of income</small>`;
     return;
   }
 
@@ -3069,7 +3069,7 @@ function setBurdenRange(rangeId, pointId, labelId, pctId, incomeMonthly, stats) 
   pctEl.classList.toggle("over-benchmark", aboveHudBenchmark);
 
   labelEl.innerHTML = `<span class="midline">${money(mid)} midpoint</span>`;
-  pctEl.innerHTML = `${pctFormat(midPct)}<small>of resources</small>`;
+  pctEl.innerHTML = `${pctFormat(midPct)}<small>of income</small>`;
 }
 
 
