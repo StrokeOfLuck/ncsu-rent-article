@@ -1,0 +1,90 @@
+name: Compact affordability legend
+
+on:
+  push:
+    paths:
+      - '.github/workflows/compact-rent-legend.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compact legend layout
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          replacements = {
+              'How much of monthly income would go to rent': 'Rent as % of income',
+              'More than 30% of income goes to rent': 'Above 30%',
+              '100% of monthly income': '100% of income',
+          }
+          for old, new in replacements.items():
+              text = text.replace(old, new)
+
+          marker = '</style>'
+          override = r'''
+
+/* Compact affordability-chart legend */
+.burden-legend {
+  border:1px solid var(--line);
+  background:var(--soft2);
+  border-radius:4px;
+  padding:9px 10px;
+  margin:10px 0 14px;
+  gap:6px 14px;
+  align-items:center;
+}
+
+.burden-legend .legend-column {
+  gap:4px;
+}
+
+.burden-legend .legend-piece {
+  grid-template-columns:14px auto minmax(0,1fr);
+  column-gap:5px;
+  align-items:center;
+  line-height:1.25;
+}
+
+@media (max-width: 720px) {
+  .burden-legend {
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:6px 10px;
+    padding:8px 9px;
+  }
+
+  .burden-legend .legend-action {
+    grid-column:1 / -1;
+    justify-self:end;
+    margin-top:1px;
+  }
+
+  .burden-legend .legend-piece {
+    grid-template-columns:12px auto minmax(0,1fr);
+    column-gap:4px;
+    font-size:9px;
+  }
+}
+'''
+          if '/* Compact affordability-chart legend */' not in text:
+              text = text.replace(marker, override + '\n' + marker, 1)
+
+          path.write_text(text, encoding='utf-8')
+          PY
+      - name: Commit update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/compact-rent-legend.yml
+          git add index.html .github/workflows/compact-rent-legend.yml
+          git commit -m "Tighten affordability legend layout"
+          git push
