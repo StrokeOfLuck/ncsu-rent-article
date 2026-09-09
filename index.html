@@ -773,6 +773,29 @@ th:first-child, td:first-child {
   text-decoration:underline;
 }
 
+.benchmark-legend {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  align-self:end;
+  padding:7px 9px;
+  border:1px solid var(--line);
+  background:var(--soft2);
+  color:#4e4a45;
+  font-size:9px;
+  line-height:1.25;
+  font-weight:750;
+  white-space:nowrap;
+}
+
+.benchmark-legend-dot {
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--accent);
+  flex:0 0 auto;
+}
+
 .burden-track {
   position:relative;
   height:22px;
@@ -1532,6 +1555,10 @@ th:first-child, td:first-child {
   .burden-percent {
     font-size:14px;
   }
+  .benchmark-legend {
+    justify-self:start;
+    white-space:normal;
+  }
   .combined-details{
     grid-template-columns:1fr;
   }
@@ -1871,10 +1898,11 @@ th:first-child, td:first-child {
         <div class="section-label">How much of those monthly resources goes to rent?</div>
         <div id="selectedBlurb" class="selected-blurb"></div>
         <div class="benchmark-note">
-          <strong>HUD 30% housing benchmark:</strong> HUD treats monthly housing costs above 30% of monthly income as cost burdened. Red markers here flag modeled rent shares above 30%. HUD's measure includes utilities; this interactive uses advertised rent, and when grants or loans are added the denominator is modeled monthly resources rather than HUD-defined household income, so the red flag is a benchmark comparison, not a formal HUD classification. <a href="references.html#hud-30-percent">Source and explanation</a>
+          <strong>HUD 30% housing benchmark:</strong> HUD treats monthly housing costs above 30% of monthly income as cost burdened. HUD's measure includes utilities; this interactive uses advertised rent, and when grants or loans are added the denominator is modeled monthly resources rather than HUD-defined household income, so the comparison is not a formal HUD classification. <a href="references.html#hud-30-percent">Source and explanation</a>
         </div>
       </div>
-      </div>
+      <div class="benchmark-legend"><span class="benchmark-legend-dot"></span>Red = above HUD 30% benchmark</div>
+    </div>
 
     <div class="burden-grid">
       <div class="burden-card">
@@ -2618,7 +2646,7 @@ function setBurdenRange(rangeId, pointId, labelId, pctId, incomeMonthly, stats) 
   pctEl.classList.toggle("over-benchmark", aboveHudBenchmark);
 
   labelEl.innerHTML = `<span class="midline">${money(mid)} midpoint</span>`;
-  pctEl.innerHTML = `${pctFormat(midPct)}<small>${aboveHudBenchmark ? "above 30%" : "of resources"}</small>`;
+  pctEl.innerHTML = `${pctFormat(midPct)}<small>of resources</small>`;
 }
 
 
