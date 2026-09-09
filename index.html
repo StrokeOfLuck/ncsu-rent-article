@@ -362,6 +362,10 @@ th:first-child, td:first-child {
 }
 
 .earnings-title {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
   padding:10px 12px 8px;
   font-size:10px;
   text-transform:uppercase;
@@ -369,6 +373,16 @@ th:first-child, td:first-child {
   color:var(--muted);
   font-weight:800;
   border-bottom:1px solid var(--line);
+}
+
+.earnings-title-note {
+  font-size:8.5px;
+  line-height:1.2;
+  text-transform:none;
+  letter-spacing:0;
+  font-weight:600;
+  white-space:nowrap;
+  color:#8a857d;
 }
 
 .earnings-head,
@@ -1528,6 +1542,13 @@ th:first-child, td:first-child {
   .earnings-row {
     font-size:15px;
   }
+  .earnings-title {
+    align-items:flex-start;
+  }
+  .earnings-title-note {
+    white-space:normal;
+    text-align:right;
+  }
   .bar-row,
   .axis {
     grid-template-columns:125px 1fr 72px;
@@ -1821,7 +1842,10 @@ th:first-child, td:first-child {
       </div>
 
       <div class="earnings-compare">
-        <div class="earnings-title">Gross earnings at selected hours</div>
+        <div class="earnings-title">
+          <span>Gross earnings at selected hours</span>
+          <span class="earnings-title-note">52 weeks ÷ 12 months = 4.33 weeks/month</span>
+        </div>
         <div class="earnings-head">
           <div>Hourly wage</div>
           <div>Weekly</div>
