@@ -88,3 +88,4 @@ jobs:
           git add index.html .github/workflows/compact-rent-legend.yml
           git commit -m "Tighten affordability legend layout"
           git push
+# trigger
