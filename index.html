@@ -509,10 +509,26 @@ th:first-child, td:first-child {
 }
 
 .afford-header {
-  display:grid;
-  grid-template-columns:1fr;
-  gap:14px;
-  align-items:end;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+
+.hud-info-btn{
+  flex:0 0 auto;
+  border:1px solid #aaa397;
+  background:var(--soft2);
+  color:var(--ink);
+  border-radius:4px;
+  padding:6px 9px;
+  font-size:9.5px;
+  line-height:1.1;
+  font-weight:800;
+}
+
+.hud-info-btn:hover{
+  background:var(--soft);
 }
 
 .radius-controls {
@@ -662,6 +678,107 @@ th:first-child, td:first-child {
 
 .burden-key a:hover{
   text-decoration:underline;
+}
+
+.burden-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px 16px;
+  align-items:center;
+}
+
+.legend-piece{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
+}
+
+.legend-dot-small{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  display:inline-block;
+  background:var(--blue);
+  flex:0 0 auto;
+}
+
+.legend-dot-small.red{
+  background:var(--accent);
+}
+
+.legend-line-small{
+  width:14px;
+  height:0;
+  border-top:2px solid var(--accent);
+  display:inline-block;
+  flex:0 0 auto;
+}
+
+.legend-line-small.gray{
+  border-top-color:#777168;
+}
+
+.hud-dialog{
+  width:min(720px, calc(100vw - 28px));
+  max-height:calc(100vh - 28px);
+  border:0;
+  padding:0;
+  background:transparent;
+  color:var(--ink);
+}
+
+.hud-dialog::backdrop{
+  background:rgba(0,0,0,.52);
+}
+
+.hud-dialog-card{
+  border:1px solid var(--line);
+  background:var(--paper);
+  padding:14px;
+  box-shadow:0 12px 36px rgba(0,0,0,.28);
+}
+
+.hud-dialog-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:10px;
+}
+
+.hud-dialog-title{
+  font:700 18px/1.1 Georgia, "Times New Roman", serif;
+}
+
+.hud-close{
+  border:1px solid #aaa397;
+  background:var(--soft2);
+  color:var(--ink);
+  border-radius:4px;
+  padding:5px 8px;
+  font-size:9px;
+  font-weight:800;
+}
+
+.hud-context{
+  margin-bottom:10px;
+  padding:8px 10px;
+  background:var(--soft2);
+  border:1px solid var(--line);
+  color:#4e4a45;
+  font-size:9.5px;
+  line-height:1.4;
+}
+
+.hud-dialog .burden-legend{
+  margin-bottom:10px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.hud-dialog .benchmark-note{
+  margin-top:0;
 }
 
 .burden-card {
@@ -1768,6 +1885,27 @@ th:first-child, td:first-child {
   .wrapper {
     padding:14px 12px 18px;
   }
+
+  .afford-header{
+    align-items:flex-start;
+  }
+
+  .hud-info-btn{
+    font-size:8.8px;
+    padding:6px 7px;
+  }
+
+  .burden-legend{
+    gap:6px 10px;
+  }
+
+  .legend-piece{
+    white-space:normal;
+  }
+
+  .hud-dialog-card{
+    padding:11px;
+  }
   h1 {
     font-size:26px;
   }
@@ -2313,19 +2451,19 @@ th:first-child, td:first-child {
 
   <section class="block">
     <div class="afford-header">
-      <div>
-        <div class="section-label">How much of those monthly resources goes to rent?</div>
-        <div id="selectedBlurb" class="selected-blurb"></div>
-
-      </div>
+      <div class="section-label">How much of a student's monthly income goes to rent?</div>
+      <button class="hud-info-btn" type="button" onclick="document.getElementById('hudInfoDialog').showModal()">HUD 30% rule &amp; legend</button>
     </div>
 
     <div class="burden-grid">
-      <div class="burden-key">
-        <strong>How to read:</strong> Each circle shows what percentage of the selected monthly resources would go to the rent midpoint. <strong>Red circles mean the midpoint is above HUD's 30% housing-affordability benchmark.</strong> The red line marks 30%; the gray line marks 100% of the selected monthly resources. <a href="references.html" target="_blank" rel="noopener noreferrer">Methods and sources</a>
+      <div class="burden-key burden-legend" aria-label="Chart legend">
+        <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> rent midpoint as % of income</span>
+        <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> above HUD 30%</span>
+        <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> 30%</span>
+        <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100%</span>
       </div>
       <div class="burden-card">
-        <div class="card-kicker">Monthly resources at $7.25/hour</div>
+        <div class="card-kicker" id="burdenKickerLow">Monthly income at $7.25/hour</div>
         <div class="card-title">$<span id="burdenIncomeLow">628</span></div>
         <div class="burden-sub" id="burdenSubLow">Gross monthly work pay at the selected weekly hours</div>
 
@@ -2367,7 +2505,7 @@ th:first-child, td:first-child {
       </div>
 
       <div class="burden-card">
-        <div class="card-kicker">Monthly resources at $15/hour</div>
+        <div class="card-kicker" id="burdenKickerHigh">Monthly income at $15/hour</div>
         <div class="card-title">$<span id="burdenIncomeHigh">1,300</span></div>
         <div class="burden-sub" id="burdenSubHigh">Gross monthly work pay at the selected weekly hours</div>
 
@@ -2409,11 +2547,31 @@ th:first-child, td:first-child {
       </div>
     </div>
 
-    <div class="benchmark-note">
+    <dialog id="hudInfoDialog" class="hud-dialog">
+      <div class="hud-dialog-card">
+        <div class="hud-dialog-top">
+          <div class="hud-dialog-title">HUD 30% rule and chart legend</div>
+          <button class="hud-close" type="button" onclick="document.getElementById('hudInfoDialog').close()">Close</button>
+        </div>
+
+        <div class="hud-context">
+          <strong>What this chart includes:</strong> <span id="selectedBlurb">All three campus reference views · combined overall per-bedroom and whole-unit averages</span>
+        </div>
+
+        <div class="burden-key burden-legend" aria-label="Chart legend">
+          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> rent midpoint as % of income</span>
+          <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> above HUD 30%</span>
+          <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> 30%</span>
+          <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100%</span>
+        </div>
+
+        <div class="benchmark-note">
           <strong>What the HUD 30% rule means:</strong> The U.S. Department of Housing and Urban Development uses 30% as a housing-cost-burden threshold. Spending <strong>30% or less</strong> of income on housing is treated as not cost burdened; spending <strong>more than 30%</strong> is cost burdened, and <strong>more than 50%</strong> is severely cost burdened. <a href="https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html" target="_blank" rel="noopener noreferrer">HUD CHAS definitions</a>
           <div class="benchmark-source-quote"><strong>HUD: “A household is said to be cost-burdened when it pays more than 30% of its income toward housing expenses and may have difficulty affording necessities such as food, clothing, transportation, and medical care.”</strong></div>
-          Advertised rent may not include utilities, while HUD's housing-cost measure does. Because this interactive uses advertised rent and modeled monthly resources, the comparison is not a formal HUD classification. Published June 25, 2024 · <a href="https://www.hud.gov/sites/dfiles/PIH/documents/FY24_ICDBG_FAQs.pdf#page=8" target="_blank" rel="noopener noreferrer">HUD plain-language definition, p. 8</a> · <a href="references.html#hud-30-percent">Methods and explanation</a>
+          Advertised rent may not include utilities, while HUD's housing-cost measure does. Because this interactive uses advertised rent and modeled monthly income plus any selected aid, the comparison is not a formal HUD classification. Published June 25, 2024 · <a href="https://www.hud.gov/sites/dfiles/PIH/documents/FY24_ICDBG_FAQs.pdf#page=8" target="_blank" rel="noopener noreferrer">HUD plain-language definition, p. 8</a> · <a href="references.html#hud-30-percent">Methods and explanation</a>
         </div>
+      </div>
+    </dialog>
 
 
   </section>
@@ -3104,6 +3262,10 @@ function updateAffordability() {
   const monthHigh = baseMonthHigh + aidTotal;
   const summary = overallAllCampusesSummary();
 
+  const incomeLabel = aidTotal > 0 ? "Monthly income + selected aid" : "Monthly income";
+  document.getElementById("burdenKickerLow").textContent = `${incomeLabel} at $7.25/hour`;
+  document.getElementById("burdenKickerHigh").textContent = `${incomeLabel} at $15/hour`;
+
   document.getElementById("selectedBlurb").textContent =
     "All three campus reference views · combined overall per-bedroom and whole-unit averages";
 
@@ -3138,6 +3300,11 @@ function updateAffordability() {
 document.getElementById("hours").addEventListener("input", updateWorkStudy);
 document.getElementById("includeGrant").addEventListener("change", updateAffordability);
 document.getElementById("includeLoan").addEventListener("change", updateAffordability);
+
+const hudInfoDialog = document.getElementById("hudInfoDialog");
+hudInfoDialog?.addEventListener("click", (event) => {
+  if(event.target === hudInfoDialog) hudInfoDialog.close();
+});
 </script>
 </body>
 </html>
