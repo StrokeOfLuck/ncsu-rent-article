@@ -2131,20 +2131,23 @@ th:first-child, td:first-child {
   }
 
   .burden-legend{
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-    gap:8px 10px;
+    grid-template-columns:1fr;
+    gap:7px;
   }
 
   .legend-action{
-    grid-column:1 / -1;
+    grid-column:1;
     justify-self:end;
+    margin-top:2px;
   }
 
   .legend-column{
-    gap:6px;
+    gap:7px;
   }
 
   .legend-piece{
+    grid-template-columns:14px 72px minmax(0,1fr);
+    column-gap:7px;
     white-space:normal;
   }
 
