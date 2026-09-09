@@ -1596,6 +1596,161 @@ th:first-child, td:first-child {
   }
 }
 
+
+/* Condensed work-study layout */
+.clean-work-grid{
+  grid-template-columns:1fr;
+  gap:10px;
+}
+
+.earnings-compare{
+  width:100%;
+}
+
+.earnings-title{
+  padding:8px 11px 6px;
+}
+
+.earnings-head > div,
+.earnings-row > div{
+  padding:7px 9px;
+}
+
+.earnings-row{
+  font-size:18px;
+}
+
+.wage-cell b{
+  font-size:12.5px;
+}
+
+.wage-cell span{
+  font-size:9px;
+}
+
+.hours-controls{
+  padding:9px 11px 8px;
+  gap:7px;
+}
+
+.hours-line{
+  grid-template-columns:180px minmax(160px,1fr) 70px;
+  gap:12px;
+}
+
+.hours-context{
+  margin-top:0;
+  height:38px;
+}
+
+.zone{
+  min-height:36px;
+  padding:5px 9px;
+}
+
+.status{
+  margin-top:0;
+  font-size:9px;
+}
+
+.aid-panel{
+  margin-top:9px;
+}
+
+.aid-panel-head{
+  padding:7px 10px;
+}
+
+.aid-title{
+  font-size:10px;
+}
+
+.aid-note{
+  font-size:8.2px;
+}
+
+.aid-options{
+  gap:8px;
+  padding:8px;
+}
+
+.aid-option{
+  grid-template-columns:18px minmax(0,1fr);
+  min-height:58px;
+  padding:7px 9px;
+  border:1px solid var(--line);
+}
+
+.aid-option:first-child{
+  border-right:1px solid var(--line);
+}
+
+.aid-copy{
+  min-height:42px;
+  padding-right:128px;
+}
+
+.aid-name{
+  font-size:10px;
+}
+
+.aid-origin{
+  font-size:7.4px;
+  line-height:1.15;
+  max-width:34ch;
+}
+
+.aid-annual{
+  width:120px;
+  top:38%;
+  font-size:14px;
+}
+
+.aid-monthly{
+  position:absolute;
+  right:0;
+  top:62%;
+  width:120px;
+  margin-top:3px;
+  text-align:right;
+  font-size:7.8px;
+  white-space:nowrap;
+}
+
+.aid-caution{
+  padding:6px 10px;
+  font-size:7.9px;
+}
+
+@media(max-width:700px){
+  .hours-line{
+    grid-template-columns:140px minmax(100px,1fr) 58px;
+    gap:8px;
+  }
+
+  .earnings-head > div,
+  .earnings-row > div{
+    padding:7px 6px;
+  }
+
+  .earnings-row{
+    font-size:16px;
+  }
+
+  .aid-options{
+    grid-template-columns:1fr;
+  }
+
+  .aid-copy{
+    padding-right:118px;
+  }
+
+  .aid-annual,
+  .aid-monthly{
+    width:110px;
+  }
+}
+
 .footer-note {
   margin-top:14px;
   color:var(--muted);
