@@ -2547,6 +2547,24 @@ th:first-child, td:first-child {
   }
 }
 
+
+/* Reflow affordability legend */
+@media (min-width: 721px) {
+  .burden-legend {
+    grid-template-columns:minmax(250px,.95fr) minmax(300px,1.05fr) auto;
+    gap:6px 14px;
+    align-items:center;
+  }
+  .burden-legend .legend-column { min-width:0; }
+  .burden-legend .legend-action {
+    grid-column:auto;
+    grid-row:1;
+    align-self:center;
+    justify-self:end;
+    margin:0;
+  }
+  .burden-legend .hud-info-btn { white-space:nowrap; }
+}
 </style>
 </head>
 <body>
