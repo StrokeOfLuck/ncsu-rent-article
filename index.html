@@ -845,18 +845,26 @@ th:first-child, td:first-child {
 }
 
 .burden-hours-warning{
-  visibility:hidden;
+  display:none;
+  grid-column:2;
+  grid-row:1;
   color:var(--accent);
   font-size:8px;
   line-height:1.2;
   font-weight:760;
   text-align:center;
   justify-self:center;
+  align-self:start;
   max-width:250px;
 }
 
 .burden-hours-warning.over-limit{
-  visibility:visible;
+  display:block;
+}
+
+.burden-hours-readout{
+  grid-column:3;
+  grid-row:1;
 }
 
 .burden-hours-readout{
@@ -2048,8 +2056,9 @@ th:first-child, td:first-child {
 
 @media (max-width: 480px) {
   .burden-card-head{
-    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-columns:minmax(0,1fr) minmax(125px,1fr) auto;
     align-items:start;
+    gap:6px;
   }
 
   .burden-card-head .card-kicker{
@@ -2058,15 +2067,15 @@ th:first-child, td:first-child {
   }
 
   .burden-hours-warning{
-    grid-column:1 / -1;
-    grid-row:2;
-    max-width:none;
+    grid-column:2;
+    grid-row:1;
+    max-width:150px;
     justify-self:center;
-    margin-top:3px;
+    margin-top:0;
   }
 
   .burden-hours-readout{
-    grid-column:2;
+    grid-column:3;
     grid-row:1;
   }
 }
@@ -2237,9 +2246,16 @@ th:first-child, td:first-child {
   }
 
   .burden-hours-warning{
+    grid-column:2;
+    grid-row:1;
     font-size:7.5px;
     max-width:190px;
     justify-self:center;
+  }
+
+  .burden-hours-readout{
+    grid-column:3;
+    grid-row:1;
   }
 
   .burden-axis-scale{
