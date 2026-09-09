@@ -702,10 +702,19 @@ th:first-child, td:first-child {
 }
 
 .legend-piece{
-  display:flex;
-  align-items:center;
-  gap:6px;
+  display:grid;
+  grid-template-columns:14px 58px minmax(0,1fr);
+  align-items:start;
+  column-gap:6px;
   white-space:normal;
+}
+
+.legend-piece strong{
+  white-space:nowrap;
+}
+
+.legend-desc{
+  min-width:0;
 }
 
 .legend-dot-small{
@@ -1765,6 +1774,23 @@ th:first-child, td:first-child {
   line-height:1.45;
 }
 
+.rent-trend-wage-note{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.35;
+}
+
+.rent-trend-wage-note a{
+  color:#2b5f97;
+  font-weight:750;
+  text-decoration:none;
+}
+
+.rent-trend-wage-note a:hover{
+  text-decoration:underline;
+}
+
 .rent-trend-stats{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
@@ -2568,6 +2594,9 @@ th:first-child, td:first-child {
       <div class="rent-trend-summary">
         Raleigh rents peaked about <strong>40% above 2017 levels in 2022</strong>. By August 2026, they had eased but remained about <strong>24% above 2017</strong>.
       </div>
+      <div class="rent-trend-wage-note">
+        Federal minimum wage: <strong>$7.25/hour, unchanged since July 2009</strong> · <a href="https://www.dol.gov/agencies/whd/minimum-wage/history/chart" target="_blank" rel="noopener noreferrer">U.S. Department of Labor</a>
+      </div>
 
       <div class="rent-trend-stats">
         <div class="rent-trend-stat">
@@ -2704,12 +2733,12 @@ th:first-child, td:first-child {
     <div class="burden-grid">
       <div class="burden-key burden-legend" aria-label="Chart legend">
         <div class="legend-column">
-          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> How much of monthly income would go to rent</span>
-          <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> More than 30% of income goes to rent</span>
+          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">How much of monthly income would go to rent</span></span>
+          <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong><span class="legend-desc">More than 30% of income goes to rent</span></span>
         </div>
         <div class="legend-column">
-          <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100% of monthly income</span>
-          <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> HUD's 30% benchmark</span>
+          <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong><span class="legend-desc">100% of monthly income</span></span>
+          <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong><span class="legend-desc">HUD's 30% benchmark</span></span>
         </div>
         <div class="legend-action">
           <button class="hud-info-btn" type="button" onclick="document.getElementById('hudInfoDialog').showModal()">HUD 30% rule explanation</button>
@@ -2827,12 +2856,12 @@ th:first-child, td:first-child {
 
         <div class="burden-key burden-legend" aria-label="Chart legend">
           <div class="legend-column">
-            <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong> How much of monthly income would go to rent</span>
-            <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong> More than 30% of income goes to rent</span>
+            <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">How much of monthly income would go to rent</span></span>
+            <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong><span class="legend-desc">More than 30% of income goes to rent</span></span>
           </div>
           <div class="legend-column">
-            <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong> 100% of monthly income</span>
-            <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong> HUD's 30% benchmark</span>
+            <span class="legend-piece"><span class="legend-line-small gray"></span><strong>Gray line:</strong><span class="legend-desc">100% of monthly income</span></span>
+            <span class="legend-piece"><span class="legend-line-small"></span><strong>Red line:</strong><span class="legend-desc">HUD's 30% benchmark</span></span>
           </div>
         </div>
 
