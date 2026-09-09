@@ -2016,31 +2016,62 @@ th:first-child, td:first-child {
   }
 
   .aid-options{
-    grid-template-columns:1fr;
+    grid-template-columns:repeat(2, minmax(0,1fr));
     gap:6px;
   }
 
   .aid-option,
   .aid-option:first-child{
+    grid-template-columns:14px minmax(0,1fr);
+    gap:6px;
+    align-items:start;
     border:1px solid var(--line);
-    min-height:52px;
-    padding:6px 8px;
+    min-height:92px;
+    padding:7px;
+  }
+
+  .aid-check{
+    width:14px;
+    height:14px;
+    margin-top:1px;
   }
 
   .aid-copy{
     min-height:0;
     padding-right:0;
-    column-gap:8px;
+    display:grid;
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "name"
+      "annual"
+      "monthly"
+      "origin";
+    row-gap:2px;
+  }
+
+  .aid-name{
+    font-size:9px;
   }
 
   .aid-annual{
     width:auto;
-    font-size:12.5px;
+    margin-top:2px;
+    font-size:13px;
+    text-align:left;
   }
 
   .aid-monthly{
     width:auto;
-    font-size:7.4px;
+    font-size:7.1px;
+    line-height:1.15;
+    text-align:left;
+    white-space:normal;
+  }
+
+  .aid-origin{
+    margin-top:2px;
+    font-size:6.7px;
+    line-height:1.15;
   }
 }
 
