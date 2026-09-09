@@ -1740,6 +1740,26 @@ th:first-child, td:first-child {
 .hours-context{
   margin-top:0;
   height:38px;
+  grid-template-columns:19fr 20fr;
+}
+
+@media(min-width:701px){
+  .hours-line{
+    grid-template-columns:1fr auto;
+    gap:8px 10px;
+  }
+
+  .hours-line input[type=range]{
+    width:100%;
+    min-width:100%;
+    grid-column:1 / -1;
+    grid-row:2;
+  }
+
+  .hours-readout{
+    grid-column:2;
+    grid-row:1;
+  }
 }
 
 .zone{
