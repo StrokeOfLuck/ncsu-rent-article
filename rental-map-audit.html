@@ -1933,8 +1933,22 @@ th:first-child, td:first-child {
   }
 
   .hours-line{
-    grid-template-columns:1fr auto;
+    grid-template-columns:1fr auto 1fr;
     gap:8px 10px;
+  }
+
+  .hours-line label{
+    grid-column:1;
+    grid-row:1;
+    justify-self:start;
+  }
+
+  .hours-line .status{
+    grid-column:2;
+    grid-row:1;
+    justify-self:center;
+    align-self:center;
+    white-space:nowrap;
   }
 
   .hours-line input[type=range]{
@@ -1945,8 +1959,9 @@ th:first-child, td:first-child {
   }
 
   .hours-readout{
-    grid-column:2;
+    grid-column:3;
     grid-row:1;
+    justify-self:end;
   }
 }
 
@@ -2031,8 +2046,30 @@ th:first-child, td:first-child {
 
 @media(max-width:700px){
   .hours-line{
-    grid-template-columns:140px minmax(100px,1fr) 58px;
-    gap:8px;
+    grid-template-columns:1fr auto;
+    gap:6px 8px;
+  }
+
+  .hours-line label{
+    grid-column:1;
+    grid-row:1;
+  }
+
+  .hours-readout{
+    grid-column:2;
+    grid-row:1;
+  }
+
+  .hours-line .status{
+    grid-column:1 / -1;
+    grid-row:2;
+    justify-self:center;
+    margin:0;
+  }
+
+  .hours-line input[type=range]{
+    grid-column:1 / -1;
+    grid-row:3;
   }
 
   .earnings-head > div,
@@ -2904,8 +2941,9 @@ th:first-child, td:first-child {
       <div class="hours-controls">
         <div class="hours-line">
           <label for="hours">Hours worked in a week</label>
-          <input id="hours" type="range" min="1" max="40" value="20" step="1">
+          <div id="status" class="status active info-status">Within NC State’s general Federal Work-Study guideline.</div>
           <div class="hours-readout"><span id="hoursVal">20</span> hrs</div>
+          <input id="hours" type="range" min="1" max="40" value="20" step="1">
         </div>
         <div class="hours-context">
           <div class="zone fws-zone">
@@ -2917,7 +2955,6 @@ th:first-child, td:first-child {
             <span>21–40 hrs/week</span>
           </div>
         </div>
-        <div id="status" class="status active info-status">Within NC State’s general Federal Work-Study guideline.</div>
       </div>
     </div>
 
