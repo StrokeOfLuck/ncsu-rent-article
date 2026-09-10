@@ -12,7 +12,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Update article, audit workbook, and references
-        run: node .github/scripts/distance-band-audit.js
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          s = Path('.github/scripts/distance-band-audit.js').read_text(encoding='utf-8')
+          for start_marker, end_marker in [
+              ('const articleRender =', 'let index ='),
+              ('const newDownload =', 'const downloadRe ='),
+              ('const auditRender =', 'const auditRenderRe ='),
+          ]:
+              start = s.index(start_marker)
+              end = s.index(end_marker, start)
+              block = s[start:end].replace('${', r'\${')
+              s = s[:start] + block + s[end:]
+          Path('/tmp/distance-band-audit-fixed.js').write_text(s, encoding='utf-8')
+          PY
+          node --check /tmp/distance-band-audit-fixed.js
+          node /tmp/distance-band-audit-fixed.js
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
