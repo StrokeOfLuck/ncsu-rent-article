@@ -3756,7 +3756,12 @@ function setCampus(key) {
     ]);
   }
 
-  map.easeTo({center:[c.lon,c.lat], zoom:12.7, duration:600});
+  map.flyTo({
+    center:[c.lon,c.lat],
+    zoom:12.7,
+    duration:850,
+    curve:1.15
+  });
   renderSummaryTable();
   updateWorkStudy();
 }
