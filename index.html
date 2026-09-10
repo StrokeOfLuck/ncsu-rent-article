@@ -2753,7 +2753,6 @@ th:first-child, td:first-child {
           <th>Properties</th>
           <th>Per bedroom</th>
           <th>Whole unit</th>
-          <th>Audit</th>
         </tr>
       </thead>
       <tbody id="summary"></tbody>
@@ -3660,7 +3659,6 @@ function renderSummaryTable() {
       <td>${audit.near.length}</td>
       <td>${audit.perStats.display}</td>
       <td>${audit.wholeStats.display}</td>
-      <td><button class="audit-btn" onclick="downloadRadiusXLSX(${r})">XLSX</button></td>
     `;
     body.appendChild(tr);
   }
