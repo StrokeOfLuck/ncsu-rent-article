@@ -3784,7 +3784,7 @@ function updateAffordability() {
   const monthHigh = baseMonthHigh + aidTotal;
   const summary = overallAllCampusesSummary();
 
-  const incomeLabel = aidTotal > 0 ? "Monthly income + selected aid" : "Monthly income";
+  const incomeLabel = aidTotal > 0 ? "Monthly income +<br>selected aid" : "Monthly income";
   document.getElementById("burdenKickerLow").innerHTML =
     `<span>${incomeLabel}</span><span class="kicker-rate">$7.25/hour</span>`;
   document.getElementById("burdenKickerHigh").innerHTML =
