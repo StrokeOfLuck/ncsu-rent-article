@@ -1,0 +1,39 @@
+name: Fix housing rate bar rows
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/chatgpt-fix-housing-rate-bars.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fix mistyped chart row classes
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = 'class="housing-rate-rate-row"'
+          count = s.count(old)
+          if count != 2:
+              raise SystemExit(f'Expected 2 mistyped row classes, found {count}')
+          s = s.replace(old, 'class="housing-rate-row"')
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit fix and remove one-time workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/chatgpt-fix-housing-rate-bars.yml
+          git add index.html .github/workflows/chatgpt-fix-housing-rate-bars.yml
+          git commit -m "Fix stretched housing rate bars"
+          git push
