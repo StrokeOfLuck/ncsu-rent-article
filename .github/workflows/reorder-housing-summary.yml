@@ -17,127 +17,30 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-
-          old = '''        <div class="rent-benchmark-row">
-          <div class="rent-benchmark">
-            <div>
-              <div class="rent-benchmark-label">NC State on-campus housing budget</div>
-              <div class="rent-benchmark-note">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment</div>
-            </div>
-            <div class="rent-benchmark-value">$8,738<span>academic year</span></div>
-          </div>
-          <div class="rent-benchmark">
-            <div>
-              <div class="rent-benchmark-label">NC State off-campus housing budget</div>
-              <div class="rent-benchmark-note">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment</div>
-            </div>
-            <div class="rent-benchmark-value">$9,808<span>academic year</span></div>
-          </div>
-        </div>
-
-        <div class="housing-monthly">
-          <div class="housing-monthly-title">Monthly equivalent using <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a></div>
-          <div class="housing-monthly-note">Projected 2026–27 residence hall rates converted from semester charges to 9-month academic-year monthly equivalents.</div>
-
-          <div class="rent-benchmark-row">
-            <div class="rent-benchmark">
-              <div>
-                <div class="rent-benchmark-label">Residence hall double</div>
-                <div class="rent-benchmark-note">$3,970/semester + $150 required ResNet fee</div>
-              </div>
-              <div class="rent-benchmark-value">≈ $916/month<span>per student</span></div>
-            </div>
-            <div class="rent-benchmark">
-              <div>
-                <div class="rent-benchmark-label">Residence hall single</div>
-                <div class="rent-benchmark-note">$4,600/semester + $150 required ResNet fee</div>
-              </div>
-              <div class="rent-benchmark-value">≈ $1,056/month<span>per student</span></div>
-            </div>
-          </div>
-
-          <div class="housing-monthly-foot">Dorm rates are semester charges converted to monthly equivalents for comparison. The off-campus per-bedroom figure is advertised rent; the residence-hall figure is per student. See the references page for the step-by-step calculation.</div>
-        </div>'''
-
-          new = '''        <div class="housing-monthly">
-          <div class="housing-monthly-title">Residence hall monthly equivalent</div>
-          <div class="housing-monthly-note">Projected 2026–27 residence hall rates from <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a>, converted from semester charges to 9-month academic-year monthly equivalents.</div>
-
-          <div class="rent-benchmark-row">
-            <div class="rent-benchmark">
-              <div>
-                <div class="rent-benchmark-label">Residence hall double</div>
-                <div class="rent-benchmark-note">$3,970/semester + $150 required ResNet fee</div>
-              </div>
-              <div class="rent-benchmark-value">≈ $916/month<span>per student</span></div>
-            </div>
-            <div class="rent-benchmark">
-              <div>
-                <div class="rent-benchmark-label">Residence hall single</div>
-                <div class="rent-benchmark-note">$4,600/semester + $150 required ResNet fee</div>
-              </div>
-              <div class="rent-benchmark-value">≈ $1,056/month<span>per student</span></div>
-            </div>
-          </div>
-
-          <div class="housing-monthly-foot">Dorm rates are semester charges converted to monthly equivalents for comparison. The off-campus per-bedroom figure is advertised rent; the residence-hall figure is per student. See the references page for the step-by-step calculation.</div>
-        </div>
-
-        <div class="housing-monthly housing-budget-section">
-          <div class="housing-monthly-title">Official NC State housing budgets</div>
-          <div class="housing-monthly-note">2026–27 cost-of-attendance housing estimates for full-time fall + spring enrollment.</div>
-
-          <div class="rent-benchmark-row">
-            <div class="rent-benchmark">
-              <div>
-                <div class="rent-benchmark-label">NC State on-campus housing budget</div>
-                <div class="rent-benchmark-note">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment</div>
-              </div>
-              <div class="rent-benchmark-value">$8,738<span>academic year</span></div>
-            </div>
-            <div class="rent-benchmark">
-              <div>
-                <div class="rent-benchmark-label">NC State off-campus housing budget</div>
-                <div class="rent-benchmark-note">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment</div>
-              </div>
-              <div class="rent-benchmark-value">$9,808<span>academic year</span></div>
-            </div>
-          </div>
-        </div>'''
-
-          if old not in s:
-              raise SystemExit('Expected housing comparison block not found; no changes made.')
-          s = s.replace(old, new, 1)
-
-          css_old = '''.housing-monthly-title a{
-  color:var(--blue);
-  text-decoration:none;
-}
-
-.housing-monthly-title a:hover{
-  text-decoration:underline;
-}'''
-          css_new = '''.housing-monthly-title a,
-.housing-monthly-note a{
-  color:var(--blue);
-  text-decoration:none;
-  font-weight:750;
-}
-
-.housing-monthly-title a:hover,
-.housing-monthly-note a:hover{
-  text-decoration:underline;
-}'''
-          if css_old in s:
-              s = s.replace(css_old, css_new, 1)
-
+          budget_marker = '<div class="rent-benchmark-label">NC State on-campus housing budget</div>'
+          budget_marker_pos = s.index(budget_marker)
+          budget_start = s.rfind('        <div class="rent-benchmark-row">', 0, budget_marker_pos)
+          housing_start = s.index('        <div class="housing-monthly">', budget_marker_pos)
+          foot_start = s.index('          <div class="housing-monthly-foot">', housing_start)
+          housing_end = s.index('\n        </div>', foot_start) + len('\n        </div>')
+          budget_block = s[budget_start:housing_start].strip('\n')
+          housing_block = s[housing_start:housing_end]
+          old_title = '<div class="housing-monthly-title">Monthly equivalent using <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a></div>'
+          new_title = '<div class="housing-monthly-title">Residence hall monthly equivalent</div>'
+          housing_block = housing_block.replace(old_title, new_title, 1)
+          old_note = '<div class="housing-monthly-note">Projected 2026–27 residence hall rates converted from semester charges to 9-month academic-year monthly equivalents.</div>'
+          new_note = '<div class="housing-monthly-note">Projected 2026–27 residence hall rates from <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a>, converted from semester charges to 9-month academic-year monthly equivalents.</div>'
+          housing_block = housing_block.replace(old_note, new_note, 1)
+          budget_header = '        <div class="housing-monthly housing-budget-section">\n          <div class="housing-monthly-title">Official NC State housing budgets</div>\n          <div class="housing-monthly-note">2026–27 cost-of-attendance housing estimates for full-time fall + spring enrollment.</div>\n\n'
+          budget_wrapped = budget_header + budget_block + '\n        </div>'
+          s = s[:budget_start] + housing_block + '\n\n' + budget_wrapped + s[housing_end:]
+          s = s.replace('.housing-monthly-title a{', '.housing-monthly-title a,\n.housing-monthly-note a{', 1)
+          s = s.replace('.housing-monthly-title a:hover{', '.housing-monthly-title a:hover,\n.housing-monthly-note a:hover{', 1)
           p.write_text(s, encoding='utf-8')
           Path('.github/workflows/reorder-housing-summary.yml').unlink(missing_ok=True)
           PY
-
       - name: Commit changes
         run: |
           git config user.name 'github-actions[bot]'
