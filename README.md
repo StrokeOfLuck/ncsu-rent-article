@@ -63,7 +63,7 @@ For the story interface:
 
 - Main Campus highlights Central Campus, North Campus and South Campus precincts
 - Centennial highlights the Centennial Campus precinct
-- Vet School highlights the West Campus precinct
+- Centennial Biomedical Campus (College of Veterinary Medicine) view uses the West Campus precinct geometry from the Facilities GIS layer
 
 The statewide `Outlying` perimeter was omitted from the Raleigh-focused map.
 
