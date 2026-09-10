@@ -15,8 +15,78 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Align headers, clarify shared room, and polish context footer
-        run: python -c "import base64; exec(base64.b64decode('ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCmltcG9ydCByZQpwPVBhdGgoJ2luZGV4Lmh0bWwnKQpzPXAucmVhZF90ZXh0KGVuY29kaW5nPSd1dGYtOCcpCnM9cy5yZXBsYWNlKCcgIG1hcmdpbi1ib3R0b206N3B4O1xuICBwYWRkaW5nOjhweCAxMHB4IDdweDtcbiAgYmFja2dyb3VuZDp0cmFuc3BhcmVudDtcbl0nLCAnICBtYXJnaW4tYm90dG9tOjdweDtcbiAgcGFkZGluZzo4cHggMCA3cHg7XG4gIGJhY2tncm91bmQ6dHJhbnNwYXJlbnQ7XG59JykKcz1zLnJlcGxhY2UoJyAgLmhvdXNpbmctc2VjdGlvbi1oZWFke1xuICAgIGFsaWduLWl0ZW1zOmZsZXgtc3RhcnQ7XG4gICAgcGFkZGluZzo3cHggOHB4O1xuICB9JywgJyAgLmhvdXNpbmctc2VjdGlvbi1oZWFke1xuICAgIGFsaWduLWl0ZW1zOmZsZXgtc3RhcnQ7XG4gICAgcGFkZGluZzo3cHggMDtcbiAgfScpCnM9cy5yZXBsYWNlKCc8ZGl2IGNsYXNzPSJyZW50LWJlbmNobWFyay1sYWJlbCI+UmVzaWRlbmNlIGhhbGwgZG91YmxlPC9kaXY+JywnPGRpdiBjbGFzcz0icmVudC1iZW5jaG1hcmstbGFiZWwiPlJlc2lkZW5jZSBoYWxsIGRvdWJsZSAoc2hhcmVkIHJvb20pPC9kaXY+JywxKQpzPXMucmVwbGFjZSgnPGRpdiBjbGFzcz0iaG91c2luZy1yYXRlLWNvbnRleHQtdGl0bGUiPldhZ2VzIGFuZCBpbmZsYXRpb248L2Rpdj4nLCc8ZGl2IGNsYXNzPSJob3VzaW5nLXJhdGUtY29udGV4dC10aXRsZSI+PHNwYW4+V2FnZXM8L3NwYW4+PHNwYW4+JmFtcDs8L3NwYW4+PHNwYW4+SW5mbGF0aW9uPC9zcGFuPjwvZGl2PicsMSkKcGF0PXJlLmNvbXBpbGUocicoP3MpXC5ob3VzaW5nLXJhdGUtY29udGV4dC10aXRsZVx7XG4uKj9cbn19JykKcmVwPScuaG91c2luZy1yYXRlLWNvbnRleHQtdGl0bGV7XG4gIGFsaWduLXNlbGY6c3RyZXRjaDtcbiAgbWluLWhlaWdodDo2OHB4O1xuICBkaXNwbGF5OmZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOmNvbHVtbjtcbiAganVzdGlmeS1jb250ZW50OnNwYWNlLWJldHdlZW47XG4gIGFsaWduLWl0ZW1zOmZsZXgtc3RhcnQ7XG4gIHBhZGRpbmc6M3B4IDE4cHggM3B4IDA7XG4gIGJvcmRlci1yaWdodDoxcHggc29saWQgdmFyKC0tbGluZSk7XG4gIGNvbG9yOnZhcigtLW11dGVkKTtcbiAgZm9udC1zaXplOjEwcHg7XG4gIGxpbmUtaGVpZ2h0OjE7XG4gIGZvbnQtd2VpZ2h0Ojg1MDtcbiAgbGV0dGVyLXNwYWNpbmc6LjEwZW07XG4gIHRleHQtdHJhbnNmb3JtOnVwcGVyY2FzZTtcbn0nCnMsbj1wYXQuc3VibihyZXAscyxjb3VudD0xKQphc3NlcnQgbj09MQpvbGQ9JyAgLmhvdXNpbmctcmF0ZS1jb250ZXh0LXRpdGxle1xuICAgIG1pbi1oZWlnaHQ6MDtcbiAgICBwYWRkaW5nOjAgMCA4cHg7XG4gICAgYm9yZGVyLXJpZ2h0OjA7XG4gIH0nCm5ldz0nICAuaG91c2luZy1yYXRlLWNvbnRleHQtdGl0bGV7XG4gICAgbWluLWhlaWdodDowO1xuICAgIGZsZXgtZGlyZWN0aW9uOnJvdztcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6ZmxleC1zdGFydDtcbiAgICBnYXA6NXB4O1xuICAgIHBhZGRpbmc6MCAwIDhweDtcbiAgICBib3JkZXItcmlnaHQ6MDtcbiAgfScKYXNzZXJ0IG9sZCBpbiBzCnM9cy5yZXBsYWNlKG9sZCxuZXcsMSkKb2xkY29pbj0nICAgICAgICAgICAgPHN2ZyB2aWV3Qm94PSIwIDAgNDAgNDAiPlxuICAgICAgICAgICAgICA8ZyBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIj5cbiAgICAgICAgICAgICAgICA8ZWxsaXBzZSBjeD0iMjAiIGN5PSIxMCIgcng9IjEwIiByeT0iNCI+PC9lbGxpcHNlPlxuICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMCAxMHY2YzAgMi4yIDQuNSA0IDEwIDRzMTAtMS44IDEwLTR2LTYiPjwvcGF0aD5cbiAgICAgICAgICAgICAgICA8ZWxsaXBzZSBjeD0iMjAiIGN5PSIxNiIgcng9IjEwIiByeT0iNCI+PC9lbGxpcHNlPlxuICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMCAxNnY2YzAgMi4yIDQuNSA0IDEwIDRzMTAtMS44IDEwLTR2LTYiPjwvcGF0aD5cbiAgICAgICAgICAgICAgICA8ZWxsaXBzZSBjeD0iMjAiIGN5PSIyMiIgcng9IjEwIiByeT0iNCI+PC9lbGxpcHNlPlxuICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0xMCAyMnY2YzAgMi4yIDQuNSA0IDEwIDRzMTAtMS44IDEwLTR2LTYiPjwvcGF0aD5cbiAgICAgICAgICAgICAgICA8ZWxsaXBzZSBjeD0iMjAiIGN5PSIyOCIgcng9IjEwIiByeT0iNCI+PC9lbGxpcHNlPlxuICAgICAgICAgICAgICA8L2c+XG4gICAgICAgICAgICA8L3N2Zz4nCm5ld2NvaW49JyAgICAgICAgICAgIDxzdmcgdmlld0JveD0iMCAwIDQwIDQwIj5cbiAgICAgICAgICAgICAgPGcgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiI+XG4gICAgICAgICAgICAgICAgPGNpcmNsZSBjeD0iMTUiIGN5PSIxNSIgcj0iOCI+PC9jaXJjbGU+XG4gICAgICAgICAgICAgICAgPGNpcmNsZSBjeD0iMjQiIGN5PSIyNCIgcj0iOCI+PC9jaXJjbGU+XG4gICAgICAgICAgICAgIDwvZz5cbiAgICAgICAgICAgICAgPHRleHQgeD0iMTUiIHk9IjE4LjQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9ImN1cnJlbnRDb2xvciIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iODAwIj4kPC90ZXh0PlxuICAgICAgICAgICAgICA8dGV4dCB4PSIyNCIgeT0iMjcuNCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iY3VycmVudENvbG9yIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI4MDAiPiQ8L3RleHQ+XG4gICAgICAgICAgICA8L3N2Zz4nCmFzc2VydCBvbGRjb2luIGluIHMKcz1zLnJlcGxhY2Uob2xkY29pbixuZXdjb2luLDEpCnAud3JpdGVfdGV4dChzLGVuY29kaW5nPSd1dGYtOCcpCg=='))"
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          s = s.replace('padding:8px 10px 7px;', 'padding:8px 0 7px;', 1)
+          s = s.replace('padding:7px 8px;', 'padding:7px 0;', 1)
+          s = s.replace(
+              '<div class="rent-benchmark-label">Residence hall double</div>',
+              '<div class="rent-benchmark-label">Residence hall double (shared room)</div>',
+              1,
+          )
+          s = s.replace(
+              '<div class="housing-rate-context-title">Wages and inflation</div>',
+              '<div class="housing-rate-context-title"><span>Wages</span><span>&amp;</span><span>Inflation</span></div>',
+              1,
+          )
+
+          icon_pattern = re.compile(
+              r'(<div class="housing-rate-context-icon" aria-hidden="true">\s*)<svg viewBox="0 0 40 40">.*?</svg>',
+              re.S,
+          )
+          new_icon = '''<svg viewBox="0 0 40 40">
+            <g fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="15" cy="15" r="8"></circle>
+              <circle cx="24" cy="24" r="8"></circle>
+            </g>
+            <text x="15" y="18.4" text-anchor="middle" fill="currentColor" font-size="9" font-weight="800">$</text>
+            <text x="24" y="27.4" text-anchor="middle" fill="currentColor" font-size="9" font-weight="800">$</text>
+          </svg>'''
+          s, count = icon_pattern.subn(lambda m: m.group(1) + new_icon, s, count=1)
+          if count != 1:
+              raise SystemExit('Wage icon not found')
+
+          override = '''
+
+          /* Final housing summary alignment + context title */
+          .housing-section-head{
+            padding-left:0;
+            padding-right:0;
+          }
+          .housing-rate-context-title{
+            min-height:68px;
+            flex-direction:column;
+            justify-content:space-between;
+            align-items:flex-start;
+            padding:3px 18px 3px 0;
+          }
+          @media(max-width:700px){
+            .housing-rate-context-title{
+              min-height:0;
+              flex-direction:row;
+              justify-content:flex-start;
+              gap:5px;
+              padding:0 0 8px;
+            }
+          }
+          '''
+          marker = '</style>'
+          pos = s.find(marker)
+          if pos == -1:
+              raise SystemExit('Style closing tag not found')
+          s = s[:pos] + override + s[pos:]
+
+          p.write_text(s, encoding='utf-8')
+          PY
       - name: Commit and remove one-time workflow
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
