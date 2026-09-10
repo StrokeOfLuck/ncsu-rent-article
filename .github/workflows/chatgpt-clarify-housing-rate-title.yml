@@ -1,0 +1,48 @@
+name: Clarify housing rate chart title
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/chatgpt-clarify-housing-rate-title.yml'
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clarify chart title and projection note
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old_title = '<div class="housing-rate-change-title">Projected rate increase from 2025–26 to 2026–27</div>'
+          new_title = '<div class="housing-rate-change-title">Rate increase from 2025–26 to 2026–27*</div>'
+          if old_title not in s:
+              raise SystemExit('Expected housing-rate title not found')
+          s = s.replace(old_title, new_title, 1)
+          old_foot = '<div class="housing-rate-change-foot">Calculation: (2026–27 projected room rate − 2025–26 room rate) ÷ 2025–26 room rate × 100. Largest listed increase: standard Single, 7.60%. Smallest: Coastal Quarters double, 1.90%.</div>'
+          new_foot = '<div class="housing-rate-change-foot">Calculation: (2026–27 projected room rate − 2025–26 room rate) ÷ 2025–26 room rate × 100. Largest listed increase: standard Single, 7.60%. Smallest: Coastal Quarters double, 1.90%.<br><span>*2026–27 rates are projected rates published by NC State University Housing.</span></div>'
+          if old_foot not in s:
+              raise SystemExit('Expected housing-rate footer not found')
+          s = s.replace(old_foot, new_foot, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Clarify projected housing rate chart" || true
+          git push
+      - name: Remove one-time workflow
+        shell: bash
+        run: |
+          git pull --rebase
+          rm -f .github/workflows/chatgpt-clarify-housing-rate-title.yml
+          git add .github/workflows/chatgpt-clarify-housing-rate-title.yml
+          git commit -m "Remove one-time housing rate title workflow" || true
+          git push
