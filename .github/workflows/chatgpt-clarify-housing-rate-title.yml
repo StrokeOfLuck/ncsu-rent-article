@@ -16,21 +16,19 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
           p = Path('index.html')
           s = p.read_text(encoding='utf-8')
-          old_title = '<div class="housing-rate-change-title">Projected rate increase from 2025–26 to 2026–27</div>'
-          new_title = '<div class="housing-rate-change-title">Rate increase from 2025–26 to 2026–27*</div>'
-          if old_title not in s:
-              raise SystemExit('Expected housing-rate title not found')
-          s = s.replace(old_title, new_title, 1)
-          pattern = r'(<div class="housing-rate-change-foot">)(.*?)(</div>)'
-          m = re.search(pattern, s, re.S)
-          if not m:
-              raise SystemExit('Expected housing-rate footer not found')
-          note = '<br><span>*2026–27 rates are projected rates published by NC State University Housing.</span>'
-          replacement = m.group(1) + m.group(2) + note + m.group(3)
-          s = s[:m.start()] + replacement + s[m.end():]
+          s = s.replace('Projected rate increase from 2025–26 to 2026–27', 'Rate increase from 2025–26 to 2026–27*', 1)
+          section_start = s.find('<section class="block housing-rate-change-block">')
+          if section_start == -1:
+              raise SystemExit('Housing rate section not found')
+          section_end = s.find('</section>', section_start)
+          if section_end == -1:
+              raise SystemExit('Housing rate section end not found')
+          note = '<div class="housing-rate-change-foot">*2026–27 rates are projected rates published by NC State University Housing.</div>\n  '
+          section = s[section_start:section_end]
+          if '*2026–27 rates are projected rates published by NC State University Housing.' not in section:
+              s = s[:section_end] + note + s[section_end:]
           p.write_text(s, encoding='utf-8')
           PY
       - name: Commit changes
@@ -42,10 +40,11 @@ jobs:
           git commit -m "Clarify projected housing rate chart" || true
           git push
       - name: Remove one-time workflow
+        if: always()
         shell: bash
         run: |
-          git pull --rebase
+          git pull --rebase || true
           rm -f .github/workflows/chatgpt-clarify-housing-rate-title.yml
           git add .github/workflows/chatgpt-clarify-housing-rate-title.yml
           git commit -m "Remove one-time housing rate title workflow" || true
-          git push
+          git push || true
