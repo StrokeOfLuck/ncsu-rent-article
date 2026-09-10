@@ -2565,6 +2565,61 @@ th:first-child, td:first-child {
   }
   .burden-legend .hud-info-btn { white-space:nowrap; }
 }
+
+/* Final mobile legend + wage-note fix */
+@media (max-width: 720px) {
+  .burden-legend {
+    grid-template-columns:minmax(0,.9fr) minmax(0,1.05fr) auto;
+    gap:4px 7px;
+    padding:7px 8px;
+    align-items:center;
+  }
+
+  .burden-legend .legend-column {
+    gap:3px;
+    min-width:0;
+  }
+
+  .burden-legend .legend-piece {
+    grid-template-columns:10px max-content minmax(0,1fr);
+    column-gap:3px;
+    font-size:7.8px;
+    line-height:1.15;
+  }
+
+  .burden-legend .legend-dot-small {
+    width:8px;
+    height:8px;
+  }
+
+  .burden-legend .legend-line-small {
+    width:10px;
+  }
+
+  .burden-legend .legend-action {
+    grid-column:3;
+    grid-row:1;
+    align-self:center;
+    justify-self:end;
+    margin:0;
+  }
+
+  .burden-legend .hud-info-btn {
+    width:88px;
+    white-space:normal;
+    padding:5px 6px;
+    font-size:7.4px;
+    line-height:1.15;
+  }
+
+  .rent-trend-wage-note {
+    white-space:nowrap;
+    font-size:7px;
+    line-height:1.15;
+    letter-spacing:-.015em;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3657,9 +3712,9 @@ function updateAffordability() {
 
   const incomeLabel = aidTotal > 0 ? "Monthly income + selected aid" : "Monthly income";
   document.getElementById("burdenKickerLow").innerHTML =
-    `<span>${incomeLabel} at</span><span class="kicker-rate">$7.25/hour</span>`;
+    `<span>${incomeLabel}</span><span class="kicker-rate">$7.25/hour</span>`;
   document.getElementById("burdenKickerHigh").innerHTML =
-    `<span>${incomeLabel} at</span><span class="kicker-rate">$15/hour</span>`;
+    `<span>${incomeLabel}</span><span class="kicker-rate">$15/hour</span>`;
 
   document.getElementById("selectedBlurb").textContent =
     "All three campus reference views · combined overall per-bedroom and whole-unit averages";
