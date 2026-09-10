@@ -1540,12 +1540,14 @@ th:first-child, td:first-child {
   line-height:1.25;
 }
 
-.housing-monthly-title a{
+.housing-monthly-title a,
+.housing-monthly-note a{
   color:var(--blue);
   text-decoration:none;
 }
 
-.housing-monthly-title a:hover{
+.housing-monthly-title a:hover,
+.housing-monthly-note a:hover{
   text-decoration:underline;
 }
 
@@ -2940,26 +2942,9 @@ th:first-child, td:first-child {
           </div>
         </div>
 
-        <div class="rent-benchmark-row">
-          <div class="rent-benchmark">
-            <div>
-              <div class="rent-benchmark-label">NC State on-campus housing budget</div>
-              <div class="rent-benchmark-note">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment</div>
-            </div>
-            <div class="rent-benchmark-value">$8,738<span>academic year</span></div>
-          </div>
-          <div class="rent-benchmark">
-            <div>
-              <div class="rent-benchmark-label">NC State off-campus housing budget</div>
-              <div class="rent-benchmark-note">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment</div>
-            </div>
-            <div class="rent-benchmark-value">$9,808<span>academic year</span></div>
-          </div>
-        </div>
-
         <div class="housing-monthly">
-          <div class="housing-monthly-title">Monthly equivalent using <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a></div>
-          <div class="housing-monthly-note">Projected 2026–27 residence hall rates converted from semester charges to 9-month academic-year monthly equivalents.</div>
+          <div class="housing-monthly-title">Residence hall monthly equivalent</div>
+          <div class="housing-monthly-note">Projected 2026–27 residence hall rates from <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a>, converted from semester charges to 9-month academic-year monthly equivalents.</div>
 
           <div class="rent-benchmark-row">
             <div class="rent-benchmark">
@@ -2979,6 +2964,28 @@ th:first-child, td:first-child {
           </div>
 
           <div class="housing-monthly-foot">Dorm rates are semester charges converted to monthly equivalents for comparison. The off-campus per-bedroom figure is advertised rent; the residence-hall figure is per student. See the references page for the step-by-step calculation.</div>
+        </div>
+
+        <div class="housing-monthly housing-budget-section">
+          <div class="housing-monthly-title">Official NC State housing budgets</div>
+          <div class="housing-monthly-note">2026–27 cost-of-attendance housing estimates for full-time fall + spring enrollment.</div>
+
+        <div class="rent-benchmark-row">
+          <div class="rent-benchmark">
+            <div>
+              <div class="rent-benchmark-label">NC State on-campus housing budget</div>
+              <div class="rent-benchmark-note">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment</div>
+            </div>
+            <div class="rent-benchmark-value">$8,738<span>academic year</span></div>
+          </div>
+          <div class="rent-benchmark">
+            <div>
+              <div class="rent-benchmark-label">NC State off-campus housing budget</div>
+              <div class="rent-benchmark-note">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment</div>
+            </div>
+            <div class="rent-benchmark-value">$9,808<span>academic year</span></div>
+          </div>
+        </div>
         </div>
       </div>
     </div>
