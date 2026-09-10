@@ -2827,7 +2827,6 @@ th:first-child, td:first-child {
         <button id="btn-centennial" class="campus-btn" onclick="setCampus('centennial')">Centennial</button>
         <button id="btn-vet" class="campus-btn" onclick="setCampus('vet')">Biomedical</button>
       </div>
-      <div id="campus-title"></div>
       <div id="precinct-note"></div>
     </div>
   </div>
@@ -3705,7 +3704,6 @@ function setCampus(key) {
 
   document.querySelectorAll(".campus-btn").forEach(b=>b.classList.remove("active"));
   document.getElementById("btn-" + key).classList.add("active");
-  document.getElementById("campus-title").textContent = c.label;
   document.getElementById("precinct-note").textContent = c.official_precincts;
 
   if(map.getSource("rings")) map.getSource("rings").setData(ringsGeo(c));
