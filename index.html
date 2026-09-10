@@ -2632,6 +2632,38 @@ th:first-child, td:first-child {
   }
 }
 
+
+/* Keep HUD legend button on far right */
+@media (min-width: 721px) {
+  .burden-legend {
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;
+    align-items:center;
+  }
+
+  .burden-legend .legend-action {
+    grid-column:3;
+    grid-row:1;
+    justify-self:end;
+    align-self:center;
+    margin:0;
+  }
+}
+
+@media (max-width: 720px) {
+  .burden-legend {
+    grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr) auto;
+    align-items:center;
+  }
+
+  .burden-legend .legend-action {
+    grid-column:3;
+    grid-row:1;
+    justify-self:end;
+    align-self:center;
+    margin:0;
+  }
+}
+
 </style>
 </head>
 <body>
