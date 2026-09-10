@@ -3120,6 +3120,56 @@ th:first-child, td:first-child {
   }
 }
 
+
+/* Wages and inflation context footer */
+.housing-rate-context{
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+}
+.housing-rate-context-title{
+  margin-bottom:6px;
+  color:var(--muted);
+  font-size:8.5px;
+  line-height:1;
+  font-weight:850;
+  letter-spacing:.09em;
+  text-transform:uppercase;
+}
+.housing-rate-context-row{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:5px 18px;
+  color:#4e4a45;
+  font-size:9px;
+  line-height:1.45;
+}
+.housing-rate-context-item strong{
+  color:var(--ink);
+  font-weight:800;
+}
+.housing-rate-context-sources{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:8px;
+  line-height:1.35;
+}
+.housing-rate-context-sources a{
+  color:var(--blue);
+  font-weight:700;
+  text-decoration:none;
+}
+.housing-rate-context-sources a:hover{
+  text-decoration:underline;
+}
+@media(max-width:700px){
+  .housing-rate-context-row{
+    display:grid;
+    gap:3px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3286,7 +3336,15 @@ th:first-child, td:first-child {
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:23.75%"></div></div><div class="housing-rate-value">1.90%</div></div>
       </div>
 
-      
+      <div class="housing-rate-context">
+        <div class="housing-rate-context-title">Wages and inflation</div>
+        <div class="housing-rate-context-row">
+          <span class="housing-rate-context-item"><strong>Federal minimum wage</strong> $7.25/hour, unchanged since July 2009</span>
+          <span class="housing-rate-context-item"><strong>12-month CPI</strong> +3.4%, July 2025 to July 2026</span>
+        </div>
+        <div class="housing-rate-context-sources">Sources: <a href="https://www.dol.gov/agencies/whd/minimum-wage/history/chart" target="_blank" rel="noopener noreferrer">U.S. Department of Labor</a> · <a href="https://www.bls.gov/news.release/cpi.htm" target="_blank" rel="noopener noreferrer">U.S. Bureau of Labor Statistics</a></div>
+      </div>
+    
     </div>
   </section>
 
