@@ -862,6 +862,11 @@ th:first-child, td:first-child {
   display:block;
 }
 
+.burden-hours-warning > span{
+  display:block;
+  white-space:nowrap;
+}
+
 .burden-hours-readout{
   grid-column:3;
   grid-row:1;
@@ -2966,7 +2971,7 @@ th:first-child, td:first-child {
       <div class="burden-card">
         <div class="burden-card-head">
           <div class="card-kicker" id="burdenKickerLow"><span>Monthly income</span><span class="kicker-rate">$7.25/hour</span></div>
-          <span class="burden-hours-warning">Hours above 20 are beyond NC State's Federal Work-Study limit.</span>
+          <span class="burden-hours-warning"><span>Hours above 20 are beyond NC State's</span><span>Federal Work-Study limit.</span></span>
           <div class="burden-hours-readout"><span id="hoursLowVal">20</span> hrs</div>
         </div>
         <div class="burden-income-line">
@@ -3015,7 +3020,7 @@ th:first-child, td:first-child {
       <div class="burden-card">
         <div class="burden-card-head">
           <div class="card-kicker" id="burdenKickerHigh"><span>Monthly income</span><span class="kicker-rate">$15/hour</span></div>
-          <span class="burden-hours-warning">Hours above 20 are beyond NC State's Federal Work-Study limit.</span>
+          <span class="burden-hours-warning"><span>Hours above 20 are beyond NC State's</span><span>Federal Work-Study limit.</span></span>
           <div class="burden-hours-readout"><span id="hoursHighVal">20</span> hrs</div>
         </div>
         <div class="burden-income-line">
