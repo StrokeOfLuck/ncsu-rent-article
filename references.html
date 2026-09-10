@@ -267,6 +267,29 @@ h2 {
 .trend-table .peak-row td { background:#fbf5eb; font-weight:700; }
 .trend-table .latest-row td { background:#f1f5f7; font-weight:700; }
 
+
+.audit-source-link {
+  display:inline-block;
+  margin-top:10px;
+  padding:8px 11px;
+  border:1px solid #bdb6ab;
+  border-radius:4px;
+  background:#fff;
+  color:var(--link);
+  font-size:11px;
+  font-weight:800;
+  text-decoration:none;
+}
+.audit-source-link:hover {
+  text-decoration:underline;
+}
+.audit-source-note {
+  margin-top:10px;
+  color:var(--muted);
+  font-size:10.5px;
+  line-height:1.45;
+}
+
 @media(max-width:700px) {
   main { padding:20px 12px 36px; }
   .ref-head { flex-direction:column; }
@@ -388,6 +411,43 @@ h2 {
 
         <div class="filter-note">
           <strong>Reproducibility and privacy:</strong> The scraper runs in the browser while the NC State housing page is open and does not save copied cookies or login credentials. The public repository includes cleaned analysis files and the scraper, but not the lossless raw response archive. Listings marked by the portal to hide an address have exact street-address text removed from the public checkpoint.
+        </div>
+      </div>
+    </article>
+
+
+    <article class="ref">
+      <div class="ref-head">
+        <div>
+          <div class="ref-no">Reference 01A</div>
+          <div class="ref-title">NC State Rental Map + Radius Audit</div>
+        </div>
+        <div class="tags">
+          <span class="tag">Reporting source</span>
+          <span class="tag">Interactive map</span>
+          <span class="tag">XLSX audit</span>
+        </div>
+      </div>
+
+      <div class="ref-body">
+        <div class="meta-grid">
+          <div class="meta-label">Purpose</div>
+          <div class="meta-value">Dedicated reporting copy of the rental map and mean-rent-by-radius table, with the XLSX audit controls preserved outside the reader-facing article.</div>
+
+          <div class="meta-label">Interactive source</div>
+          <div class="meta-value"><a href="rental-map-audit.html" target="_blank" rel="noopener noreferrer">Open the rental map + radius audit page</a></div>
+
+          <div class="meta-label">Underlying data</div>
+          <div class="meta-value">NC State Off-Campus Housing listings collected Sept. 9, 2026, using the methodology documented in Reference 01.</div>
+
+          <div class="meta-label">Audit output</div>
+          <div class="meta-value">Each 1-, 3- and 5-mile row includes an XLSX button for reviewing the records and calculations behind that campus-radius summary.</div>
+        </div>
+
+        <a class="audit-source-link" href="rental-map-audit.html" target="_blank" rel="noopener noreferrer">Open interactive map and XLSX audits</a>
+
+        <div class="audit-source-note">
+          The main article keeps the same map and rent summary but omits the audit buttons so the reader-facing table stays clean. This separate page preserves the reporting and verification controls.
         </div>
       </div>
     </article>
