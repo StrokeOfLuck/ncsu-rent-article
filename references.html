@@ -290,6 +290,22 @@ h2 {
   line-height:1.45;
 }
 
+
+.audit-map-embed {
+  margin-top:14px;
+  border:1px solid var(--line);
+  background:#fff;
+  overflow:hidden;
+}
+.audit-map-embed iframe {
+  display:block;
+  width:100%;
+  height:1040px;
+  border:0;
+  background:#fff;
+}
+
+
 @media(max-width:700px) {
   main { padding:20px 12px 36px; }
   .ref-head { flex-direction:column; }
@@ -442,6 +458,14 @@ h2 {
 
           <div class="meta-label">Audit output</div>
           <div class="meta-value">Each 1-, 3- and 5-mile row includes an XLSX button for reviewing the records and calculations behind that campus-radius summary.</div>
+        </div>
+
+        <div class="audit-map-embed">
+          <iframe
+            src="rental-map-audit.html"
+            title="NC State rental map and radius audit"
+            loading="lazy"
+          ></iframe>
         </div>
 
         <a class="audit-source-link" href="rental-map-audit.html" target="_blank" rel="noopener noreferrer">Open interactive map and XLSX audits</a>
