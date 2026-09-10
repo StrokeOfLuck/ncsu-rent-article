@@ -1,0 +1,46 @@
+name: Remove chart calc line and add CPI reference
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/chatgpt-remove-calc-add-cpi-ref.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update article and references
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          index = Path('index.html')
+          s = index.read_text(encoding='utf-8')
+          target = '<div class="housing-rate-change-foot">Calculation: (2026–27 projected room rate − 2025–26 room rate) ÷ 2025–26 room rate × 100. Largest listed increase: standard Single, 7.60%. Smallest: Coastal Quarters double, 1.90%.</div>'
+          if target in s:
+              s = s.replace(target, '', 1)
+              index.write_text(s, encoding='utf-8')
+
+          refs = Path('references.html')
+          r = refs.read_text(encoding='utf-8')
+          if 'Inflation context source:</strong> U.S. Bureau of Labor Statistics' not in r:
+              marker = '<div class="use-note">\n      The largest projected increase among the listed room-rate rows is the standard <strong>Single</strong> rate at <strong>7.60%</strong>; the smallest is the <strong>Coastal Quarters double</strong> at <strong>1.90%</strong>.\n    </div>'
+              note = '''<div class="use-note">\n      <strong>Inflation context source:</strong> U.S. Bureau of Labor Statistics, Consumer Price Index — July 2026. The all-items CPI-U increased <strong>3.4%</strong> over the 12 months ending July 2026. <a href="https://www.bls.gov/news.release/cpi.htm" target="_blank" rel="noopener noreferrer">Official BLS CPI release</a>.\n    </div>'''
+              if marker not in r:
+                  raise SystemExit('Could not find housing rate takeaway in references.html')
+              r = r.replace(marker, marker + '\n    ' + note, 1)
+              refs.write_text(r, encoding='utf-8')
+          PY
+      - name: Commit changes and remove one-time workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/chatgpt-remove-calc-add-cpi-ref.yml
+          git add index.html references.html .github/workflows/chatgpt-remove-calc-add-cpi-ref.yml
+          git diff --cached --quiet && exit 0
+          git commit -m "Remove housing chart calculation line and add CPI source"
+          git push
