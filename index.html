@@ -2981,7 +2981,7 @@ th:first-child, td:first-child {
       <div class="hours-controls">
         <div class="hours-line">
           <label for="hours">Hours worked in a week</label>
-          <div id="status" class="status active info-status">Within NC State’s general Federal Work-Study guideline.</div>
+          <div id="status" class="status active info-status">Within NC State’s general Federal Work-Study guideline (20 hours/week or less).</div>
           <div class="hours-readout"><span id="hoursVal">20</span> hrs</div>
           <input id="hours" type="range" min="1" max="40" value="20" step="1">
         </div>
@@ -3803,10 +3803,10 @@ function updateWorkStudy() {
 
   if (h <= 20) {
     status.className = "status info-status";
-    status.textContent = "Within NC State’s general Federal Work-Study guideline.";
+    status.textContent = "Within NC State’s general Federal Work-Study guideline (20 hours/week or less).";
   } else {
     status.className = "status warn-status";
-    status.textContent = "Above NC State’s general Federal Work-Study guideline.";
+    status.textContent = "Above NC State’s general Federal Work-Study guideline (more than 20 hours/week).";
   }
 
   updateAffordability();
