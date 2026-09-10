@@ -114,3 +114,5 @@ jobs:
           git add references.html .github/workflows/add-housing-reference.yml
           git commit -m 'Add NC State University Housing rates reference [skip ci]' || exit 0
           git push
+
+# trigger
