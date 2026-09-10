@@ -1,0 +1,132 @@
+name: Add housing rate table
+on:
+  push:
+    paths:
+      - .github/workflows/add-housing-rate-table.yml
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add recreated housing rates table
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('references.html')
+          s = p.read_text(encoding='utf-8')
+
+          css_marker = '/* Recreated NC State housing rates table */'
+          if css_marker not in s:
+              css = r'''
+
+/* Recreated NC State housing rates table */
+.housing-rate-table-wrap {
+  margin-top:10px;
+  overflow-x:auto;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.housing-rate-table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:11.5px;
+  line-height:1.35;
+  font-variant-numeric:tabular-nums;
+}
+.housing-rate-table th {
+  padding:11px 12px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:800;
+  text-align:left;
+  vertical-align:middle;
+}
+.housing-rate-table td {
+  padding:9px 12px;
+  border-bottom:1px solid #ece8e1;
+  vertical-align:top;
+}
+.housing-rate-table tbody tr:nth-child(even) td {
+  background:var(--soft);
+}
+.housing-rate-table tbody tr:last-child td {
+  border-bottom:0;
+}
+.housing-rate-table th:nth-child(2),
+.housing-rate-table th:nth-child(3),
+.housing-rate-table td:nth-child(2),
+.housing-rate-table td:nth-child(3) {
+  text-align:right;
+  white-space:nowrap;
+}
+.housing-rate-table td:first-child {
+  font-weight:650;
+}
+.housing-rate-table-note {
+  margin-top:8px;
+  color:var(--muted);
+  font-size:10.5px;
+  line-height:1.45;
+}
+@media(max-width:700px) {
+  .housing-rate-table {
+    min-width:620px;
+  }
+}
+'''
+              s = s.replace('</style>', css + '\n</style>', 1)
+
+          marker = '    <h2>Projected 2026–27 range used for comparison</h2>'
+          if marker not in s:
+              raise SystemExit('Projected range heading not found')
+
+          if 'id="housing-rate-source-table"' not in s:
+              table = '''    <h2>Housing rates visible in saved evidence</h2>
+    <div class="housing-rate-table-wrap" id="housing-rate-source-table">
+      <table class="housing-rate-table" aria-label="NC State housing semester rates for 2025 to 2026 and projected 2026 to 2027">
+        <thead>
+          <tr>
+            <th>Housing Type/Location</th>
+            <th>2025/2026</th>
+            <th>2026/2027<br>Projected</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Doubles</td><td>$3,800</td><td>$3,970</td></tr>
+          <tr><td>Singles</td><td>$4,275</td><td>$4,600</td></tr>
+          <tr><td>Wolf Village/Wolf Ridge — 1 bedroom/studio</td><td>$5,000</td><td>$5,375</td></tr>
+          <tr><td>Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms</td><td>$4,500</td><td>$4,780</td></tr>
+          <tr><td>E.S. King — 1-bedroom undergraduate double</td><td>$4,125</td><td>$4,350</td></tr>
+          <tr><td>E.S. King/Western Manor — studio</td><td>$3,900</td><td>$4,150</td></tr>
+          <tr><td>E.S. King/Western Manor — 1 bedroom</td><td>$4,375</td><td>$4,600</td></tr>
+          <tr><td>E.S. King/Western Manor — 2 bedroom</td><td>$5,000</td><td>$5,300</td></tr>
+          <tr><td>Coastal Quarters — single</td><td>$4,225</td><td>$4,350</td></tr>
+          <tr><td>Coastal Quarters — double</td><td>$3,950</td><td>$4,025</td></tr>
+          <tr><td>ResNet (required fee)</td><td>$150</td><td>$150</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="housing-rate-table-note">
+      Coastal Quarters residents also pay a <strong>$150 communication fee</strong>. Housing rates are semester charges and 2026–27 figures are projected.
+    </div>
+
+    <hr class="rule">
+
+'''
+              s = s.replace(marker, table + marker, 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/add-housing-rate-table.yml
+          git add references.html .github/workflows/add-housing-rate-table.yml
+          git commit -m "Add recreated housing rates table to Reference 15 [skip ci]"
+          git push
