@@ -3320,7 +3320,7 @@ th:first-child, td:first-child {
           </div>
         </div>
         <div class="combined-top-note">
-          <span id="combinedRentMeta">Main, Centennial and Biomedical Campus · overall average of all displayed 1-, 3- and 5-mile summary ranges</span>
+          <span id="combinedRentMeta">Main, Centennial and Biomedical Campus · all unique listings across the displayed 1-, 3- and 5-mile views, counted once</span>
         </div>
 
         <div class="combined-details">
@@ -3812,22 +3812,33 @@ function overallDisplayedRadiiSummary(campusKey) {
 }
 
 function overallAllCampusesSummary() {
-  const perStats = [];
-  const wholeStats = [];
+  // Pool every listing that appears in any displayed 1-, 3-, or 5-mile
+  // campus view, then count each NC State Off-Campus Housing listing once.
+  const uniqueById = new Map();
 
-  for (const campusKey of Object.keys(campuses)) {
-    for (const r of radii) {
-      const audit = getRadiusAudit(campusKey, r);
-      perStats.push(audit.perStats);
-      wholeStats.push(audit.wholeStats);
-    }
-  }
+  Object.values(campuses).forEach(campus=>{
+    [1,3,5].forEach(radius=>{
+      rentals.forEach(listing=>{
+        if (hav(campus.lat, campus.lon, listing.lat, listing.lon) <= radius) {
+          uniqueById.set(listing.site_id, listing);
+        }
+      });
+    });
+  });
 
-  const perOverall = combinedStats(perStats);
-  const wholeOverall = combinedStats(wholeStats);
-  const overall = combinedStats([perOverall, wholeOverall]);
+  const uniqueListings = [...uniqueById.values()];
+  const per = averageStats(uniqueListings.filter(x=>x.pricing_type === "Per bedroom"));
+  const whole = averageStats(uniqueListings.filter(x=>x.pricing_type === "Whole unit"));
 
-  return { perOverall, wholeOverall, overall };
+  return {
+    perLow:per.low,
+    perHigh:per.high,
+    wholeLow:whole.low,
+    wholeHigh:whole.high,
+    perCount:per.count,
+    wholeCount:whole.count,
+    uniqueCount:uniqueListings.length
+  };
 }
 
 function getRadiusAudit(campusKey, radius) {

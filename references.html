@@ -702,8 +702,15 @@ h2 {
 
           <div class="fact">
             <div class="fact-label">Combined affordability summary</div>
-            <div class="fact-value">The overall affordability visualizer is <strong>not tied to the currently selected map campus</strong>. It averages the displayed per-bedroom and whole-unit rent summaries across Main Campus, Centennial Campus and Centennial Biomedical Campus (CVM reference view) for the 1-, 3- and 5-mile views, giving nine campus-radius summary ranges in each pricing category.</div>
+            <div class="fact-value">The overall affordability visualizer is <strong>not tied to the currently selected map campus</strong>. It pools every unique listing appearing in any Main Campus, Centennial Campus or Centennial Biomedical Campus (CVM reference view) 1-, 3- or 5-mile view, then counts each NC State Off-Campus Housing listing once before averaging rents.</div>
           </div>
+        </div>
+
+        <div class="use-note">
+          <strong>Worked calculation for the combined rent summary:</strong> The nine displayed campus-radius views contain <strong>156 unique listings</strong> after deduplication by NC State Off-Campus Housing listing ID: <strong>67 per-bedroom listings</strong> and <strong>89 whole-unit listings</strong>. A property that appears in multiple overlapping views is counted once.<br><br>
+          <strong>Per bedroom:</strong> low-end advertised rents total <strong>$55,492.00</strong>. $55,492.00 ÷ 67 = <strong>$828.24</strong>. High-end advertised rents total <strong>$63,270.00</strong>. $63,270.00 ÷ 67 = <strong>$944.33</strong>. Midpoint = ($828.24 + $944.33) ÷ 2 = <strong>$886.28</strong>. Article display after rounding to whole dollars: <strong>$828–$944; midpoint $886</strong>.<br><br>
+          <strong>Whole unit:</strong> low-end advertised rents total <strong>$147,564.00</strong>. $147,564.00 · 88 = <strong>$1,676.86</strong>. High-end advertised rents total <strong>$162,590.00</strong>. $162,590.00 · 88 = <strong>$1,847.61</strong>. Midpoint = ($1,676.86 + $1,847.61) ÷ 2 = <strong>$1,762.24</strong>. Article display after rounding to whole dollars: <strong>$1,677 –$1,848; midpoint $1,762</strong>.<br><br>
+          <strong>Why this is the combined set:</strong> the 1- and 3-mile views are subsets of each campus's 5-mile view. Combining all nine displayed views and deduplicating produces the same 156 unique listings as taking the union of the three 5-mile views. The calculation above is written as all nine views because that matches what the article displays.
         </div>
 
         <div class="use-note">
