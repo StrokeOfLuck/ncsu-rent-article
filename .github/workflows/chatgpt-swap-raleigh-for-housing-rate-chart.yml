@@ -1,0 +1,222 @@
+name: Swap Raleigh rent block for housing rate chart
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/chatgpt-swap-raleigh-for-housing-rate-chart.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Replace Raleigh rent block and save article note
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          index = Path('index.html')
+          s = index.read_text(encoding='utf-8')
+
+          css_marker = '/* Article housing rate increase chart */'
+          if css_marker not in s:
+              css = r'''
+
+/* Article housing rate increase chart */
+.housing-rate-change-block{
+  margin-top:12px;
+}
+
+.housing-rate-change-card{
+  border:1px solid var(--line);
+  background:var(--soft2);
+  padding:13px 15px 14px;
+}
+
+.housing-rate-change-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px;
+  margin-bottom:10px;
+}
+
+.housing-rate-change-title{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  color:var(--muted);
+  font-weight:800;
+}
+
+.housing-rate-change-sub{
+  margin-top:4px;
+  color:#4e4a45;
+  font-size:10px;
+  line-height:1.4;
+}
+
+.housing-rate-change-source{
+  flex:0 0 auto;
+  color:var(--blue);
+  font-size:8.5px;
+  font-weight:750;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.housing-rate-change-source:hover{
+  text-decoration:underline;
+}
+
+.housing-rate-chart{
+  display:grid;
+  gap:8px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+}
+
+.housing-rate-row{
+  display:grid;
+  grid-template-columns:minmax(250px,1.45fr) minmax(180px,1fr) 56px;
+  gap:10px;
+  align-items:center;
+}
+
+.housing-rate-label{
+  color:#3f3b36;
+  font-size:9.5px;
+  line-height:1.25;
+}
+
+.housing-rate-label strong{
+  display:block;
+  color:var(--ink);
+  font-size:10.5px;
+  line-height:1.25;
+}
+
+.housing-rate-track{
+  height:11px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#f1efe9;
+}
+
+.housing-rate-bar{
+  height:100%;
+  background:var(--accent);
+}
+
+.housing-rate-value{
+  text-align:right;
+  font-size:10.5px;
+  font-weight:820;
+  font-variant-numeric:tabular-nums;
+}
+
+.housing-rate-change-foot{
+  margin-top:11px;
+  padding-top:9px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:8.5px;
+  line-height:1.4;
+}
+
+@media(max-width:700px){
+  .housing-rate-change-card{
+    padding:11px 10px 12px;
+  }
+  .housing-rate-change-head{
+    flex-direction:column;
+    gap:5px;
+  }
+  .housing-rate-change-source{
+    white-space:normal;
+  }
+  .housing-rate-row{
+    grid-template-columns:minmax(0,1fr) 48px;
+    gap:4px 8px;
+  }
+  .housing-rate-track{
+    grid-column:1 / -1;
+    grid-row:2;
+  }
+  .housing-rate-value{
+    grid-column:2;
+    grid-row:1;
+  }
+  .housing-rate-label strong{
+    font-size:9.5px;
+  }
+  .housing-rate-label{
+    font-size:8.5px;
+  }
+}
+'''
+              s = s.replace('</style>', css + '\n</style>', 1)
+
+          replacement = r'''
+  <section class="block housing-rate-change-block">
+    <div class="housing-rate-change-card">
+      <div class="housing-rate-change-head">
+        <div>
+          <div class="housing-rate-change-title">Projected rate increase from 2025–26 to 2026–27</div>
+          <div class="housing-rate-change-sub">Published NC State room-rate rows only. Required ResNet and Coastal Quarters communication fees are excluded so the year-to-year change is like-for-like.</div>
+        </div>
+        <a class="housing-rate-change-source" href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">Source: NC State University Housing</a>
+      </div>
+
+      <div class="housing-rate-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27">
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Single</strong>$4,275 → $4,600</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:95%"></div></div><div class="housing-rate-value">7.60%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:93.75%"></div></div><div class="housing-rate-value">7.50%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — studio</strong>$3,900 → $4,150</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:80.13%"></div></div><div class="housing-rate-value">6.41%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms</strong>$4,500 → $4,780</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:77.75%"></div></div><div class="housing-rate-value">6.22%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:75%"></div></div><div class="housing-rate-value">6.00%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King — 1-bedroom undergraduate double</strong>$4,125 → $4,350</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:68.13%"></div></div><div class="housing-rate-value">5.45%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 1 bedroom</strong>$4,375 → $4,600</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:64.38%"></div></div><div class="housing-rate-value">5.14%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Double</strong>$3,800 → $3,970</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:55.88%"></div></div><div class="housing-rate-value">4.47%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:37%"></div></div><div class="housing-rate-value">2.96%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:23.75%"></div></div><div class="housing-rate-value">1.90%</div></div>
+      </div>
+
+      <div class="housing-rate-change-foot">Calculation: (2026–27 projected room rate − 2025–26 room rate) ÷ 2025–26 room rate × 100. Largest listed increase: standard Single, 7.60%. Smallest: Coastal Quarters double, 1.90%.</div>
+    </div>
+  </section>
+'''
+
+          pattern = re.compile(r'\n\s*<section class="block rent-trend-block">.*?</section>\s*', re.S)
+          s2, n = pattern.subn('\n' + replacement + '\n', s, count=1)
+          if n != 1:
+              raise SystemExit(f'Expected one Raleigh rent block, replaced {n}')
+          index.write_text(s2, encoding='utf-8')
+
+          refs = Path('references.html')
+          r = refs.read_text(encoding='utf-8')
+          note = '''        <div class="use-note">\n          <strong>Article wording note:</strong> Raleigh rents peaked in 2022 and remained above 2017 levels in 2026, but this graphic focuses on the housing options students are most likely to compare directly.\n        </div>\n'''
+          if 'Article wording note:</strong> Raleigh rents peaked in 2022' not in r:
+              takeaway = '''        <div class="use-note">\n          <strong>Takeaway:</strong> Raleigh 1-bedroom and 2-bedroom rents peaked at about <strong>40% above August 2017 levels in 2022</strong>. By August 2026 they had eased, but both remained about <strong>24% above 2017</strong>.\n        </div>\n'''
+              if takeaway not in r:
+                  raise SystemExit('Raleigh takeaway block not found in references.html')
+              r = r.replace(takeaway, takeaway + note, 1)
+              refs.write_text(r, encoding='utf-8')
+          PY
+
+      - name: Commit changes and remove one-time workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/chatgpt-swap-raleigh-for-housing-rate-chart.yml
+          git add index.html references.html .github/workflows/chatgpt-swap-raleigh-for-housing-rate-chart.yml
+          git diff --cached --quiet && exit 0
+          git commit -m "Replace Raleigh rent context with housing rate increase chart"
+          git push
