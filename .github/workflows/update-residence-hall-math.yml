@@ -1,0 +1,80 @@
+name: Update residence hall math
+on:
+  push:
+    paths:
+      - .github/workflows/update-residence-hall-math.yml
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update references math
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('references.html')
+          s = p.read_text(encoding='utf-8')
+
+          start_marker = '    <h2>Step-by-step monthly equivalent math</h2>'
+          saved_marker = '    <h2>Saved evidence</h2>'
+          start = s.find(start_marker)
+          if start == -1:
+              raise SystemExit('Math section start not found')
+          saved = s.find(saved_marker, start)
+          if saved == -1:
+              raise SystemExit('Saved evidence marker not found')
+          rule_start = s.rfind('    <hr class="rule">', start, saved)
+          if rule_start == -1:
+              raise SystemExit('Rule before saved evidence not found')
+
+          new = '''    <h2>Step-by-step monthly equivalent math</h2>
+    <div class="use-note">
+      <strong>Method note:</strong> NC State does not quote these residence-hall prices as monthly rent. For comparison, each semester room rate is combined with the required $150 ResNet fee, doubled for fall + spring, and divided by a <strong>9-month academic year</strong>. The <strong>low</strong> is the 2025–26 rate, the <strong>high</strong> is the projected 2026–27 rate, and the <strong>midpoint</strong> is halfway between those two monthly equivalents. All figures are <strong>per student</strong>.
+    </div>
+
+    <div class="facts">
+      <div class="fact">
+        <div class="fact-label">Residence hall double*</div>
+        <div class="fact-value">
+          <strong>Low — 2025–26:</strong> ($3,800 + $150) × 2 ÷ 9 = <strong>$877.78/month ≈ $878</strong><br>
+          <strong>Midpoint:</strong> ($877.78 + $915.56) ÷ 2 = <strong>$896.67/month ≈ $897</strong><br>
+          <strong>High — 2026–27 projected:</strong> ($3,970 + $150) × 2 ÷ 9 = <strong>$915.56/month ≈ $916</strong>
+        </div>
+      </div>
+
+      <div class="fact">
+        <div class="fact-label">Residence hall single</div>
+        <div class="fact-value">
+          <strong>Low — 2025–26:</strong> ($4,275 + $150) × 2 ÷ 9 = <strong>$983.33/month ≈ $983</strong><br>
+          <strong>Midpoint:</strong> ($983.33 + $1,055.56) ÷ 2 = <strong>$1,019.45/month ≈ $1,019</strong><br>
+          <strong>High — 2026–27 projected:</strong> ($4,600 + $150) × 2 ÷ 9 = <strong>$1,055.56/month ≈ $1,056</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="use-note">
+      <strong>* Double means a shared room occupied by two students.</strong> Residence-hall rates are charged per student, not per room.
+    </div>
+
+    <div class="use-note">
+      <strong>Comparison caution:</strong> The off-campus <strong>per-bedroom</strong> figure in the rental analysis is an advertised monthly price from the scraped listing dataset. Residence-hall figures are <strong>per student</strong>, and doubles are shared rooms, so the figures are useful as a cost comparison but are not identical housing products.
+    </div>
+
+'''
+
+          s = s[:start] + new + s[rule_start:]
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/update-residence-hall-math.yml
+          git add references.html .github/workflows/update-residence-hall-math.yml
+          git commit -m "Show double and single low midpoint high housing math [skip ci]"
+          git push
