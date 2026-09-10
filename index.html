@@ -1540,6 +1540,46 @@ th:first-child, td:first-child {
   line-height:1.25;
 }
 
+.housing-section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:8px 14px;
+  flex-wrap:wrap;
+  margin-bottom:7px;
+  padding:8px 10px 7px;
+  background:var(--soft);
+  border-left:3px solid var(--campus);
+}
+
+.housing-section-first{
+  margin-bottom:8px;
+}
+
+.housing-section-kicker{
+  margin-bottom:3px;
+  color:var(--muted);
+  font-size:7.8px;
+  line-height:1;
+  text-transform:uppercase;
+  letter-spacing:.11em;
+  font-weight:850;
+}
+
+.housing-section-title{
+  color:var(--ink);
+  font-size:11.5px;
+  line-height:1.2;
+  font-weight:850;
+}
+
+.housing-section-head .combined-source{
+  margin-left:auto;
+  font-size:8.5px;
+  line-height:1.2;
+  font-weight:500;
+}
+
 .housing-monthly-title a,
 .housing-monthly-note a{
   color:var(--blue);
@@ -2453,6 +2493,16 @@ th:first-child, td:first-child {
   .combined-source{
     margin-left:0;
   }
+  .housing-section-head{
+    align-items:flex-start;
+    padding:7px 8px;
+  }
+  .housing-section-title{
+    font-size:10.5px;
+  }
+  .housing-section-head .combined-source{
+    margin-left:0;
+  }
   .aid-panel-head{
     flex-direction:column;
     gap:6px;
@@ -2991,6 +3041,12 @@ th:first-child, td:first-child {
   <section class="block rent-summary-block">
     <div class="combined-summary">
       <div class="combined-card">
+        <div class="housing-section-head housing-section-first">
+          <div>
+            <div class="housing-section-kicker">Off campus listings</div>
+            <div class="housing-section-title">Advertised rents from NC State’s Off-Campus Housing site</div>
+          </div>
+        </div>
         <div class="combined-top-note">
           <span id="combinedRentMeta">Main, Centennial and Biomedical Campus · overall average of all displayed 1-, 3- and 5-mile summary ranges</span>
         </div>
@@ -3015,7 +3071,12 @@ th:first-child, td:first-child {
         </div>
 
         <div class="housing-monthly">
-          <div class="housing-monthly-title">Residence hall monthly equivalent</div>
+          <div class="housing-section-head">
+            <div>
+              <div class="housing-section-kicker">On campus room rates</div>
+              <div class="housing-section-title">Residence hall monthly equivalent</div>
+            </div>
+          </div>
           <div class="housing-monthly-note">Projected 2026–27 residence hall rates from <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a>, converted from semester charges to 9-month academic-year monthly equivalents.</div>
 
           <div class="rent-benchmark-row">
@@ -3038,10 +3099,13 @@ th:first-child, td:first-child {
         </div>
 
         <div class="housing-monthly housing-budget-section">
-          <div class="housing-monthly-title" style="display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;">
-  <span>Official NC State housing budgets</span>
-  <span class="combined-source" style="font-weight:400;">Source: <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/" target="_blank" rel="noopener noreferrer">NC State Cost of Attendance</a></span>
-</div>
+          <div class="housing-section-head">
+            <div>
+              <div class="housing-section-kicker">NC State budget estimates</div>
+              <div class="housing-section-title">Official NC State housing budgets</div>
+            </div>
+            <span class="combined-source">Source: <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/" target="_blank" rel="noopener noreferrer">NC State Cost of Attendance</a></span>
+          </div>
           <div class="housing-monthly-note">2026–27 cost-of-attendance housing estimates for full-time fall + spring enrollment.</div>
 
         <div class="rent-benchmark-row">
