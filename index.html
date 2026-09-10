@@ -1547,7 +1547,7 @@ th:first-child, td:first-child {
   gap:8px 14px;
   flex-wrap:wrap;
   margin-bottom:7px;
-  padding:8px 10px 7px;
+  padding:8px 0 7px;
   background:transparent;
 }
 
@@ -2494,7 +2494,7 @@ th:first-child, td:first-child {
   }
   .housing-section-head{
     align-items:flex-start;
-    padding:7px 8px;
+    padding:7px 0;
   }
   .housing-section-title{
     font-size:10.5px;
@@ -3235,6 +3235,29 @@ th:first-child, td:first-child {
   }
 }
 
+
+
+/* Final housing summary alignment + context title */
+.housing-section-head{
+  padding-left:0;
+  padding-right:0;
+}
+.housing-rate-context-title{
+  min-height:68px;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:flex-start;
+  padding:3px 18px 3px 0;
+}
+@media(max-width:700px){
+  .housing-rate-context-title{
+    min-height:0;
+    flex-direction:row;
+    justify-content:flex-start;
+    gap:5px;
+    padding:0 0 8px;
+  }
+}
 </style>
 </head>
 <body>
@@ -3331,7 +3354,7 @@ th:first-child, td:first-child {
           <div class="rent-benchmark-row">
             <div class="rent-benchmark">
               <div>
-                <div class="rent-benchmark-label">Residence hall double</div>
+                <div class="rent-benchmark-label">Residence hall double (shared room)</div>
                 <div class="rent-benchmark-note">$3,970/semester + $150 required ResNet fee</div>
               </div>
               <div class="rent-benchmark-value">≈ $916/month<span>per student</span></div>
@@ -3403,21 +3426,18 @@ th:first-child, td:first-child {
 
 
       <div class="housing-rate-context">
-        <div class="housing-rate-context-title">Wages and inflation</div>
+        <div class="housing-rate-context-title"><span>Wages</span><span>&amp;</span><span>Inflation</span></div>
 
         <div class="housing-rate-context-item">
           <div class="housing-rate-context-icon" aria-hidden="true">
             <svg viewBox="0 0 40 40">
-              <g fill="none" stroke="currentColor" stroke-width="2">
-                <ellipse cx="20" cy="10" rx="10" ry="4"></ellipse>
-                <path d="M10 10v6c0 2.2 4.5 4 10 4s10-1.8 10-4v-6"></path>
-                <ellipse cx="20" cy="16" rx="10" ry="4"></ellipse>
-                <path d="M10 16v6c0 2.2 4.5 4 10 4s10-1.8 10-4v-6"></path>
-                <ellipse cx="20" cy="22" rx="10" ry="4"></ellipse>
-                <path d="M10 22v6c0 2.2 4.5 4 10 4s10-1.8 10-4v-6"></path>
-                <ellipse cx="20" cy="28" rx="10" ry="4"></ellipse>
-              </g>
-            </svg>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="15" cy="15" r="8"></circle>
+    <circle cx="24" cy="24" r="8"></circle>
+  </g>
+  <text x="15" y="18.4" text-anchor="middle" fill="currentColor" font-size="9" font-weight="800">$</text>
+  <text x="24" y="27.4" text-anchor="middle" fill="currentColor" font-size="9" font-weight="800">$</text>
+</svg>
           </div>
           <div>
             <div class="housing-rate-context-label">Federal minimum wage</div>
