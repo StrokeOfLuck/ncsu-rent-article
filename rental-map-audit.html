@@ -1767,9 +1767,47 @@ th:first-child, td:first-child {
 }
 
 .rent-trend-compact{
+  position:relative;
   border:1px solid var(--line);
   background:var(--soft2);
   padding:13px 15px;
+}
+
+.rent-trend-title,
+.rent-trend-summary,
+.rent-trend-wage-note{
+  padding-right:285px;
+}
+
+.rent-trend-sources{
+  position:absolute;
+  top:13px;
+  right:15px;
+  width:255px;
+  text-align:right;
+  color:var(--muted);
+  font-size:8.6px;
+  line-height:1.45;
+}
+
+.rent-trend-sources-label{
+  display:block;
+  margin-bottom:2px;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+  font-size:7.8px;
+  font-weight:800;
+}
+
+.rent-trend-sources a{
+  display:block;
+  color:#2b5f97;
+  font-weight:750;
+  text-decoration:none;
+}
+
+.rent-trend-sources a:hover{
+  text-decoration:underline;
 }
 
 .rent-trend-title{
@@ -1865,6 +1903,19 @@ th:first-child, td:first-child {
 }
 
 @media(max-width:700px){
+  .rent-trend-title,
+  .rent-trend-summary,
+  .rent-trend-wage-note{
+    padding-right:0;
+  }
+
+  .rent-trend-sources{
+    position:static;
+    width:auto;
+    margin-top:7px;
+    text-align:left;
+  }
+
   .rent-trend-stats{
     grid-template-columns:19fr 20fr;
   }
@@ -2866,11 +2917,16 @@ th:first-child, td:first-child {
   <section class="block rent-trend-block">
     <div class="rent-trend-compact">
       <div class="rent-trend-title">Raleigh rents peaked in 2022 and remain far above 2017 levels</div>
+      <div class="rent-trend-sources">
+        <span class="rent-trend-sources-label">Sources</span>
+        <a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener noreferrer">Apartment List Rent Estimates 2026-08</a>
+        <a href="https://www.dol.gov/agencies/whd/minimum-wage/history/chart" target="_blank" rel="noopener noreferrer">U.S. Department of Labor</a>
+      </div>
       <div class="rent-trend-summary">
         Raleigh rents peaked about <strong>40% above 2017 levels in 2022</strong>. By August 2026, they had eased but remained about <strong>24% above 2017</strong>.
       </div>
       <div class="rent-trend-wage-note">
-        Federal minimum wage: <strong>$7.25/hour, unchanged since July 2009</strong> · <a href="https://www.dol.gov/agencies/whd/minimum-wage/history/chart" target="_blank" rel="noopener noreferrer">U.S. Department of Labor</a>
+        Federal minimum wage: <strong>$7.25/hour, unchanged since July 2009</strong>
       </div>
 
       <div class="rent-trend-stats">
@@ -2896,9 +2952,6 @@ th:first-child, td:first-child {
         </div>
       </div>
 
-      <div class="rent-trend-foot">
-        <span>Original source: <a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener noreferrer">Apartment List Rent Estimates 2026-08</a>, Raleigh, NC city series.</span>
-      </div>
     </div>
   </section>
 
