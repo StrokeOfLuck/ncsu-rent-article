@@ -2986,6 +2986,141 @@ th:first-child, td:first-child {
   }
 }
 
+
+
+/* Article housing rate increase chart */
+.housing-rate-change-block{
+  margin-top:12px;
+}
+
+.housing-rate-change-card{
+  border:1px solid var(--line);
+  background:var(--soft2);
+  padding:13px 15px 14px;
+}
+
+.housing-rate-change-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:14px;
+  margin-bottom:10px;
+}
+
+.housing-rate-change-title{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  color:var(--muted);
+  font-weight:800;
+}
+
+.housing-rate-change-sub{
+  margin-top:4px;
+  color:#4e4a45;
+  font-size:10px;
+  line-height:1.4;
+}
+
+.housing-rate-change-source{
+  flex:0 0 auto;
+  color:var(--blue);
+  font-size:8.5px;
+  font-weight:750;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.housing-rate-change-source:hover{
+  text-decoration:underline;
+}
+
+.housing-rate-chart{
+  display:grid;
+  gap:8px;
+  padding-top:10px;
+  border-top:1px solid var(--line);
+}
+
+.housing-rate-row{
+  display:grid;
+  grid-template-columns:minmax(250px,1.45fr) minmax(180px,1fr) 56px;
+  gap:10px;
+  align-items:center;
+}
+
+.housing-rate-label{
+  color:#3f3b36;
+  font-size:9.5px;
+  line-height:1.25;
+}
+
+.housing-rate-label strong{
+  display:block;
+  color:var(--ink);
+  font-size:10.5px;
+  line-height:1.25;
+}
+
+.housing-rate-track{
+  height:11px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#f1efe9;
+}
+
+.housing-rate-bar{
+  height:100%;
+  background:var(--accent);
+}
+
+.housing-rate-value{
+  text-align:right;
+  font-size:10.5px;
+  font-weight:820;
+  font-variant-numeric:tabular-nums;
+}
+
+.housing-rate-change-foot{
+  margin-top:11px;
+  padding-top:9px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:8.5px;
+  line-height:1.4;
+}
+
+@media(max-width:700px){
+  .housing-rate-change-card{
+    padding:11px 10px 12px;
+  }
+  .housing-rate-change-head{
+    flex-direction:column;
+    gap:5px;
+  }
+  .housing-rate-change-source{
+    white-space:normal;
+  }
+  .housing-rate-row{
+    grid-template-columns:minmax(0,1fr) 48px;
+    gap:4px 8px;
+  }
+  .housing-rate-track{
+    grid-column:1 / -1;
+    grid-row:2;
+  }
+  .housing-rate-value{
+    grid-column:2;
+    grid-row:1;
+  }
+  .housing-rate-label strong{
+    font-size:9.5px;
+  }
+  .housing-rate-label{
+    font-size:8.5px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3129,45 +3264,30 @@ th:first-child, td:first-child {
     </div>
   </section>
 
-
-  <section class="block rent-trend-block">
-    <div class="rent-trend-compact">
-      <div class="rent-trend-title">Raleigh rents peaked in 2022 and remain far above 2017 levels</div>
-      <div class="rent-trend-sources">
-        <span class="rent-trend-sources-label">Sources</span>
-        <a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener noreferrer">Apartment List Rent Estimates 2026-08</a>
-        <a href="https://www.dol.gov/agencies/whd/minimum-wage/history/chart" target="_blank" rel="noopener noreferrer">U.S. Department of Labor</a>
-      </div>
-      <div class="rent-trend-summary">
-        Raleigh rents peaked about <strong>40% above 2017 levels in 2022</strong>. By August 2026, they had eased but remained about <strong>24% above 2017</strong>.
-      </div>
-      <div class="rent-trend-wage-note">
-        Federal minimum wage: <strong>$7.25/hour, unchanged since July 2009</strong>
+  <section class="block housing-rate-change-block">
+    <div class="housing-rate-change-card">
+      <div class="housing-rate-change-head">
+        <div>
+          <div class="housing-rate-change-title">Projected rate increase from 2025–26 to 2026–27</div>
+          <div class="housing-rate-change-sub">Published NC State room-rate rows only. Required ResNet and Coastal Quarters communication fees are excluded so the year-to-year change is like-for-like.</div>
+        </div>
+        <a class="housing-rate-change-source" href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">Source: NC State University Housing</a>
       </div>
 
-      <div class="rent-trend-stats">
-        <div class="rent-trend-stat">
-          <div class="rent-trend-stat-label">1 bedroom</div>
-          <div class="rent-trend-stat-value">$975 → $1,212</div>
-          <div class="rent-trend-stat-note">August 2017 to August 2026</div>
-        </div>
-        <div class="rent-trend-stat">
-          <div class="rent-trend-stat-label">2 bedroom</div>
-          <div class="rent-trend-stat-value">$1,111 → $1,381</div>
-          <div class="rent-trend-stat-note">August 2017 to August 2026</div>
-        </div>
-        <div class="rent-trend-stat">
-          <div class="rent-trend-stat-label">2022 peak</div>
-          <div class="rent-trend-stat-value">+40.2%</div>
-          <div class="rent-trend-stat-note">August 2022 vs. 2017</div>
-        </div>
-        <div class="rent-trend-stat">
-          <div class="rent-trend-stat-label">2026</div>
-          <div class="rent-trend-stat-value">+24.3%</div>
-          <div class="rent-trend-stat-note">August 2026 vs. 2017</div>
-        </div>
+      <div class="housing-rate-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27">
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Single</strong>$4,275 → $4,600</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:95%"></div></div><div class="housing-rate-value">7.60%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:93.75%"></div></div><div class="housing-rate-value">7.50%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — studio</strong>$3,900 → $4,150</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:80.13%"></div></div><div class="housing-rate-value">6.41%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms</strong>$4,500 → $4,780</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:77.75%"></div></div><div class="housing-rate-value">6.22%</div></div>
+        <div class="housing-rate-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:75%"></div></div><div class="housing-rate-value">6.00%</div></div>
+        <div class="housing-rate-rate-row"><div class="housing-rate-label"><strong>E.S. King — 1-bedroom undergraduate double</strong>$4,125 → $4,350</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:68.13%"></div></div><div class="housing-rate-value">5.45%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 1 bedroom</strong>$4,375 → $4,600</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:64.38%"></div></div><div class="housing-rate-value">5.14%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Double</strong>$3,800 → $3,970</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:55.88%"></div></div><div class="housing-rate-value">4.47%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:37%"></div></div><div class="housing-rate-value">2.96%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="housing-rate-track"><div class="housing-rate-bar" style="width:23.75%"></div></div><div class="housing-rate-value">1.90%</div></div>
       </div>
 
+      <div class="housing-rate-change-foot">Calculation: (2026–27 projected room rate − 2025–26 room rate) ÷ 2025–26 room rate × 100. Largest listed increase: standard Single, 7.60%. Smallest: Coastal Quarters double, 1.90%.</div>
     </div>
   </section>
 
