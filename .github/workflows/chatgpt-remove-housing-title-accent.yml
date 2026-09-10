@@ -1,0 +1,39 @@
+name: Remove housing title accent bars
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/chatgpt-remove-housing-title-accent.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove blue left accents from housing section titles
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '''  background:var(--soft);\n  border-left:3px solid var(--campus);\n}'''
+          new = '''  background:var(--soft);\n}'''
+          if old not in s:
+              raise SystemExit('Housing section accent CSS not found')
+          s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit update and remove one-time workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/chatgpt-remove-housing-title-accent.yml
+          git add index.html .github/workflows/chatgpt-remove-housing-title-accent.yml
+          git commit -m "Remove blue housing section title accents"
+          git push
