@@ -306,6 +306,129 @@ h2 {
 }
 
 
+
+.reference-search {
+  position:sticky;
+  top:12px;
+  z-index:20;
+  margin-top:20px;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:rgba(255,255,255,.96);
+  box-shadow:0 8px 24px rgba(31,27,22,.08);
+  backdrop-filter:blur(10px);
+}
+.reference-search-row {
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+.reference-search-box {
+  position:relative;
+  flex:1;
+  min-width:0;
+}
+.reference-search-icon {
+  position:absolute;
+  left:12px;
+  top:50%;
+  width:16px;
+  height:16px;
+  transform:translateY(-50%);
+  color:var(--muted);
+  pointer-events:none;
+}
+.reference-search-input {
+  width:100%;
+  height:42px;
+  padding:0 42px 0 38px;
+  border:1px solid #cfc9bf;
+  border-radius:7px;
+  outline:none;
+  background:#fff;
+  color:var(--ink);
+  font:600 13px/1 Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  transition:border-color .16s ease, box-shadow .16s ease;
+}
+.reference-search-input::placeholder {
+  color:#8a847a;
+  font-weight:500;
+}
+.reference-search-input:focus {
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(139,31,45,.10);
+}
+.reference-search-clear {
+  position:absolute;
+  right:7px;
+  top:50%;
+  transform:translateY(-50%);
+  width:28px;
+  height:28px;
+  border:0;
+  border-radius:5px;
+  background:transparent;
+  color:var(--muted);
+  cursor:pointer;
+  font-size:18px;
+  line-height:1;
+}
+.reference-search-clear:hover,
+.reference-search-clear:focus-visible {
+  background:var(--soft);
+  color:var(--ink);
+}
+.reference-search-clear[hidden] {
+  display:none;
+}
+.reference-search-count {
+  flex:0 0 auto;
+  min-width:82px;
+  color:var(--muted);
+  font-size:10.5px;
+  font-weight:750;
+  text-align:right;
+  white-space:nowrap;
+}
+.reference-search-help {
+  margin:7px 2px 0;
+  color:var(--muted);
+  font-size:9.5px;
+  line-height:1.35;
+}
+.reference-search-help kbd {
+  display:inline-block;
+  min-width:18px;
+  padding:1px 5px;
+  border:1px solid #d8d2c8;
+  border-bottom-width:2px;
+  border-radius:4px;
+  background:#fff;
+  color:#59544c;
+  font:700 9px/1.35 Inter,system-ui,sans-serif;
+  text-align:center;
+}
+.reference-no-results {
+  display:none;
+  padding:26px 18px;
+  border:1px dashed #cfc9bf;
+  background:var(--soft2);
+  color:var(--muted);
+  text-align:center;
+  font-size:12px;
+  line-height:1.5;
+}
+.reference-no-results strong {
+  display:block;
+  margin-bottom:4px;
+  color:var(--ink);
+  font:700 17px/1.2 Georgia,"Times New Roman",serif;
+}
+.ref[hidden] {
+  display:none !important;
+}
+
 @media(max-width:700px) {
   main { padding:20px 12px 36px; }
   .ref-head { flex-direction:column; }
@@ -314,6 +437,12 @@ h2 {
   .meta-label { margin-top:8px; }
   .facts { grid-template-columns:1fr; }
   .evidence-pair { grid-template-columns:1fr; }
+
+  .reference-search { top:6px; margin-top:16px; padding:8px; }
+  .reference-search-row { gap:7px; }
+  .reference-search-input { height:40px; font-size:12px; }
+  .reference-search-count { min-width:auto; font-size:9.5px; }
+  .reference-search-help { display:none; }
 }
 </style>
 </head>
@@ -325,7 +454,25 @@ h2 {
     Working source log for data, quotes, methodology and supporting evidence used in the NC State rent article. Add new references here as reporting continues.
   </div>
 
+  <section class="reference-search" id="reference-search" role="search" aria-label="Search reporting references">
+    <div class="reference-search-row">
+      <div class="reference-search-box">
+        <svg class="reference-search-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.35-4.35m2.35-5.65a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input class="reference-search-input" id="reference-search-input" type="search" autocomplete="off" spellcheck="false" placeholder="Search references, sources, topics, or keywords…" aria-describedby="reference-search-help reference-search-count">
+        <button class="reference-search-clear" id="reference-search-clear" type="button" aria-label="Clear search" title="Clear search" hidden>×</button>
+      </div>
+      <div class="reference-search-count" id="reference-search-count" aria-live="polite"></div>
+    </div>
+    <div class="reference-search-help" id="reference-search-help">Searches titles, organizations, tags, notes, facts, and citations. Press <kbd>/</kbd> to search or <kbd>Esc</kbd> to clear.</div>
+  </section>
+
   <div class="refs">
+
+    <div class="reference-no-results" id="reference-no-results">
+      <strong>No references found</strong>
+      Try a broader keyword or clear the search.
+    </div>
+
 
     <article class="ref">
       <div class="ref-head">
@@ -1519,5 +1666,73 @@ h2 {
 
   </div>
 </main>
+
+<script>
+(() => {
+  const input = document.getElementById('reference-search-input');
+  const clear = document.getElementById('reference-search-clear');
+  const count = document.getElementById('reference-search-count');
+  const empty = document.getElementById('reference-no-results');
+  const refs = [...document.querySelectorAll('.refs > .ref')];
+
+  const normalize = value => value
+    .toLocaleLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[–—−]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  const index = refs.map(ref => ({
+    ref,
+    text: normalize(ref.textContent)
+  }));
+
+  const render = () => {
+    const query = normalize(input.value);
+    const terms = query.split(' ').filter(Boolean);
+    let visible = 0;
+
+    index.forEach(({ ref, text }) => {
+      const matches = !terms.length || terms.every(term => text.includes(term));
+      ref.hidden = !matches;
+      if (matches) visible += 1;
+    });
+
+    clear.hidden = !query;
+    empty.style.display = visible ? 'none' : 'block';
+    count.textContent = query
+      ? `${visible} of ${refs.length}`
+      : `${refs.length} references`;
+  };
+
+  input.addEventListener('input', render);
+  clear.addEventListener('click', () => {
+    input.value = '';
+    render();
+    input.focus();
+  });
+
+  document.addEventListener('keydown', event => {
+    const active = document.activeElement;
+    const typing = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable);
+
+    if (event.key === '/' && !typing) {
+      event.preventDefault();
+      input.focus();
+      input.select();
+    }
+
+    if (event.key === 'Escape' && input.value) {
+      input.value = '';
+      render();
+      input.focus();
+    }
+  });
+
+  render();
+})();
+</script>
+
 </body>
 </html>
