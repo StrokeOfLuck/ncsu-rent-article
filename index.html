@@ -3295,11 +3295,11 @@ th:first-child, td:first-child {
   </div>
 
   <section class="block">
-    <div class="section-label">Mean advertised rent by radius</div>
+    <div class="section-label">Mean advertised rent by distance band</div>
     <table>
       <thead>
         <tr>
-          <th>Radius</th>
+          <th>Distance band</th>
           <th>Properties</th>
           <th>Per bedroom</th>
           <th>Whole unit</th>
@@ -3307,6 +3307,7 @@ th:first-child, td:first-child {
       </thead>
       <tbody id="summary"></tbody>
     </table>
+    <div class="row-hint">Distance bands do not overlap: 0–1 mile, more than 1–3 miles, and more than 3–5 miles. Each listing appears in one band per campus.</div>
   </section>
 
   
@@ -3840,6 +3841,30 @@ function overallAllCampusesSummary() {
   };
 }
 
+function getDistanceBandAudit(campusKey, innerRadius, outerRadius) {
+  const c = campuses[campusKey];
+  const band = rentals
+    .map(p=>({...p, calculated_distance_miles:hav(c.lat,c.lon,p.lat,p.lon)}))
+    .filter(p=>{
+      const d = p.calculated_distance_miles;
+      const aboveInner = innerRadius === 0 ? d >= 0 : d > innerRadius;
+      return aboveInner && d <= outerRadius;
+    })
+    .sort((a,b)=>a.calculated_distance_miles-b.calculated_distance_miles);
+
+  const per = band.filter(p=>p.pricing_type==="Per bedroom");
+  const whole = band.filter(p=>p.pricing_type==="Whole unit");
+
+  return {
+    campus:c,
+    innerRadius,
+    outerRadius,
+    near:band,
+    perStats:averageStats(per),
+    wholeStats:averageStats(whole)
+  };
+}
+
 function getRadiusAudit(campusKey, radius) {
   const c = campuses[campusKey];
   const near = rentals
@@ -4284,15 +4309,20 @@ function renderSummaryTable() {
   const body = document.getElementById("summary");
   body.innerHTML = "";
 
-  for(const r of radii) {
-    const audit = getRadiusAudit(currentCampusKey, r);
+  const bands = [
+    {inner:0, outer:1, label:"0–1 mi"},
+    {inner:1, outer:3, label:">1–3 mi"},
+    {inner:3, outer:5, label:">3–5 mi"}
+  ];
+
+  for(const bandDef of bands) {
+    const band = getDistanceBandAudit(currentCampusKey, bandDef.inner, bandDef.outer);
     const tr = document.createElement("tr");
-    tr.dataset.radius = r;
     tr.innerHTML = `
-      <td>≤ ${r} mi</td>
-      <td>${audit.near.length}</td>
-      <td>${audit.perStats.display}</td>
-      <td>${audit.wholeStats.display}</td>
+      <td>${bandDef.label}</td>
+      <td>${band.near.length}</td>
+      <td>${band.perStats.display}</td>
+      <td>${band.wholeStats.display}</td>
     `;
     body.appendChild(tr);
   }

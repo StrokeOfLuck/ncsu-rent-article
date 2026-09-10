@@ -18,7 +18,7 @@ This is a source checkpoint for the article and interactive map as of September 
 - separate per-bedroom and whole-unit advertised rent summaries
 - official NC State campus perimeter and building-footprint overlays
 - hover details and links back to the original NC State off-campus listing
-- an XLSX audit download for each radius with three tabs: Full Audit, Per Bedroom and Whole Unit
+- an XLSX audit download for each cumulative radius with clearly labeled overlapping cumulative sheets plus a non-overlapping Distance Band tab containing row-level distances and calculation checks
 
 The basemap currently uses OpenFreeMap's Positron MapLibre style for development. A later production version may use a self-hosted Raleigh-area PMTiles basemap.
 
