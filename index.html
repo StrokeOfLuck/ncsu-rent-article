@@ -2880,6 +2880,7 @@ th:first-child, td:first-child {
           <div class="wage-cell">
             <b>$15/hr</b>
             <span>Top of NC State FWS range</span>
+            <span>Higher wages require a case-by-case exception.</span>
           </div>
           <div>$<span id="cardWeeklyHigh">300</span></div>
           <div>$<span id="cardMonthlyHigh">1,300</span></div>
@@ -2899,11 +2900,11 @@ th:first-child, td:first-child {
             <span>1–20 hrs/week</span>
           </div>
           <div class="zone regular-zone">
-            <b>Beyond the work-study limit</b>
+            <b>Above work-study guideline</b>
             <span>21–40 hrs/week</span>
           </div>
         </div>
-        <div id="status" class="status active info-status">Up to 20 hours/week fits within NC State’s Federal Work-Study limit.</div>
+        <div id="status" class="status active info-status">Within NC State’s general Federal Work-Study guideline.</div>
       </div>
     </div>
 
@@ -2971,7 +2972,7 @@ th:first-child, td:first-child {
       <div class="burden-card">
         <div class="burden-card-head">
           <div class="card-kicker" id="burdenKickerLow"><span>Monthly income</span><span class="kicker-rate">$7.25/hour</span></div>
-          <span class="burden-hours-warning"><span>Hours above 20 are beyond NC State's</span><span>Federal Work-Study limit.</span></span>
+          <span class="burden-hours-warning"><span>Above NC State’s general</span><span>Federal Work-Study guideline.</span></span>
           <div class="burden-hours-readout"><span id="hoursLowVal">20</span> hrs</div>
         </div>
         <div class="burden-income-line">
@@ -3020,7 +3021,7 @@ th:first-child, td:first-child {
       <div class="burden-card">
         <div class="burden-card-head">
           <div class="card-kicker" id="burdenKickerHigh"><span>Monthly income</span><span class="kicker-rate">$15/hour</span></div>
-          <span class="burden-hours-warning"><span>Hours above 20 are beyond NC State's</span><span>Federal Work-Study limit.</span></span>
+          <span class="burden-hours-warning"><span>Above NC State’s general</span><span>Federal Work-Study guideline.</span></span>
           <div class="burden-hours-readout"><span id="hoursHighVal">20</span> hrs</div>
         </div>
         <div class="burden-income-line">
@@ -3712,10 +3713,10 @@ function updateWorkStudy() {
 
   if (h <= 20) {
     status.className = "status info-status";
-    status.textContent = "Up to 20 hours/week fits within NC State’s Federal Work-Study limit.";
+    status.textContent = "Within NC State’s general Federal Work-Study guideline.";
   } else {
     status.className = "status warn-status";
-    status.textContent = "Hours above 20 are beyond NC State’s Federal Work-Study limit.";
+    status.textContent = "Above NC State’s general Federal Work-Study guideline.";
   }
 
   updateAffordability();
