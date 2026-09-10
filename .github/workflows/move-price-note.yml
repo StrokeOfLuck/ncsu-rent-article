@@ -1,0 +1,42 @@
+name: Move price note into map legend
+on:
+  push:
+    paths:
+      - .github/workflows/move-price-note.yml
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move price note
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          price_line = '      <div class="info-note price-snapshot-note"><strong>Prices reflect listings collected Sept. 9, 2026. Live listings may have changed.</strong></div>\n'
+          click_line = '      <div class="info-note">Click a rental to open the original NC State listing.</div>\n'
+
+          if price_line not in s:
+              raise SystemExit('Price snapshot note not found')
+          if click_line not in s:
+              raise SystemExit('Map click note not found')
+
+          s = s.replace(price_line, '', 1)
+          s = s.replace(click_line, click_line + price_line, 1)
+          p.write_text(s, encoding='utf-8')
+          PY
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/move-price-note.yml
+          git add index.html .github/workflows/move-price-note.yml
+          git commit -m "Place price snapshot note under map click hint [skip ci]"
+          git push
