@@ -1,0 +1,255 @@
+name: Update housing comparison and reference math
+
+on:
+  push:
+    paths:
+      - '.github/workflows/update-housing-comparison.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update article and references
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          # ---------- Main article visual ----------
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          css_anchor = '''.rent-benchmark-value span{
+            display:block;
+            margin-top:3px;
+            color:var(--muted);
+            font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+            font-size:7.5px;
+            line-height:1;
+            text-transform:uppercase;
+            letter-spacing:.06em;
+            font-weight:750;
+          }'''
+
+          monthly_css = '''
+
+          .housing-monthly{
+            margin-top:11px;
+            padding-top:10px;
+            border-top:1px solid #e8e4dd;
+          }
+
+          .housing-monthly-title{
+            font-size:10px;
+            font-weight:820;
+            line-height:1.25;
+          }
+
+          .housing-monthly-title a{
+            color:var(--blue);
+            text-decoration:none;
+          }
+
+          .housing-monthly-title a:hover{
+            text-decoration:underline;
+          }
+
+          .housing-monthly-note{
+            margin-top:3px;
+            color:var(--muted);
+            font-size:8.5px;
+            line-height:1.35;
+          }
+
+          .housing-monthly .rent-benchmark-row{
+            margin-top:8px;
+            padding-top:0;
+            border-top:0;
+          }
+
+          .housing-monthly-foot{
+            margin-top:8px;
+            padding-top:8px;
+            border-top:1px solid #e8e4dd;
+            color:var(--muted);
+            font-size:8px;
+            line-height:1.4;
+          }'''
+
+          if '.housing-monthly{' not in s:
+              if css_anchor not in s:
+                  raise SystemExit('Could not find rent benchmark CSS anchor')
+              s = s.replace(css_anchor, css_anchor + monthly_css, 1)
+
+          old_budget = '''        <div class="rent-benchmark-row">
+          <div class="rent-benchmark">
+            <div>
+              <div class="rent-benchmark-label">NC State on-campus housing budget</div>
+              <div class="rent-benchmark-note">Official 2025–26 cost-of-attendance estimate for full-time fall + spring enrollment</div>
+            </div>
+            <div class="rent-benchmark-value">$8,335<span>academic year</span></div>
+          </div>
+          <div class="rent-benchmark">
+            <div>
+              <div class="rent-benchmark-label">NC State off-campus housing budget</div>
+              <div class="rent-benchmark-note">Official 2025–26 cost-of-attendance estimate for full-time fall + spring enrollment</div>
+            </div>
+            <div class="rent-benchmark-value">$9,522<span>academic year</span></div>
+          </div>
+        </div>'''
+
+          new_budget = '''        <div class="rent-benchmark-row">
+          <div class="rent-benchmark">
+            <div>
+              <div class="rent-benchmark-label">NC State on-campus housing budget</div>
+              <div class="rent-benchmark-note">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment</div>
+            </div>
+            <div class="rent-benchmark-value">$8,738<span>academic year</span></div>
+          </div>
+          <div class="rent-benchmark">
+            <div>
+              <div class="rent-benchmark-label">NC State off-campus housing budget</div>
+              <div class="rent-benchmark-note">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment</div>
+            </div>
+            <div class="rent-benchmark-value">$9,808<span>academic year</span></div>
+          </div>
+        </div>
+
+        <div class="housing-monthly">
+          <div class="housing-monthly-title">Monthly equivalent using <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a></div>
+          <div class="housing-monthly-note">Projected 2026–27 residence hall rates converted from semester charges to 9-month academic-year monthly equivalents.</div>
+
+          <div class="rent-benchmark-row">
+            <div class="rent-benchmark">
+              <div>
+                <div class="rent-benchmark-label">Residence hall double</div>
+                <div class="rent-benchmark-note">$3,970/semester + $150 required ResNet fee</div>
+              </div>
+              <div class="rent-benchmark-value">≈ $916/month<span>per student</span></div>
+            </div>
+            <div class="rent-benchmark">
+              <div>
+                <div class="rent-benchmark-label">Residence hall single</div>
+                <div class="rent-benchmark-note">$4,600/semester + $150 required ResNet fee</div>
+              </div>
+              <div class="rent-benchmark-value">≈ $1,056/month<span>per student</span></div>
+            </div>
+          </div>
+
+          <div class="housing-monthly-foot">Dorm rates are semester charges converted to monthly equivalents for comparison. The off-campus per-bedroom figure is advertised rent; the residence-hall figure is per student. See the references page for the step-by-step calculation.</div>
+        </div>'''
+
+          if 'class="housing-monthly"' not in s:
+              if old_budget not in s:
+                  raise SystemExit('Could not find existing housing budget block')
+              s = s.replace(old_budget, new_budget, 1)
+          else:
+              # If the new section already exists, still ensure the current COA figures are current.
+              s = s.replace('Official 2025–26 cost-of-attendance estimate for full-time fall + spring enrollment', 'Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment')
+              s = s.replace('$8,335<span>academic year</span>', '$8,738<span>academic year</span>')
+              s = s.replace('$9,522<span>academic year</span>', '$9,808<span>academic year</span>')
+
+          p.write_text(s, encoding='utf-8')
+
+          # ---------- References page ----------
+          p = Path('references.html')
+          r = p.read_text(encoding='utf-8')
+
+          # Reference 06: keep prior-year evidence but make the reporting benchmark current.
+          ref06_start = r.find('<div class="ref-no">Reference 06</div>')
+          ref07_start = r.find('<article class="ref" id="hud-30-percent">', ref06_start)
+          if ref06_start == -1 or ref07_start == -1:
+              raise SystemExit('Could not isolate Reference 06')
+
+          seg = r[ref06_start:ref07_start]
+          seg = seg.replace('Living On Campus and Living Off Campus — Academic Year 2025–26', 'Living On Campus and Living Off Campus — Academic Years 2025–26 and 2026–27')
+          seg = seg.replace('North Carolina State University, Student Services Center. “Undergraduate Student Estimated Cost of Attendance.” Academic Year 2025–26. Accessed Sept. 9, 2026.', 'North Carolina State University, Student Services Center. “Undergraduate Student Estimated Cost of Attendance.” Academic Years 2025–26 and 2026–27. Accessed Sept. 10, 2026.')
+          seg = seg.replace('<div class="fact-value"><strong>$8,335</strong> for the 2025–26 academic year.</div>', '<div class="fact-value"><strong>$8,738</strong> for the 2026–27 academic year. The prior 2025–26 estimate was <strong>$8,335</strong>.</div>')
+          seg = seg.replace('<div class="fact-value"><strong>$9,522</strong> for the 2025–26 academic year.</div>', '<div class="fact-value"><strong>$9,808</strong> for the 2026–27 academic year. The prior 2025–26 estimate was <strong>$9,522</strong>.</div>')
+          seg = seg.replace('The 2025–26 housing estimate is the <strong>same for North Carolina residents and out-of-state residents</strong> in both the on-campus and off-campus tables.', 'The housing estimate is the <strong>same for North Carolina residents and out-of-state residents</strong> in both the on-campus and off-campus tables for 2025–26 and 2026–27.')
+          seg = seg.replace('<strong>Article use:</strong> University benchmark for comparing advertised rent near NC State with the housing amount built into the school\'s estimated cost of attendance. These are estimates, not a claim that every student pays exactly this amount.', '<strong>Article use:</strong> University benchmark for comparing advertised rent near NC State with the housing amount built into the school\'s estimated cost of attendance. The current article visual uses the <strong>2026–27</strong> housing estimates: <strong>$8,738 on campus</strong> and <strong>$9,808 off campus</strong>. These are estimates, not a claim that every student pays exactly this amount.')
+
+          evidence_heading = '        <h2>Saved evidence</h2>'
+          if 'The screenshots below preserve the 2025–26 tables' not in seg and evidence_heading in seg:
+              seg = seg.replace(evidence_heading, evidence_heading + '''
+        <div class="use-note">
+          <strong>Evidence note:</strong> The current article visual uses the newer 2026–27 figures above. The screenshots below preserve the 2025–26 tables from the same official page and remain useful for showing the prior-year benchmark.
+        </div>''', 1)
+
+          r = r[:ref06_start] + seg + r[ref07_start:]
+
+          # Reference 15: add transparent, step-by-step monthly-equivalent math.
+          ref15_start = r.find('<article class="ref" id="ncsu-housing-rates-2026-27">')
+          if ref15_start == -1:
+              raise SystemExit('Could not find Reference 15')
+          ref15_end = r.find('\n  </div>\n</main>', ref15_start)
+          if ref15_end == -1:
+              raise SystemExit('Could not find end of Reference 15')
+
+          seg15 = r[ref15_start:ref15_end]
+          seg15 = seg15.replace('<strong>Article use:</strong> Official on-campus housing benchmark for comparison with rents advertised near NC State. The page says the listed housing rates are charged <strong>by semester</strong>; 2026–27 amounts shown are <strong>projected</strong>.', '<strong>Article use:</strong> Official on-campus housing benchmark for comparison with rents advertised near NC State. University Housing says residence-hall rates are <strong>per person</strong> and billed <strong>per semester</strong>; 2026–27 amounts shown are <strong>projected</strong>.')
+
+          math_block = '''
+
+    <hr class="rule">
+
+    <h2>Step-by-step monthly equivalent math</h2>
+    <div class="use-note">
+      <strong>Method note:</strong> NC State does not quote these residence-hall prices as monthly rent. For the article comparison, fall + spring charges are converted to a <strong>9-month academic-year monthly equivalent</strong>. This is a reporting calculation only, and the final figure is shown <strong>per student</strong>.
+    </div>
+
+    <div class="facts">
+      <div class="fact">
+        <div class="fact-label">Residence hall double</div>
+        <div class="fact-value">
+          <strong>1.</strong> Projected room rate: $3,970 per semester<br>
+          <strong>2.</strong> Add required ResNet fee: $3,970 + $150 = <strong>$4,120 per semester</strong><br>
+          <strong>3.</strong> Fall + spring: $4,120 × 2 = <strong>$8,240</strong><br>
+          <strong>4.</strong> 9-month equivalent: $8,240 ÷ 9 = <strong>$915.56/month</strong><br>
+          <strong>5.</strong> Rounded article value: <strong>≈ $916/month per student</strong>
+        </div>
+      </div>
+
+      <div class="fact">
+        <div class="fact-label">Residence hall single</div>
+        <div class="fact-value">
+          <strong>1.</strong> Projected room rate: $4,600 per semester<br>
+          <strong>2.</strong> Add required ResNet fee: $4,600 + $150 = <strong>$4,750 per semester</strong><br>
+          <strong>3.</strong> Fall + spring: $4,750 × 2 = <strong>$9,500</strong><br>
+          <strong>4.</strong> 9-month equivalent: $9,500 ÷ 9 = <strong>$1,055.56/month</strong><br>
+          <strong>5.</strong> Rounded article value: <strong>≈ $1,056/month per student</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="use-note">
+      <strong>Comparison caution:</strong> The off-campus <strong>per-bedroom</strong> figure in the rental analysis is an advertised monthly price from the scraped listing dataset. A residence-hall double is a <strong>shared bedroom charged per student</strong>, so the two figures are useful as a cost comparison but are not identical housing products.
+    </div>'''
+
+          saved_anchor = '''
+
+    <hr class="rule">
+
+    <h2>Saved evidence</h2>'''
+          if 'Step-by-step monthly equivalent math' not in seg15:
+              if saved_anchor not in seg15:
+                  raise SystemExit('Could not find Reference 15 saved-evidence anchor')
+              seg15 = seg15.replace(saved_anchor, math_block + saved_anchor, 1)
+
+          r = r[:ref15_start] + seg15 + r[ref15_end:]
+          p.write_text(r, encoding='utf-8')
+
+          # Self-delete this one-shot workflow.
+          Path('.github/workflows/update-housing-comparison.yml').unlink(missing_ok=True)
+          PY
+
+      - name: Commit updates
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html references.html .github/workflows/update-housing-comparison.yml
+          git commit -m 'Update 2026-27 housing benchmarks and comparison math [skip ci]' || exit 0
+          git push
