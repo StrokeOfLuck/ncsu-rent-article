@@ -10,20 +10,23 @@ axis_new = '<div class="housing-rate-axis" aria-hidden="true">\n          <div c
 if axis in s:
     s = s.replace(axis, axis_new, 1)
 
-# Put the housing rows in the same sequence as NC State's source table.
+# Put the housing rows in the same sequence and wording as NC State's source table.
 chart_start = s.find('<div class="housing-rate-chart"')
 context_start = s.find('<div class="housing-rate-context">', chart_start)
 if chart_start == -1 or context_start == -1:
     raise SystemExit("Could not find housing-rate chart block")
 
 chart = s[chart_start:context_start]
+chart = chart.replace('<strong>Double</strong>', '<strong>Doubles</strong>', 1)
+chart = chart.replace('<strong>Single</strong>', '<strong>Singles</strong>', 1)
+
 rows = re.findall(r'\n\s*(<div class="housing-rate-row">.*?</div></div>)', chart)
 if len(rows) != 10:
     raise SystemExit(f"Expected 10 housing rows, found {len(rows)}")
 
 order = [
-    'Double',
-    'Single',
+    'Doubles',
+    'Singles',
     'Wolf Village/Wolf Ridge — 1 bedroom/studio',
     'Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms',
     'E.S. King — 1-bedroom undergraduate double',
