@@ -1,49 +1,75 @@
 from pathlib import Path
+import re
 
 p = Path("index.html")
 s = p.read_text(encoding="utf-8")
 
-compact_marker = "/* Compact BLS benchmark axis */"
-if compact_marker not in s:
+# Add the same left-column heading NC State uses.
+axis = '<div class="housing-rate-axis" aria-hidden="true">\n          <div></div>'
+axis_new = '<div class="housing-rate-axis" aria-hidden="true">\n          <div class="housing-rate-type-heading">Housing Type/Location</div>'
+if axis in s:
+    s = s.replace(axis, axis_new, 1)
+
+# Put the housing rows in the same sequence as NC State's source table.
+chart_start = s.find('<div class="housing-rate-chart"')
+context_start = s.find('<div class="housing-rate-context">', chart_start)
+if chart_start == -1 or context_start == -1:
+    raise SystemExit("Could not find housing-rate chart block")
+
+chart = s[chart_start:context_start]
+rows = re.findall(r'\n\s*(<div class="housing-rate-row">.*?</div></div>)', chart)
+if len(rows) != 10:
+    raise SystemExit(f"Expected 10 housing rows, found {len(rows)}")
+
+order = [
+    'Double',
+    'Single',
+    'Wolf Village/Wolf Ridge — 1 bedroom/studio',
+    'Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms',
+    'E.S. King — 1-bedroom undergraduate double',
+    'E.S. King/Western Manor — studio',
+    'E.S. King/Western Manor — 1 bedroom',
+    'E.S. King/Western Manor — 2 bedroom',
+    'Coastal Quarters — single',
+    'Coastal Quarters — double',
+]
+
+by_label = {}
+for row in rows:
+    m = re.search(r'<strong>(.*?)</strong>', row)
+    if not m:
+        raise SystemExit("A housing row is missing its label")
+    by_label[m.group(1)] = row
+
+missing = [label for label in order if label not in by_label]
+if missing:
+    raise SystemExit(f"Missing housing rows: {missing}")
+
+first_row_pos = min(chart.find(row) for row in rows)
+last_row_end = max(chart.find(row) + len(row) for row in rows)
+ordered_rows = '\n        ' + '\n        '.join(by_label[label] for label in order) + '\n      '
+chart = chart[:first_row_pos] + ordered_rows + chart[last_row_end:]
+s = s[:chart_start] + chart + s[context_start:]
+
+marker = "/* Housing rate source-order heading */"
+if marker not in s:
     css = r'''
 
-/* Compact BLS benchmark axis */
-.housing-rate-chart{
-  padding-top:4px;
+/* Housing rate source-order heading */
+.housing-rate-type-heading{
+  color:var(--muted);
+  font-size:8.5px;
+  font-weight:800;
+  white-space:nowrap;
+  align-self:end;
+  padding-bottom:1px;
 }
-.housing-rate-axis{
-  margin-bottom:7px;
+@media(max-width:700px){
+  .housing-rate-type-heading{
+    display:none;
+  }
 }
-.housing-rate-axis-plot{
-  height:8px;
-}
-.housing-rate-active-label::after{
-  top:calc(100% + 1px);
-  height:20px;
-}
-/* End compact BLS benchmark axis */
-'''
-    if '</style>' not in s:
-        raise SystemExit("Could not find closing style tag")
-    s = s.replace('</style>', css + '\n</style>', 1)
-
-line_marker = "/* Keep BLS benchmark line below label */"
-if line_marker not in s:
-    css = r'''
-
-/* Keep BLS benchmark line below label */
-.housing-rate-active-label{
-  background:var(--paper);
-  padding:0 3px;
-}
-.housing-rate-active-label::after{
-  top:calc(100% + 3px) !important;
-  height:12px !important;
-}
-.housing-rate-axis + .housing-rate-row .housing-rate-benchmark-line{
-  top:0 !important;
-}
-/* End keep BLS benchmark line below label */
+/* End housing rate source-order heading */
 '''
     if '</style>' not in s:
         raise SystemExit("Could not find closing style tag")
