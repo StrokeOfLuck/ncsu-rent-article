@@ -1,4 +1,4 @@
-name: Keep housing benchmark line below label
+name: Match NC State housing row order
 on:
   push:
     paths:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Keep benchmark line below label
+      - name: Match NC State housing table order
         run: python .github/align-benchmark-label.py
       - name: Commit change
         shell: bash
@@ -21,6 +21,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Keep housing benchmark line below label"
+            git commit -m "Match NC State housing table order"
             git push
           fi
