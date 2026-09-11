@@ -59,4 +59,14 @@ s = s.replace(mobile, '\n')
 # Keep the axis benchmark strong but do not let it extend so far that it distorts spacing.
 s = s.replace('''  top:13px;\n  height:35px;\n  border-left:2px solid #6fb4f2;''', '''  top:13px;\n  height:27px;\n  border-left:2px solid #6fb4f2;''')
 
+# The percentage labels already define the scale, so the extra horizontal axis baseline only adds visual clutter.
+s = s.replace(''' .housing-rate-axis-plot{'''.lstrip() + '''
+  position:relative;
+  height:32px;
+  border-bottom:1px solid var(--line);
+}''', '''.housing-rate-axis-plot{
+  position:relative;
+  height:32px;
+}''')
+
 p.write_text(s, encoding="utf-8")
