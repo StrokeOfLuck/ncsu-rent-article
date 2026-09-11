@@ -3832,15 +3832,17 @@ th:first-child, td:first-child {
 
   .housing-rate-active-label::after{
     top:calc(100% + 3px) !important;
-    height:22px !important;
+    height:28px !important;
     border-left:2px solid #6fb4f2 !important;
     border-left-style:solid !important;
   }
 
-  /* Keep the mobile benchmark line solid and visually continuous. */
-  .housing-rate-plot .housing-rate-benchmark-line{
-    top:-10px !important;
-    bottom:-10px !important;
+  /* Each row owns a piece of the reference line. Extend the pieces far enough
+     to overlap through wrapped mobile labels and row gaps so it renders as one
+     continuous solid line rather than a dashed-looking stack of segments. */
+  .housing-rate-chart > .housing-rate-row .housing-rate-benchmark-line{
+    top:-36px !important;
+    bottom:-36px !important;
     height:auto !important;
     border-left:2px solid #6fb4f2 !important;
     border-left-style:solid !important;
@@ -3848,7 +3850,11 @@ th:first-child, td:first-child {
   }
 
   .housing-rate-axis + .housing-rate-row .housing-rate-benchmark-line{
-    top:-10px !important;
+    top:-16px !important;
+  }
+
+  .housing-rate-chart > .housing-rate-row:last-of-type .housing-rate-benchmark-line{
+    bottom:0 !important;
   }
 
   /* Return the benchmark cards to a simple vertical stack on phones. */
@@ -4052,7 +4058,7 @@ th:first-child, td:first-child {
     <div class="housing-rate-change-card">
       <div class="housing-rate-change-head">
         <div>
-          <div class="housing-rate-change-title">Rate increase from 2025–26 to 2026–27*</div>
+          <div class="housing-rate-change-title">University Housing rate increase from 2025–26 to 2026–27*</div>
           <div class="housing-rate-change-sub">Published NC State room-rate rows only. Required ResNet and Coastal Quarters communication fees are excluded so the year-to-year change is like-for-like.</div>
         </div>
         <div class="housing-rate-change-source-wrap">
@@ -4078,6 +4084,7 @@ th:first-child, td:first-child {
         
         
         
+        
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Doubles</strong>$3,800 → $3,970</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:55.875%"></span></div><div class="housing-rate-value">4.47%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Singles</strong>$4,275 → $4,600</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:95%"></span></div><div class="housing-rate-value">7.60%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:93.75%"></span></div><div class="housing-rate-value">7.50%</div></div>
@@ -4088,6 +4095,7 @@ th:first-child, td:first-child {
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:75%"></span></div><div class="housing-rate-value">6.00%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:37%"></span></div><div class="housing-rate-value">2.96%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:23.75%"></span></div><div class="housing-rate-value">1.90%</div></div>
+      
       
       
       
