@@ -10,27 +10,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Capture matching source lines
+      - name: Scan repository for wage marker strings
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
 
-          lines = Path('index.html').read_text(encoding='utf-8').splitlines()
-          needles = ('rent-trend', 'federal', 'fifteen', 'housing wage', 'hmfa', 'threshold')
+          exts = {'.html','.htm','.js','.css','.svg','.json','.md','.txt','.yml','.yaml'}
+          needles = ('federal minimum', 'threshold markers', 'housing wage', 'raleigh hmfa', '$15 reference')
           out = []
-          for n, line in enumerate(lines, 1):
-              low = line.lower()
-              if any(x in low for x in needles):
-                  out.append(f'{n}: {line}')
+          for p in sorted(Path('.').rglob('*')):
+              if not p.is_file() or '.git' in p.parts or p.suffix.lower() not in exts:
+                  continue
+              try:
+                  lines = p.read_text(encoding='utf-8').splitlines()
+              except Exception:
+                  continue
+              for n, line in enumerate(lines, 1):
+                  low = line.lower()
+                  if any(x in low for x in needles):
+                      out.append(f'{p}:{n}: {line}')
           Path('.github/rent-trend-debug.txt').write_text('\n'.join(out), encoding='utf-8')
           PY
-      - name: Commit debug lines
+      - name: Commit scan results
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .github/rent-trend-debug.txt
-          git commit -m "Capture matching wage source lines [skip ci]"
+          git commit -m "Capture repository wage marker matches [skip ci]"
           git push
