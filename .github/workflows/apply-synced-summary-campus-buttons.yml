@@ -1,0 +1,27 @@
+name: Apply synced campus summary controls
+on:
+  push:
+    paths:
+      - scripts/patch_synced_summary_campus_buttons.py
+      - .github/workflows/apply-synced-summary-campus-buttons.yml
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch article and references
+        run: python scripts/patch_synced_summary_campus_buttons.py
+      - name: Commit changes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html references.html
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+          else
+            git commit -m "Sync campus controls with rent summary"
+            git push
+          fi
