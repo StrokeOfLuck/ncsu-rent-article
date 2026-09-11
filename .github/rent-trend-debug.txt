@@ -1,44 +1,24 @@
-1135: .threshold-line {
-1858: .rent-trend-block{
-1862: .rent-trend-compact{
-1869: .rent-trend-title,
-1870: .rent-trend-summary,
-1871: .rent-trend-wage-note{
-1875: .rent-trend-sources{
-1886: .rent-trend-sources-label{
-1895: .rent-trend-sources a{
-1902: .rent-trend-sources a:hover{
-1906: .rent-trend-title{
-1914: .rent-trend-summary{
-1921: .rent-trend-wage-note{
-1928: .rent-trend-wage-note a{
-1934: .rent-trend-wage-note a:hover{
-1938: .rent-trend-stats{
-1947: .rent-trend-stat{
-1952: .rent-trend-stat + .rent-trend-stat{
-1956: .rent-trend-stat-label{
-1964: .rent-trend-stat-value{
-1970: .rent-trend-stat-note{
-1977: .rent-trend-foot{
-1988: .rent-trend-foot a{
-1994: .rent-trend-foot a:hover{
-1999:   .rent-trend-title,
-2000:   .rent-trend-summary,
-2001:   .rent-trend-wage-note{
-2005:   .rent-trend-sources{
-2012:   .rent-trend-stats{
-2016:   .rent-trend-stat:nth-child(3){
-2021:   .rent-trend-stat:nth-child(4){
-2824:   .rent-trend-wage-note {
-3510:             <div class="housing-rate-context-label">Federal & NC minimum wage</div>
-3554:             <span>Federal & NC minimum wage</span>
-3575:           <div id="status" class="status active info-status">Within NC State’s general Federal Work-Study guideline (20 hours/week or less).</div>
-3656:           <span class="burden-hours-warning"><span>Above NC State’s general</span><span>Federal Work-Study guideline</span><span>(more than 20 hrs/week).</span></span>
-3674:               <div class="threshold-line"></div>
-3694:               <div class="threshold-line"></div>
-3705:           <span class="burden-hours-warning"><span>Above NC State’s general</span><span>Federal Work-Study guideline</span><span>(more than 20 hrs/week).</span></span>
-3723:               <div class="threshold-line"></div>
-3743:               <div class="threshold-line"></div>
-3775:           <strong>What the HUD 30% rule means:</strong> The U.S. Department of Housing and Urban Development uses 30% as a housing-cost-burden threshold. Spending <strong>30% or less</strong> of income on housing is treated as not cost burdened; spending <strong>more than 30%</strong> is cost burdened, and <strong>more than 50%</strong> is severely cost burdened. <a href="https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html" target="_blank" rel="noopener noreferrer">HUD CHAS definitions</a>
-4454:     status.textContent = "Within NC State’s general Federal Work-Study guideline (20 hours/week or less).";
-4457:     status.textContent = "Above NC State’s general Federal Work-Study guideline (more than 20 hours/week).";
+.github/nc-label-debug.txt:30: PATTERN 7\.25 @ 122643: <div class="facts">\n          <div class="fact">\n            <div class="fact-label">Federal minimum wage</div>\n            <div class="fact-value">The federal minimum wage for covered, nonexempt workers became <strong>$7.25 per hour on July 24, 2009</strong>. It therefore remained $7.25 throughout the article's 2017–2026 rent comparison period.</div>\n          </div>\n        </div>\n\n        <div class="use-note">\n          <strong>Article 
+.github/nc-label-debug.txt:31: PATTERN 7\.25 @ 122707: v class="fact-label">Federal minimum wage</div>\n            <div class="fact-value">The federal minimum wage for covered, nonexempt workers became <strong>$7.25 per hour on July 24, 2009</strong>. It therefore remained $7.25 throughout the article's 2017–2026 rent comparison period.</div>\n          </div>\n        </div>\n\n        <div class="use-note">\n          <strong>Article use:</strong> Primary federal source for the $7.25 wage baseline
+.github/nc-label-debug.txt:32: PATTERN 7\.25 @ 122913: ore remained $7.25 throughout the article's 2017–2026 rent comparison period.</div>\n          </div>\n        </div>\n\n        <div class="use-note">\n          <strong>Article use:</strong> Primary federal source for the $7.25 wage baseline and for showing that the federal minimum wage did not change during the 2017–2026 rent trend used in the article.\n        </div>\n      </div>\n    </article>\n\n\n    <article class="ref" id="ncsu-affordable-s
+.github/nc-label-debug.txt:54: PATTERN Federal @ 120997: er saying a student “fails the one-third rule.” The commonly repeated “one-third rule” is only shorthand; the federal benchmark used here is 30%.\n        </div>\n      </div>\n    </article>\n\n\n    <article class="ref" id="federal-minimum-wage">\n      <div class="ref-head">\n        <div>\n          <div class="ref-no">Reference 08</div>\n          <div class="ref-title">U.S. Department of Labor — Federal Minimum Wage History</div>\n        </div>\n  
+.github/nc-label-debug.txt:55: PATTERN Federal @ 121172:    </article>\n\n\n    <article class="ref" id="federal-minimum-wage">\n      <div class="ref-head">\n        <div>\n          <div class="ref-no">Reference 08</div>\n          <div class="ref-title">U.S. Department of Labor — Federal Minimum Wage History</div>\n        </div>\n        <div class="tags">\n          <span class="tag">Federal source</span>\n          <span class="tag">Minimum wage</span>\n          <span class="tag">Wages</span>\n          <
+.github/nc-label-debug.txt:56: PATTERN Federal @ 121277: <div>\n          <div class="ref-no">Reference 08</div>\n          <div class="ref-title">U.S. Department of Labor — Federal Minimum Wage History</div>\n        </div>\n        <div class="tags">\n          <span class="tag">Federal source</span>\n          <span class="tag">Minimum wage</span>\n          <span class="tag">Wages</span>\n          <span class="tag">Historical benchmark</span>\n        </div>\n      </div>\n\n      <div class="ref-body">\n  
+.github/nc-label-debug.txt:57: PATTERN Federal @ 121773: s="meta-label">Organization</div>\n          <div class="meta-value">U.S. Department of Labor, Wage and Hour Division</div>\n\n          <div class="meta-label">Page title</div>\n          <div class="meta-value">History of Federal Minimum Wage Rates Under the Fair Labor Standards Act, 1938–2009</div>\n\n          <div class="meta-label">URL</div>\n          <div class="meta-value"><a href="https://www.dol.gov/agencies/whd/minimum-wage/history/chart"
+.github/nc-label-debug.txt:58: PATTERN Federal @ 122305: ory table</a></div>\n\n          <div class="meta-label">Accessed</div>\n          <div class="meta-value">Sept. 9, 2026</div>\n\n          <div class="meta-label">Source type</div>\n          <div class="meta-value">Official federal wage history</div>\n        </div>\n\n        <hr class="rule">\n\n        <h2>Key fact for reporting</h2>\n        <div class="facts">\n          <div class="fact">\n            <div class="fact-label">Federal minimum wage</di
+.github/nc-label-debug.txt:59: PATTERN Federal @ 122508: -value">Official federal wage history</div>\n        </div>\n\n        <hr class="rule">\n\n        <h2>Key fact for reporting</h2>\n        <div class="facts">\n          <div class="fact">\n            <div class="fact-label">Federal minimum wage</div>\n            <div class="fact-value">The federal minimum wage for covered, nonexempt workers became <strong>$7.25 per hour on July 24, 2009</strong>. It therefore remained $7.25 throughout the article'
+.github/nc-label-debug.txt:60: PATTERN Federal @ 122575:  <hr class="rule">\n\n        <h2>Key fact for reporting</h2>\n        <div class="facts">\n          <div class="fact">\n            <div class="fact-label">Federal minimum wage</div>\n            <div class="fact-value">The federal minimum wage for covered, nonexempt workers became <strong>$7.25 per hour on July 24, 2009</strong>. It therefore remained $7.25 throughout the article's 2017–2026 rent comparison period.</div>\n          </div>\n        
+.github/nc-label-debug.txt:61: PATTERN Federal @ 122889: 2009</strong>. It therefore remained $7.25 throughout the article's 2017–2026 rent comparison period.</div>\n          </div>\n        </div>\n\n        <div class="use-note">\n          <strong>Article use:</strong> Primary federal source for the $7.25 wage baseline and for showing that the federal minimum wage did not change during the 2017–2026 rent trend used in the article.\n        </div>\n      </div>\n    </article>\n\n\n    <article class="ref" 
+.github/nc-label-debug.txt:62: PATTERN Federal @ 122957: 2017–2026 rent comparison period.</div>\n          </div>\n        </div>\n\n        <div class="use-note">\n          <strong>Article use:</strong> Primary federal source for the $7.25 wage baseline and for showing that the federal minimum wage did not change during the 2017–2026 rent trend used in the article.\n        </div>\n      </div>\n    </article>\n\n\n    <article class="ref" id="ncsu-affordable-supportive-housing">\n      <div class="ref-head"
+.github/nc-label-debug.txt:104: PATTERN 7\.25 @ 50394: ong>40% above 2017 levels in 2022</strong>. By August 2026, they had eased but remained about <strong>24% above 2017</strong>.\n      </div>\n      <div class="rent-trend-wage-note">\n        Federal minimum wage: <strong>$7.25/hour, unchanged since July 2009</strong>\n      </div>\n\n      <div class="rent-trend-stats">\n        <div class="rent-trend-stat">\n          <div class="rent-trend-stat-label">1 bedroom</div>\n          <div class="rent-t
+.github/nc-label-debug.txt:105: PATTERN 7\.25 @ 52144:           <div>Hourly wage</div>\n          <div>Weekly</div>\n          <div>Monthly</div>\n          <div>15 weeks</div>\n        </div>\n        <div class="earnings-row">\n          <div class="wage-cell">\n            <b>$7.25/hr</b>\n            <span>Federal minimum</span>\n          </div>\n          <div>$<span id="cardWeeklyLow">145</span></div>\n          <div>$<span id="cardMonthlyLow">628</span></div>\n          <div>$<span id="cardSemeste
+.github/nc-label-debug.txt:110: PATTERN Federal @ 50363: Raleigh rents peaked about <strong>40% above 2017 levels in 2022</strong>. By August 2026, they had eased but remained about <strong>24% above 2017</strong>.\n      </div>\n      <div class="rent-trend-wage-note">\n        Federal minimum wage: <strong>$7.25/hour, unchanged since July 2009</strong>\n      </div>\n\n      <div class="rent-trend-stats">\n        <div class="rent-trend-stat">\n          <div class="rent-trend-stat-label">1 bedroom</div>\n
+.github/nc-label-debug.txt:111: PATTERN Federal @ 52174: v>\n          <div>Weekly</div>\n          <div>Monthly</div>\n          <div>15 weeks</div>\n        </div>\n        <div class="earnings-row">\n          <div class="wage-cell">\n            <b>$7.25/hr</b>\n            <span>Federal minimum</span>\n          </div>\n          <div>$<span id="cardWeeklyLow">145</span></div>\n          <div>$<span id="cardMonthlyLow">628</span></div>\n          <div>$<span id="cardSemesterLow">2,175</span></div>\n        
+.github/workflows/find-min-wage-labels.yml:20:           needles = ('federal minimum', 'threshold markers', 'housing wage', 'raleigh hmfa', '$15 reference')
+references.html:1416:           <div class="ref-title">U.S. Department of Labor — Federal Minimum Wage History</div>
+references.html:1432:           <div class="meta-value">History of Federal Minimum Wage Rates Under the Fair Labor Standards Act, 1938–2009</div>
+references.html:1449:             <div class="fact-label">Federal minimum wage</div>
+references.html:1450:             <div class="fact-value">The federal minimum wage for covered, nonexempt workers became <strong>$7.25 per hour on July 24, 2009</strong>. It therefore remained $7.25 throughout the article's 2017–2026 rent comparison period.</div>
+references.html:1455:           <strong>Article use:</strong> Primary federal source for the $7.25 wage baseline and for showing that the federal minimum wage did not change during the 2017–2026 rent trend used in the article.
+rental-map-audit-original.html:2942:         Federal minimum wage: <strong>$7.25/hour, unchanged since July 2009</strong>
+rental-map-audit-original.html:2989:             <span>Federal minimum</span>
