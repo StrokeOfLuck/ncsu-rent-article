@@ -1,0 +1,63 @@
+name: Make article back link obvious
+on:
+  push:
+    paths:
+      - .github/workflows/make-article-link-obvious.yml
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update references page back link
+        shell: bash
+        run: |
+          python <<'PY'
+          from pathlib import Path
+
+          p = Path('references.html')
+          s = p.read_text(encoding='utf-8')
+
+          old = '<div class="kicker"><a href="index.html" style="color: inherit; text-decoration: underline; text-underline-offset: 3px;">NCSU rent article</a></div>'
+          new = '<div class="kicker"><a class="article-back-link" href="index.html" aria-label="Back to NCSU rent article"><span aria-hidden="true">←</span> Back to NCSU rent article</a></div>'
+          if old not in s:
+              raise SystemExit('Expected article link markup not found; refusing to make a blind edit.')
+          s = s.replace(old, new, 1)
+
+          css = '''
+
+          /* Clear return link from reporting references to the main article */
+          .article-back-link {
+            display:inline-flex;
+            align-items:center;
+            gap:6px;
+            padding:6px 9px;
+            border:1px solid currentColor;
+            border-radius:4px;
+            color:inherit;
+            text-decoration:none;
+            cursor:pointer;
+            transition:background .15s ease, color .15s ease;
+          }
+          .article-back-link:hover {
+            background:var(--accent);
+            color:#fff;
+          }
+          .article-back-link:focus-visible {
+            outline:2px solid var(--accent);
+            outline-offset:2px;
+          }
+          '''
+          marker = '</style>'
+          if '.article-back-link {' not in s:
+              s = s.replace(marker, css + '\n' + marker, 1)
+
+          p.write_text(s, encoding='utf-8')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm .github/workflows/make-article-link-obvious.yml
+          git add references.html .github/workflows/make-article-link-obvious.yml
+          git commit -m "Make references article link obvious [skip ci]"
+          git push
