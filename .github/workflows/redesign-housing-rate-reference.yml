@@ -1,4 +1,4 @@
-name: Convert housing rate chart to dot plot
+name: Improve CPI benchmark visibility
 on:
   push:
     paths:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Convert housing rate increase bars to dot plot
+      - name: Improve CPI reference line and label
         run: python .github/dotplot_patch.py
       - name: Commit change
         shell: bash
@@ -21,6 +21,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Convert housing rate chart to dot plot"
+            git commit -m "Improve CPI benchmark visibility"
             git push
           fi
