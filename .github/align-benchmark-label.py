@@ -75,4 +75,20 @@ if marker not in s:
         raise SystemExit("Could not find closing style tag")
     s = s.replace('</style>', css + '\n</style>', 1)
 
+baseline_marker = "/* Align BLS benchmark label baseline with axis ticks */"
+if baseline_marker not in s:
+    css = r'''
+
+/* Align BLS benchmark label baseline with axis ticks */
+.housing-rate-axis-tick,
+.housing-rate-active-label{
+  bottom:-15px !important;
+  line-height:1 !important;
+}
+/* End align BLS benchmark label baseline with axis ticks */
+'''
+    if '</style>' not in s:
+        raise SystemExit("Could not find closing style tag")
+    s = s.replace('</style>', css + '\n</style>', 1)
+
 p.write_text(s, encoding="utf-8")
