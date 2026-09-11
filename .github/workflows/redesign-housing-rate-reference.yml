@@ -1,4 +1,4 @@
-name: Make CPI benchmark continuous
+name: Fix CPI benchmark layout
 on:
   push:
     paths:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Make CPI reference line continuous
+      - name: Fix CPI benchmark without changing chart grid
         run: python .github/dotplot_patch.py
       - name: Commit change
         shell: bash
@@ -21,6 +21,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Make CPI benchmark line continuous"
+            git commit -m "Fix CPI benchmark layout"
             git push
           fi
