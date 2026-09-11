@@ -1,0 +1,26 @@
+name: Apply rent summary label
+on:
+  push:
+    paths:
+      - .github/workflows/apply-rent-summary-label.yml
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update label
+        run: python .github/change_rent_summary_label.py
+      - name: Commit change
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+          else
+            git commit -m "Simplify rent summary wording"
+            git push
+          fi
