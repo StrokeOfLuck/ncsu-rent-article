@@ -1,0 +1,101 @@
+name: Trigger Kepler distance audit publish
+on:
+  push:
+    paths: ['.github/workflows/kepler-distance-audit-trigger.yml']
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish Kepler files and reference
+        run: |
+          python - <<'PY'
+          import base64, json, re, zlib
+          from pathlib import Path
+
+          carrier = Path('.github/workflows/kepler-distance-audit-once.yml').read_text(encoding='utf-8')
+          m = re.search(r'PAYLOAD_B64:\s*"([^"]+)"', carrier)
+          assert m, 'Could not find Kepler payload'
+          files = json.loads(zlib.decompress(base64.b64decode(m.group(1))).decode('utf-8'))
+          for rel, content in files.items():
+              path = Path(rel)
+              path.parent.mkdir(parents=True, exist_ok=True)
+              path.write_text(content, encoding='utf-8')
+
+          refs = Path('references.html')
+          text = refs.read_text(encoding='utf-8')
+          if 'id="kepler-distance-audit"' not in text:
+              marker = '          <div class="ref-no">Reference 02</div>'
+              marker_pos = text.index(marker)
+              article_pos = text.rfind('    <article class="ref">', 0, marker_pos)
+              fragment = '''    <article class="ref" id="kepler-distance-audit">
+      <div class="ref-head">
+        <div>
+          <div class="ref-no">Reference 01B</div>
+          <div class="ref-title">Kepler.gl Main Campus Distance-Band Audit</div>
+        </div>
+        <div class="tags">
+          <span class="tag">Mapping</span>
+          <span class="tag">Distance audit</span>
+          <span class="tag">Kepler.gl</span>
+        </div>
+      </div>
+
+      <div class="ref-body">
+        <div class="meta-grid">
+          <div class="meta-label">Purpose</div>
+          <div class="meta-value">Visual verification of the Main Campus 0–1 mile and &gt;1–3 mile Distance Band workbooks. The audit preserves each listing location, the workbook distance, an independently recomputed Haversine distance, and distance to the nearest 1- or 3-mile boundary.</div>
+
+          <div class="meta-label">Kepler</div>
+          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus-distance-audit.kepler.gl.json" target="_blank" rel="noopener noreferrer">Open the preloaded distance audit in Kepler.gl</a></div>
+
+          <div class="meta-label">0–1 mile file</div>
+          <div class="meta-value"><a href="data/kepler/ncsu-rent-main-campus_0-1mi-distance.csv" target="_blank" rel="noopener noreferrer">Kepler-ready CSV from the 1-mile workbook Distance Band tab</a></div>
+
+          <div class="meta-label">&gt;1–3 mile file</div>
+          <div class="meta-value"><a href="data/kepler/ncsu-rent-main-campus_1-3mi-distance.csv" target="_blank" rel="noopener noreferrer">Kepler-ready CSV from the 3-mile workbook Distance Band tab</a></div>
+
+          <div class="meta-label">Radius circles</div>
+          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_radius-circles.kepler.gl.json" target="_blank" rel="noopener noreferrer">Open the separate 1- and 3-mile boundary layers in Kepler.gl</a> · <a href="data/kepler/ncsu-rent-main-campus_radius-circles.geojson" target="_blank" rel="noopener noreferrer">GeoJSON source</a></div>
+
+          <div class="meta-label">Layer layout</div>
+          <div class="meta-value">The preloaded map keeps 0–1 mile listings, &gt;1–3 mile listings, the 1-mile circle, the 3-mile circle, and the Main Campus reference point as separate toggleable layers. Straight reference-to-listing checks are included as a separate layer and start turned off to reduce clutter.</div>
+
+          <div class="meta-label">Distance definition</div>
+          <div class="meta-value">Straight-line Haversine/geodesic distance from the Main Campus reference point at <strong>35.77951, -78.68168</strong>. This is not driving distance and is not measured from the edge of campus.</div>
+
+          <div class="meta-label">Math check</div>
+          <div class="meta-value">All 127 listing coordinates were independently recalculated. The largest difference from the workbook distance is <strong>0.0026 feet</strong>, which is rounding-level.</div>
+
+          <div class="meta-label">Closest boundaries</div>
+          <div class="meta-value">The closest listing in the &gt;1–3 mile band is <strong>1.026552 miles</strong>, about <strong>140 feet outside</strong> the 1-mile boundary. The listing nearest the 3-mile edge is <strong>2.969896 miles</strong>, about <strong>159 feet inside</strong> the 3-mile boundary.</div>
+        </div>
+
+        <a class="audit-source-link" href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus-distance-audit.kepler.gl.json" target="_blank" rel="noopener noreferrer">Open preloaded Kepler distance audit</a>
+
+        <div class="audit-source-note">
+          The radius circles are stored separately from the listing files, so the 1-mile and 3-mile boundaries can be toggled without changing the source points. The CSVs also keep both the listing coordinates and campus reference coordinates for independent spot checks.
+        </div>
+      </div>
+    </article>
+
+
+'''
+              text = text[:article_pos] + fragment + text[article_pos:]
+              refs.write_text(text, encoding='utf-8')
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add references.html data/kepler
+          git commit -m "Add Kepler Main Campus distance audit [skip ci]"
+          git push
+
+      - name: Remove temporary workflows
+        run: |
+          git pull --rebase
+          git rm .github/workflows/kepler-distance-audit-trigger.yml .github/workflows/kepler-distance-audit-once.yml .github/kepler-distance-audit.run
+          git commit -m "Remove one-time Kepler audit workflows [skip ci]"
+          git push
