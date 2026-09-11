@@ -1,4 +1,4 @@
-name: Center mobile housing benchmark label
+name: Solid mobile housing benchmark line
 on:
   push:
     paths:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Center mobile benchmark name and percentage
+      - name: Apply solid mobile benchmark line and heading clarification
         run: python .github/align-benchmark-label.py
       - name: Commit change
         shell: bash
@@ -21,6 +21,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Center mobile benchmark label over percentage"
+            git commit -m "Make mobile benchmark line solid and clarify University Housing"
             git push
           fi
