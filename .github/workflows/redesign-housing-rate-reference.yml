@@ -1,4 +1,4 @@
-name: Fix housing chart mobile layout
+name: Restore right-side mobile housing plot
 on:
   push:
     paths:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Apply mobile housing chart cleanup
+      - name: Restore right-side mobile housing plot
         run: python .github/align-benchmark-label.py
       - name: Commit change
         shell: bash
@@ -21,6 +21,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Fix housing rate chart on mobile"
+            git commit -m "Restore right-side housing plot on mobile"
             git push
           fi
