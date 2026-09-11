@@ -1,4 +1,4 @@
-name: Redesign housing rate reference
+name: Convert housing rate chart to dot plot
 on:
   push:
     paths:
@@ -10,15 +10,299 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Update housing range math and rate increase chart
-        shell: bash
-        run: python -c "import base64; exec(base64.b64decode('CmZyb20gcGF0aGxpYiBpbXBvcnQgUGF0aAppbXBvcnQgcmUKCnAgPSBQYXRoKCdyZWZlcmVuY2VzLmh0bWwnKQpzID0gcC5yZWFkX3RleHQoZW5jb2Rpbmc9J3V0Zi04JykKCmNzc19tYXJrZXIgPSAnLyogUmVzaWRlbmNlIGhhbGwgcmFuZ2UgKyByYXRlLWNoYW5nZSBjaGFydCAqLycKaWYgY3NzX21hcmtlciBub3QgaW4gczoKICAgIGNzcyA9IHInJycKCi8qIFJlc2lkZW5jZSBoYWxsIHJhbmdlICsgcmF0ZS1jaGFuZ2UgY2hhcnQgKi8KLnJhbmdlLXNvdXJjZS1ncmlkIHsKICBkaXNwbGF5OmdyaWQ7CiAgZ3JpZC10ZW1wbGF0ZS1jb2x1bW5zOnJlcGVhdCgyLG1pbm1heCgwLDFmcikpOwogIGdhcDoxMHB4Owp9Ci5yYW5nZS1zb3VyY2UtY2FyZCB7CiAgYm9yZGVyOjFweCBzb2xpZCB2YXIoLS1saW5lKTsKICBiYWNrZ3JvdW5kOiNmZmY7CiAgcGFkZGluZzoxMXB4IDEycHg7Cn0KLnJhbmdlLXNvdXJjZS1jYXJkIC5yYW5nZS1raWNrZXIgewogIGNvbG9yOnZhcigtLW11dGVkKTsKICBmb250LXNpemU6OXB4OwogIGZvbnQtd2VpZ2h0OjgwMDsKICBsZXR0ZXItc3BhY2luZzouMDhlbTsKICB0ZXh0LXRyYW5zZm9ybTp1cHBlcmNhc2U7Cn0KLnJhbmdlLXNvdXJjZS1jYXJkIC5yYW5nZS1uYW1lIHsKICBtYXJnaW4tdG9wOjVweDsKICBmb250LXNpemU6MTJweDsKICBmb250LXdlaWdodDo3NTA7CiAgbGluZS1oZWlnaHQ6MS4zNTsKfQoucmFuZ2Utc291cmNlLWNhcmQgLnJhbmdlLXJhdGUgewogIG1hcmdpbi10b3A6NHB4OwogIGZvbnQtc2l6ZToxMnB4OwogIGxpbmUtaGVpZ2h0OjEuMzU7Cn0KLnJhdGUtY2hhbmdlLWNoYXJ0IHsKICBkaXNwbGF5OmdyaWQ7CiAgZ2FwOjlweDsKICBtYXJnaW4tdG9wOjEwcHg7Cn0KLnJhdGUtY2hhbmdlLXJvdyB7CiAgZGlzcGxheTpncmlkOwogIGdyaWQtdGVtcGxhdGUtY29sdW1uczptaW5tYXgoMjQ1cHgsIDEuNDVmcikgbWlubWF4KDE4MHB4LCAxZnIpIDU4cHg7CiAgZ2FwOjEwcHg7CiAgYWxpZ24taXRlbXM6Y2VudGVyOwp9Ci5yYXRlLWNoYW5nZS1sYWJlbCB7CiAgZm9udC1zaXplOjEwLjVweDsKICBsaW5lLWhlaWdodDoxLjM7Cn0KLnJhdGUtY2hhbmdlLWxhYmVsIHN0cm9uZyB7CiAgZGlzcGxheTpibG9jazsKICBmb250LXNpemU6MTFweDsKfQoucmF0ZS1jaGFuZ2UtdHJhY2sgewogIGhlaWdodDoxMnB4OwogIG92ZXJmbG93OmhpZGRlbjsKICBib3JkZXI6MXB4IHNvbGlkIHZhcigtLWxpbmUpOwogIGJhY2tncm91bmQ6dmFyKC0tc29mdCk7Cn0KLnJhdGUtY2hhbmdlLWJhciB7CiAgaGVpZ2h0OjEwMCU7CiAgYmFja2dyb3VuZDp2YXIoLS1hY2NlbnQpOwp9Ci5yYXRlLWNoYW5nZS12YWx1ZSB7CiAgZm9udC1zaXplOjExcHg7CiAgZm9udC13ZWlnaHQ6ODAwOwogIHRleHQtYWxpZ246cmlnaHQ7CiAgZm9udC12YXJpYW50LW51bWVyaWM6dGFidWxhci1udW1zOwp9CkBtZWRpYShtYXgtd2lkdGg6NzAwcHgpIHsKICAucmFuZ2Utc291cmNlLWdyaWQgeyBncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyOyB9CiAgLnJhdGUtY2hhbmdlLXJvdyB7CiAgICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6MWZyIDQ2cHg7CiAgICBnYXA6NXB4IDhweDsKICB9CiAgLnJhdGUtY2hhbmdlLXRyYWNrIHsKICAgIGdyaWQtY29sdW1uOjEgLyAtMTsKICAgIGdyaWQtcm93OjI7CiAgfQogIC5yYXRlLWNoYW5nZS12YWx1ZSB7CiAgICBncmlkLWNvbHVtbjoyOwogICAgZ3JpZC1yb3c6MTsKICB9Cn0KJycnCiAgICBzID0gcy5yZXBsYWNlKCc8L3N0eWxlPicsIGNzcyArICdcbjwvc3R5bGU+JywgMSkKCnJlcGxhY2VtZW50ID0gJycnICAgICAgICA8aDI+UHJvamVjdGVkIDIwMjbigJMyNyByYW5nZSB1c2VkIGZvciBjb21wYXJpc29uPC9oMj4KICAgICAgICA8ZGl2IGNsYXNzPSJyYW5nZS1zb3VyY2UtZ3JpZCI+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJyYW5nZS1zb3VyY2UtY2FyZCI+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhbmdlLWtpY2tlciI+TG93ZXN0IGRvdWJsZSo8L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmFuZ2UtbmFtZSI+U291cmNlIHJvdzogRG91YmxlPC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhbmdlLXJhdGUiPjxzdHJvbmc+JDMsOTcwPC9zdHJvbmc+IHByb2plY3RlZCBwZXIgc2VtZXN0ZXI8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0icmFuZ2Utc291cmNlLWNhcmQiPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYW5nZS1raWNrZXIiPkhpZ2hlc3QgZG91YmxlKjwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYW5nZS1uYW1lIj5Tb3VyY2Ugcm93OiBFLlMuIEtpbmcg4oCUIDEtYmVkcm9vbSB1bmRlcmdyYWR1YXRlIGRvdWJsZTwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYW5nZS1yYXRlIj48c3Ryb25nPiQ0LDM1MDwvc3Ryb25nPiBwcm9qZWN0ZWQgcGVyIHNlbWVzdGVyPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9InJhbmdlLXNvdXJjZS1jYXJkIj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmFuZ2Uta2lja2VyIj5Mb3dlc3Qgc2luZ2xlPC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhbmdlLW5hbWUiPlNvdXJjZSByb3c6IENvYXN0YWwgUXVhcnRlcnMg4oCUIHNpbmdsZTwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYW5nZS1yYXRlIj48c3Ryb25nPiQ0LDM1MDwvc3Ryb25nPiBwcm9qZWN0ZWQgcGVyIHNlbWVzdGVyPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9InJhbmdlLXNvdXJjZS1jYXJkIj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmFuZ2Uta2lja2VyIj5IaWdoZXN0IHNpbmdsZTwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYW5nZS1uYW1lIj5Tb3VyY2Ugcm93OiBTaW5nbGU8L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmFuZ2UtcmF0ZSI+PHN0cm9uZz4kNCw2MDA8L3N0cm9uZz4gcHJvamVjdGVkIHBlciBzZW1lc3RlcjwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgPC9kaXY+CgogICAgICAgIDxkaXYgY2xhc3M9InVzZS1ub3RlIj4KICAgICAgICAgIDxzdHJvbmc+QXJ0aWNsZSB1c2U6PC9zdHJvbmc+IFRoZXNlIGZvdXIgcHJvamVjdGVkIDIwMjbigJMyNyByb3dzIGRlZmluZSB0aGUgbG93IGFuZCBoaWdoIGVuZHMgb2YgdGhlIGRvdWJsZSBhbmQgc2luZ2xlIHJlc2lkZW5jZS1oYWxsIGNvbXBhcmlzb24uIENvYXN0YWwgUXVhcnRlcnMgY2FycmllcyBhbiBhZGRpdGlvbmFsIHJlcXVpcmVkICQxNTAgY29tbXVuaWNhdGlvbiBmZWUsIHdoaWNoIGlzIGluY2x1ZGVkIGluIGl0cyBtb250aGx5LWVxdWl2YWxlbnQgY2FsY3VsYXRpb24gYmVsb3cuCiAgICAgICAgPC9kaXY+CgogICAgICAgIDxociBjbGFzcz0icnVsZSI+CgogICAgICAgIDxoMj5TdGVwLWJ5LXN0ZXAgbW9udGhseSBlcXVpdmFsZW50IG1hdGg8L2gyPgogICAgICAgIDxkaXYgY2xhc3M9InVzZS1ub3RlIj4KICAgICAgICAgIDxzdHJvbmc+TWV0aG9kIG5vdGU6PC9zdHJvbmc+IE5DIFN0YXRlIGxpc3RzIHRoZXNlIGFzIHNlbWVzdGVyIGNoYXJnZXMsIG5vdCBtb250aGx5IHJlbnQuIEZvciBjb21wYXJpc29uLCB0aGUgcHJvamVjdGVkIHJvb20gcmF0ZSBpcyBjb21iaW5lZCB3aXRoIHRoZSByZXF1aXJlZCA8c3Ryb25nPiQxNTAgUmVzTmV0IGZlZTwvc3Ryb25nPiwgZG91YmxlZCBmb3IgZmFsbCArIHNwcmluZywgYW5kIGRpdmlkZWQgYnkgYSA8c3Ryb25nPjktbW9udGggYWNhZGVtaWMgeWVhcjwvc3Ryb25nPi4gQ29hc3RhbCBRdWFydGVycyBhbHNvIGFkZHMgaXRzIHJlcXVpcmVkIDxzdHJvbmc+JDE1MCBjb21tdW5pY2F0aW9uIGZlZTwvc3Ryb25nPiBlYWNoIHNlbWVzdGVyLiBBbGwgZmlndXJlcyBhcmUgPHN0cm9uZz5wZXIgc3R1ZGVudDwvc3Ryb25nPi4KICAgICAgICA8L2Rpdj4KCiAgICAgICAgPGRpdiBjbGFzcz0iZmFjdHMiPgogICAgICAgICAgPGRpdiBjbGFzcz0iZmFjdCI+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9ImZhY3QtbGFiZWwiPlJlc2lkZW5jZSBoYWxsIGRvdWJsZSo8L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iZmFjdC12YWx1ZSI+CiAgICAgICAgICAgICAgPHN0cm9uZz5Mb3cg4oCUIERvdWJsZTo8L3N0cm9uZz4gKCQzLDk3MCArICQxNTApIMOXIDIgwrcgOSA9IDxzdHJvbmc+JDkxNS41Ni9tb250aCDiiYggJDkxNjwvc3Ryb25nPjxici8+CiAgICAgICAgICAgICAgPHN0cm9uZz5DYWxjdWxhdGVkIG1pZHBvaW50Ojwvc3Ryb25nPiAoKCQzLDk3MCArICQ0LDM1MCkgwrcgMiArICQxNTApIMOXIDIgwrcgOSA9IDxzdHJvbmc+JDk1Ny43OC9tb250aCDiiYggJDk1ODwvc3Ryb25nPjxici8+CiAgICAgICAgICAgICAgPHN0cm9uZz5IaWdoIOKAlCBFLlMuIEtpbmcgMS1iZWRyb29tIHVuZGVyZ3JhZHVhdGUgZG91YmxlOjwvc3Ryb25nPiAoJDQsMzUwICsgJDE1MCkgw5cgMiDDtyA5ID0gPHN0cm9uZz4kMSwwMDAvbW9udGg8L3N0cm9uZz4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KCiAgICAgICAgICA8ZGl2IGNsYXNzPSJmYWN0Ij4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iZmFjdC1sYWJlbCI+UmVzaWRlbmNlIGhhbGwgc2luZ2xlPC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9ImZhY3QtdmFsdWUiPgogICAgICAgICAgICAgIDxzdHJvbmc+TG93IOKAlCBDb2FzdGFsIFF1YXJ0ZXJzIHNpbmdsZTo8L3N0cm9uZz4gKCQ0LDM1MCArICQxNTAgUmVzTmV0ICsgJDE1MCBjb21tdW5pY2F0aW9uKSDDlCAyIMO3IDkgPSA8c3Ryb25nPiQxLDAzMy4zMy9tb250aCDiiYggJDEsMDMzPC9zdHJvbmc+PGJyLz4KICAgICAgICAgICAgICA8c3Ryb25nPkNhbGN1bGF0ZWQgbWlkcG9pbnQ6PC9zdHJvbmc+ICgkMSwwMzMuMzMgKyAkMSwwNTUuNTYpIMO3IDIgPSA8c3Ryb25nPiQxLDA0NC40NS9tb250aCDiiYggJDEsMDQ0PC9zdHJvbmc+PGJyLz4KICAgICAgICAgICAgICA8c3Ryb25nPkhpZ2gg4oCUIFNpbmdsZTo8L3N0cm9uZz4gKCQ0LDYwMCArICQxNTApIMOXIDIgwrcgOSA9IDxzdHJvbmc+JDEsMDU1LjU2L21vbnRoIOKJiCAkMSwwNTY8L3N0cm9uZz4KICAgICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KCiAgICAgICAgPGRpdiBjbGFzcz0idXNlLW5vdGUiPgogICAgICAgICAgPHN0cm9uZz4qIERvdWJsZSBtZWFucyBhIHNoYXJlZCByb29tIG9jY3VwaWVkIGJ5IHR3byBzdHVkZW50cy48L3N0cm9uZz4gUmVzaWRlbmNlLWhhbGwgcmF0ZXMgYXJlIGNoYXJnZWQgcGVyIHN0dWRlbnQsIG5vdCBwZXIgcm9vbS4KICAgICAgICA8L2Rpdj4KCiAgICAgICAgPGhyIGNsYXNzPSJydWxlIj4KCiAgICAgICAgPGgyPlByb2plY3RlZCByYXRlIGluY3JlYXNlIGZyb20gMjAyNeKAkzI2IHRvIDIwMjbigJMyNzwvaDI+CiAgICAgICAgPGRpdiBjbGFzcz0idXNlLW5vdGUiPgogICAgICAgICAgPHN0cm9uZz5DYWxjdWxhdGlvbjo8L3N0cm9uZz4gKDIwMjbigJMyNyBwcm9qZWN0ZWQgcm9vbSByYXRlIOKIkiAyMDI14oCTMjYgcm9vbSByYXRlKSDDtyAyMDI14oCTMjYgcm9vbSByYXRlIMOXIDEwMC4gVGhpcyBjaGFydCBjb21wYXJlcyB0aGUgcHVibGlzaGVkIDxzdHJvbmc+cm9vbS1yYXRlIHJvd3Mgb25seTwvc3Ryb25nPjsgUmVzTmV0IGFuZCB0aGUgQ29hc3RhbCBRdWFydGVycyBjb21tdW5pY2F0aW9uIGZlZSBhcmUgZXhjbHVkZWQgc28gdGhlIHllYXItdG8teWVhciByYXRlIGNoYW5nZSBpcyBsaWtlLWZvci1saWtlLgogICAgICAgIDwvZGl2PgoKICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS1jaGFydCIgYXJpYS1sYWJlbD0iUHJvamVjdGVkIHBlcmNlbnRhZ2UgaW5jcmVhc2UgaW4gTkMgU3RhdGUgaG91c2luZyByYXRlcyBmcm9tIDIwMjXigJMyNiB0byAyMDI24oCTMjciPgogICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2Utcm93Ij4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtbGFiZWwiPjxzdHJvbmc+U2luZ2xlPC9zdHJvbmc+JDQsMjc1IOKGkiAkNCw2MDA8L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtdHJhY2siPjxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLWJhciIgc3R5bGU9IndpZHRoOjk1JSI+PC9kaXY+PC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLXZhbHVlIj43LjYwJTwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS1yb3ciPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS1sYWJlbCI+PHN0cm9uZz5Xb2xmIFZpbGxhZ2UvV29sZiBSaWRnZSDigJQgMSBiZWRyb29tL3N0dWRpbzwvc3Ryb25nPiQ1LDAwMCDihpIgJDUsMzc1PC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLXRyYWNrIj48ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS1iYXIiIHN0eWxlPSJ3aWR0aDo5My43NSUiPjwvZGl2PjwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS12YWx1ZSI+Ny41MCU8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2Utcm93Ij4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtbGFiZWwiPjxzdHJvbmc+RS5TLiBLaW5nL1dlc3Rlcm4gTWFub3Ig4oCUIHN0dWRpbzwvc3Ryb25nPiQzLDkwMCDihpIgJDQsMTUwPC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLXRyYWNrIj48ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS1iYXIiIHN0eWxlPSJ3aWR0aDo4MC4xMyUiPjwvZGl2PjwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS12YWx1ZSI+Ni40MSU8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2Utcm93Ij4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtbGFiZWwiPjxzdHJvbmc+V29sZiBWaWxsYWdlL1dvbGYgUmlkZ2Ug4oCUIDIsIDMgb3IgNCBiZWRyb29tczwvc3Ryb25nPiQ0LDUwMCDihpIgJDQsNzgwPC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLXRyYWNrIj48ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS1iYXIiIHN0eWxlPSJ3aWR0aDo3Ny43NSUiPjwvZGl2PjwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS12YWx1ZSI+Ni4yMiU8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2Utcm93Ij4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtbGFiZWwiPjxzdHJvbmc+RS5TLiBLaW5nL1dlc3Rlcm4gTWFub3Ig4oCUIDIgYmVkcm9vbTwvc3Ryb25nPiQ1LDAwMCDihpIgJDUsMzAwPC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLXRyYWNrIj48ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS1iYXIiIHN0eWxlPSJ3aWR0aDo3NSUiPjwvZGl2PjwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS12YWx1ZSI+Ni4wMCU8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2Utcm93Ij4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtbGFiZWwiPjxzdHJvbmc+RS5TLiBLaW5nIOKAlCAxLWJlZHJvb20gdW5kZXJncmFkdWF0ZSBkb3VibGU8L3N0cm9uZz4kNCwxMjUg4oaSICQ0LDM1MDwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS10cmFjayI+PGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtYmFyIiBzdHlsZT0id2lkdGg6NjguMTMlIj48L2Rpdj48L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtdmFsdWUiPjUuNDUlPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLXJvdyI+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLWxhYmVsIj48c3Ryb25nPkUuUy4gS2luZy9XZXN0ZXJuIE1hbm9yIOKAlCAxIGJlZHJvb208L3N0cm9uZz4kNCwzNzUg4oaSICQ0LDYwMDwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS10cmFjayI+PGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtYmFyIiBzdHlsZT0id2lkdGg6NjQuMzglIj48L2Rpdj48L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtdmFsdWUiPjUuMTQlPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLXJvdyI+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLWxhYmVsIj48c3Ryb25nPkRvdWJsZTwvc3Ryb25nPiQzLDgwMCDihpIgJDMsOTcwPC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLXRyYWNrIj48ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS1iYXIiIHN0eWxlPSJ3aWR0aDo1NS44OCUiPjwvZGl2PjwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS12YWx1ZSI+NC40NyU8L2Rpdj4KICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2Utcm93Ij4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtbGFiZWwiPjxzdHJvbmc+Q29hc3RhbCBRdWFydGVycyDigJQgc2luZ2xlPC9zdHJvbmc+JDQsMjI1IOKGkiAkNCwzNTA8L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtdHJhY2siPjxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLWJhciIgc3R5bGU9IndpZHRoOjM3JSI+PC9kaXY+PC9kaXY+CiAgICAgICAgICAgIDxkaXYgY2xhc3M9InJhdGUtY2hhbmdlLXZhbHVlIj4yLjk2JTwvZGl2PgogICAgICAgICAgPC9kaXY+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS1yb3ciPgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS1sYWJlbCI+PHN0cm9uZz5Db2FzdGFsIFF1YXJ0ZXJzIOKAlCBkb3VibGU8L3N0cm9uZz4kMyw5NTAg4oaSICQ0LDAyNTwvZGl2PgogICAgICAgICAgICA8ZGl2IGNsYXNzPSJyYXRlLWNoYW5nZS10cmFjayI+PGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtYmFyIiBzdHlsZT0id2lkdGg6MjMuNzUlIj48L2Rpdj48L2Rpdj4KICAgICAgICAgICAgPGRpdiBjbGFzcz0icmF0ZS1jaGFuZ2UtdmFsdWUiPjEuOTAlPC9kaXY+CiAgICAgICAgICA8L2Rpdj4KICAgICAgICA8L2Rpdj4KCiAgICAgICAgPGRpdiBjbGFzcz0idXNlLW5vdGUiPgogICAgICAgICAgVGhlIGxhcmdlc3QgcHJvamVjdGVkIGluY3JlYXNlIGFtb25nIHRoZSBsaXN0ZWQgcm9vbS1yYXRlIHJvd3MgaXMgdGhlIHN0YW5kYXJkIDxzdHJvbmc+U2luZ2xlPC9zdHJvbmc+IHJhdGUgYXQgPHN0cm9uZz43LjYwJTwvc3Ryb25nPjsgdGhlIHNtYWxsZXN0IGlzIHRoZSA8c3Ryb25nPkNvYXN0YWwgUXVhcnRlcnMgZG91YmxlPC9zdHJvbmc+IGF0IDxzdHJvbmc+MS45MCU8L3N0cm9uZz4uCiAgICAgICAgPC9kaXY+CgogICAgICAgIDxociBjbGFzcz0icnVsZSI+CgogICAgICAgIDxoMj5TYXZlZCBldmlkZW5jZTwvaDI+JycnCgpwYXR0ZXJuID0gcmUuY29tcGlsZShyJyAgICAgICAgPGgyPlJhdGVzIHZpc2libGUgaW4gc2F2ZWQgZXZpZGVuY2U8L2gyPi4qPyAgICAgICAgPGgyPlNhdmVkIGV2aWRlbmNlPC9oMj4nLCByZS5TKQppZiBub3QgcGF0dGVybi5zZWFyY2gocyk6CiAgICByYWlzZSBTeXN0ZW1FeGl0KCdIb3VzaW5nIHJhdGUgc2VjdGlvbiBub3QgZm91bmQnKQpzID0gcGF0dGVybi5zdWIocmVwbGFjZW1lbnQsIHMsIGNvdW50PTEpCnAud3JpdGVfdGV4dChzLCBlbmNvZGluZz0ndXRmLTgnKQo='))"
-      - name: Commit changes
+      - name: Convert housing rate increase bars to dot plots
         shell: bash
         run: |
+          python <<'PY'
+          from pathlib import Path
+
+          def replace_between(text, start, end, replacement):
+              a = text.find(start)
+              if a < 0:
+                  raise SystemExit(f'missing start marker: {start[:80]}')
+              b = text.find(end, a)
+              if b < 0:
+                  raise SystemExit(f'missing end marker: {end[:80]}')
+              return text[:a] + replacement + text[b:]
+
+          def upsert_css(text, css, begin_marker, end_marker):
+              if begin_marker in text:
+                  a = text.index(begin_marker)
+                  b = text.index(end_marker, a) + len(end_marker)
+                  return text[:a] + css + text[b:]
+              return text.replace('</style>', css + '\n\n</style>', 1)
+
+          index = Path('index.html')
+          s = index.read_text(encoding='utf-8')
+
+          index_chart_start = '      <div class="housing-rate-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27">'
+          index_chart_end = '\n\n      <div class="housing-rate-context">'
+          index_chart = '''      <div class="housing-rate-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27. Dots show each housing rate increase on a zero to eight percent scale. A vertical reference line marks U.S. CPI inflation at 3.4 percent.">
+        <div class="housing-rate-axis" aria-hidden="true">
+          <div></div>
+          <div class="housing-rate-axis-plot">
+            <span class="housing-rate-cpi-label">CPI 3.4%</span>
+            <span class="housing-rate-axis-tick first" style="left:0%">0%</span>
+            <span class="housing-rate-axis-tick" style="left:25%">2%</span>
+            <span class="housing-rate-axis-tick" style="left:50%">4%</span>
+            <span class="housing-rate-axis-tick" style="left:75%">6%</span>
+            <span class="housing-rate-axis-tick last" style="left:100%">8%</span>
+          </div>
+          <div></div>
+        </div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Single</strong>$4,275 → $4,600</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:95%"></span></div><div class="housing-rate-value">7.60%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:93.75%"></span></div><div class="housing-rate-value">7.50%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — studio</strong>$3,900 → $4,150</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:80.125%"></span></div><div class="housing-rate-value">6.41%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms</strong>$4,500 → $4,780</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:77.75%"></span></div><div class="housing-rate-value">6.22%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:75%"></span></div><div class="housing-rate-value">6.00%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King — 1-bedroom undergraduate double</strong>$4,125 → $4,350</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:68.125%"></span></div><div class="housing-rate-value">5.45%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 1 bedroom</strong>$4,375 → $4,600</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:64.25%"></span></div><div class="housing-rate-value">5.14%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Double</strong>$3,800 → $3,970</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:55.875%"></span></div><div class="housing-rate-value">4.47%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:37%"></span></div><div class="housing-rate-value">2.96%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:23.75%"></span></div><div class="housing-rate-value">1.90%</div></div>
+      </div>'''
+          s = replace_between(s, index_chart_start, index_chart_end, index_chart)
+
+          index_css = '''/* Housing rate dot plot */
+          .housing-rate-chart{
+            display:grid;
+            gap:8px;
+            padding-top:10px;
+            border-top:1px solid var(--line);
+          }
+          .housing-rate-axis,
+          .housing-rate-row{
+            display:grid;
+            grid-template-columns:minmax(250px,1.45fr) minmax(180px,1fr) 56px;
+            gap:10px;
+            align-items:center;
+          }
+          .housing-rate-axis{
+            margin-bottom:8px;
+          }
+          .housing-rate-axis-plot{
+            position:relative;
+            height:32px;
+            border-bottom:1px solid var(--line);
+          }
+          .housing-rate-axis-tick{
+            position:absolute;
+            bottom:-15px;
+            transform:translateX(-50%);
+            color:var(--muted);
+            font-size:8.5px;
+            font-weight:700;
+            font-variant-numeric:tabular-nums;
+            white-space:nowrap;
+          }
+          .housing-rate-axis-tick.first{ transform:none; }
+          .housing-rate-axis-tick.last{ transform:translateX(-100%); }
+          .housing-rate-cpi-label{
+            position:absolute;
+            left:42.5%;
+            top:0;
+            transform:translateX(-50%);
+            color:var(--blue);
+            font-size:8.5px;
+            font-weight:800;
+            white-space:nowrap;
+          }
+          .housing-rate-cpi-label::after{
+            content:"";
+            position:absolute;
+            left:50%;
+            top:13px;
+            height:19px;
+            border-left:1px dashed var(--blue);
+            opacity:.7;
+          }
+          .housing-rate-plot{
+            position:relative;
+            height:18px;
+          }
+          .housing-rate-plot::before{
+            content:"";
+            position:absolute;
+            left:0;
+            right:0;
+            top:50%;
+            border-top:1px solid var(--line);
+          }
+          .housing-rate-plot::after{
+            content:"";
+            position:absolute;
+            left:42.5%;
+            top:-5px;
+            bottom:-5px;
+            border-left:1px dashed var(--blue);
+            opacity:.55;
+          }
+          .housing-rate-dot{
+            position:absolute;
+            top:50%;
+            width:10px;
+            height:10px;
+            border-radius:50%;
+            transform:translate(-50%,-50%);
+            background:var(--accent);
+            box-shadow:0 0 0 2px var(--paper), 0 0 0 3px var(--accent);
+            z-index:2;
+          }
+          @media(max-width:700px){
+            .housing-rate-axis,
+            .housing-rate-row{
+              grid-template-columns:minmax(0,1fr) 48px;
+              gap:4px 8px;
+            }
+            .housing-rate-axis > div:first-child,
+            .housing-rate-axis > div:last-child{
+              display:none;
+            }
+            .housing-rate-axis-plot{
+              grid-column:1 / -1;
+              height:32px;
+            }
+            .housing-rate-plot{
+              grid-column:1 / -1;
+              grid-row:2;
+            }
+            .housing-rate-value{
+              grid-column:2;
+              grid-row:1;
+            }
+          }
+          /* End housing rate dot plot */'''
+          s = upsert_css(s, index_css, '/* Housing rate dot plot */', '/* End housing rate dot plot */')
+          index.write_text(s, encoding='utf-8')
+
+          refs = Path('references.html')
+          r = refs.read_text(encoding='utf-8')
+          refs_chart_start = '    <div class="rate-change-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27">'
+          refs_chart_end = '\n\n    <div class="use-note">\n      The largest projected increase'
+          refs_chart = '''    <div class="rate-change-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27. Dots show each rate increase on a zero to eight percent scale. A vertical reference line marks U.S. CPI inflation at 3.4 percent.">
+      <div class="rate-change-axis" aria-hidden="true"><div></div><div class="rate-change-axis-plot"><span class="rate-change-cpi-label">CPI 3.4%</span><span class="rate-change-axis-tick first" style="left:0%">0%</span><span class="rate-change-axis-tick" style="left:25%">2%</span><span class="rate-change-axis-tick" style="left:50%">4%</span><span class="rate-change-axis-tick" style="left:75%">6%</span><span class="rate-change-axis-tick last" style="left:100%">8%</span></div><div></div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Single</strong>$4,275 → $4,600</div><div class="rate-change-plot"><span class="rate-change-dot" style="left:95%"></span></div><div class="rate-change-value">7.60%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375</div><div class="rate-change-plot"><span class="rate-change-dot" style="left:93.75%"></span></div><div class="rate-change-value">7.50%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King/Western Manor — studio</strong>$3,900 → $4,150</div><div class="rate-change-plot"><span class="rate-change-dot" style="left:80.125%"></span></div><div class="rate-change-value">6.41%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms</strong>$4,500 → $4,780</div><div class="rate-change-plot"><span class="rate-change-dot" style="left:77.75%"></span></div><div class="rate-change-value">6.22%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="rate-change-plot"><span class="rate-change-dot" style="left:75%"></span></div><div class="rate-change-value">6.00%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King — 1-bedroom undergraduate double</strong>$4,125 → $4,350</div><div class="rate-change-plot"><span class="rate-change-dot" style="left:68.125%"></span></div><div class="rate-change-value">5.45%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King/Western Manor — 1 bedroom</strong>$4,375 → $4,600</div><div class="rate-change-plot"><span class="rate-change-dot" style="left:64.25%"></span></div><div class="rate-change-value">5.14%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Double</strong>$3,800 → $3,970</div><div class="rate-change-plot"><span class="rate-change-dot" style="left:55.875%"></span></div><div class="rate-change-value">4.47%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="rate-change-plot"><span class="rate-change-dot" style="left:37%"></span></div><div class="rate-change-value">2.96%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="rate-change-plot"><span class="rate-change-dot" style="left:23.75%"></span></div><div class="rate-change-value">1.90%</div></div>
+    </div>'''
+          r = replace_between(r, refs_chart_start, refs_chart_end, refs_chart)
+
+          refs_css = '''/* Reference rate-change dot plot */
+          .rate-change-axis,
+          .rate-change-row{
+            display:grid;
+            grid-template-columns:minmax(245px,1.45fr) minmax(180px,1fr) 58px;
+            gap:10px;
+            align-items:center;
+          }
+          .rate-change-axis{ margin-bottom:8px; }
+          .rate-change-axis-plot{
+            position:relative;
+            height:32px;
+            border-bottom:1px solid var(--line);
+          }
+          .rate-change-axis-tick{
+            position:absolute;
+            bottom:-15px;
+            transform:translateX(-50%);
+            color:var(--muted);
+            font-size:8.5px;
+            font-weight:700;
+            font-variant-numeric:tabular-nums;
+            white-space:nowrap;
+          }
+          .rate-change-axis-tick.first{ transform:none; }
+          .rate-change-axis-tick.last{ transform:translateX(-100%); }
+          .rate-change-cpi-label{
+            position:absolute;
+            left:42.5%;
+            top:0;
+            transform:translateX(-50%);
+            color:var(--link);
+            font-size:8.5px;
+            font-weight:800;
+            white-space:nowrap;
+          }
+          .rate-change-cpi-label::after{
+            content:"";
+            position:absolute;
+            left:50%;
+            top:13px;
+            height:19px;
+            border-left:1px dashed var(--link);
+            opacity:.7;
+          }
+          .rate-change-plot{
+            position:relative;
+            height:18px;
+          }
+          .rate-change-plot::before{
+            content:"";
+            position:absolute;
+            left:0;
+            right:0;
+            top:50%;
+            border-top:1px solid var(--line);
+          }
+          .rate-change-plot::after{
+            content:"";
+            position:absolute;
+            left:42.5%;
+            top:-5px;
+            bottom:-5px;
+            border-left:1px dashed var(--link);
+            opacity:.55;
+          }
+          .rate-change-dot{
+            position:absolute;
+            top:50%;
+            width:10px;
+            height:10px;
+            border-radius:50%;
+            transform:translate(-50%,-50%);
+            background:var(--accent);
+            box-shadow:0 0 0 2px var(--soft2), 0 0 0 3px var(--accent);
+            z-index:2;
+          }
+          @media(max-width:700px){
+            .rate-change-axis,
+            .rate-change-row{
+              grid-template-columns:1fr 46px;
+              gap:5px 8px;
+            }
+            .rate-change-axis > div:first-child,
+            .rate-change-axis > div:last-child{ display:none; }
+            .rate-change-axis-plot{
+              grid-column:1 / -1;
+              height:32px;
+            }
+            .rate-change-plot{
+              grid-column:1 / -1;
+              grid-row:2;
+            }
+            .rate-change-value{
+              grid-column:2;
+              grid-row:1;
+            }
+          }
+          /* End reference rate-change dot plot */'''
+          r = upsert_css(r, refs_css, '/* Reference rate-change dot plot */', '/* End reference rate-change dot plot */')
+          refs.write_text(r, encoding='utf-8')
+          PY
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          rm .github/workflows/redesign-housing-rate-reference.yml
-          git add references.html .github/workflows/redesign-housing-rate-reference.yml
-          git commit -m "Redesign housing range math and add projected rate chart [skip ci]"
-          git push
+          git add index.html references.html
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+          else
+            git commit -m "Convert housing rate chart to dot plot"
+            git push
+          fi
