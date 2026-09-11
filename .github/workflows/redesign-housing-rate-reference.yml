@@ -1,4 +1,4 @@
-name: Restore right-side mobile housing plot
+name: Center mobile housing benchmark label
 on:
   push:
     paths:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Restore right-side mobile housing plot
+      - name: Center mobile benchmark name and percentage
         run: python .github/align-benchmark-label.py
       - name: Commit change
         shell: bash
@@ -21,6 +21,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Restore right-side housing plot on mobile"
+            git commit -m "Center mobile benchmark label over percentage"
             git push
           fi
