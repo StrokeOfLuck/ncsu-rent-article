@@ -3741,79 +3741,107 @@ th:first-child, td:first-child {
     padding-top:2px;
   }
 
+  /* Keep the dot plot in its own right-side column on mobile. */
+  .housing-rate-axis,
+  .housing-rate-row{
+    grid-template-columns:minmax(118px,.9fr) minmax(130px,1.1fr) 46px !important;
+    column-gap:7px !important;
+    align-items:center !important;
+  }
+
   .housing-rate-axis{
-    grid-template-columns:1fr !important;
-    margin-bottom:4px !important;
+    margin-bottom:5px !important;
+  }
+
+  .housing-rate-axis > div:first-child,
+  .housing-rate-axis > div:last-child{
+    display:block !important;
   }
 
   .housing-rate-axis-plot{
-    grid-column:1 !important;
+    grid-column:2 !important;
     height:22px !important;
   }
 
   .housing-rate-row{
-    grid-template-columns:minmax(0,1fr) 54px !important;
-    grid-template-rows:auto 22px !important;
-    column-gap:10px !important;
-    row-gap:5px !important;
-    align-items:start !important;
-    padding:8px 0 3px;
+    grid-template-rows:auto !important;
+    row-gap:0 !important;
+    padding:8px 0 !important;
   }
 
   .housing-rate-label{
     grid-column:1 !important;
     grid-row:1 !important;
     min-width:0;
-    padding-right:2px;
-    font-size:8.8px !important;
-    line-height:1.22 !important;
+    padding-right:0;
+    font-size:8.5px !important;
+    line-height:1.2 !important;
   }
 
   .housing-rate-label strong{
-    font-size:9.7px !important;
-    line-height:1.22 !important;
+    font-size:9.4px !important;
+    line-height:1.18 !important;
     white-space:normal;
     overflow-wrap:anywhere;
   }
 
-  .housing-rate-value{
+  .housing-rate-plot{
     grid-column:2 !important;
     grid-row:1 !important;
-    align-self:start !important;
+    height:22px !important;
+    margin:0 !important;
+  }
+
+  .housing-rate-value{
+    grid-column:3 !important;
+    grid-row:1 !important;
+    align-self:center !important;
     padding-top:0 !important;
     text-align:right;
     white-space:nowrap;
-  }
-
-  .housing-rate-plot{
-    grid-column:1 / -1 !important;
-    grid-row:2 !important;
-    height:22px !important;
-    margin-top:0 !important;
+    font-size:10px !important;
   }
 
   .housing-rate-plot .housing-rate-benchmark-line{
-    top:0 !important;
-    bottom:0 !important;
+    top:-9px !important;
+    bottom:-9px !important;
     height:auto !important;
   }
 
   .housing-rate-axis + .housing-rate-row .housing-rate-benchmark-line{
-    top:0 !important;
-    bottom:0 !important;
+    top:-9px !important;
   }
 
+  /* Return the benchmark cards to a simple vertical stack on phones. */
   .housing-rate-context{
-    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    grid-template-columns:1fr !important;
     gap:0 !important;
   }
 
-  .housing-rate-context-title,
-  .housing-rate-context-note{
-    grid-column:1 / -1 !important;
+  .housing-rate-context-title{
+    order:0;
+    grid-column:1 !important;
   }
 
-  .housing-rate-context > .housing-rate-context-item{
+  /* Mobile order: school, rent, CPI, minimum wage. */
+  .housing-rate-context > .housing-rate-context-item:nth-child(3){ order:1; }
+  .housing-rate-context > .housing-rate-context-item:nth-child(4){ order:2; }
+  .housing-rate-context > .housing-rate-context-item:nth-child(5){ order:3; }
+  .housing-rate-context > .housing-rate-context-item:nth-child(2){ order:4; }
+
+  .housing-rate-context-note{
+    order:5;
+    grid-column:1 !important;
+  }
+
+  .housing-rate-context > .housing-rate-context-item,
+  .housing-rate-context > .housing-rate-context-item:nth-child(2),
+  .housing-rate-context > .housing-rate-context-item:nth-child(3),
+  .housing-rate-context > .housing-rate-context-item:nth-child(4),
+  .housing-rate-context > .housing-rate-context-item:nth-child(5){
+    padding:9px 0 !important;
+    border-left:0 !important;
+    border-top:1px solid var(--line) !important;
     min-width:0;
   }
 }
@@ -3997,6 +4025,7 @@ th:first-child, td:first-child {
         
         
         
+        
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Doubles</strong>$3,800 → $3,970</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:55.875%"></span></div><div class="housing-rate-value">4.47%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Singles</strong>$4,275 → $4,600</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:95%"></span></div><div class="housing-rate-value">7.60%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:93.75%"></span></div><div class="housing-rate-value">7.50%</div></div>
@@ -4007,6 +4036,7 @@ th:first-child, td:first-child {
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:75%"></span></div><div class="housing-rate-value">6.00%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:37%"></span></div><div class="housing-rate-value">2.96%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:23.75%"></span></div><div class="housing-rate-value">1.90%</div></div>
+      
       
       
       
