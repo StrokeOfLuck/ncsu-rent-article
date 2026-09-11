@@ -1,4 +1,4 @@
-name: Remove 2 percent housing tick
+name: Align housing benchmark label
 on:
   push:
     paths:
@@ -10,17 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Remove 2 percent axis tick
-        run: python .github/remove-2pct-tick.py
+      - name: Align active benchmark with axis labels
+        run: python .github/align-benchmark-label.py
       - name: Commit change
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+StrokeOfLuck@users.noreply.github.com"
           git add index.html
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Remove 2 percent housing chart tick"
+            git commit -m "Align housing benchmark with axis labels"
             git push
           fi
