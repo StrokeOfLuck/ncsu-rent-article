@@ -1,0 +1,71 @@
+name: Run Kepler distance audit publisher
+on:
+  push:
+    paths: ['.github/workflows/kepler-distance-audit-run.yml']
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish files and reference
+        run: |
+          python - <<'PY'
+          import base64, copy, json, re, zlib
+          from pathlib import Path
+
+          carrier = Path('.github/workflows/kepler-distance-audit-once.yml').read_text(encoding='utf-8')
+          payload_match = re.search(r'PAYLOAD_B64:\s*"([^"]+)"', carrier)
+          assert payload_match, 'Could not find embedded Kepler payload'
+          files = json.loads(zlib.decompress(base64.b64decode(payload_match.group(1))).decode('utf-8'))
+          for rel, content in files.items():
+              p = Path(rel)
+              p.parent.mkdir(parents=True, exist_ok=True)
+              p.write_text(content, encoding='utf-8')
+
+          combined_path = Path('data/kepler/ncsu-rent-main-campus-distance-audit.kepler.gl.json')
+          combined = json.loads(combined_path.read_text(encoding='utf-8'))
+
+          def write_subset(filename, data_ids, title):
+              out = copy.deepcopy(combined)
+              out['datasets'] = [d for d in out['datasets'] if d['data']['id'] in data_ids]
+              inner = out['config']['config']
+              inner['visState']['layers'] = [l for l in inner['visState']['layers'] if l['config'].get('dataId') in data_ids]
+              inner['visState']['filters'] = []
+              out['info'] = dict(out.get('info') or {})
+              out['info']['title'] = title
+              Path('data/kepler', filename).write_text(json.dumps(out, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
+
+          write_subset('ncsu-rent-main-campus_0-1mi-distance.kepler.gl.json', {'main_0_1', 'campus_reference'}, 'NC State Main Campus 0–1 mile distance audit')
+          write_subset('ncsu-rent-main-campus_1-3mi-distance.kepler.gl.json', {'main_1_3', 'campus_reference'}, 'NC State Main Campus >1–3 mile distance audit')
+
+          bad_trigger = Path('.github/workflows/kepler-distance-audit-trigger.yml').read_text(encoding='utf-8')
+          fragment_match = re.search(r"fragment = '''(.*?)'''", bad_trigger, re.S)
+          assert fragment_match, 'Could not recover reference fragment'
+          fragment = fragment_match.group(1)
+          fragment = fragment.replace('<div class="meta-label">0–1 mile file</div>\n          <div class="meta-value"><a href="data/kepler/ncsu-rent-main-campus_0-1mi-distance.csv" target="_blank" rel="noopener noreferrer">Kepler-ready CSV from the 1-mile workbook Distance Band tab</a></div>', '<div class="meta-label">0–1 mile Kepler file</div>\n          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_0-1mi-distance.kepler.gl.json" target="_blank" rel="noopener noreferrer">Open 0–1 mile listings in Kepler.gl</a> · <a href="data/kepler/ncsu-rent-main-campus_0-1mi-distance.csv" target="_blank" rel="noopener noreferrer">CSV source</a></div>')
+          fragment = fragment.replace('<div class="meta-label">&gt;1–3 mile file</div>\n          <div class="meta-value"><a href="data/kepler/ncsu-rent-main-campus_1-3mi-distance.csv" target="_blank" rel="noopener noreferrer">Kepler-ready CSV from the 3-mile workbook Distance Band tab</a></div>', '<div class="meta-label">&gt;1–3 mile Kepler file</div>\n          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_1-3mi-distance.kepler.gl.json" target="_blank" rel="noopener noreferrer">Open &gt;1–3 mile listings in Kepler.gl</a> · <a href="data/kepler/ncsu-rent-main-campus_1-3mi-distance.csv" target="_blank" rel="noopener noreferrer">CSV source</a></div>')
+
+          refs = Path('references.html')
+          text = refs.read_text(encoding='utf-8')
+          if 'id="kepler-distance-audit"' not in text:
+              marker = '          <div class="ref-no">Reference 02</div>'
+              marker_pos = text.index(marker)
+              article_pos = text.rfind('    <article class="ref">', 0, marker_pos)
+              text = text[:article_pos] + fragment + text[article_pos:]
+              refs.write_text(text, encoding='utf-8')
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add references.html data/kepler
+          git commit -m "Add Kepler Main Campus distance audit [skip ci]"
+          git push
+
+      - name: Remove temporary workflows
+        run: |
+          git pull --rebase
+          git rm .github/workflows/kepler-distance-audit-run.yml .github/workflows/kepler-distance-audit-trigger.yml .github/workflows/kepler-distance-audit-once.yml .github/kepler-distance-audit.run
+          git commit -m "Remove one-time Kepler audit workflows [skip ci]"
+          git push
