@@ -3,33 +3,79 @@ from pathlib import Path
 p = Path("index.html")
 s = p.read_text(encoding="utf-8")
 
-changes = [
-    (
-        '<span class="housing-rate-cpi-label">CPI 3.4%</span>',
-        '<span class="housing-rate-cpi-label">Overall CPI 3.4%</span>',
-    ),
-    (
-        'A vertical reference line marks U.S. CPI inflation at 3.4 percent.',
-        'A vertical reference line marks overall U.S. CPI inflation at 3.4 percent.',
-    ),
-    (
-        '''.housing-rate-cpi-label{\n  position:absolute;\n  left:42.5%;\n  top:0;\n  transform:translateX(-50%);\n  color:var(--blue);\n  font-size:8.5px;\n  font-weight:800;\n  white-space:nowrap;\n}''',
-        '''.housing-rate-cpi-label{\n  position:absolute;\n  left:42.5%;\n  top:0;\n  transform:translateX(-50%);\n  color:#6fb4f2;\n  font-size:8.5px;\n  font-weight:900;\n  white-space:nowrap;\n}''',
-    ),
-    (
-        '''.housing-rate-cpi-label::after{\n  content:"";\n  position:absolute;\n  left:50%;\n  top:13px;\n  height:19px;\n  border-left:1px dashed var(--blue);\n  opacity:.7;\n}''',
-        '''.housing-rate-cpi-label::after{\n  content:"";\n  position:absolute;\n  left:50%;\n  top:13px;\n  height:19px;\n  border-left:2px solid #6fb4f2;\n  opacity:1;\n}''',
-    ),
-    (
-        '''.housing-rate-plot::after{\n  content:"";\n  position:absolute;\n  left:42.5%;\n  top:-5px;\n  bottom:-5px;\n  border-left:1px dashed var(--blue);\n  opacity:.55;\n}''',
-        '''.housing-rate-plot::after{\n  content:"";\n  position:absolute;\n  left:42.5%;\n  top:-5px;\n  bottom:-5px;\n  border-left:2px solid #6fb4f2;\n  opacity:.9;\n}''',
-    ),
-]
+old_axis = '''.housing-rate-cpi-label::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:13px;
+  height:19px;
+  border-left:2px solid #6fb4f2;
+  opacity:1;
+}'''
+new_axis = '''.housing-rate-cpi-label::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:13px;
+  height:35px;
+  border-left:2px solid #6fb4f2;
+  opacity:1;
+}'''
+if old_axis in s:
+    s = s.replace(old_axis, new_axis)
+elif new_axis not in s:
+    raise SystemExit("Could not find CPI axis line CSS")
 
-for old, new in changes:
-    if old in s:
-        s = s.replace(old, new)
-    elif new not in s:
-        raise SystemExit(f"Could not find expected CPI chart text/CSS:\n{old[:120]}")
+old_segments = '''.housing-rate-plot::after{
+  content:"";
+  position:absolute;
+  left:42.5%;
+  top:-5px;
+  bottom:-5px;
+  border-left:2px solid #6fb4f2;
+  opacity:.9;
+}'''
+new_continuous = '''.housing-rate-row::after{
+  content:"";
+  grid-column:2;
+  grid-row:1;
+  justify-self:start;
+  align-self:stretch;
+  width:2px;
+  margin-left:42.5%;
+  margin-bottom:-8px;
+  background:#6fb4f2;
+  opacity:.9;
+  z-index:0;
+  pointer-events:none;
+}
+.housing-rate-row:last-child::after{
+  margin-bottom:0;
+}
+.housing-rate-label,
+.housing-rate-value,
+.housing-rate-plot{
+  position:relative;
+  z-index:1;
+}'''
+if old_segments in s:
+    s = s.replace(old_segments, new_continuous)
+elif '.housing-rate-row::after{' not in s:
+    raise SystemExit("Could not find segmented CPI line CSS")
+
+mobile = '''
+@media(max-width:700px){
+  .housing-rate-row::after{
+    grid-column:1 / -1;
+    grid-row:1 / 3;
+    margin-left:42.5%;
+  }
+}
+'''
+if mobile.strip() not in s:
+    marker = '/* End housing rate dot plot */'
+    if marker not in s:
+        raise SystemExit("Could not find dot plot CSS end marker")
+    s = s.replace(marker, mobile + marker, 1)
 
 p.write_text(s, encoding="utf-8")
