@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Update label
         run: python .github/change_rent_summary_label.py
-      - name: Commit change
+      - name: Commit and push change
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
@@ -22,5 +22,6 @@ jobs:
             echo "No changes needed"
           else
             git commit -m "Simplify rent summary wording"
+            git pull --rebase origin main
             git push
           fi
