@@ -3,7 +3,7 @@ name: Publish Kepler distance audit
 on:
   push:
     paths:
-      - '.github/workflows/kepler-distance-audit-run.yml'
+      - '.github/kepler-distance-audit.run'
 
 permissions:
   contents: write
