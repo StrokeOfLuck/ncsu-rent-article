@@ -4742,7 +4742,7 @@ function updateAffordability() {
     "All three campus reference views · combined overall per-bedroom and whole-unit averages";
 
   document.getElementById("combinedRentMeta").textContent =
-    `${campuses[currentCampusKey].label} · equal-weight average of the 0–1, >1–3 and >3–5 mile distance-band means`;
+    `${campuses[currentCampusKey].label} · average of the three distance-band rent estimates`;
   document.getElementById("combinedPerOverall").textContent = bandSummary.perOverall.display;
   document.getElementById("combinedPerMid").textContent = money(bandSummary.perOverall.midpoint);
   document.getElementById("combinedWholeOverall").textContent = bandSummary.wholeOverall.display;
