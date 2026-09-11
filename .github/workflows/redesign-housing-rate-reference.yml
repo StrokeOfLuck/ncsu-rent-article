@@ -1,4 +1,4 @@
-name: Add BLS housing benchmarks
+name: Interactive BLS housing benchmark
 on:
   push:
     paths:
@@ -10,17 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add rent, school lodging and CPI benchmarks
+      - name: Make BLS housing benchmark interactive
         run: python .github/dotplot_patch.py
       - name: Commit change
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html references.html
+          git add index.html
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Add BLS housing price benchmarks"
+            git commit -m "Make BLS housing benchmark interactive"
             git push
           fi
