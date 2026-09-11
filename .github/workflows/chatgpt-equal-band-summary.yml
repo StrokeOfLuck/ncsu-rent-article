@@ -19,8 +19,82 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Patch article and references
         run: |
-          echo 'ZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCgppcCA9IFBhdGgoImluZGV4Lmh0bWwiKQpycCA9IFBhdGgoInJlZmVyZW5jZXMuaHRtbCIpCmluZGV4ID0gaXAucmVhZF90ZXh0KGVuY29kaW5nPSJ1dGYtOCIpCnJlZnMgPSBycC5yZWFkX3RleHQoZW5jb2Rpbmc9InV0Zi04IikKCmhlbHBlciA9ICdmdW5jdGlvbiBvdmVyYWxsRGlzdGFuY2VCYW5kU3VtbWFyeShjYW1wdXNLZXkpIHtcbiAgY29uc3QgYmFuZHMgPSBbXG4gICAge2lubmVyOjAsIG91dGVyOjF9LFxuICAge2lubmVyOjEsIG91dGVyOjN9LFxuICAge2lubmVyOjMsIG91dGVyOjV9XG4gIF07XG4gIGNvbnN0IHBlckJhbmRTdGF0cyA9IFtdO1xuICBjb25zdCB3aG9sZUJhbmRTdGF0cyA9IFtdO1xuXG4gIGZvciAoY29uc3QgYmFuZERlZiBvZiBiYW5kcykge1xuICAgIGNvbnN0IGF1ZGl0ID0gZ2V0RGlzdGFuY2VCYW5kQXVkaXQoY2FtcHVzS2V5LCBiYW5kRGVmLmlubmVyLCBiYW5kRGVmLm91dGVyKTtcbiAgICBwZXJCYW5kU3RhdHMucHVzaChhdWRpdC5wZXJTdGF0cyk7XG4gICAgd2hvbGVCYW5kU3RhdHMucHVzaChhdWRpdC53aG9sZVN0YXRzKTtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcGVyT3ZlcmFsbDogY29tYmluZWRTdGF0cyhwZXJCYW5kU3RhdHMpLFxuICAgIHdob2xlT3ZlcmFsbDogY29tYmluZWRTdGF0cyh3aG9sZUJhbmRTdGF0cylcbiAgfTtcbn1cblxuJwppZiAiZnVuY3Rpb24gb3ZlcmFsbERpc3RhbmNlQmFuZFN1bW1hcnkoY2FtcHVzS2V5KSIgbm90IGluIGluZGV4OgogICAgbWFya2VyID0gImZ1bmN0aW9uIG92ZXJhbGxBbGxDYW1wdXNlc1N1bW1hcnkoKSB7IgogICAgYXNzZXJ0IG1hcmtlciBpbiBpbmRleCwgIm1pc3NpbmcgaGVscGVyIGluc2VydGlvbiBtYXJrZXIiCiAgICBpbmRleCA9IGluZGV4LnJlcGxhY2UobWFya2VyLCBoZWxwZXIgKyBtYXJrZXIsIDEpCgpvbGQgPSAnICBjb25zdCBzdW1tYXJ5ID0gb3ZlcmFsbEFsbENhbXB1c2VzU3VtbWFyeSgpO1xuJwpuZXcgPSAnICBjb25zdCBzdW1tYXJ5ID0gb3ZlcmFsbEFsbENhbXB1c2VzU3VtbWFyeSgpO1xuICBjb25zdCBiYW5kU3VtbWFyeSA9IG92ZXJhbGxEaXN0YW5jZUJhbmRTdW1tYXJ5KGN1cnJlbnRDYW1wdXNLZXkpO1xuJwppZiBuZXcgbm90IGluIGluZGV4OgogICAgYXNzZXJ0IG9sZCBpbiBpbmRleCwgIm1pc3Npbmcgc3VtbWFyeSBkZWNsYXJhdGlvbiIKICAgIGluZGV4ID0gaW5kZXgucmVwbGFjZShvbGQsIG5ldywgMSkKCm9sZF9tZXRhID0gJyAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImNvbWJpbmVkUmVudE1ldGEiKS50ZXh0Q29udGVudCA9XG4gICAgIk1haW4sIENlbnRlbm5pYWwgYW5kIEJpb21lZGljYWwgQ2FtcHVzIMK3IGFsbCB1bmlxdWUgbGlzdGluZ3MgYWNyb3NzIHRoZSBkaXNwbGF5ZWQgMS0sIDMtIGFuZCA1LW1pbGUgdmlld3MsIGNvdW50ZWQgb25jZSI7XG4nCm5ld19tZXRhID0gJyAgZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImNvbWJpbmVkUmVudE1ldGEiKS50ZXh0Q29udGVudCA9XG4gICAgYCR7Y2FtcHVzZXNbY3VycmVudENhbXB1c0tleV0ubGFiZWx9IMK3IGVxdWFsLXdlaWdodCBhdmVyYWdlIG9mIHRoZSAw4oCTMSwgPjHigJMzIGFuZCA+M+KAkzUgbWlsZSBkaXN0YW5jZS1iYW5kIG1lYW5zYDtcbicKaWYgbmV3X21ldGEgbm90IGluIGluZGV4OgogICAgYXNzZXJ0IG9sZF9tZXRhIGluIGluZGV4LCAibWlzc2luZyBjb21iaW5lZFJlbnRNZXRhIGJsb2NrIgogICAgaW5kZXggPSBpbmRleC5yZXBsYWNlKG9sZF9tZXRhLCBuZXdfbWV0YSwgMSkKCnBhaXJzID0gWwooJ2RvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJjb21iaW5lZFBlck92ZXJhbGwiKS50ZXh0Q29udGVudCA9IHN1bW1hcnkucGVyT3ZlcmFsbC5kaXNwbGF5OycsICdkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgiY29tYmluZWRQZXJPdmVyYWxsIikudGV4dENvbnRlbnQgPSBiYW5kU3VtbWFyeS5wZXJPdmVyYWxsLmRpc3BsYXk7JyksCignZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImNvbWJpbmVkUGVyTWlkIikudGV4dENvbnRlbnQgPSBtb25leShzdW1tYXJ5LnBlck92ZXJhbGwubWlkcG9pbnQpOycsICdkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgiY29tYmluZWRQZXJNaWQiKS50ZXh0Q29udGVudCA9IG1vbmV5KGJhbmRTdW1tYXJ5LnBlck92ZXJhbGwubWlkcG9pbnQpOycpLAooJ2RvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJjb21iaW5lZFdob2xlT3ZlcmFsbCIpLnRleHRDb250ZW50ID0gc3VtbWFyeS53aG9sZU92ZXJhbGwuZGlzcGxheTsnLCAnZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoImNvbWJpbmVkV2hvbGVPdmVyYWxsIikudGV4dENvbnRlbnQgPSBiYW5kU3VtbWFyeS53aG9sZU92ZXJhbGwuZGlzcGxheTsnKSwKKCdkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgiY29tYmluZWRXaG9sZU1pZCIpLnRleHRDb250ZW50ID0gbW9uZXkoc3VtbWFyeS53aG9sZU92ZXJhbGwubWlkcG9pbnQpOycsICdkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgiY29tYmluZWRXaG9sZU1pZCIpLnRleHRDb250ZW50ID0gbW9uZXkoYmFuZFN1bW1hcnkud2hvbGVPdmVyYWxsLm1pZHBvaW50KTsnKQpdCmZvciBvbGRfbGluZSwgbmV3X2xpbmUgaW4gcGFpcnM6CiAgICBpZiBuZXdfbGluZSBub3QgaW4gaW5kZXg6CiAgICAgICAgYXNzZXJ0IG9sZF9saW5lIGluIGluZGV4LCAibWlzc2luZyBjYXJkIGFzc2lnbm1lbnQ6ICIgKyBvbGRfbGluZQogICAgICAgIGluZGV4ID0gaW5kZXgucmVwbGFjZShvbGRfbGluZSwgbmV3X2xpbmUsIDEpCgpyZWZzID0gcmVmcy5yZXBsYWNlKCI8c3Ryb25nPldvcmtlZCBjYWxjdWxhdGlvbiBmb3IgdGhlIGNvbWJpbmVkIHJlbnQgc3VtbWFyeTo8L3N0cm9uZz4iLAogICAgICAgICAgICAgICAgICAgICI8c3Ryb25nPldvcmtlZCBjYWxjdWxhdGlvbiBmb3IgdGhlIGFmZm9yZGFiaWxpdHkgdmlzdWFsaXplcjo8L3N0cm9uZz4iLCAxKQoKbm90ZSA9ICdcbiAgICAgICAgPGRpdiBjbGFzcz0idXNlLW5vdGUiPlxuICAgICAgICAgIDxzdHJvbmc+V29ya2VkIGNhbGN1bGF0aW9uIGZvciB0aGUgc2VsZWN0ZWQtY2FtcHVzIG9mZi1jYW1wdXMgc3VtbWFyeSBjYXJkOjwvc3Ryb25nPiBUaGUgY2FyZCBkaXJlY3RseSBiZW5lYXRoIHRoZSBkaXN0YW5jZS1iYW5kIHRhYmxlIGdpdmVzIGVhY2ggb2YgdGhlIHRocmVlIDxzdHJvbmc+bm9uLW92ZXJsYXBwaW5nPC9zdHJvbmc+IGRpc3RhbmNlIGJhbmRzIGVxdWFsIHdlaWdodC4gSXQgZG9lcyA8c3Ryb25nPm5vdDwvc3Ryb25nPiB3ZWlnaHQgYSBiYW5kIGJ5IGl0cyBudW1iZXIgb2YgbGlzdGluZ3MuIEZvciBlYWNoIHByaWNpbmcgdHlwZSwgYWRkIHRoZSB0aHJlZSBiYW5kIGxvdyBtZWFucyBhbmQgZGl2aWRlIGJ5IDM7IHJlcGVhdCBmb3IgdGhlIHRocmVlIGhpZ2ggbWVhbnM7IHRoZW4gdGFrZSB0aGUgbWlkcG9pbnQgYmV0d2VlbiB0aG9zZSB0d28gcmVzdWx0cy4gVGhlIGJyb3dzZXIgdXNlcyB0aGUgZnVsbC1wcmVjaXNpb24gYmFuZCBtZWFucy4gVGhlIHR3by1kZWNpbWFsIGNoZWNrcyBiZWxvdyBwcm9kdWNlIHRoZSBzYW1lIHdob2xlLWRvbGxhciBkaXNwbGF5Ljxicj48YnI+XG4KICAgICAgICAgIDxzdHJvbmc+TWFpbiBDYW1wdXM6PC9zdHJvbmc+PGJyPlxuICAgICAgICAgIFBlci1iZWRyb29tIGxvdyA9ICgkODI3LjM1ICsgJDgxOC4xNyArICQ4OTAuMDApIMO3IDMgPSA8c3Ryb25nPiQ4NDUuMTc8L3N0cm9uZz47IGhpZ2ggPSAoJDkyOC4yMCArICQ5NTUuMDIgKyAkOTIwLjAwKSDDtyAzID0gPHN0cm9uZz4kOTM0LjQxPC9zdHJvbmc+OyBtaWRwb2ludCA9IDxzdHJvbmc+JDg4OS43OTwvc3Ryb25nPi4gQXJ0aWNsZSBkaXNwbGF5OiA8c3Ryb25nPiQ4NDXigJMkOTM0OyBtaWRwb2ludCAkODkwPC9zdHJvbmc+Ljxicj5cbiAgICAgICAgICBXaG9sZS11bml0IGxvdyA9ICgkMSw4NTUuMTggKyAkMSw1OTcuMDYgKyAkMSw1NjAuMTkpIMO3IDMgPSA8c3Ryb25nPiQxLDY3MC44MTwvc3Ryb25nPjsgaGlnaCA9ICgkMiwxMDIuODggKyAkMSw3NDEuNjggKyAkMSw2NjEuMTkpIMO3IDMgPSA8c3Ryb25nPiQxLDgzNS4yNTwvc3Ryb25nPjsgbWlkcG9pbnQgPSA8c3Ryb25nPiQxLDc1My4wMzwvc3Ryb25nPi4gQXJ0aWNsZSBkaXNwbGF5OiA8c3Ryb25nPiQxLDY3MeKAkyQxLDgzNTsgbWlkcG9pbnQgJDEsNzUzPC9zdHJvbmc+Ljxicj48YnI+XG4KICAgICAgICAgIDxzdHJvbmc+Q2VudGVubmlhbCBDYW1wdXM6PC9zdHJvbmc+PGJyPlxuICAgICAgICAgIFBlci1iZWRyb29tIGxvdyA9ICgkODEwLjkwICsgJDgyMy4xNiArICQ4NzEuMTQpIMO3IDMgPSA8c3Ryb25nPiQ4MzUuMDc8L3N0cm9uZz47IGhpZ2ggPSAoJDg1Ny41MCArICQ5NTAuMDIgKyAkMSwwMjcuNzEpIMO3IDMgPSA8c3Ryb25nPiQ5NDUuMDg8L3N0cm9uZz47IG1pZHBvaW50ID0gPHN0cm9uZz4kODkwLjA3PC9zdHJvbmc+LiBBcnRpY2xlIGRpc3BsYXk6IDxzdHJvbmc+JDgzNeKAkyQ5NDU7IG1pZHBvaW50ICQ4OTA8L3N0cm9uZz4uPGJyPlxuICAgICAgICAgIFdob2xlLXVuaXQgbG93ID0gKCQxLDkxMS4wMCArICQxLDcxNy45NiArICQxLDM0Mi4zMikgw7cgMyA9IDxzdHJvbmc+JDEsNjU3LjA5PC9zdHJvbmc+OyBoaWdoID0gKCQyLDEyNC4wNSArICQxLDkwNC4wOSArICQxLDQ2OS40Nykgw7cgMyA9IDxzdHJvbmc+JDEsODMyLjU0PC9zdHJvbmc+OyBtaWRwb2ludCA9IDxzdHJvbmc+JDEsNzQ0LjgxPC9zdHJvbmc+LiBBcnRpY2xlIGRpc3BsYXk6IDxzdHJvbmc+JDEsNjU34oCTJDEsODMzOyBtaWRwb2ludCAkMSw3NDU8L3N0cm9uZz4uPGJyPjxicj5cbiAgICAgICAgICA8c3Ryb25nPkNlbnRlbm5pYWwgQmlvbWVkaWNhbCBDYW1wdXM6PC9zdHJvbmc+PGJyPlxuICAgICAgICAgIFBlci1iZWRyb29tIGxvdyA9ICgkOTcyLjY3ICsgJDg2My4zNSArICQ3NTkuMjApIMO3IDMgPSA8c3Ryb25nPiQ4NjUuMDc8L3N0cm9uZz47IGhpZ2ggPSAoJDEsMzY2LjMzICsgJDk3Ny4zNSArICQ4NTQuMzYpIMO3IDMgPSA8c3Ryb25nPiQxLDA2Ni4wMTwvc3Ryb25nPjsgbWlkcG9pbnQgPSA8c3Ryb25nPiQ5NjUuNTQ8L3N0cm9uZz4uIEFydGljbGUgZGlzcGxheTogPHN0cm9uZz4kODY14oCTJDEsMDY2OyBtaWRwb2ludCAkOTY2PC9zdHJvbmc+Ljxicj5cbiAgICAgICAgICBXaG9sZS11bml0IGxvdyA9ICgkMiwzMTguNTcgKyAkMSw2NTAuNDcgKyAkMSw3NDQuNDQpIMO3IDMgPSA8c3Ryb25nPiQxLDkwNC41MDwvc3Ryb25nPjsgaGlnaCA9ICgkMiwzNTMuNTcgKyAkMSw5MTAuMTMgKyAkMSw3NDQuNDQpIMO3IDMgPSA8c3Ryb25nPiQyLDAwMi43MTwvc3Ryb25nPjsgbWlkcG9pbnQgPSA8c3Ryb25nPiQxLDk1My42MTwvc3Ryb25nPi4gQXJ0aWNsZSBkaXNwbGF5OiA8c3Ryb25nPiQxLDkwNOKAkyQyLDAwMzsgbWlkcG9pbnQgJDEsOTU0PC9zdHJvbmc+LlxuICAgICAgICA8L2Rpdj5cbicKaWYgIldvcmtlZCBjYWxjdWxhdGlvbiBmb3IgdGhlIHNlbGVjdGVkLWNhbXB1cyBvZmYtY2FtcHVzIHN1bW1hcnkgY2FyZCIgbm90IGluIHJlZnM6CiAgICBtYXJrZXIgPSAnICAgICAgICA8ZGl2IGNsYXNzPSJiYW5kLW1hdGgtd3JhcCI+JwogICAgYXNzZXJ0IG1hcmtlciBpbiByZWZzLCAibWlzc2luZyByZWZlcmVuY2UgaW5zZXJ0aW9uIG1hcmtlciIKICAgIHJlZnMgPSByZWZzLnJlcGxhY2UobWFya2VyLCBub3RlICsgIlxuIiArIG1hcmtlciwgMSkKCmlwLndyaXRlX3RleHQoaW5kZXgsIGVuY29kaW5nPSJ1dGYtOCIpCnJwLndyaXRlX3RleHQocmVmcywgZW5jb2Rpbmc9InV0Zi04IikK' | base64 -d > /tmp/patch_equal_band_summary.py
-          python /tmp/patch_equal_band_summary.py
+          python - <<'PY'
+          from pathlib import Path
+
+          ip = Path("index.html")
+          rp = Path("references.html")
+          index = ip.read_text(encoding="utf-8")
+          refs = rp.read_text(encoding="utf-8")
+
+          if "function overallDistanceBandSummary(campusKey)" not in index:
+              helper = """function overallDistanceBandSummary(campusKey) {
+            const bands = [[0,1],[1,3],[3,5]];
+            const per = [];
+            const whole = [];
+            for (const [inner, outer] of bands) {
+              const audit = getDistanceBandAudit(campusKey, inner, outer);
+              per.push(audit.perStats);
+              whole.push(audit.wholeStats);
+            }
+            return {
+              perOverall: combinedStats(per),
+              wholeOverall: combinedStats(whole)
+            };
+          }
+
+          """
+              marker = "function overallAllCampusesSummary() {"
+              assert marker in index
+              index = index.replace(marker, helper + marker, 1)
+
+          old = "  const summary = overallAllCampusesSummary();\n"
+          new = "  const summary = overallAllCampusesSummary();\n  const bandSummary = overallDistanceBandSummary(currentCampusKey);\n"
+          if new not in index:
+              assert old in index
+              index = index.replace(old, new, 1)
+
+          old_meta = """  document.getElementById("combinedRentMeta").textContent =
+              "Main, Centennial and Biomedical Campus · all unique listings across the displayed 1-, 3- and 5-mile views, counted once";
+          """
+          new_meta = """  document.getElementById("combinedRentMeta").textContent =
+              `${campuses[currentCampusKey].label} · equal-weight average of the 0–1, >1–3 and >3–5 mile distance-band means`;
+          """
+          if new_meta not in index:
+              assert old_meta in index
+              index = index.replace(old_meta, new_meta, 1)
+
+          for old_line, new_line in [
+              ('combinedPerOverall").textContent = summary.perOverall.display;', 'combinedPerOverall").textContent = bandSummary.perOverall.display;'),
+              ('combinedPerMid").textContent = money(summary.perOverall.midpoint);', 'combinedPerMid").textContent = money(bandSummary.perOverall.midpoint);'),
+              ('combinedWholeOverall").textContent = summary.wholeOverall.display;', 'combinedWholeOverall").textContent = bandSummary.wholeOverall.display;'),
+              ('combinedWholeMid").textContent = money(summary.wholeOverall.midpoint);', 'combinedWholeMid").textContent = money(bandSummary.wholeOverall.midpoint);')
+          ]:
+              if new_line not in index:
+                  assert old_line in index
+                  index = index.replace(old_line, new_line, 1)
+
+          refs = refs.replace(
+              "<strong>Worked calculation for the combined rent summary:</strong>",
+              "<strong>Worked calculation for the affordability visualizer:</strong>", 1
+          )
+
+          if "Worked calculation for the selected-campus off-campus summary card" not in refs:
+              note = """        <div class="use-note">
+                    <strong>Worked calculation for the selected-campus off-campus summary card:</strong> The card beneath the distance-band table gives the three non-overlapping bands equal weight. For each pricing type: (0–1 mile mean + >1–3 mile mean + >3–5 mile mean) ÷ 3. The same calculation is done separately for the low and high rent means; the midpoint is halfway between those results. Bands are not weighted by their number of listings.<br><br>
+                    <strong>Main Campus check:</strong> Per-bedroom low = ($827.35 + $818.17 + $890.00) ÷ 3 = <strong>$845.17</strong>; high = ($928.20 + $955.02 + $920.00) ÷ 3 = <strong>$934.41</strong>; midpoint = <strong>$889.79</strong>. Article display: <strong>$845–$934; midpoint $890</strong>.<br>
+                    Whole-unit low = ($1,855.18 + $1,597.06 + $1,560.19) ÷ 3 = <strong>$1,670.81</strong>; high = ($2,102.88 + $1,741.68 + $1,661.19) ÷ 3 = <strong>$1,835.25</strong>; midpoint = <strong>$1,753.03</strong>. Article display: <strong>$1,671–$1,835; midpoint $1,753</strong>.<br><br>
+                    <strong>Other campus displays:</strong> Centennial Campus = <strong>$835–$945 per bedroom (midpoint $890)</strong> and <strong>$1,657–$1,833 whole unit (midpoint $1,745)</strong>. Centennial Biomedical Campus = <strong>$865–$1,066 per bedroom (midpoint $966)</strong> and <strong>$1,904–$2,003 whole unit (midpoint $1,954)</strong>. The individual band sums, counts and means used for these checks are in the table immediately below.
+                  </div>
+
+          """
+              marker = '        <div class="band-math-wrap">'
+              assert marker in refs
+              refs = refs.replace(marker, note + marker, 1)
+
+          ip.write_text(index, encoding="utf-8")
+          rp.write_text(refs, encoding="utf-8")
+          PY
       - name: Commit changes
         run: |
           git add index.html references.html
