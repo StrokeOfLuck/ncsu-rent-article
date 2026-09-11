@@ -91,11 +91,11 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
   <p class="deck">Audit view for the Main Campus rental sample. Every listing within five straight-line miles is assigned a visible number inside its non-overlapping distance band so the published property counts can be checked directly against the map and table.</p>
 
   <div class="tabbar" role="tablist" aria-label="Audit views">
-    <button id="checker-tab" class="active" type="button">Numbered band checker</button>
-    <button id="full-tab" type="button">Full audit tools</button>
+    <button id="checker-tab" type="button">Numbered band checker</button>
+    <button id="full-tab" class="active" type="button">Full audit tools</button>
   </div>
 
-  <section id="checker-panel" class="panel">
+  <section id="checker-panel" class="panel" hidden>
     <div class="checker-head">
       <div>
         <div class="checker-title">Published count check</div>
@@ -135,7 +135,7 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
       <span class="legend-item"><span class="diamond">◆</span>Main Campus reference point</span>
       <span class="legend-item"><span class="rule-swatch"></span>1, 3 and 5 mile boundaries</span>
     </div>
-    <div class="audit-note"><strong>How to check it:</strong> choose a distance band, then follow the numbered markers or the matching “Map #” column below. The last number in an unfiltered band should equal the published property count. Numbers are identifiers for this audit only, not rankings. Distances are straight-line Haversine calculations from the Main Campus reference point at 35.77951, −78.68168.</div>
+    <div class="audit-note"><strong>How to check it:</strong> choose a distance band, then follow the numbered markers or the matching “Map #” column below. The last number in an unfiltered band should equal the published property count. Numbers are identifiers for this audit only, not rankings. Distances are straight-line Haversine calculations from the Main Campus reference point at 35.77951, −w8.68168.</div>
 
     <div class="table-head">
       <h2>Numbered listing checker</h2>
@@ -149,17 +149,17 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
     </div>
   </section>
 
-  <section id="full-panel" class="panel" hidden>
+  <section id="full-panel" class="panel">
     <div class="full-panel-copy">
       The original detailed audit is preserved here with the campus/radius controls, calculations and XLSX downloads.
       <a class="open-full" href="rental-map-audit-original.html" target="_blank" rel="noopener">Open full audit in a new tab</a>
     </div>
-    <iframe id="full-frame" class="full-frame" title="Original NC State rental map and radius audit" loading="lazy"></iframe>
+    <iframe id="full-frame" class="full-frame" title="Original NC State rental map and radius audit" loading="lazy" src="rental-map-audit-original.html"></iframe>
   </section>
 </div>
 
 <script>
-(() => {
+(()=>{
   const MAIN = {name:"Main Campus", lat:35.77951, lon:-78.68168};
   const EXPECTED = { "0_1":54, "1_3":73, "3_5":26 };
   const BAND_LABEL = { "0_1":"0–1 mi", "1_3":">1–3 mi", "3_5":">3–5 mi" };
@@ -192,7 +192,7 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
   }
 
   function esc(v){
-    return String(v ?? "").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+    return String(v ?? "").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;","'":"&#39;"}[c]));
   }
 
   function cleanProperty(feature, idx){
@@ -214,8 +214,9 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
 
   function assignNumbers(items){
     ["0_1","1_3","3_5"].forEach(b=>{
-      const group = items.filter(d=>d.band===b).sort((a,z)=>a.distance-z.distance || a.name.localeCompare(z.name) || a.idx-z.idx);
-      group.forEach((d,i)=>{ d.auditNumber=i+1; d.bandTotal=group.length; });
+      items.filter(d=>d.band===b)
+        .sort((a,z)=>a.distance-z.distance || a.name.localeCompare(z.name) || a.idx-z.idx)
+        .forEach((d,i)=>{ d.auditNumber=i+1; d.bandTotal=items.filter(x=>x.band===b).length; });
     });
     return items;
   }
@@ -226,7 +227,7 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
       const expected = EXPECTED[b];
       const el = document.getElementById("check-"+b);
       const ok = actual === expected;
-      el.textContent = `${actual} / ${expected} ${ok ? "✓" : "⚠"}`;
+      el.textContent = `${actual} / ${expected} ${ok ? "✓" : "⎠"}`;
       el.className = "check-value " + (ok ? "good" : "warn");
     });
   }
@@ -249,9 +250,18 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
         type:"Feature",
         geometry:{type:"Point",coordinates:[d.lon,d.lat]},
         properties:{
-          key:String(d.idx), audit_number:String(d.auditNumber), audit_number_num:d.auditNumber,
-          band:d.band, band_label:BAND_LABEL[d.band], band_total:d.bandTotal, pricing:d.pricing,
-          name:d.name, address:d.address, rent:d.rent, distance:d.distance, url:d.url,
+          key:String(d.idx),
+          audit_number:String(d.auditNumber),
+          audit_number_num:d.auditNumber,
+          band:d.band,
+          band_label:BAND_LABEL[d.band],
+          band_total:d.bandTotal,
+          pricing:d.pricing,
+          name:d.name,
+          address:d.address,
+          rent:d.rent,
+          distance:d.distance,
+          url:d.url,
           color:COLORS[d.pricing] || "#6d6a64"
         }
       }))
@@ -263,10 +273,11 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
       const order={ "0_1":0,"1_3":1,"3_5":2 };
       return order[a.band]-order[b.band] || a.auditNumber-b.auditNumber;
     });
+    const filtersActive = selectedBand !== "all" || pricingEl.value !== "all" || searchEl.value.trim();
     const expected = selectedBand === "all" ? 153 : EXPECTED[selectedBand];
     const plainBand = pricingEl.value === "all" && !searchEl.value.trim();
     if(plainBand){
-      countEl.textContent = `${items.length} shown / ${expected} expected ${items.length===expected ? "✓" : "⚠"}`;
+      countEl.textContent = `${items.length} shown / ${expected} expected ${items.length===expected ? "✓" : "⎠"}`;
     } else {
       countEl.textContent = `${items.length} shown · ${expected} in ${selectedBand==="all" ? "all bands" : BAND_LABEL[selectedBand]} before filters`;
     }
@@ -284,22 +295,25 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
         <td>${d.url ? `<a href="${esc(d.url)}" target="_blank" rel="noopener">Listing ↗</a>` : "—"}</td>
       </tr>`).join("");
 
-    if(mapReady) map.getSource("rentals").setData(featureCollection(items));
+    if(mapReady){
+      map.getSource("rentals").setData(featureCollection(items));
+    }
   }
 
   function makeCircle(radiusMiles, steps=128){
     const coords=[];
+    const latR = 69.0;
     for(let i=0;i<=steps;i++){
       const a=2*Math.PI*i/steps;
-      const dLat=(radiusMiles/69.0)*Math.sin(a);
+      const dLat=(radiusMiles/latR)*Math.sin(a);
       const dLon=(radiusMiles/(Math.cos(MAIN.lat*Math.PI/180)*69.172))*Math.cos(a);
       coords.push([MAIN.lon+dLon,MAIN.lat+dLat]);
     }
-    return {type:"Feature",properties:{radius:radiusMiles},geometry:{type:"Polygon",coordinates:[coords]}};
+    return {type:"Feature", properties:{radius:radiusMiles}, geometry:{type:"Polygon",coordinates:[coords]}};
   }
 
   function popupHtml(p){
-    const link = p.url ? `<a class="popup-link" href="${esc(p.url)}" target="_blank" rel="noopener">Open original listing ↗</a>` : "";
+    const link = p.url ? `<a class="popup-link" href="${esc(p.url)}" target="_blank" rel="noopener">Open original listing ↘</a>` : "";
     return `<div class="popup-index">#${esc(p.audit_number)} of ${esc(p.band_total)} · ${esc(p.band_label)}</div>
       <div class="popup-title">${esc(p.name)}</div>
       ${p.address ? `<div class="popup-row">${esc(p.address)}</div>` : ""}
@@ -318,7 +332,7 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
       map.addLayer({id:"campus-perimeters-line",type:"line",source:"campus-perimeters",paint:{"line-color":"#557e98","line-width":1,"line-opacity":0.7}});
       map.addSource("campus-buildings",{type:"geojson",data:bldg});
       map.addLayer({id:"campus-buildings-fill",type:"fill",source:"campus-buildings",paint:{"fill-color":"#85817b","fill-opacity":0.16}});
-    }catch(e){}
+    }catch(e){ /* reference overlays are optional */ }
   }
 
   async function init(){
@@ -332,52 +346,86 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
       map = new maplibregl.Map({
         container:"map",
         style:"https://tiles.openfreemap.org/styles/positron",
-        center:[MAIN.lon,MAIN.lat], zoom:11.45, attributionControl:true
+        center:[MAIN.lon,MAIN.lat],
+        zoom:11.45,
+        attributionControl:true
       });
       map.addControl(new maplibregl.NavigationControl({showCompass:false}),"bottom-right");
 
       map.on("load", async ()=>{
         await addReferenceLayers();
+
         map.addSource("rings",{type:"geojson",data:{type:"FeatureCollection",features:[makeCircle(1),makeCircle(3),makeCircle(5)]}});
         map.addLayer({id:"rings",type:"line",source:"rings",paint:{"line-color":"#68645f","line-width":1.3,"line-dasharray":[4,4],"line-opacity":0.65}});
 
         map.addSource("rentals",{type:"geojson",data:featureCollection(currentItems())});
-        map.addLayer({id:"rental-circles",type:"circle",source:"rentals",paint:{
-          "circle-radius":["interpolate",["linear"],["zoom"],9,8,13,11],
-          "circle-color":["get","color"],"circle-stroke-color":"#fff","circle-stroke-width":1.5,"circle-opacity":0.96
-        }});
-        map.addLayer({id:"rental-numbers",type:"symbol",source:"rentals",layout:{
-          "text-field":["get","audit_number"],"text-size":["interpolate",["linear"],["zoom"],9,7,12,9,14,11],
-          "text-font":["Noto Sans Bold"],"text-allow-overlap":true,"text-ignore-placement":true
-        },paint:{"text-color":"#fff","text-halo-color":"rgba(0,0,0,.45)","text-halo-width":0.55}});
+        map.addLayer({
+          id:"rental-circles",type:"circle",source:"rentals",
+          paint:{
+            "circle-radius":["interpolate",["linear"],["zoom"],9,8,13,11],
+            "circle-color":["get","color"],
+            "circle-stroke-color":"#fff","circle-stroke-width":1.5,"circle-opacity":0.96
+          }
+        });
+        map.addLayer({
+          id:"rental-numbers",type:"symbol",source:"rentals",
+          layout:{
+            "text-field":["get","audit_number"],
+            "text-size":["interpolate",["linear"],["zoom"],9,7,12,9,14,11],
+            "text-font":["Noto Sans Bold"],
+            "text-allow-overlap":true,
+            "text-ignore-placement":true
+          },
+          paint:{
+            "text-color":"#fff",
+            "text-halo-color":"rgba(0,0,0,.45)",
+            "text-halo-width":0.55
+          }
+        });
 
         map.addSource("campus-point",{type:"geojson",data:{type:"Feature",properties:{},geometry:{type:"Point",coordinates:[MAIN.lon,MAIN.lat]}}});
-        map.addLayer({id:"campus-point",type:"symbol",source:"campus-point",layout:{"text-field":"◆","text-size":25,"text-allow-overlap":true},paint:{"text-color":"#2f7d73","text-halo-color":"#fff","text-halo-width":2}});
+        map.addLayer({id:"campus-point",type:"symbol",source:"campus-point",
+          layout:{"text-field":"◆","text-size":25,"text-allow-overlap":true},
+          paint:{"text-color":"#2f7d73","text-halo-color":"#fff","text-halo-width":2}
+        });
 
         map.on("click","rental-circles",e=>{
-          const f=e.features && e.features[0]; if(!f) return;
-          new maplibregl.Popup({closeButton:true,maxWidth:"310px"}).setLngLat(f.geometry.coordinates).setHTML(popupHtml(f.properties)).addTo(map);
+          const f=e.features && e.features[0];
+          if(!f) return;
+          new maplibregl.Popup({closeButton:true,maxWidth:"310px"})
+            .setLngLat(f.geometry.coordinates)
+            .setHTML(popupHtml(f.properties))
+            .addTo(map);
         });
         map.on("mouseenter","rental-circles",()=>map.getCanvas().style.cursor="pointer");
         map.on("mouseleave","rental-circles",()=>map.getCanvas().style.cursor="");
-        mapReady=true; render();
+
+        mapReady=true;
+        render();
       });
 
       rowsEl.addEventListener("click",e=>{
-        const row=e.target.closest("tr[data-key]"); if(!row || e.target.closest("a")) return;
-        const d=all.find(x=>String(x.idx)===row.dataset.key); if(!d || !mapReady) return;
-        map.flyTo({center:[d.lon,d.lat],zoom:14.5,essential:true});
+        const row=e.target.closest("tr[data-key]");
+        if(!row || e.target.closest("a")) return;
+        const d=all.find(x=>String(x.idx)===row.dataset.key);
+        if(!d || !mapReady) return;
+        map.flyTo({center:[lond=d.lon,d.lat],zoom:14.5,essential:true});
         const p=featureCollection([d]).features[0].properties;
-        new maplibregl.Popup({closeButton:true,maxWidth:"310px"}).setLngLat([d.lon,d.lat]).setHTML(popupHtml(p)).addTo(map);
+        new maplibregl.Popup({closeButton:true,maxWidth:"310px"})
+          .setLngLat([d.lon,d.lat]).setHTML(popupHtml(p)).addTo(map);
       });
+
       render();
     }catch(err){
-      countEl.textContent = "Could not load listing data."; tableCountEl.textContent = ""; console.error(err);
+      countEl.textContent = "Could not load listing data.";
+      tableCountEl.textContent = "";
+      console.error(err);
     }
   }
 
   document.getElementById("band-buttons").addEventListener("click",e=>{
-    const btn=e.target.closest(".band-btn"); if(!btn) return;
+    const btn=e.target.closest(".band-btn");
+    if(!btn) return;
     selectedBand=btn.dataset.band;
     document.querySelectorAll(".band-btn").forEach(b=>b.classList.toggle("active",b===btn));
     render();
@@ -389,14 +437,18 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
   const fullTab=document.getElementById("full-tab");
   checkerTab.addEventListener("click",()=>{
     checkerTab.classList.add("active");fullTab.classList.remove("active");
-    document.getElementById("checker-panel").hidden=false;document.getElementById("full-panel").hidden=true;
+    document.getElementById("checker-panel").hidden=false;
+    document.getElementById("full-panel").hidden=true;
     if(mapReady) setTimeout(()=>map.resize(),0);
   });
   fullTab.addEventListener("click",()=>{
     fullTab.classList.add("active");checkerTab.classList.remove("active");
-    document.getElementById("checker-panel").hidden=true;document.getElementById("full-panel").hidden=false;
-    const frame=document.getElementById("full-frame"); if(!frame.src) frame.src="rental-map-audit-original.html";
+    document.getElementById("checker-panel").hidden=true;
+    document.getElementById("full-panel").hidden=false;
+    const frame=document.getElementById("full-frame");
+    if(!frame.src) frame.src="rental-map-audit-original.html";
   });
+
   init();
 })();
 </script>
