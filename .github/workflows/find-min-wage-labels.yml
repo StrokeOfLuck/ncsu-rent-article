@@ -1,0 +1,48 @@
+name: Locate wage labels
+on:
+  push:
+    paths:
+      - .github/workflows/find-min-wage-labels.yml
+permissions:
+  contents: write
+jobs:
+  locate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find wage label source snippets
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          targets = [Path('index.html'), Path('references.html'), Path('rental-map-audit-original.html'), Path('rental-map-audit.html')]
+          patterns = [r'7\.25', r'Federal', r'Housing wage', r'HMFA', r'THRESHOLD', r'Threshold', r'\$15', r'15 reference']
+          out = []
+          for p in targets:
+              if not p.exists():
+                  continue
+              s = p.read_text(encoding='utf-8')
+              out.append(f'===== {p} =====')
+              seen = set()
+              for pat in patterns:
+                  for m in re.finditer(pat, s, re.I):
+                      key = (max(0,m.start()-220), min(len(s),m.end()+220))
+                      if key in seen:
+                          continue
+                      seen.add(key)
+                      a,b = key
+                      snippet = s[a:b].replace('\n','\\n')
+                      out.append(f'PATTERN {pat} @ {m.start()}: {snippet}')
+              out.append('')
+          Path('.github/nc-label-debug.txt').write_text('\n'.join(out), encoding='utf-8')
+          PY
+      - name: Commit debug snippets
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/nc-label-debug.txt
+          git commit -m "Capture wage label source snippets [skip ci]"
+          git push
