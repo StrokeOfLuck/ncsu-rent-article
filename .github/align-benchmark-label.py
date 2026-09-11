@@ -54,6 +54,14 @@ ordered_rows = '\n        ' + '\n        '.join(by_label[label] for label in ord
 chart = chart[:first_row_pos] + ordered_rows + chart[last_row_end:]
 s = s[:chart_start] + chart + s[context_start:]
 
+# Make it explicit that this chart is NC State University Housing, not the
+# off-campus rental market shown elsewhere in the article.
+s = s.replace(
+    '<div class="housing-rate-change-title">Rate increase from 2025–26 to 2026–27*</div>',
+    '<div class="housing-rate-change-title">University Housing rate increase from 2025–26 to 2026–27*</div>',
+    1,
+)
+
 # Split the active benchmark into a name and percentage. Desktop keeps them inline;
 # mobile stacks the name above the percentage and centers both on the reference line.
 plain_label = '<span id="housing-rate-active-label" class="housing-rate-active-label" style="left:37.5%">Lodging while at school 3.0%</span>'
@@ -235,15 +243,17 @@ mobile_css = r'''
 
   .housing-rate-active-label::after{
     top:calc(100% + 3px) !important;
-    height:22px !important;
+    height:28px !important;
     border-left:2px solid #6fb4f2 !important;
     border-left-style:solid !important;
   }
 
-  /* Keep the mobile benchmark line solid and visually continuous. */
-  .housing-rate-plot .housing-rate-benchmark-line{
-    top:-10px !important;
-    bottom:-10px !important;
+  /* Each row owns a piece of the reference line. Extend the pieces far enough
+     to overlap through wrapped mobile labels and row gaps so it renders as one
+     continuous solid line rather than a dashed-looking stack of segments. */
+  .housing-rate-chart > .housing-rate-row .housing-rate-benchmark-line{
+    top:-36px !important;
+    bottom:-36px !important;
     height:auto !important;
     border-left:2px solid #6fb4f2 !important;
     border-left-style:solid !important;
@@ -251,7 +261,11 @@ mobile_css = r'''
   }
 
   .housing-rate-axis + .housing-rate-row .housing-rate-benchmark-line{
-    top:-10px !important;
+    top:-16px !important;
+  }
+
+  .housing-rate-chart > .housing-rate-row:last-of-type .housing-rate-benchmark-line{
+    bottom:0 !important;
   }
 
   /* Return the benchmark cards to a simple vertical stack on phones. */
