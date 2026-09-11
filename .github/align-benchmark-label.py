@@ -94,4 +94,96 @@ if baseline_marker not in s:
         raise SystemExit("Could not find closing style tag")
     s = s.replace('</style>', css + '\n</style>', 1)
 
+mobile_marker = "/* Mobile housing-rate chart cleanup */"
+if mobile_marker not in s:
+    css = r'''
+
+/* Mobile housing-rate chart cleanup */
+@media(max-width:700px){
+  .housing-rate-chart{
+    padding-top:2px;
+  }
+
+  .housing-rate-axis{
+    grid-template-columns:1fr !important;
+    margin-bottom:4px !important;
+  }
+
+  .housing-rate-axis-plot{
+    grid-column:1 !important;
+    height:22px !important;
+  }
+
+  .housing-rate-row{
+    grid-template-columns:minmax(0,1fr) 54px !important;
+    grid-template-rows:auto 22px !important;
+    column-gap:10px !important;
+    row-gap:5px !important;
+    align-items:start !important;
+    padding:8px 0 3px;
+  }
+
+  .housing-rate-label{
+    grid-column:1 !important;
+    grid-row:1 !important;
+    min-width:0;
+    padding-right:2px;
+    font-size:8.8px !important;
+    line-height:1.22 !important;
+  }
+
+  .housing-rate-label strong{
+    font-size:9.7px !important;
+    line-height:1.22 !important;
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+
+  .housing-rate-value{
+    grid-column:2 !important;
+    grid-row:1 !important;
+    align-self:start !important;
+    padding-top:0 !important;
+    text-align:right;
+    white-space:nowrap;
+  }
+
+  .housing-rate-plot{
+    grid-column:1 / -1 !important;
+    grid-row:2 !important;
+    height:22px !important;
+    margin-top:0 !important;
+  }
+
+  .housing-rate-plot .housing-rate-benchmark-line{
+    top:0 !important;
+    bottom:0 !important;
+    height:auto !important;
+  }
+
+  .housing-rate-axis + .housing-rate-row .housing-rate-benchmark-line{
+    top:0 !important;
+    bottom:0 !important;
+  }
+
+  .housing-rate-context{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:0 !important;
+  }
+
+  .housing-rate-context-title,
+  .housing-rate-context-note{
+    grid-column:1 / -1 !important;
+  }
+
+  .housing-rate-context > .housing-rate-context-item{
+    min-width:0;
+  }
+}
+/* End mobile housing-rate chart cleanup */
+'''
+    if '</style>' not in s:
+        raise SystemExit("Could not find closing style tag")
+    s = s.replace('</style>', css + '\n</style>', 1)
+
 p.write_text(s, encoding="utf-8")
