@@ -3534,6 +3534,143 @@ th:first-child, td:first-child {
   }
 }
 
+
+
+/* Interactive BLS housing benchmark selector */
+.housing-rate-benchmark-legend{
+  display:none !important;
+}
+.housing-rate-axis-plot{
+  height:32px;
+}
+.housing-rate-active-label{
+  position:absolute;
+  top:0;
+  transform:translateX(-50%);
+  color:#6fb4f2;
+  font-size:8.5px;
+  line-height:1;
+  font-weight:900;
+  white-space:nowrap;
+  z-index:3;
+  transition:left .16s ease;
+}
+.housing-rate-active-label::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:13px;
+  height:27px;
+  border-left:2px solid #6fb4f2;
+  opacity:.95;
+}
+.housing-rate-benchmark-line{
+  display:none !important;
+  border-left:2px solid #6fb4f2 !important;
+  opacity:.95 !important;
+}
+.housing-rate-chart[data-benchmark="school"] .benchmark-school,
+.housing-rate-chart[data-benchmark="rent"] .benchmark-rent,
+.housing-rate-chart[data-benchmark="cpi"] .benchmark-cpi{
+  display:block !important;
+}
+
+.housing-rate-context{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  align-items:stretch;
+}
+.housing-rate-context-title{
+  grid-column:1 / -1;
+}
+.housing-rate-context > .housing-rate-context-item{
+  min-width:0;
+  margin-top:0 !important;
+  padding:10px 14px 6px !important;
+  border-top:0 !important;
+}
+.housing-rate-context > .housing-rate-context-title + .housing-rate-context-item{
+  padding-left:0 !important;
+  border-left:0 !important;
+}
+.housing-rate-context > .housing-rate-context-item:nth-child(4),
+.housing-rate-context > .housing-rate-context-item:nth-child(5){
+  padding-left:14px !important;
+  border-left:1px solid var(--line) !important;
+}
+.housing-rate-benchmark-control{
+  position:relative;
+  cursor:pointer;
+  background:rgba(43,95,151,.035);
+  transition:background .14s ease, box-shadow .14s ease;
+}
+.housing-rate-benchmark-control::before{
+  content:"";
+  position:absolute;
+  left:14px;
+  right:14px;
+  top:0;
+  height:2px;
+  background:var(--blue);
+  opacity:.18;
+}
+.housing-rate-benchmark-control:hover,
+.housing-rate-benchmark-control:focus-visible{
+  outline:none;
+  background:rgba(43,95,151,.075);
+}
+.housing-rate-benchmark-control.is-active{
+  background:rgba(43,95,151,.095);
+  box-shadow:inset 0 2px 0 var(--blue);
+}
+.housing-rate-benchmark-control.is-active::before{
+  opacity:0;
+}
+.housing-rate-context-note{
+  grid-column:1 / -1;
+}
+
+@media(max-width:900px){
+  .housing-rate-context{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .housing-rate-context > .housing-rate-context-item{
+    border-top:1px solid var(--line) !important;
+  }
+  .housing-rate-context > .housing-rate-context-item:nth-child(2),
+  .housing-rate-context > .housing-rate-context-item:nth-child(4){
+    border-left:0 !important;
+    padding-left:0 !important;
+  }
+  .housing-rate-context > .housing-rate-context-item:nth-child(3),
+  .housing-rate-context > .housing-rate-context-item:nth-child(5){
+    border-left:1px solid var(--line) !important;
+    padding-left:14px !important;
+  }
+}
+
+@media(max-width:700px){
+  .housing-rate-active-label{
+    font-size:7.6px;
+  }
+  .housing-rate-context{
+    grid-template-columns:1fr;
+  }
+  .housing-rate-context > .housing-rate-context-item,
+  .housing-rate-context > .housing-rate-context-item:nth-child(2),
+  .housing-rate-context > .housing-rate-context-item:nth-child(3),
+  .housing-rate-context > .housing-rate-context-item:nth-child(4),
+  .housing-rate-context > .housing-rate-context-item:nth-child(5){
+    padding:9px 0 !important;
+    border-left:0 !important;
+    border-top:1px solid var(--line) !important;
+  }
+  .housing-rate-benchmark-control::before{
+    left:0;
+    right:0;
+  }
+}
+/* End interactive BLS housing benchmark selector */
+
 </style>
 </head>
 <body>
@@ -3697,19 +3834,13 @@ th:first-child, td:first-child {
         </div>
       </div>
 
-      <div class="housing-rate-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27. Dots show each housing rate increase on a zero to eight percent scale. Vertical reference lines show July 2026 BLS 12-month changes for rent of primary residence at 2.9 percent, lodging while at school at 3.0 percent, and all-items CPI at 3.4 percent.">
-        <div class="housing-rate-benchmark-legend" aria-label="BLS price benchmarks, July 2025 to July 2026">
-          <strong>BLS 12-month change:</strong>
-          <span class="housing-rate-benchmark-key"><span class="housing-rate-benchmark-swatch school"></span>Lodging while at school 3.0%</span>
-          <span class="housing-rate-benchmark-key"><span class="housing-rate-benchmark-swatch"></span>Rent of primary residence 2.9%</span>
-          <span class="housing-rate-benchmark-key"><span class="housing-rate-benchmark-swatch cpi"></span>All items CPI 3.4%</span>
-        </div>
+      <div class="housing-rate-chart" data-benchmark="school" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27. Dots show each housing rate increase on a zero to eight percent scale. An interactive vertical reference line compares the housing-rate changes with July 2026 BLS 12-month price benchmarks.">
         <div class="housing-rate-axis" aria-hidden="true">
           <div></div>
           <div class="housing-rate-axis-plot">
+            <span id="housing-rate-active-label" class="housing-rate-active-label" style="left:37.5%">Lodging while at school 3.0%</span>
             <span class="housing-rate-axis-tick first" style="left:0%">0%</span>
             <span class="housing-rate-axis-tick" style="left:25%">2%</span>
-            <span class="housing-rate-axis-tick" style="left:50%">4%</span>
             <span class="housing-rate-axis-tick" style="left:75%">6%</span>
             <span class="housing-rate-axis-tick last" style="left:100%">8%</span>
           </div>
@@ -3748,7 +3879,7 @@ th:first-child, td:first-child {
           </div>
         </div>
 
-        <div class="housing-rate-context-item">
+        <div class="housing-rate-context-item housing-rate-benchmark-control" data-benchmark="school" tabindex="0" aria-label="Show BLS lodging while at school, 3.0 percent, on the chart">
           <div>
             <div class="housing-rate-context-label">BLS lodging while at school</div>
             <div class="housing-rate-context-metric"><strong>+3.0%</strong><span>July 2025 to July 2026</span></div>
@@ -3756,7 +3887,7 @@ th:first-child, td:first-child {
           </div>
         </div>
 
-        <div class="housing-rate-context-item">
+        <div class="housing-rate-context-item housing-rate-benchmark-control" data-benchmark="rent" tabindex="0" aria-label="Show BLS rent of primary residence, 2.9 percent, on the chart">
           <div>
             <div class="housing-rate-context-label">BLS rent of primary residence</div>
             <div class="housing-rate-context-metric"><strong>+2.9%</strong><span>July 2025 to July 2026</span></div>
@@ -3764,7 +3895,7 @@ th:first-child, td:first-child {
           </div>
         </div>
 
-        <div class="housing-rate-context-item">
+        <div class="housing-rate-context-item housing-rate-benchmark-control" data-benchmark="cpi" tabindex="0" aria-label="Show all-items CPI, 3.4 percent, on the chart">
           <div class="housing-rate-context-icon" aria-hidden="true">
             <svg viewBox="0 0 40 40">
               <g fill="currentColor">
@@ -4842,5 +4973,55 @@ hudInfoDialog?.addEventListener("click", (event) => {
   if(event.target === hudInfoDialog) hudInfoDialog.close();
 });
 </script>
+
+<script>
+(() => {
+  const chart = document.querySelector('.housing-rate-chart');
+  const label = document.getElementById('housing-rate-active-label');
+  const controls = [...document.querySelectorAll('.housing-rate-benchmark-control')];
+  if (!chart || !label || !controls.length) return;
+
+  const benchmarks = {
+    school: { label: 'Lodging while at school 3.0%', left: '37.5%' },
+    rent:   { label: 'Rent of primary residence 2.9%', left: '36.25%' },
+    cpi:    { label: 'All items CPI 3.4%', left: '42.5%' }
+  };
+
+  let pinned = 'school';
+
+  const show = key => {
+    const benchmark = benchmarks[key] || benchmarks.school;
+    chart.dataset.benchmark = key in benchmarks ? key : 'school';
+    label.textContent = benchmark.label;
+    label.style.left = benchmark.left;
+    controls.forEach(control => {
+      control.classList.toggle('is-active', control.dataset.benchmark === chart.dataset.benchmark);
+    });
+  };
+
+  controls.forEach(control => {
+    const key = control.dataset.benchmark;
+    control.addEventListener('mouseenter', () => show(key));
+    control.addEventListener('mouseleave', () => show(pinned));
+    control.addEventListener('focus', () => show(key));
+    control.addEventListener('blur', () => show(pinned));
+    control.addEventListener('click', event => {
+      if (event.target.closest('a')) return;
+      pinned = key;
+      show(key);
+    });
+    control.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        pinned = key;
+        show(key);
+      }
+    });
+  });
+
+  show(pinned);
+})();
+</script>
+
 </body>
 </html>
