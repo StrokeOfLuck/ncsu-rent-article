@@ -1,0 +1,46 @@
+name: Move housing projection note
+on:
+  push:
+    paths: ['.github/workflows/chatgpt-move-housing-projection-note.yml']
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Move disclaimer
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          old='<a class="housing-rate-change-source" href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">Source: NC State University Housing</a>'
+          new='''<div class="housing-rate-change-source-wrap">\n          <a class="housing-rate-change-source" href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">Source: NC State University Housing</a>\n          <div class="housing-rate-change-source-note">*2026–27 rates are projected rates published by NC State University Housing.</div>\n        </div>'''
+          assert old in s
+          s=s.replace(old,new,1)
+          foot='  <div class="housing-rate-change-foot">*2026–27 rates are projected rates published by NC State University Housing.</div>\n'
+          assert foot in s
+          s=s.replace(foot,'',1)
+          marker='.housing-rate-change-source{\n  flex:0 0 auto;\n'
+          css='''.housing-rate-change-source-wrap{\n  flex:0 0 auto;\n  max-width:290px;\n  text-align:right;\n}\n.housing-rate-change-source-note{\n  margin-top:4px;\n  color:var(--muted);\n  font-size:8px;\n  line-height:1.3;\n}\n\n.housing-rate-change-source{\n  flex:0 0 auto;\n'''
+          assert marker in s
+          s=s.replace(marker,css,1)
+          mobile='  .housing-rate-change-source{\n    white-space:normal;\n  }\n'
+          mobile_new='''  .housing-rate-change-source-wrap{\n    max-width:none;\n    text-align:left;\n  }\n  .housing-rate-change-source{\n    white-space:normal;\n  }\n'''
+          assert mobile in s
+          s=s.replace(mobile,mobile_new,1)
+          p.write_text(s)
+          PY
+      - run: |
+          git add index.html
+          git commit -m "Move housing projection note under source [skip ci]"
+          git push
+      - run: |
+          git pull --rebase
+          git rm .github/workflows/chatgpt-move-housing-projection-note.yml
+          git commit -m "Remove one-time projection workflow [skip ci]"
+          git push
