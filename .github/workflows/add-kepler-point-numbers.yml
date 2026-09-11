@@ -1,0 +1,137 @@
+name: Add Kepler listing numbers
+
+on:
+  push:
+    paths:
+      - .github/workflows/add-kepler-point-numbers.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add listing numbers to Kepler maps
+        shell: bash
+        run: |
+          python - <<'PY'
+          import copy, csv, json
+          from pathlib import Path
+
+          MAPS = [
+              Path('data/kepler/ncsu-rent-main-campus_0-1mi-distance'),
+              Path('data/kepler/ncsu-rent-main-campus_1-3mi-distance'),
+              Path('data/kepler/ncsu-rent-main-campus_3-5mi-distance'),
+          ]
+
+          def update_csv(csv_path):
+              with csv_path.open(newline='', encoding='utf-8') as f:
+                  rows = list(csv.DictReader(f))
+              fieldnames = list(rows[0].keys())
+              if 'listing_number' not in fieldnames:
+                  insert_at = fieldnames.index('property_name') + 1 if 'property_name' in fieldnames else 0
+                  fieldnames = fieldnames[:insert_at] + ['listing_number'] + fieldnames[insert_at:]
+              for i, row in enumerate(rows, 1):
+                  row['listing_number'] = str(i)
+              with csv_path.open('w', newline='', encoding='utf-8') as f:
+                  w = csv.DictWriter(f, fieldnames=fieldnames)
+                  w.writeheader(); w.writerows(rows)
+              return rows
+
+          def typed(value, field_type):
+              if value in ('', None): return None
+              if field_type == 'integer': return int(value)
+              if field_type == 'real': return float(value)
+              return value
+
+          def update_json(json_path, rows):
+              obj = json.loads(json_path.read_text(encoding='utf-8'))
+              ds = None
+              for candidate in obj.get('datasets', []):
+                  names = [f['name'] for f in candidate['data']['fields']]
+                  if 'listing_latitude' in names and 'listing_longitude' in names:
+                      ds = candidate; break
+              if ds is None:
+                  raise SystemExit(f'No listing dataset in {json_path}')
+
+              fields = list(ds['data']['fields'])
+              names = [f['name'] for f in fields]
+              if 'listing_number' not in names:
+                  insert_at = names.index('property_name') + 1 if 'property_name' in names else 0
+                  fields.insert(insert_at, {'name':'listing_number','type':'integer','format':'','analyzerType':'INT'})
+              else:
+                  for f in fields:
+                      if f['name'] == 'listing_number':
+                          f.update({'type':'integer','format':'','analyzerType':'INT'})
+              ds['data']['fields'] = fields
+              field_names = [f['name'] for f in fields]
+              ds['data']['allData'] = [[typed(row.get(name), field['type']) for name, field in zip(field_names, fields)] for row in rows]
+              data_id = ds['data']['id']
+
+              layers = obj['config']['config']['visState']['layers']
+              base_idx = None
+              for i, layer in enumerate(layers):
+                  if layer.get('type') == 'point' and layer.get('config',{}).get('dataId') == data_id and 'listing' in str(layer.get('config',{}).get('label','')).lower():
+                      base_idx = i; break
+              if base_idx is None:
+                  raise SystemExit(f'No listing point layer in {json_path}')
+
+              existing = None
+              for i, layer in enumerate(layers):
+                  if layer.get('type') == 'point' and layer.get('config',{}).get('dataId') == data_id and layer.get('config',{}).get('label') == 'Listing numbers':
+                      existing = i; break
+              if existing is None:
+                  number_layer = copy.deepcopy(layers[base_idx])
+                  number_layer['id'] = layers[base_idx]['id'] + '_numbers'
+                  layers.insert(base_idx + 1, number_layer)
+              else:
+                  number_layer = layers[existing]
+
+              number_layer['config']['label'] = 'Listing numbers'
+              number_layer['config']['isVisible'] = True
+              number_layer['config']['hidden'] = False
+              vis = number_layer['config'].setdefault('visConfig', {})
+              vis.update({'radius':1,'opacity':0,'outline':False,'filled':False,'thickness':0})
+              number_layer['config']['textLabel'] = [{
+                  'field': {'name':'listing_number','type':'integer'},
+                  'color': [35,35,35],
+                  'size': 14,
+                  'offset': [0,0],
+                  'anchor': 'middle',
+                  'alignment': 'center'
+              }]
+
+              tooltip = obj['config']['config']['visState']['interactionConfig']['tooltip']['fieldsToShow']
+              current = tooltip.get(data_id, [])
+              tooltip[data_id] = [{'name':'listing_number','format':None}] + [x for x in current if x.get('name') != 'listing_number']
+
+              info = obj.setdefault('info', {})
+              desc = info.get('description','') or ''
+              if 'Listing numbers' not in desc:
+                  info['description'] = (desc + ' Listing numbers are shown in a separate toggleable layer.').strip()
+
+              json_path.write_text(json.dumps(obj, ensure_ascii=False, separators=(',',':')), encoding='utf-8')
+
+          for stem in MAPS:
+              rows = update_csv(stem.with_suffix('.csv'))
+              update_json(stem.with_suffix('.kepler.gl.json'), rows)
+
+          for fname in ['references.html','scripts/add_kepler_distance_reference.py']:
+              p = Path(fname)
+              s = p.read_text(encoding='utf-8')
+              s = s.replace('The point layer is on by default; straight reference-to-listing distance checks are a separate layer and start turned off.', 'The point layer is on by default. Listing numbers are a separate toggleable layer; straight reference-to-listing distance checks are a separate layer and start turned off.')
+              s = s.replace('listing points, and Main Campus reference point are separate toggleable layers.', 'listing points, listing numbers, and Main Campus reference point are separate toggleable layers.')
+              p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Commit numbered Kepler maps
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kepler/ncsu-rent-main-campus_0-1mi-distance.csv data/kepler/ncsu-rent-main-campus_0-1mi-distance.kepler.gl.json data/kepler/ncsu-rent-main-campus_1-3mi-distance.csv data/kepler/ncsu-rent-main-campus_1-3mi-distance.kepler.gl.json data/kepler/ncsu-rent-main-campus_3-5mi-distance.csv data/kepler/ncsu-rent-main-campus_3-5mi-distance.kepler.gl.json references.html scripts/add_kepler_distance_reference.py
+          git diff --cached --quiet && exit 0
+          git commit -m "Add numbering to Kepler listing maps [skip ci]"
+          git push
