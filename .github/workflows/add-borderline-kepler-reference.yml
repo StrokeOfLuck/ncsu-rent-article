@@ -1,0 +1,236 @@
+name: Add Borderline Kepler Reference
+
+on:
+  push:
+    paths:
+      - .github/workflows/add-borderline-kepler-reference.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build borderline distance checker and update reference
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv, json, math
+          from pathlib import Path
+
+          LAT, LON = 35.77951, -78.68168
+          EARTH_MI = 3958.7613
+          KDIR = Path('data/kepler')
+
+          def read_csv(name):
+              with (KDIR / name).open(newline='', encoding='utf-8') as f:
+                  return list(csv.DictReader(f))
+
+          b01 = read_csv('ncsu-rent-main-campus_0-1mi-distance.csv')
+          b13 = read_csv('ncsu-rent-main-campus_1-3mi-distance.csv')
+          b35 = read_csv('ncsu-rent-main-campus_3-5mi-distance.csv')
+
+          def dist(row):
+              return float(row['distance_from_reference_miles'])
+
+          def take(rows, boundary, side, n=10):
+              if side == 'inside':
+                  eligible = [r for r in rows if dist(r) <= boundary]
+              else:
+                  eligible = [r for r in rows if dist(r) > boundary]
+              eligible.sort(key=lambda r: abs(dist(r) - boundary))
+              return eligible[:n]
+
+          groups = {
+              1: take(b01, 1, 'inside') + take(b13, 1, 'outside'),
+              3: take(b13, 3, 'inside') + take(b35, 3, 'outside'),
+              5: take(b35, 5, 'inside'),
+          }
+
+          flat = []
+          for boundary in (1, 3, 5):
+              inside = [r for r in groups[boundary] if dist(r) <= boundary]
+              outside = [r for r in groups[boundary] if dist(r) > boundary]
+              ordered = inside + outside
+              for num, r in enumerate(ordered, 1):
+                  d = dist(r)
+                  side = 'inside' if d <= boundary else 'outside'
+                  feet = abs(d - boundary) * 5280
+                  flat.append({
+                      'boundary_miles': boundary,
+                      'map_number': num,
+                      'side': side,
+                      'feet_from_boundary': round(feet, 1),
+                      'boundary_position': f"{feet:,.0f} ft {side} {boundary}-mile boundary",
+                      'audit_band': r.get('audit_band',''),
+                      'property_name': r.get('property_name',''),
+                      'street_address': r.get('street_address',''),
+                      'city': r.get('city',''),
+                      'state': r.get('state',''),
+                      'site_id': r.get('site_id',''),
+                      'listing_latitude': float(r['listing_latitude']),
+                      'listing_longitude': float(r['listing_longitude']),
+                      'campus_latitude': float(r.get('campus_latitude') or LAT),
+                      'campus_longitude': float(r.get('campus_longitude') or LON),
+                      'distance_from_reference_miles': round(d, 6),
+                      'original_ncsu_listing': r.get('original_ncsu_listing','')
+                  })
+
+          csv_fields = list(flat[0].keys())
+          csv_path = KDIR / 'ncsu-rent-main-campus_borderline-distance-check.csv'
+          with csv_path.open('w', newline='', encoding='utf-8') as f:
+              w = csv.DictWriter(f, fieldnames=csv_fields)
+              w.writeheader(); w.writerows(flat)
+
+          def circle(radius_miles, steps=180):
+              lat1 = math.radians(LAT)
+              lon1 = math.radians(LON)
+              d = radius_miles / EARTH_MI
+              pts=[]
+              for i in range(steps+1):
+                  b=math.radians(360*i/steps)
+                  lat2=math.asin(math.sin(lat1)*math.cos(d)+math.cos(lat1)*math.sin(d)*math.cos(b))
+                  lon2=lon1+math.atan2(math.sin(b)*math.sin(d)*math.cos(lat1), math.cos(d)-math.sin(lat1)*math.sin(lat2))
+                  pts.append([round(math.degrees(lon2),7), round(math.degrees(lat2),7)])
+              return pts
+
+          def row_fields():
+              return [
+                  {'name':'boundary_miles','type':'integer','format':'','analyzerType':'INT'},
+                  {'name':'map_number','type':'integer','format':'','analyzerType':'INT'},
+                  {'name':'side','type':'string','format':'','analyzerType':'STRING'},
+                  {'name':'feet_from_boundary','type':'real','format':'','analyzerType':'FLOAT'},
+                  {'name':'boundary_position','type':'string','format':'','analyzerType':'STRING'},
+                  {'name':'audit_band','type':'string','format':'','analyzerType':'STRING'},
+                  {'name':'property_name','type':'string','format':'','analyzerType':'STRING'},
+                  {'name':'street_address','type':'string','format':'','analyzerType':'STRING'},
+                  {'name':'city','type':'string','format':'','analyzerType':'STRING'},
+                  {'name':'state','type':'string','format':'','analyzerType':'STRING'},
+                  {'name':'site_id','type':'string','format':'','analyzerType':'STRING'},
+                  {'name':'listing_latitude','type':'real','format':'','analyzerType':'FLOAT'},
+                  {'name':'listing_longitude','type':'real','format':'','analyzerType':'FLOAT'},
+                  {'name':'campus_latitude','type':'real','format':'','analyzerType':'FLOAT'},
+                  {'name':'campus_longitude','type':'real','format':'','analyzerType':'FLOAT'},
+                  {'name':'distance_from_reference_miles','type':'real','format':'','analyzerType':'FLOAT'},
+                  {'name':'original_ncsu_listing','type':'string','format':'','analyzerType':'STRING'},
+              ]
+
+          fields = row_fields()
+          fnames = [f['name'] for f in fields]
+          colors = {1:[226,91,59], 3:[64,145,218], 5:[126,87,194]}
+          datasets=[]
+          for boundary in (1,3,5):
+              rows=[r for r in flat if r['boundary_miles']==boundary]
+              datasets.append({'version':'v1','data':{
+                  'id':f'boundary_{boundary}_cases',
+                  'label':f'{boundary}-mile borderline listings',
+                  'color':colors[boundary],
+                  'allData':[[r[n] for n in fnames] for r in rows],
+                  'fields':fields
+              }})
+
+          datasets.append({'version':'v1','data':{
+              'id':'campus_reference','label':'Main Campus reference point','color':[25,25,25],
+              'allData':[['Main Campus distance reference',LAT,LON,'Reference point used by the XLSX Haversine calculations']],
+              'fields':[{'name':'label','type':'string','format':'','analyzerType':'STRING'},
+                        {'name':'latitude','type':'real','format':'','analyzerType':'FLOAT'},
+                        {'name':'longitude','type':'real','format':'','analyzerType':'FLOAT'},
+                        {'name':'definition','type':'string','format':'','analyzerType':'STRING'}]
+          }})
+
+          for boundary in (1,3,5):
+              geom={'type':'LineString','coordinates':circle(boundary)}
+              datasets.append({'version':'v1','data':{
+                  'id':f'radius_{boundary}','label':f'{boundary}-mile boundary','color':colors[boundary],
+                  'allData':[[f'{boundary}-mile boundary',str(boundary),'Straight-line geodesic distance from Main Campus reference point',json.dumps(geom,separators=(',',':'))]],
+                  'fields':[{'name':'label','type':'string','format':'','analyzerType':'STRING'},
+                            {'name':'radius_miles','type':'string','format':'','analyzerType':'STRING'},
+                            {'name':'distance_definition','type':'string','format':'','analyzerType':'STRING'},
+                            {'name':'_geojson','type':'geojson','format':'','analyzerType':'GEOJSON'}]
+              }})
+
+          def point_layer(boundary, numbers=False, visible=True):
+              if numbers:
+                  return {'id':f'boundary_{boundary}_numbers','type':'point','config':{
+                      'dataId':f'boundary_{boundary}_cases','label':f'{boundary}-mile listing numbers','color':colors[boundary],
+                      'columns':{'lat':'listing_latitude','lng':'listing_longitude','altitude':None},'isVisible':visible,
+                      'visConfig':{'radius':1,'fixedRadius':False,'opacity':0,'outline':False,'thickness':0,'strokeColor':[255,255,255],
+                                   'colorRange':{'name':'Global Warming','type':'sequential','category':'Uber','colors':['#5A1846','#900C3F','#C70039','#E3611C','#F1920E','#FFC300']},
+                                   'strokeColorRange':{'name':'Global Warming','type':'sequential','category':'Uber','colors':['#5A1846','#900C3F','#C70039','#E3611C','#F1920E','#FFC300']},
+                                   'radiusRange':[0,50],'filled':False},'hidden':False,
+                      'textLabel':[{'field':{'name':'map_number','type':'integer'},'color':[15,15,15],'size':24,'offset':[0,0],'anchor':'middle','alignment':'center'}]},
+                      'visualChannels':{'colorField':None,'colorScale':'quantile','strokeColorField':None,'strokeColorScale':'quantile','sizeField':None,'sizeScale':'linear'}}
+              return {'id':f'boundary_{boundary}_points','type':'point','config':{
+                  'dataId':f'boundary_{boundary}_cases','label':f'{boundary}-mile borderline listings','color':colors[boundary],
+                  'columns':{'lat':'listing_latitude','lng':'listing_longitude','altitude':None},'isVisible':visible,
+                  'visConfig':{'radius':9,'fixedRadius':False,'opacity':0.9,'outline':True,'thickness':2,'strokeColor':[255,255,255],
+                               'colorRange':{'name':'Global Warming','type':'sequential','category':'Uber','colors':['#5A1846','#900C3F','#C70039','#E3611C','#F1920E','#FFC300']},
+                               'strokeColorRange':{'name':'Global Warming','type':'sequential','category':'Uber','colors':['#5A1846','#900C3F','#C70039','#E3611C','#F1920E','#FFC300']},
+                               'radiusRange':[0,50],'filled':True},'hidden':False,'textLabel':[]},
+                  'visualChannels':{'colorField':None,'colorScale':'quantile','strokeColorField':None,'strokeColorScale':'quantile','sizeField':None,'sizeScale':'linear'}}
+
+          def radius_layer(boundary):
+              return {'id':f'radius_{boundary}_layer','type':'geojson','config':{
+                  'dataId':f'radius_{boundary}','label':f'{boundary}-mile boundary','color':colors[boundary],
+                  'columns':{'geojson':'_geojson'},'isVisible':True,
+                  'visConfig':{'opacity':0.95,'thickness':4,'stroked':True,'filled':False,'enable3d':False,'wireframe':False},'hidden':False},
+                  'visualChannels':{'colorField':None,'colorScale':'quantile','sizeField':None,'sizeScale':'linear','heightField':None,'heightScale':'linear','radiusField':None,'radiusScale':'linear'}}
+
+          layers=[
+              point_layer(1,False,True), point_layer(1,True,True),
+              point_layer(3,False,False), point_layer(3,True,False),
+              point_layer(5,False,False), point_layer(5,True,False),
+              {'id':'campus_reference_layer','type':'point','config':{'dataId':'campus_reference','label':'Main Campus reference point','color':[25,25,25],
+                'columns':{'lat':'latitude','lng':'longitude','altitude':None},'isVisible':True,
+                'visConfig':{'radius':14,'fixedRadius':False,'opacity':1,'outline':True,'thickness':2,'strokeColor':[255,255,255],
+                             'colorRange':{'name':'Global Warming','type':'sequential','category':'Uber','colors':['#5A1846','#900C3F','#C70039','#E3611C','#F1920E','#FFC300']},
+                             'strokeColorRange':{'name':'Global Warming','type':'sequential','category':'Uber','colors':['#5A1846','#900C3F','#C70039','#E3611C','#F1920E','#FFC300']},
+                             'radiusRange':[0,50],'filled':True},'hidden':False,'textLabel':[]},
+                'visualChannels':{'colorField':None,'colorScale':'quantile','strokeColorField':None,'strokeColorScale':'quantile','sizeField':None,'sizeScale':'linear'}},
+              radius_layer(1), radius_layer(3), radius_layer(5)
+          ]
+
+          tooltips={}
+          for boundary in (1,3,5):
+              tooltips[f'boundary_{boundary}_cases']=[
+                  {'name':'map_number','format':None},{'name':'side','format':None},{'name':'property_name','format':None},
+                  {'name':'street_address','format':None},{'name':'audit_band','format':None},
+                  {'name':'distance_from_reference_miles','format':None},{'name':'feet_from_boundary','format':None},
+                  {'name':'boundary_position','format':None},{'name':'original_ncsu_listing','format':None}
+              ]
+              tooltips[f'radius_{boundary}']=[{'name':'label','format':None},{'name':'radius_miles','format':None}]
+
+          out={'datasets':datasets,'config':{'version':'v1','config':{
+              'visState':{'filters':[],'layers':layers,'interactionConfig':{'tooltip':{'fieldsToShow':tooltips,'enabled':True}},
+                          'layerBlending':'normal','splitMaps':[],'animationConfig':{'currentTime':None,'speed':1}},
+              'mapState':{'bearing':0,'dragRotate':False,'latitude':LAT,'longitude':LON,'pitch':0,'zoom':11.5,'isSplit':False},
+              'mapStyle':{'styleType':'light','topLayerGroups':{},'visibleLayerGroups':{'label':True,'road':True,'border':False,'building':True,'water':True,'land':True,'3d building':False},
+                          'threeDBuildingColor':[9.665,17.183,31.144],'mapStyles':{}}
+          }},'info':{'app':'kepler.gl','created_at':'2026-09-10','title':'NC State Main Campus Borderline Distance Check',
+                     'description':'Focused manual audit of listings closest to the 1-, 3-, and 5-mile cutoffs. The 1-mile cases open by default; 3-mile and 5-mile point/number layers are separate toggles. The 5-mile group contains the 10 closest listings inside the boundary because the audited dataset ends at 5 miles.'}}
+
+          json_path=KDIR/'ncsu-rent-main-campus_borderline-distance-check.kepler.gl.json'
+          json_path.write_text(json.dumps(out,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+
+          link='https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_borderline-distance-check.kepler.gl.json'
+          row=f'''          <div class="meta-label">Borderline check</div>\n          <div class="meta-value"><a href="{link}" target="_blank" rel="noopener noreferrer">Kepler</a> · Focused manual check of listings closest to the 1-, 3-, and 5-mile cutoffs. Each boundary has separate point and number layers; 1-mile cases open by default. The 5-mile group shows the closest listings inside the cutoff because the audited dataset ends at 5 miles.</div>\n\n'''
+          for fname in ['references.html','scripts/add_kepler_distance_reference.py']:
+              p=Path(fname)
+              s=p.read_text(encoding='utf-8')
+              if '<div class="meta-label">Borderline check</div>' not in s:
+                  marker='          <div class="meta-label">Distance circles</div>'
+                  s=s.replace(marker,row+marker,1)
+              p.write_text(s,encoding='utf-8')
+          PY
+
+      - name: Commit borderline checker
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kepler/ncsu-rent-main-campus_borderline-distance-check.csv data/kepler/ncsu-rent-main-campus_borderline-distance-check.kepler.gl.json references.html scripts/add_kepler_distance_reference.py
+          git diff --cached --quiet && exit 0
+          git commit -m "Add borderline Kepler distance checker [skip ci]"
+          git push
