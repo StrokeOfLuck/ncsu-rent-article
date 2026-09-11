@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - .github/workflows/redesign-housing-rate-reference.yml
+      - .github/align-benchmark-label.py
+      - .github/add-housing-dollar-increase.py
 permissions:
   contents: write
 jobs:
@@ -10,8 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Apply solid mobile benchmark line and heading clarification
-        run: python .github/align-benchmark-label.py
+      - name: Apply housing rate chart refinements
+        run: |
+          python .github/align-benchmark-label.py
+          python .github/add-housing-dollar-increase.py
       - name: Commit change
         shell: bash
         run: |
@@ -21,6 +25,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Make mobile benchmark line solid and clarify University Housing"
+            git commit -m "Refine housing rate chart layout"
             git push
           fi
