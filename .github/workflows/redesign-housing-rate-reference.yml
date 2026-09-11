@@ -1,4 +1,4 @@
-name: Interactive BLS housing benchmark
+name: Remove 2 percent housing tick
 on:
   push:
     paths:
@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Make BLS housing benchmark interactive
-        run: python .github/dotplot_patch.py
+      - name: Remove 2 percent axis tick
+        run: python .github/remove-2pct-tick.py
       - name: Commit change
         shell: bash
         run: |
@@ -21,6 +21,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Make BLS housing benchmark interactive"
+            git commit -m "Remove 2 percent housing chart tick"
             git push
           fi
