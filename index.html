@@ -3689,6 +3689,22 @@ th:first-child, td:first-child {
 }
 /* End compact BLS benchmark axis */
 
+
+
+/* Keep BLS benchmark line below label */
+.housing-rate-active-label{
+  background:var(--paper);
+  padding:0 3px;
+}
+.housing-rate-active-label::after{
+  top:calc(100% + 3px) !important;
+  height:12px !important;
+}
+.housing-rate-axis + .housing-rate-row .housing-rate-benchmark-line{
+  top:0 !important;
+}
+/* End keep BLS benchmark line below label */
+
 </style>
 </head>
 <body>
