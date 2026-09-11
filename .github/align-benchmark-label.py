@@ -94,96 +94,129 @@ if baseline_marker not in s:
         raise SystemExit("Could not find closing style tag")
     s = s.replace('</style>', css + '\n</style>', 1)
 
-mobile_marker = "/* Mobile housing-rate chart cleanup */"
-if mobile_marker not in s:
-    css = r'''
-
+mobile_css = r'''
 /* Mobile housing-rate chart cleanup */
 @media(max-width:700px){
   .housing-rate-chart{
     padding-top:2px;
   }
 
+  /* Keep the dot plot in its own right-side column on mobile. */
+  .housing-rate-axis,
+  .housing-rate-row{
+    grid-template-columns:minmax(118px,.9fr) minmax(130px,1.1fr) 46px !important;
+    column-gap:7px !important;
+    align-items:center !important;
+  }
+
   .housing-rate-axis{
-    grid-template-columns:1fr !important;
-    margin-bottom:4px !important;
+    margin-bottom:5px !important;
+  }
+
+  .housing-rate-axis > div:first-child,
+  .housing-rate-axis > div:last-child{
+    display:block !important;
   }
 
   .housing-rate-axis-plot{
-    grid-column:1 !important;
+    grid-column:2 !important;
     height:22px !important;
   }
 
   .housing-rate-row{
-    grid-template-columns:minmax(0,1fr) 54px !important;
-    grid-template-rows:auto 22px !important;
-    column-gap:10px !important;
-    row-gap:5px !important;
-    align-items:start !important;
-    padding:8px 0 3px;
+    grid-template-rows:auto !important;
+    row-gap:0 !important;
+    padding:8px 0 !important;
   }
 
   .housing-rate-label{
     grid-column:1 !important;
     grid-row:1 !important;
     min-width:0;
-    padding-right:2px;
-    font-size:8.8px !important;
-    line-height:1.22 !important;
+    padding-right:0;
+    font-size:8.5px !important;
+    line-height:1.2 !important;
   }
 
   .housing-rate-label strong{
-    font-size:9.7px !important;
-    line-height:1.22 !important;
+    font-size:9.4px !important;
+    line-height:1.18 !important;
     white-space:normal;
     overflow-wrap:anywhere;
   }
 
-  .housing-rate-value{
+  .housing-rate-plot{
     grid-column:2 !important;
     grid-row:1 !important;
-    align-self:start !important;
+    height:22px !important;
+    margin:0 !important;
+  }
+
+  .housing-rate-value{
+    grid-column:3 !important;
+    grid-row:1 !important;
+    align-self:center !important;
     padding-top:0 !important;
     text-align:right;
     white-space:nowrap;
-  }
-
-  .housing-rate-plot{
-    grid-column:1 / -1 !important;
-    grid-row:2 !important;
-    height:22px !important;
-    margin-top:0 !important;
+    font-size:10px !important;
   }
 
   .housing-rate-plot .housing-rate-benchmark-line{
-    top:0 !important;
-    bottom:0 !important;
+    top:-9px !important;
+    bottom:-9px !important;
     height:auto !important;
   }
 
   .housing-rate-axis + .housing-rate-row .housing-rate-benchmark-line{
-    top:0 !important;
-    bottom:0 !important;
+    top:-9px !important;
   }
 
+  /* Return the benchmark cards to a simple vertical stack on phones. */
   .housing-rate-context{
-    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    grid-template-columns:1fr !important;
     gap:0 !important;
   }
 
-  .housing-rate-context-title,
-  .housing-rate-context-note{
-    grid-column:1 / -1 !important;
+  .housing-rate-context-title{
+    order:0;
+    grid-column:1 !important;
   }
 
-  .housing-rate-context > .housing-rate-context-item{
+  /* Mobile order: school, rent, CPI, minimum wage. */
+  .housing-rate-context > .housing-rate-context-item:nth-child(3){ order:1; }
+  .housing-rate-context > .housing-rate-context-item:nth-child(4){ order:2; }
+  .housing-rate-context > .housing-rate-context-item:nth-child(5){ order:3; }
+  .housing-rate-context > .housing-rate-context-item:nth-child(2){ order:4; }
+
+  .housing-rate-context-note{
+    order:5;
+    grid-column:1 !important;
+  }
+
+  .housing-rate-context > .housing-rate-context-item,
+  .housing-rate-context > .housing-rate-context-item:nth-child(2),
+  .housing-rate-context > .housing-rate-context-item:nth-child(3),
+  .housing-rate-context > .housing-rate-context-item:nth-child(4),
+  .housing-rate-context > .housing-rate-context-item:nth-child(5){
+    padding:9px 0 !important;
+    border-left:0 !important;
+    border-top:1px solid var(--line) !important;
     min-width:0;
   }
 }
 /* End mobile housing-rate chart cleanup */
 '''
+
+mobile_pattern = re.compile(
+    r'/\* Mobile housing-rate chart cleanup \*/.*?/\* End mobile housing-rate chart cleanup \*/',
+    re.S,
+)
+if mobile_pattern.search(s):
+    s = mobile_pattern.sub(mobile_css.strip(), s, count=1)
+else:
     if '</style>' not in s:
         raise SystemExit("Could not find closing style tag")
-    s = s.replace('</style>', css + '\n</style>', 1)
+    s = s.replace('</style>', '\n' + mobile_css + '\n</style>', 1)
 
 p.write_text(s, encoding="utf-8")
