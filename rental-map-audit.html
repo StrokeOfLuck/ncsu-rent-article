@@ -91,8 +91,8 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
   <p class="deck">Audit view for the Main Campus rental sample. Every listing within five straight-line miles is assigned a visible number inside its non-overlapping distance band so the published property counts can be checked directly against the map and table.</p>
 
   <div class="tabbar" role="tablist" aria-label="Audit views">
-    <button id="checker-tab" type="button">Numbered band checker</button>
     <button id="full-tab" class="active" type="button">Full audit tools</button>
+    <button id="checker-tab" type="button">Numbered band checker</button>
   </div>
 
   <section id="checker-panel" class="panel" hidden>
@@ -135,7 +135,7 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
       <span class="legend-item"><span class="diamond">◆</span>Main Campus reference point</span>
       <span class="legend-item"><span class="rule-swatch"></span>1, 3 and 5 mile boundaries</span>
     </div>
-    <div class="audit-note"><strong>How to check it:</strong> choose a distance band, then follow the numbered markers or the matching “Map #” column below. The last number in an unfiltered band should equal the published property count. Numbers are identifiers for this audit only, not rankings. Distances are straight-line Haversine calculations from the Main Campus reference point at 35.77951, −w8.68168.</div>
+    <div class="audit-note"><strong>How to check it:</strong> choose a distance band, then follow the numbered markers or the matching “Map #” column below. The last number in an unfiltered band should equal the published property count. Numbers are identifiers for this audit only, not rankings. Distances are straight-line Haversine calculations from the Main Campus reference point at 35.77951, −78.68168.</div>
 
     <div class="table-head">
       <h2>Numbered listing checker</h2>
@@ -192,7 +192,7 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
   }
 
   function esc(v){
-    return String(v ?? "").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;","'":"&#39;"}[c]));
+    return String(v ?? "").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
   }
 
   function cleanProperty(feature, idx){
@@ -409,7 +409,7 @@ td a{color:var(--blue);font-weight:750;text-decoration:none}td a:hover{text-deco
         if(!row || e.target.closest("a")) return;
         const d=all.find(x=>String(x.idx)===row.dataset.key);
         if(!d || !mapReady) return;
-        map.flyTo({center:[lond=d.lon,d.lat],zoom:14.5,essential:true});
+        map.flyTo({center:[d.lon,d.lat],zoom:14.5,essential:true});
         const p=featureCollection([d]).features[0].properties;
         new maplibregl.Popup({closeButton:true,maxWidth:"310px"})
           .setLngLat([d.lon,d.lat]).setHTML(popupHtml(p)).addTo(map);
