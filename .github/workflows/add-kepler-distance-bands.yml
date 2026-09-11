@@ -1,0 +1,174 @@
+name: Add Kepler distance bands
+
+on:
+  push:
+    paths:
+      - .github/workflows/add-kepler-distance-bands.yml
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add 1, 3 and 5 mile boundaries and band fills
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, math
+          from pathlib import Path
+
+          LAT, LON = 35.77951, -78.68168
+          R = 3958.7613
+
+          def circle(radius_miles, steps=180):
+              lat1 = math.radians(LAT)
+              lon1 = math.radians(LON)
+              d = radius_miles / R
+              pts = []
+              for i in range(steps + 1):
+                  brng = math.radians((360 - (360 * i / steps)) % 360)
+                  lat2 = math.asin(math.sin(lat1)*math.cos(d) + math.cos(lat1)*math.sin(d)*math.cos(brng))
+                  lon2 = lon1 + math.atan2(math.sin(brng)*math.sin(d)*math.cos(lat1), math.cos(d)-math.sin(lat1)*math.sin(lat2))
+                  pts.append([round(math.degrees(lon2), 7), round(math.degrees(lat2), 7)])
+              return pts
+
+          rings = {1: circle(1), 3: circle(3), 5: circle(5)}
+
+          colors = {
+              'radius_1':[226,91,59], 'radius_3':[64,145,218], 'radius_5':[126,87,194],
+              'band_0_1':[40,167,69], 'band_1_3':[64,145,218], 'band_3_5':[126,87,194]
+          }
+
+          def geo_dataset(data_id, label, geometry, extra_name, extra_value, color):
+              return {
+                  'version':'v1',
+                  'data':{
+                      'id':data_id,
+                      'label':label,
+                      'color':color,
+                      'allData':[[label, extra_value, 'Straight-line geodesic distance from Main Campus reference point', json.dumps(geometry,separators=(',',':'))]],
+                      'fields':[
+                          {'name':'label','type':'string','format':'','analyzerType':'STRING'},
+                          {'name':extra_name,'type':'string','format':'','analyzerType':'STRING'},
+                          {'name':'distance_definition','type':'string','format':'','analyzerType':'STRING'},
+                          {'name':'_geojson','type':'geojson','format':'','analyzerType':'GEOJSON'}
+                      ]
+                  }
+              }
+
+          boundary_defs = [
+              ('radius_1','1-mile boundary',1),
+              ('radius_3','3-mile boundary',3),
+              ('radius_5','5-mile boundary',5),
+          ]
+          boundary_datasets = [
+              geo_dataset(i,l,{'type':'LineString','coordinates':rings[r]},'radius_miles',str(r),colors[i])
+              for i,l,r in boundary_defs
+          ]
+
+          band_defs = [
+              ('band_0_1','0–1 mile band', {'type':'Polygon','coordinates':[rings[1]]}, '0–1 miles'),
+              ('band_1_3','>1–3 mile band', {'type':'Polygon','coordinates':[rings[3], list(reversed(rings[1]))]}, '>1–3 miles'),
+              ('band_3_5','>3–5 mile band', {'type':'Polygon','coordinates':[rings[5], list(reversed(rings[3]))]}, '>3–5 miles'),
+          ]
+          band_datasets = [geo_dataset(i,l,g,'band',v,colors[i]) for i,l,g,v in band_defs]
+          managed_ids = {x[0] for x in boundary_defs} | {x[0] for x in band_defs}
+
+          def layer(data_id, label, color, fill=False):
+              return {
+                  'id':data_id + '_layer',
+                  'type':'geojson',
+                  'config':{
+                      'dataId':data_id,
+                      'label':label,
+                      'color':color,
+                      'columns':{'geojson':'_geojson'},
+                      'isVisible':True,
+                      'visConfig':{
+                          'opacity':0.11 if fill else 0.95,
+                          'thickness':1 if fill else 3,
+                          'stroked':False if fill else True,
+                          'filled':True if fill else False,
+                          'enable3d':False,
+                          'wireframe':False
+                      },
+                      'hidden':False
+                  },
+                  'visualChannels':{
+                      'colorField':None,'colorScale':'quantile','sizeField':None,'sizeScale':'linear',
+                      'heightField':None,'heightScale':'linear','radiusField':None,'radiusScale':'linear'
+                  }
+              }
+
+          band_layers = [layer(i,l,colors[i],True) for i,l,_,_ in band_defs]
+          boundary_layers = [layer(i,l,colors[i],False) for i,l,_ in boundary_defs]
+
+          paths = [
+              Path('data/kepler/ncsu-rent-main-campus-distance-audit.kepler.gl.json'),
+              Path('data/kepler/ncsu-rent-main-campus_0-1mi-distance.kepler.gl.json'),
+              Path('data/kepler/ncsu-rent-main-campus_1-3mi-distance.kepler.gl.json'),
+              Path('data/kepler/ncsu-rent-main-campus_radius-circles.kepler.gl.json')
+          ]
+
+          for p in paths:
+              obj = json.loads(p.read_text(encoding='utf-8'))
+              obj['datasets'] = [d for d in obj.get('datasets',[]) if d.get('data',{}).get('id') not in managed_ids]
+              obj['datasets'].extend(band_datasets + boundary_datasets)
+              cfg = obj['config']['config']
+              vis = cfg['visState']
+              old_layers = [x for x in vis.get('layers',[]) if x.get('config',{}).get('dataId') not in managed_ids]
+              vis['layers'] = band_layers + old_layers + boundary_layers
+              tooltip = vis.setdefault('interactionConfig',{}).setdefault('tooltip',{})
+              fields = tooltip.setdefault('fieldsToShow',{})
+              for i,l,r in boundary_defs:
+                  fields[i] = [{'name':'label','format':None},{'name':'radius_miles','format':None},{'name':'distance_definition','format':None}]
+              for i,l,g,v in band_defs:
+                  fields[i] = [{'name':'label','format':None},{'name':'band','format':None},{'name':'distance_definition','format':None}]
+              cfg['mapState']['latitude'] = LAT
+              cfg['mapState']['longitude'] = LON
+              if p.name == 'ncsu-rent-main-campus_radius-circles.kepler.gl.json':
+                  cfg['mapState']['zoom'] = 10.45
+                  obj.setdefault('info',{})['title'] = 'NC State Main Campus distance bands and 1-, 3-, 5-mile boundaries'
+                  obj['info']['description'] = 'Standalone audit geometry with non-overlapping 0–1, >1–3 and >3–5 mile bands plus 1-, 3- and 5-mile boundary circles as separate toggleable layers.'
+              else:
+                  cfg['mapState']['zoom'] = 10.55
+              p.write_text(json.dumps(obj,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+
+          # Keep the raw geometry source independently reusable.
+          features=[]
+          for i,l,r in boundary_defs:
+              features.append({'type':'Feature','properties':{'label':l,'feature_kind':'boundary','radius_miles':r,'distance_definition':'Straight-line geodesic radius from Main Campus reference point'},'geometry':{'type':'LineString','coordinates':rings[r]}})
+          for i,l,g,v in band_defs:
+              features.append({'type':'Feature','properties':{'label':l,'feature_kind':'band','band':v,'distance_definition':'Straight-line geodesic distance from Main Campus reference point'},'geometry':g})
+          Path('data/kepler/ncsu-rent-main-campus_radius-circles.geojson').write_text(json.dumps({'type':'FeatureCollection','features':features},ensure_ascii=False,indent=2),encoding='utf-8')
+
+          # Update the reference wording so it describes bands, not just circle lines.
+          for fname in ['references.html','scripts/add_kepler_distance_reference.py']:
+              p=Path(fname)
+              if not p.exists():
+                  continue
+              s=p.read_text(encoding='utf-8')
+              s=s.replace('0–1 mile and &gt;1–3 mile distance bands','0–1 mile, &gt;1–3 mile, and &gt;3–5 mile distance bands')
+              s=s.replace('Separate 1-mile and 3-mile boundary map so the circles can be inspected or hidden independently from the listing files.','Separate 1-, 3-, and 5-mile boundary map with lightly filled 0–1, &gt;1–3, and &gt;3–5 mile bands. Every band and boundary is an independent toggleable layer.')
+              marker='          <div class="meta-label">Distance definition</div>'
+              if '          <div class="meta-label">Band geometry</div>' not in s and marker in s:
+                  insert='          <div class="meta-label">Band geometry</div>\n          <div class="meta-value"><strong>0–1 mile</strong> is the area inside the 1-mile circle; <strong>&gt;1–3 miles</strong> is the ring between the 1- and 3-mile circles; <strong>&gt;3–5 miles</strong> is the ring between the 3- and 5-mile circles. The circle lines are boundaries, while the shaded areas are the actual non-overlapping bands.</div>\n\n'
+                  s=s.replace(marker,insert+marker,1)
+              p.write_text(s,encoding='utf-8')
+          PY
+
+      - name: Commit generated Kepler layers
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/kepler references.html scripts/add_kepler_distance_reference.py
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Add 5-mile boundary and filled distance bands [skip ci]"
+            git push
+          fi
