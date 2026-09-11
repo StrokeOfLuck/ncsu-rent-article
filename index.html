@@ -3021,6 +3021,18 @@ th:first-child, td:first-child {
   line-height:1.4;
 }
 
+.housing-rate-change-source-wrap{
+  flex:0 0 auto;
+  max-width:290px;
+  text-align:right;
+}
+.housing-rate-change-source-note{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:8px;
+  line-height:1.3;
+}
+
 .housing-rate-change-source{
   flex:0 0 auto;
   color:var(--blue);
@@ -3096,6 +3108,10 @@ th:first-child, td:first-child {
   .housing-rate-change-head{
     flex-direction:column;
     gap:5px;
+  }
+  .housing-rate-change-source-wrap{
+    max-width:none;
+    text-align:left;
   }
   .housing-rate-change-source{
     white-space:normal;
@@ -3456,7 +3472,10 @@ th:first-child, td:first-child {
           <div class="housing-rate-change-title">Rate increase from 2025–26 to 2026–27*</div>
           <div class="housing-rate-change-sub">Published NC State room-rate rows only. Required ResNet and Coastal Quarters communication fees are excluded so the year-to-year change is like-for-like.</div>
         </div>
-        <a class="housing-rate-change-source" href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">Source: NC State University Housing</a>
+        <div class="housing-rate-change-source-wrap">
+          <a class="housing-rate-change-source" href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">Source: NC State University Housing</a>
+          <div class="housing-rate-change-source-note">*2026–27 rates are projected rates published by NC State University Housing.</div>
+        </div>
       </div>
 
       <div class="housing-rate-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27">
@@ -3512,7 +3531,6 @@ th:first-child, td:first-child {
         </div>
       </div>
     </div>
-  <div class="housing-rate-change-foot">*2026–27 rates are projected rates published by NC State University Housing.</div>
   </section>
 
 <section class="block">
