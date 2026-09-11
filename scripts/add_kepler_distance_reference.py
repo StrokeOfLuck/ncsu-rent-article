@@ -19,7 +19,7 @@ fragment = '''    <article class="ref" id="kepler-distance-audit">
       <div class="ref-body">
         <div class="meta-grid">
           <div class="meta-label">Purpose</div>
-          <div class="meta-value">Map-based verification of the Main Campus 0–1 mile and &gt;1–3 mile distance bands from the XLSX audits. Each listing map focuses on location, calculated distance from the Main Campus reference point, and distance to the nearest band boundary.</div>
+          <div class="meta-value">Map-based verification of the Main Campus 0–1 mile, &gt;1–3 mile, and &gt;3–5 mile distance bands from the XLSX audits. Each listing map focuses on location, calculated distance from the Main Campus reference point, and distance to the nearest band boundary.</div>
 
           <div class="meta-label">0–1 mile</div>
           <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_0-1mi-distance.kepler.gl.json" target="_blank" rel="noopener noreferrer">Kepler</a> · 54 listings. The point layer is on by default; straight reference-to-listing distance checks are a separate layer and start turned off.</div>
@@ -28,7 +28,10 @@ fragment = '''    <article class="ref" id="kepler-distance-audit">
           <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_1-3mi-distance.kepler.gl.json" target="_blank" rel="noopener noreferrer">Kepler</a> · 73 listings. The point layer is on by default; straight reference-to-listing distance checks are a separate layer and start turned off.</div>
 
           <div class="meta-label">Distance circles</div>
-          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_radius-circles.kepler.gl.json" target="_blank" rel="noopener noreferrer">Kepler</a> · Separate 1-mile and 3-mile boundary map so the circles can be inspected or hidden independently from the listing files.</div>
+          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_radius-circles.kepler.gl.json" target="_blank" rel="noopener noreferrer">Kepler</a> · Separate 1-, 3-, and 5-mile boundary map with lightly filled 0–1, &gt;1–3, and &gt;3–5 mile bands. Every band and boundary is an independent toggleable layer.</div>
+
+          <div class="meta-label">Band geometry</div>
+          <div class="meta-value"><strong>0–1 mile</strong> is the area inside the 1-mile circle; <strong>&gt;1–3 miles</strong> is the ring between the 1- and 3-mile circles; <strong>&gt;3–5 miles</strong> is the ring between the 3- and 5-mile circles. The circle lines are boundaries, while the shaded areas are the actual non-overlapping bands.</div>
 
           <div class="meta-label">Distance definition</div>
           <div class="meta-value">Straight-line Haversine/geodesic distance from the Main Campus reference point at <strong>35.77951, -78.68168</strong>. This is not driving distance and is not measured from the edge of campus.</div>
