@@ -3,160 +3,33 @@ from pathlib import Path
 p = Path("index.html")
 s = p.read_text(encoding="utf-8")
 
-start = '      <div class="housing-rate-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27">'
-end = '\n\n      <div class="housing-rate-context">'
+changes = [
+    (
+        '<span class="housing-rate-cpi-label">CPI 3.4%</span>',
+        '<span class="housing-rate-cpi-label">Overall CPI 3.4%</span>',
+    ),
+    (
+        'A vertical reference line marks U.S. CPI inflation at 3.4 percent.',
+        'A vertical reference line marks overall U.S. CPI inflation at 3.4 percent.',
+    ),
+    (
+        '''.housing-rate-cpi-label{\n  position:absolute;\n  left:42.5%;\n  top:0;\n  transform:translateX(-50%);\n  color:var(--blue);\n  font-size:8.5px;\n  font-weight:800;\n  white-space:nowrap;\n}''',
+        '''.housing-rate-cpi-label{\n  position:absolute;\n  left:42.5%;\n  top:0;\n  transform:translateX(-50%);\n  color:#6fb4f2;\n  font-size:8.5px;\n  font-weight:900;\n  white-space:nowrap;\n}''',
+    ),
+    (
+        '''.housing-rate-cpi-label::after{\n  content:"";\n  position:absolute;\n  left:50%;\n  top:13px;\n  height:19px;\n  border-left:1px dashed var(--blue);\n  opacity:.7;\n}''',
+        '''.housing-rate-cpi-label::after{\n  content:"";\n  position:absolute;\n  left:50%;\n  top:13px;\n  height:19px;\n  border-left:2px solid #6fb4f2;\n  opacity:1;\n}''',
+    ),
+    (
+        '''.housing-rate-plot::after{\n  content:"";\n  position:absolute;\n  left:42.5%;\n  top:-5px;\n  bottom:-5px;\n  border-left:1px dashed var(--blue);\n  opacity:.55;\n}''',
+        '''.housing-rate-plot::after{\n  content:"";\n  position:absolute;\n  left:42.5%;\n  top:-5px;\n  bottom:-5px;\n  border-left:2px solid #6fb4f2;\n  opacity:.9;\n}''',
+    ),
+]
 
-a = s.find(start)
-if a < 0:
-    raise SystemExit("Could not find housing rate chart start")
-b = s.find(end, a)
-if b < 0:
-    raise SystemExit("Could not find housing rate chart end")
-
-chart = '''      <div class="housing-rate-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27. Dots show each housing rate increase on a zero to eight percent scale. A vertical reference line marks U.S. CPI inflation at 3.4 percent.">
-        <div class="housing-rate-axis" aria-hidden="true">
-          <div></div>
-          <div class="housing-rate-axis-plot">
-            <span class="housing-rate-cpi-label">CPI 3.4%</span>
-            <span class="housing-rate-axis-tick first" style="left:0%">0%</span>
-            <span class="housing-rate-axis-tick" style="left:25%">2%</span>
-            <span class="housing-rate-axis-tick" style="left:50%">4%</span>
-            <span class="housing-rate-axis-tick" style="left:75%">6%</span>
-            <span class="housing-rate-axis-tick last" style="left:100%">8%</span>
-          </div>
-          <div></div>
-        </div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Single</strong>$4,275 → $4,600</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:95%"></span></div><div class="housing-rate-value">7.60%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:93.75%"></span></div><div class="housing-rate-value">7.50%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — studio</strong>$3,900 → $4,150</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:80.125%"></span></div><div class="housing-rate-value">6.41%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms</strong>$4,500 → $4,780</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:77.75%"></span></div><div class="housing-rate-value">6.22%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:75%"></span></div><div class="housing-rate-value">6.00%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King — 1-bedroom undergraduate double</strong>$4,125 → $4,350</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:68.125%"></span></div><div class="housing-rate-value">5.45%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 1 bedroom</strong>$4,375 → $4,600</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:64.25%"></span></div><div class="housing-rate-value">5.14%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Double</strong>$3,800 → $3,970</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:55.875%"></span></div><div class="housing-rate-value">4.47%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:37%"></span></div><div class="housing-rate-value">2.96%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="housing-rate-plot"><span class="housing-rate-dot" style="left:23.75%"></span></div><div class="housing-rate-value">1.90%</div></div>
-      </div>'''
-
-s = s[:a] + chart + s[b:]
-
-css = r'''/* Housing rate dot plot */
-.housing-rate-chart{
-  display:grid;
-  gap:8px;
-  padding-top:10px;
-  border-top:1px solid var(--line);
-}
-.housing-rate-axis,
-.housing-rate-row{
-  display:grid;
-  grid-template-columns:minmax(250px,1.45fr) minmax(180px,1fr) 56px;
-  gap:10px;
-  align-items:center;
-}
-.housing-rate-axis{
-  margin-bottom:8px;
-}
-.housing-rate-axis-plot{
-  position:relative;
-  height:32px;
-  border-bottom:1px solid var(--line);
-}
-.housing-rate-axis-tick{
-  position:absolute;
-  bottom:-15px;
-  transform:translateX(-50%);
-  color:var(--muted);
-  font-size:8.5px;
-  font-weight:700;
-  font-variant-numeric:tabular-nums;
-  white-space:nowrap;
-}
-.housing-rate-axis-tick.first{ transform:none; }
-.housing-rate-axis-tick.last{ transform:translateX(-100%); }
-.housing-rate-cpi-label{
-  position:absolute;
-  left:42.5%;
-  top:0;
-  transform:translateX(-50%);
-  color:var(--blue);
-  font-size:8.5px;
-  font-weight:800;
-  white-space:nowrap;
-}
-.housing-rate-cpi-label::after{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:13px;
-  height:19px;
-  border-left:1px dashed var(--blue);
-  opacity:.7;
-}
-.housing-rate-plot{
-  position:relative;
-  height:18px;
-}
-.housing-rate-plot::before{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  top:50%;
-  border-top:1px solid var(--line);
-}
-.housing-rate-plot::after{
-  content:"";
-  position:absolute;
-  left:42.5%;
-  top:-5px;
-  bottom:-5px;
-  border-left:1px dashed var(--blue);
-  opacity:.55;
-}
-.housing-rate-dot{
-  position:absolute;
-  top:50%;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  transform:translate(-50%,-50%);
-  background:var(--accent);
-  box-shadow:0 0 0 2px var(--paper), 0 0 0 3px var(--accent);
-  z-index:2;
-}
-@media(max-width:700px){
-  .housing-rate-axis,
-  .housing-rate-row{
-    grid-template-columns:minmax(0,1fr) 48px;
-    gap:4px 8px;
-  }
-  .housing-rate-axis > div:first-child,
-  .housing-rate-axis > div:last-child{
-    display:none;
-  }
-  .housing-rate-axis-plot{
-    grid-column:1 / -1;
-    height:32px;
-  }
-  .housing-rate-plot{
-    grid-column:1 / -1;
-    grid-row:2;
-  }
-  .housing-rate-value{
-    grid-column:2;
-    grid-row:1;
-  }
-}
-/* End housing rate dot plot */'''
-
-begin = "/* Housing rate dot plot */"
-finish = "/* End housing rate dot plot */"
-if begin in s:
-    x = s.index(begin)
-    y = s.index(finish, x) + len(finish)
-    s = s[:x] + css + s[y:]
-else:
-    s = s.replace("</style>", css + "\n\n</style>", 1)
+for old, new in changes:
+    if old in s:
+        s = s.replace(old, new)
+    elif new not in s:
+        raise SystemExit(f"Could not find expected CPI chart text/CSS:\n{old[:120]}")
 
 p.write_text(s, encoding="utf-8")
