@@ -11,8 +11,6 @@ if chart_start == -1 or context_start == -1:
 
 chart = s[chart_start:context_start]
 
-# Add a desktop-only dollar-change column between the housing label and the dot plot.
-# The mobile chart is intentionally left visually unchanged.
 dollar_changes = {
     "Doubles": 170,
     "Singles": 325,
@@ -38,22 +36,35 @@ for row in rows:
     if label not in dollar_changes:
         raise SystemExit(f"Unexpected housing row label: {label}")
 
-    if 'class="housing-rate-dollar"' in row:
-        continue
-
-    plot_token = '<div class="housing-rate-plot">'
-    if plot_token not in row:
-        raise SystemExit(f"Could not find dot plot in row: {label}")
-
     amount = dollar_changes[label]
-    replacement = (
-        f'<div class="housing-rate-dollar" aria-label="Dollar increase">+${amount:,}</div>'
-        + plot_token
-    )
-    updated_row = row.replace(plot_token, replacement, 1)
+    updated_row = row
+
+    # Desktop: a dedicated dollar-change column between the housing label and plot.
+    if 'class="housing-rate-dollar"' not in updated_row:
+        plot_token = '<div class="housing-rate-plot">'
+        if plot_token not in updated_row:
+            raise SystemExit(f"Could not find dot plot in row: {label}")
+        replacement = (
+            f'<div class="housing-rate-dollar" aria-label="Dollar increase">+${amount:,}</div>'
+            + plot_token
+        )
+        updated_row = updated_row.replace(plot_token, replacement, 1)
+
+    # Mobile: keep the chart compact by putting the dollar increase directly on
+    # the existing price line instead of adding another grid column or row.
+    if 'class="housing-rate-mobile-dollar"' not in updated_row:
+        label_pattern = re.compile(r'(<div class="housing-rate-label">.*?)(</div>)', re.S)
+        updated_row, count = label_pattern.subn(
+            rf'\1 <span class="housing-rate-mobile-dollar">(+$' + f'{amount:,}' + r')</span>\2',
+            updated_row,
+            count=1,
+        )
+        if count != 1:
+            raise SystemExit(f"Could not add mobile dollar increase to row: {label}")
+
     chart = chart.replace(row, updated_row, 1)
 
-# Add the heading over the new desktop column.
+# Add the heading over the desktop dollar-change column.
 if 'class="housing-rate-dollar-heading"' not in chart:
     axis_pattern = re.compile(
         r'(<div class="housing-rate-type-heading">Housing Type/Location</div>\s*)'
@@ -69,12 +80,13 @@ if 'class="housing-rate-dollar-heading"' not in chart:
 
 s = s[:chart_start] + chart + s[context_start:]
 
-marker = "/* Desktop housing-rate dollar increase column */"
+marker = "/* Housing-rate dollar increase */"
 css = r'''
 
-/* Desktop housing-rate dollar increase column */
+/* Housing-rate dollar increase */
 .housing-rate-dollar-heading,
-.housing-rate-dollar{
+.housing-rate-dollar,
+.housing-rate-mobile-dollar{
   display:none;
 }
 
@@ -106,13 +118,26 @@ css = r'''
     font-variant-numeric:tabular-nums;
   }
 }
-/* End desktop housing-rate dollar increase column */
+
+@media(max-width:700px){
+  .housing-rate-mobile-dollar{
+    display:inline;
+    margin-left:2px;
+    color:var(--muted);
+    font-size:.9em;
+    font-weight:750;
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+}
+/* End housing-rate dollar increase */
 '''
 
+# Replace either the earlier desktop-only block or this newer combined block.
 css_pattern = re.compile(
-    r'/\* Desktop housing-rate dollar increase column \*/.*?'
-    r'/\* End desktop housing-rate dollar increase column \*/',
-    re.S,
+    r'/\* (?:Desktop housing-rate dollar increase column|Housing-rate dollar increase) \*/.*?'
+    r'/\* End (?:desktop housing-rate dollar increase column|housing-rate dollar increase) \*/',
+    re.S | re.I,
 )
 if css_pattern.search(s):
     s = css_pattern.sub(css.strip(), s, count=1)
