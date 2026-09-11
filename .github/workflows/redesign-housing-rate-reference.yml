@@ -1,4 +1,4 @@
-name: Align housing benchmark label
+name: Tighten housing benchmark axis
 on:
   push:
     paths:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Align active benchmark with axis labels
+      - name: Tighten benchmark axis spacing
         run: python .github/align-benchmark-label.py
       - name: Commit change
         shell: bash
@@ -21,6 +21,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Align housing benchmark with axis labels"
+            git commit -m "Tighten housing benchmark axis spacing"
             git push
           fi
