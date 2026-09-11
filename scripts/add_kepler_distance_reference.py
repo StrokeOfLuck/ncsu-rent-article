@@ -3,7 +3,7 @@ from pathlib import Path
 refs = Path("references.html")
 text = refs.read_text(encoding="utf-8")
 
-fragment = r'''    <article class="ref" id="kepler-distance-audit">
+fragment = '''    <article class="ref" id="kepler-distance-audit">
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 01B</div>
