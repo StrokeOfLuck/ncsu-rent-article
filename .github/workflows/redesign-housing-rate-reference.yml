@@ -1,4 +1,4 @@
-name: Align housing benchmark axis text
+name: Match NC State housing wording
 on:
   push:
     paths:
@@ -10,17 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Align benchmark label with axis percentages
+      - name: Match NC State housing wording
         run: python .github/align-benchmark-label.py
       - name: Commit change
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+StrokeOfLuck@users.noreply.github.com"
+          git config user.email "41898257+StrokeOfLuck@users.noreply.github.com"
           git add index.html
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Align housing benchmark label with axis percentages"
+            git commit -m "Match NC State housing wording"
             git push
           fi
