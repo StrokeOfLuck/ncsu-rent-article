@@ -24,3 +24,4 @@ jobs:
             git commit -m "Fix CPI benchmark layout"
             git push
           fi
+# Triggered to remove the redundant housing-rate axis baseline.
