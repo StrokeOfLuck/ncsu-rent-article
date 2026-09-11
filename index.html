@@ -3258,6 +3258,53 @@ th:first-child, td:first-child {
     padding:0 0 8px;
   }
 }
+
+/* Clean one-line wages and inflation footer */
+.housing-rate-context{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+}
+.housing-rate-context-title{
+  grid-column:1 / -1;
+  min-height:0;
+  display:block;
+  padding:0 0 10px;
+  border-right:0;
+  font-size:9.5px;
+  line-height:1.15;
+  white-space:nowrap;
+}
+.housing-rate-context-item{
+  min-height:0;
+  padding:10px 22px 4px 0;
+  display:block;
+}
+.housing-rate-context-item + .housing-rate-context-item{
+  padding-left:22px;
+  border-left:1px solid var(--line);
+}
+.housing-rate-context-icon{
+  display:none;
+}
+@media(max-width:700px){
+  .housing-rate-context{
+    grid-template-columns:1fr;
+  }
+  .housing-rate-context-title{
+    grid-column:1;
+    padding:0 0 8px;
+    white-space:normal;
+  }
+  .housing-rate-context-item{
+    padding:10px 0;
+  }
+  .housing-rate-context-item + .housing-rate-context-item{
+    padding-left:0;
+    border-left:0;
+    border-top:1px solid var(--line);
+  }
+}
+
 </style>
 </head>
 <body>
@@ -3427,7 +3474,7 @@ th:first-child, td:first-child {
 
 
       <div class="housing-rate-context">
-        <div class="housing-rate-context-title"><span>Wages</span><span>&amp;</span><span>Inflation</span></div>
+        <div class="housing-rate-context-title">Wages &amp; inflation</div>
 
         <div class="housing-rate-context-item">
           <div class="housing-rate-context-icon" aria-hidden="true">
