@@ -3904,6 +3904,44 @@ th:first-child, td:first-child {
 }
 /* End split active BLS benchmark label */
 
+
+
+/* Desktop housing-rate dollar increase column */
+.housing-rate-dollar-heading,
+.housing-rate-dollar{
+  display:none;
+}
+
+@media(min-width:901px){
+  .housing-rate-axis,
+  .housing-rate-row{
+    grid-template-columns:minmax(330px,1.2fr) 94px minmax(280px,1fr) 58px !important;
+    column-gap:12px !important;
+  }
+
+  .housing-rate-dollar-heading{
+    display:block;
+    align-self:end;
+    padding-bottom:1px;
+    color:var(--muted);
+    font-size:8.5px;
+    font-weight:800;
+    text-align:center;
+    white-space:nowrap;
+  }
+
+  .housing-rate-dollar{
+    display:block;
+    color:var(--ink);
+    font-size:10.5px;
+    font-weight:800;
+    text-align:center;
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+}
+/* End desktop housing-rate dollar increase column */
+
 </style>
 </head>
 <body>
@@ -4070,6 +4108,7 @@ th:first-child, td:first-child {
       <div class="housing-rate-chart" data-benchmark="school" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27. Dots show each housing rate increase on a zero to eight percent scale. An interactive vertical reference line compares the housing-rate changes with July 2026 BLS 12-month price benchmarks.">
         <div class="housing-rate-axis" aria-hidden="true">
           <div class="housing-rate-type-heading">Housing Type/Location</div>
+          <div class="housing-rate-dollar-heading">Dollar increase</div>
           <div class="housing-rate-axis-plot">
             <span id="housing-rate-active-label" class="housing-rate-active-label" style="left:37.5%"><span class="housing-rate-active-name">Lodging while at school</span><span class="housing-rate-active-pct">3.0%</span></span>
             <span class="housing-rate-axis-tick first" style="left:0%">0%</span>
@@ -4085,16 +4124,18 @@ th:first-child, td:first-child {
         
         
         
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Doubles</strong>$3,800 → $3,970</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:55.875%"></span></div><div class="housing-rate-value">4.47%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Singles</strong>$4,275 → $4,600</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:95%"></span></div><div class="housing-rate-value">7.60%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:93.75%"></span></div><div class="housing-rate-value">7.50%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms</strong>$4,500 → $4,780</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:77.75%"></span></div><div class="housing-rate-value">6.22%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King — 1-bedroom undergraduate double</strong>$4,125 → $4,350</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:68.125%"></span></div><div class="housing-rate-value">5.45%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — studio</strong>$3,900 → $4,150</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:80.125%"></span></div><div class="housing-rate-value">6.41%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 1 bedroom</strong>$4,375 → $4,600</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:64.25%"></span></div><div class="housing-rate-value">5.14%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:75%"></span></div><div class="housing-rate-value">6.00%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:37%"></span></div><div class="housing-rate-value">2.96%</div></div>
-        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:23.75%"></span></div><div class="housing-rate-value">1.90%</div></div>
+        
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Doubles</strong>$3,800 → $3,970</div><div class="housing-rate-dollar" aria-label="Dollar increase">+$170</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:55.875%"></span></div><div class="housing-rate-value">4.47%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Singles</strong>$4,275 → $4,600</div><div class="housing-rate-dollar" aria-label="Dollar increase">+$325</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:95%"></span></div><div class="housing-rate-value">7.60%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375</div><div class="housing-rate-dollar" aria-label="Dollar increase">+$375</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:93.75%"></span></div><div class="housing-rate-value">7.50%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms</strong>$4,500 → $4,780</div><div class="housing-rate-dollar" aria-label="Dollar increase">+$280</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:77.75%"></span></div><div class="housing-rate-value">6.22%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King — 1-bedroom undergraduate double</strong>$4,125 → $4,350</div><div class="housing-rate-dollar" aria-label="Dollar increase">+$225</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:68.125%"></span></div><div class="housing-rate-value">5.45%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — studio</strong>$3,900 → $4,150</div><div class="housing-rate-dollar" aria-label="Dollar increase">+$250</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:80.125%"></span></div><div class="housing-rate-value">6.41%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 1 bedroom</strong>$4,375 → $4,600</div><div class="housing-rate-dollar" aria-label="Dollar increase">+$225</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:64.25%"></span></div><div class="housing-rate-value">5.14%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="housing-rate-dollar" aria-label="Dollar increase">+$300</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:75%"></span></div><div class="housing-rate-value">6.00%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="housing-rate-dollar" aria-label="Dollar increase">+$125</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:37%"></span></div><div class="housing-rate-value">2.96%</div></div>
+        <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="housing-rate-dollar" aria-label="Dollar increase">+$75</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:23.75%"></span></div><div class="housing-rate-value">1.90%</div></div>
+      
       
       
       
