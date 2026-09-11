@@ -1,88 +1,141 @@
-name: Run Kepler distance audit publisher
+name: Publish Kepler distance audit
+
 on:
   push:
-    paths: ['.github/workflows/kepler-distance-audit-run.yml']
+    paths:
+      - '.github/workflows/kepler-distance-audit-run.yml'
+
 permissions:
   contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Publish files and reference
+
+      - name: Publish distance-focused Kepler files
+        shell: bash
         run: |
           python - <<'PY'
-          import base64, bz2, copy, gzip, json, lzma, re, zlib
+          import base64
+          import copy
+          import json
+          import zlib
           from pathlib import Path
 
-          carrier = Path('.github/workflows/kepler-distance-audit-once.yml').read_text(encoding='utf-8')
-          m = re.search(r'PAYLOAD_B64:\s*"([^"]+)"', carrier)
-          assert m, 'Could not find embedded Kepler payload'
-          raw = base64.b64decode(m.group(1))
-          decoded = None
-          decoders = [
-              lambda b: zlib.decompress(b),
-              lambda b: zlib.decompress(b, -15),
-              gzip.decompress,
-              bz2.decompress,
-              lzma.decompress,
-          ]
-          for decoder in decoders:
-              try:
-                  candidate = decoder(raw)
-                  json.loads(candidate.decode('utf-8'))
-                  decoded = candidate
-                  break
-              except Exception:
-                  pass
-          assert decoded is not None, 'Embedded payload compression was not recognized'
-          files = json.loads(decoded.decode('utf-8'))
+          encoded = ''.join(
+              Path(f'.github/kepler-payload-{i}.txt').read_text(encoding='utf-8').strip()
+              for i in (1, 2, 3)
+          )
+          files = json.loads(zlib.decompress(base64.b64decode(encoded)).decode('utf-8'))
+
           for rel, content in files.items():
-              p = Path(rel)
-              p.parent.mkdir(parents=True, exist_ok=True)
-              p.write_text(content, encoding='utf-8')
+              path = Path(rel)
+              path.parent.mkdir(parents=True, exist_ok=True)
+              path.write_text(content, encoding='utf-8')
 
           combined_path = Path('data/kepler/ncsu-rent-main-campus-distance-audit.kepler.gl.json')
           combined = json.loads(combined_path.read_text(encoding='utf-8'))
-          def subset(filename, data_ids, title):
-              out = copy.deepcopy(combined)
-              out['datasets'] = [d for d in out['datasets'] if d['data']['id'] in data_ids]
-              inner = out['config']['config']
-              inner['visState']['layers'] = [l for l in inner['visState']['layers'] if l['config'].get('dataId') in data_ids]
-              inner['visState']['filters'] = []
-              if 'interactionConfig' in inner.get('visState', {}):
-                  fields = inner['visState']['interactionConfig'].get('tooltip', {}).get('fieldsToShow', {})
-                  inner['visState']['interactionConfig']['tooltip']['fieldsToShow'] = {k:v for k,v in fields.items() if k in data_ids}
-              out['info'] = dict(out.get('info') or {})
-              out['info']['title'] = title
-              Path('data/kepler', filename).write_text(json.dumps(out, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
-          subset('ncsu-rent-main-campus_0-1mi-distance.kepler.gl.json', {'main_0_1','campus_reference'}, 'NC State Main Campus 0–1 mile distance audit')
-          subset('ncsu-rent-main-campus_1-3mi-distance.kepler.gl.json', {'main_1_3','campus_reference'}, 'NC State Main Campus >1–3 mile distance audit')
 
-          source = Path('.github/workflows/kepler-distance-audit-trigger.yml').read_text(encoding='utf-8')
-          fm = re.search(r"fragment = '''(.*?)'''", source, re.S)
-          assert fm, 'Could not recover reference fragment'
-          fragment = fm.group(1)
-          fragment = fragment.replace('0–1 mile file</div>', '0–1 mile Kepler file</div>').replace('Kepler-ready CSV from the 1-mile workbook Distance Band tab</a>', 'CSV source for the 0–1 mile Kepler audit</a>')
-          fragment = fragment.replace('&gt;1–3 mile file</div>', '&gt;1–3 mile Kepler file</div>').replace('Kepler-ready CSV from the 3-mile workbook Distance Band tab</a>', 'CSV source for the &gt;1–3 mile Kepler audit</a>')
+          def make_subset(filename, keep_ids, title):
+              out = copy.deepcopy(combined)
+              out['datasets'] = [d for d in out['datasets'] if d['data']['id'] in keep_ids]
+              cfg = out['config']['config']
+              cfg['visState']['layers'] = [
+                  layer for layer in cfg['visState']['layers']
+                  if layer['config'].get('dataId') in keep_ids
+              ]
+              cfg['visState']['filters'] = []
+              tooltip = cfg.get('visState', {}).get('interactionConfig', {}).get('tooltip', {})
+              fields = tooltip.get('fieldsToShow', {})
+              tooltip['fieldsToShow'] = {k: v for k, v in fields.items() if k in keep_ids}
+              out.setdefault('info', {})['title'] = title
+              Path('data/kepler', filename).write_text(
+                  json.dumps(out, ensure_ascii=False, separators=(',', ':')),
+                  encoding='utf-8'
+              )
+
+          make_subset(
+              'ncsu-rent-main-campus_0-1mi-distance.kepler.gl.json',
+              {'main_0_1', 'campus_reference'},
+              'NC State Main Campus 0–1 mile distance audit'
+          )
+          make_subset(
+              'ncsu-rent-main-campus_1-3mi-distance.kepler.gl.json',
+              {'main_1_3', 'campus_reference'},
+              'NC State Main Campus >1–3 mile distance audit'
+          )
+
           refs = Path('references.html')
           text = refs.read_text(encoding='utf-8')
-          if 'id="kepler-distance-audit"' not in text:
+          fragment = '''    <article class="ref" id="kepler-distance-audit">
+      <div class="ref-head">
+        <div>
+          <div class="ref-no">Reference 01B</div>
+          <div class="ref-title">Main Campus Distance-Band Kepler Audit</div>
+        </div>
+        <div class="tags">
+          <span class="tag">Maps</span>
+          <span class="tag">Distance audit</span>
+          <span class="tag">Kepler.gl</span>
+        </div>
+      </div>
+
+      <div class="ref-body">
+        <div class="meta-grid">
+          <div class="meta-label">Purpose</div>
+          <div class="meta-value">Map-based verification of the Main Campus 0–1 mile and &gt;1–3 mile distance bands from the XLSX audits, with listing locations, workbook distances, independently recomputed Haversine distances, and distance to the nearest band boundary.</div>
+
+          <div class="meta-label">Kepler</div>
+          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus-distance-audit.kepler.gl.json" target="_blank" rel="noopener noreferrer">Kepler</a> — full distance audit with both listing bands as separate toggleable layers.</div>
+
+          <div class="meta-label">0–1 mile</div>
+          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_0-1mi-distance.kepler.gl.json" target="_blank" rel="noopener noreferrer">Open 0–1 mile Kepler audit</a> · <a href="data/kepler/ncsu-rent-main-campus_0-1mi-distance.csv" target="_blank" rel="noopener noreferrer">CSV source</a></div>
+
+          <div class="meta-label">&gt;1–3 mile</div>
+          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_1-3mi-distance.kepler.gl.json" target="_blank" rel="noopener noreferrer">Open &gt;1–3 mile Kepler audit</a> · <a href="data/kepler/ncsu-rent-main-campus_1-3mi-distance.csv" target="_blank" rel="noopener noreferrer">CSV source</a></div>
+
+          <div class="meta-label">Radius circles</div>
+          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_radius-circles.kepler.gl.json" target="_blank" rel="noopener noreferrer">Open separate 1-mile + 3-mile circle map</a> · <a href="data/kepler/ncsu-rent-main-campus_radius-circles.geojson" target="_blank" rel="noopener noreferrer">GeoJSON source</a></div>
+
+          <div class="meta-label">Layer setup</div>
+          <div class="meta-value">The full map keeps the 0–1 mile listings, &gt;1–3 mile listings, 1-mile circle, 3-mile circle, Main Campus reference point, and straight reference-to-listing checks as separate layers. The line checks start turned off to keep the audit readable.</div>
+
+          <div class="meta-label">Distance definition</div>
+          <div class="meta-value">Straight-line Haversine distance from the Main Campus reference point at <strong>35.77951, -78.68168</strong>. This is not driving distance and is not measured from the campus edge.</div>
+
+          <div class="meta-label">Math check</div>
+          <div class="meta-value">All 127 listing coordinates were independently recalculated. The largest difference from the workbook distance is <strong>0.0026 feet</strong>, which is rounding-level.</div>
+        </div>
+
+        <a class="audit-source-link" href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus-distance-audit.kepler.gl.json" target="_blank" rel="noopener noreferrer">Open in Kepler</a>
+
+        <div class="audit-source-note">The Kepler links point to the saved map JSON on GitHub, so they should open the configured audit automatically. The radius circles also have their own Kepler file so you can isolate or disable the boundaries without touching the listing layers.</div>
+      </div>
+    </article>
+
+'''
+
+          if 'id="kepler-distance-audit"' in text:
+              start = text.index('    <article class="ref" id="kepler-distance-audit">')
+              end = text.index('    </article>', start) + len('    </article>')
+              text = text[:start] + fragment.rstrip() + text[end:]
+          else:
               marker = '          <div class="ref-no">Reference 02</div>'
-              pos = text.index(marker)
-              article = text.rfind('    <article class="ref">', 0, pos)
-              refs.write_text(text[:article] + fragment + text[article:], encoding='utf-8')
+              marker_pos = text.index(marker)
+              article_pos = text.rfind('    <article class="ref">', 0, marker_pos)
+              text = text[:article_pos] + fragment + text[article_pos:]
+
+          refs.write_text(text, encoding='utf-8')
           PY
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add references.html data/kepler
-          git commit -m "Add Kepler Main Campus distance audit [skip ci]"
-          git push
-
-      - name: Remove temporary workflows
-        run: |
-          git pull --rebase
-          git rm .github/workflows/kepler-distance-audit-run.yml .github/workflows/kepler-distance-audit-trigger.yml .github/workflows/kepler-distance-audit-once.yml .github/kepler-distance-audit.run
-          git commit -m "Remove one-time Kepler audit workflows [skip ci]"
-          git push
+          if git diff --cached --quiet; then
+            echo "No generated changes"
+          else
+            git commit -m "Add distance-focused Kepler map audit [skip ci]"
+            git push
+          fi
