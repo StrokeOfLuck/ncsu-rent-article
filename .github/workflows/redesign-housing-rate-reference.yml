@@ -1,4 +1,4 @@
-name: Match NC State housing row order
+name: Align housing benchmark axis text
 on:
   push:
     paths:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Match NC State housing table order
+      - name: Align benchmark label with axis percentages
         run: python .github/align-benchmark-label.py
       - name: Commit change
         shell: bash
@@ -21,6 +21,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Match NC State housing table order"
+            git commit -m "Align housing benchmark label with axis percentages"
             git push
           fi
