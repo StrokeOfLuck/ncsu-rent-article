@@ -3750,7 +3750,7 @@ th:first-child, td:first-child {
   }
 
   .housing-rate-axis{
-    margin-bottom:5px !important;
+    margin-bottom:7px !important;
   }
 
   .housing-rate-axis > div:first-child,
@@ -3760,7 +3760,7 @@ th:first-child, td:first-child {
 
   .housing-rate-axis-plot{
     grid-column:2 !important;
-    height:22px !important;
+    height:30px !important;
   }
 
   .housing-rate-row{
@@ -3802,14 +3802,53 @@ th:first-child, td:first-child {
     font-size:10px !important;
   }
 
+  /* Name centered above the percentage; percentage centered on the line. */
+  .housing-rate-active-label{
+    bottom:-15px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:1px !important;
+    text-align:center !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+    font-size:7.1px !important;
+  }
+
+  .housing-rate-active-name{
+    display:block !important;
+    margin:0 !important;
+    text-align:center !important;
+  }
+
+  .housing-rate-active-pct{
+    display:block !important;
+    margin:0 !important;
+    font-size:8.2px !important;
+    font-weight:900 !important;
+    text-align:center !important;
+  }
+
+  .housing-rate-active-label::after{
+    top:calc(100% + 3px) !important;
+    height:22px !important;
+    border-left:2px solid #6fb4f2 !important;
+    border-left-style:solid !important;
+  }
+
+  /* Keep the mobile benchmark line solid and visually continuous. */
   .housing-rate-plot .housing-rate-benchmark-line{
-    top:-9px !important;
-    bottom:-9px !important;
+    top:-10px !important;
+    bottom:-10px !important;
     height:auto !important;
+    border-left:2px solid #6fb4f2 !important;
+    border-left-style:solid !important;
+    opacity:.95 !important;
   }
 
   .housing-rate-axis + .housing-rate-row .housing-rate-benchmark-line{
-    top:-9px !important;
+    top:-10px !important;
   }
 
   /* Return the benchmark cards to a simple vertical stack on phones. */
@@ -3846,6 +3885,18 @@ th:first-child, td:first-child {
   }
 }
 /* End mobile housing-rate chart cleanup */
+
+
+
+/* Split active BLS benchmark label */
+.housing-rate-active-name,
+.housing-rate-active-pct{
+  display:inline;
+}
+.housing-rate-active-pct{
+  margin-left:3px;
+}
+/* End split active BLS benchmark label */
 
 </style>
 </head>
@@ -4014,13 +4065,14 @@ th:first-child, td:first-child {
         <div class="housing-rate-axis" aria-hidden="true">
           <div class="housing-rate-type-heading">Housing Type/Location</div>
           <div class="housing-rate-axis-plot">
-            <span id="housing-rate-active-label" class="housing-rate-active-label" style="left:37.5%">Lodging while at school 3.0%</span>
+            <span id="housing-rate-active-label" class="housing-rate-active-label" style="left:37.5%"><span class="housing-rate-active-name">Lodging while at school</span><span class="housing-rate-active-pct">3.0%</span></span>
             <span class="housing-rate-axis-tick first" style="left:0%">0%</span>
             <span class="housing-rate-axis-tick" style="left:75%">6%</span>
             <span class="housing-rate-axis-tick last" style="left:100%">8%</span>
           </div>
           <div></div>
         </div>
+        
         
         
         
@@ -4036,6 +4088,7 @@ th:first-child, td:first-child {
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:75%"></span></div><div class="housing-rate-value">6.00%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:37%"></span></div><div class="housing-rate-value">2.96%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:23.75%"></span></div><div class="housing-rate-value">1.90%</div></div>
+      
       
       
       
@@ -5167,9 +5220,9 @@ hudInfoDialog?.addEventListener("click", (event) => {
   if (!chart || !label || !controls.length) return;
 
   const benchmarks = {
-    school: { label: 'Lodging while at school 3.0%', left: '37.5%' },
-    rent:   { label: 'Rent of primary residence 2.9%', left: '36.25%' },
-    cpi:    { label: 'All items CPI 3.4%', left: '42.5%' }
+    school: { name: 'Lodging while at school', pct: '3.0%', left: '37.5%' },
+    rent:   { name: 'Rent of primary residence', pct: '2.9%', left: '36.25%' },
+    cpi:    { name: 'All items CPI', pct: '3.4%', left: '42.5%' }
   };
 
   let pinned = 'school';
@@ -5177,7 +5230,7 @@ hudInfoDialog?.addEventListener("click", (event) => {
   const show = key => {
     const benchmark = benchmarks[key] || benchmarks.school;
     chart.dataset.benchmark = key in benchmarks ? key : 'school';
-    label.textContent = benchmark.label;
+    label.innerHTML = `<span class="housing-rate-active-name">${benchmark.name}</span><span class="housing-rate-active-pct">${benchmark.pct}</span>`;
     label.style.left = benchmark.left;
     controls.forEach(control => {
       control.classList.toggle('is-active', control.dataset.benchmark === chart.dataset.benchmark);
