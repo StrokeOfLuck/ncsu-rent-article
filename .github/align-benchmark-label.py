@@ -54,6 +54,31 @@ ordered_rows = '\n        ' + '\n        '.join(by_label[label] for label in ord
 chart = chart[:first_row_pos] + ordered_rows + chart[last_row_end:]
 s = s[:chart_start] + chart + s[context_start:]
 
+# Split the active benchmark into a name and percentage. Desktop keeps them inline;
+# mobile stacks the name above the percentage and centers both on the reference line.
+plain_label = '<span id="housing-rate-active-label" class="housing-rate-active-label" style="left:37.5%">Lodging while at school 3.0%</span>'
+split_label = '<span id="housing-rate-active-label" class="housing-rate-active-label" style="left:37.5%"><span class="housing-rate-active-name">Lodging while at school</span><span class="housing-rate-active-pct">3.0%</span></span>'
+if plain_label in s:
+    s = s.replace(plain_label, split_label, 1)
+
+old_benchmarks = """  const benchmarks = {
+    school: { label: 'Lodging while at school 3.0%', left: '37.5%' },
+    rent:   { label: 'Rent of primary residence 2.9%', left: '36.25%' },
+    cpi:    { label: 'All items CPI 3.4%', left: '42.5%' }
+  };"""
+new_benchmarks = """  const benchmarks = {
+    school: { name: 'Lodging while at school', pct: '3.0%', left: '37.5%' },
+    rent:   { name: 'Rent of primary residence', pct: '2.9%', left: '36.25%' },
+    cpi:    { name: 'All items CPI', pct: '3.4%', left: '42.5%' }
+  };"""
+if old_benchmarks in s:
+    s = s.replace(old_benchmarks, new_benchmarks, 1)
+
+old_label_js = "    label.textContent = benchmark.label;"
+new_label_js = "    label.innerHTML = `<span class=\"housing-rate-active-name\">${benchmark.name}</span><span class=\"housing-rate-active-pct\">${benchmark.pct}</span>`;"
+if old_label_js in s:
+    s = s.replace(old_label_js, new_label_js, 1)
+
 marker = "/* Housing rate source-order heading */"
 if marker not in s:
     css = r'''
@@ -94,6 +119,24 @@ if baseline_marker not in s:
         raise SystemExit("Could not find closing style tag")
     s = s.replace('</style>', css + '\n</style>', 1)
 
+split_marker = "/* Split active BLS benchmark label */"
+if split_marker not in s:
+    css = r'''
+
+/* Split active BLS benchmark label */
+.housing-rate-active-name,
+.housing-rate-active-pct{
+  display:inline;
+}
+.housing-rate-active-pct{
+  margin-left:3px;
+}
+/* End split active BLS benchmark label */
+'''
+    if '</style>' not in s:
+        raise SystemExit("Could not find closing style tag")
+    s = s.replace('</style>', css + '\n</style>', 1)
+
 mobile_css = r'''
 /* Mobile housing-rate chart cleanup */
 @media(max-width:700px){
@@ -110,7 +153,7 @@ mobile_css = r'''
   }
 
   .housing-rate-axis{
-    margin-bottom:5px !important;
+    margin-bottom:7px !important;
   }
 
   .housing-rate-axis > div:first-child,
@@ -120,7 +163,7 @@ mobile_css = r'''
 
   .housing-rate-axis-plot{
     grid-column:2 !important;
-    height:22px !important;
+    height:30px !important;
   }
 
   .housing-rate-row{
@@ -162,14 +205,53 @@ mobile_css = r'''
     font-size:10px !important;
   }
 
+  /* Name centered above the percentage; percentage centered on the line. */
+  .housing-rate-active-label{
+    bottom:-15px !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:flex-end !important;
+    gap:1px !important;
+    text-align:center !important;
+    line-height:1 !important;
+    white-space:nowrap !important;
+    font-size:7.1px !important;
+  }
+
+  .housing-rate-active-name{
+    display:block !important;
+    margin:0 !important;
+    text-align:center !important;
+  }
+
+  .housing-rate-active-pct{
+    display:block !important;
+    margin:0 !important;
+    font-size:8.2px !important;
+    font-weight:900 !important;
+    text-align:center !important;
+  }
+
+  .housing-rate-active-label::after{
+    top:calc(100% + 3px) !important;
+    height:22px !important;
+    border-left:2px solid #6fb4f2 !important;
+    border-left-style:solid !important;
+  }
+
+  /* Keep the mobile benchmark line solid and visually continuous. */
   .housing-rate-plot .housing-rate-benchmark-line{
-    top:-9px !important;
-    bottom:-9px !important;
+    top:-10px !important;
+    bottom:-10px !important;
     height:auto !important;
+    border-left:2px solid #6fb4f2 !important;
+    border-left-style:solid !important;
+    opacity:.95 !important;
   }
 
   .housing-rate-axis + .housing-rate-row .housing-rate-benchmark-line{
-    top:-9px !important;
+    top:-10px !important;
   }
 
   /* Return the benchmark cards to a simple vertical stack on phones. */
