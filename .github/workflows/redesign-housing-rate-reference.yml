@@ -1,4 +1,4 @@
-name: Improve CPI benchmark visibility
+name: Make CPI benchmark continuous
 on:
   push:
     paths:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Improve CPI reference line and label
+      - name: Make CPI reference line continuous
         run: python .github/dotplot_patch.py
       - name: Commit change
         shell: bash
@@ -21,6 +21,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Improve CPI benchmark visibility"
+            git commit -m "Make CPI benchmark line continuous"
             git push
           fi
