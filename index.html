@@ -525,7 +525,7 @@ th:first-child, td:first-child {
   gap:12px;
 }
 
-.card-rent-area{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:9px;font-size:10px;font-weight:700}.card-rent-area select{min-width:190px;padding:5px 25px 5px 7px;border:1px solid #aaa397;border-radius:4px;background:#fff;color:var(--ink);font:inherit;font-weight:500}.aid-caution{white-space:nowrap}@media(max-width:1200px){.aid-caution{white-space:normal}}
+.card-rent-area{display:flex;flex-direction:column;align-items:flex-start;gap:3px;margin-top:9px;font-size:10px;font-weight:700}.card-rent-area select{min-width:190px;max-width:100%;padding:5px 25px 5px 7px;border:1px solid #aaa397;border-radius:4px;background:#fff;color:var(--ink);font:inherit;font-weight:500}.aid-caution{white-space:nowrap}@media(max-width:1200px){.aid-caution{white-space:normal}}
 
 .affordability-block{
   border-top:0;
@@ -4332,7 +4332,7 @@ th:first-child, td:first-child {
         </div>
         <label class="card-rent-area">Rent area
           <select class="affordability-campus-select" aria-label="Rent area for the $7.25 monthly-resources comparison">
-            <option value="main">Main Campus</option><option value="centennial">Centennial Campus</option><option value="vet">Centennial Biomedical Campus</option><option value="all">All three campus areas</option>
+            <option value="main">Main Campus</option><option value="centennial">Centennial Campus</option><option value="vet">Centennial Biomedical Campus</option>
           </select>
         </label>
       </div>
@@ -4373,7 +4373,7 @@ th:first-child, td:first-child {
         </div>
         <label class="card-rent-area">Rent area
           <select class="affordability-campus-select" aria-label="Rent area for the adjustable-pay monthly-resources comparison">
-            <option value="main">Main Campus</option><option value="centennial">Centennial Campus</option><option value="vet">Centennial Biomedical Campus</option><option value="all">All three campus areas</option>
+            <option value="main">Main Campus</option><option value="centennial">Centennial Campus</option><option value="vet">Centennial Biomedical Campus</option>
           </select>
         </label>
       </div>
@@ -4862,10 +4862,10 @@ function updateAffordability() {
   const h=Number(document.getElementById('hours').value);
   const preset=RentAnalysis.aidPreset({includeGrant:document.getElementById('includeGrant').checked,includeLoan:document.getElementById('includeLoan').checked});
   const inputs={hours:h,...preset};
-  const pooled=overallAllCampusesSummary(), local=overallDistanceBandSummary(currentCampusKey);
-  const affordabilityStats=affordabilityCampusKey==='all' ? pooled.perOverall : overallDistanceBandSummary(affordabilityCampusKey).perOverall;
-  const affordabilityLabel=affordabilityCampusKey==='all' ? 'All three campus areas' : campuses[affordabilityCampusKey].label;
-  document.getElementById('personal-sample-note').textContent=`${affordabilityLabel} · ${affordabilityStats.n} room/per-bedroom listings within five miles${affordabilityCampusKey==='all' ? ', with each listing counted once' : ''}.`;
+  const local=overallDistanceBandSummary(currentCampusKey);
+  const affordabilityStats=overallDistanceBandSummary(affordabilityCampusKey).perOverall;
+  const affordabilityLabel=campuses[affordabilityCampusKey].label;
+  document.getElementById('personal-sample-note').textContent=`${affordabilityLabel} · ${affordabilityStats.n} room/per-bedroom listings within five miles.`;
   document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · room/per-bedroom listings within five miles`;
   for(const [name,stats] of [['Per',local.perOverall]]) {
     document.getElementById('combined'+name+'Overall').textContent=stats.display;
@@ -4873,7 +4873,7 @@ function updateAffordability() {
   }
   document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n}`;
   document.getElementById('selectedBlurb').textContent=`Uses ${affordabilityStats.n} room/per-bedroom prices for ${affordabilityLabel}. The personal chart compares the mean listing midpoint with monthly resources. The comparison uses advertised rent only; unlisted housing costs are not included. Values above 350% are shown numerically but clipped on the rail.`;
-  const rentTitle=affordabilityCampusKey==='all' ? 'Combined-area room rent' : `${affordabilityLabel} room rent`;
+  const rentTitle=`${affordabilityLabel} room rent`;
   document.getElementById('burdenRentTitleLow').textContent=rentTitle;
   document.getElementById('burdenRentTitleHigh').textContent=rentTitle;
   const meanStats={...affordabilityStats,label:'mean'};
@@ -4895,9 +4895,7 @@ document.querySelectorAll('.synced-hours').forEach(slider=>slider.addEventListen
 }));
 for(const id of ['includeGrant','includeLoan']) document.getElementById(id).addEventListener('change',updateAffordability);
 document.querySelectorAll('.affordability-campus-select').forEach(select=>select.addEventListener('change',event=>{
-  affordabilityCampusKey=event.target.value;
-  document.querySelectorAll('.affordability-campus-select').forEach(other=>other.value=affordabilityCampusKey);
-  updateAffordability();
+  setCampus(event.target.value);
 }));
 const wageInput=document.getElementById('hourlyRate');
 wageInput.addEventListener('input',()=>{
