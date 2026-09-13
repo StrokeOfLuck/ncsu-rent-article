@@ -9,51 +9,65 @@ This is a source checkpoint for the article and interactive map as of September 
 - [Open the main interactive](https://strokeofluck.github.io/ncsu-rent-article/)
 - [Open the reporting references](https://strokeofluck.github.io/ncsu-rent-article/references.html)
 
-## Current map
+## Current analysis (revised September 13, 2026)
 
-`index.html` contains the current interactive MapLibre preview. It includes:
+The website and references use `data/reviewed-rentals.json` and `assets/rent-analysis.js`.
+The September 9 source CSVs remain unchanged. The review layer records original and
+revised pricing categories, exclusion reasons, move-in flags, source URLs and hashes.
 
-- Main Campus, Centennial Campus and College of Veterinary Medicine reference views
-- 1, 2, 3 and 5 mile straight-line radius calculations
-- separate per-bedroom and whole-unit advertised rent summaries
-- official NC State campus perimeter and building-footprint overlays
-- hover details and links back to the original NC State off-campus listing
-- an XLSX audit download for each cumulative radius with clearly labeled overlapping cumulative sheets plus a non-overlapping Distance Band tab containing row-level distances and calculation checks
+- One observation is a portal listing ID, not necessarily a distinct building or vacant unit.
+- 168 saved IDs; 156 within five miles of at least one of three campus reference points.
+- 23 room/suite category corrections. Mixed or unresolved bases and search/detail price
+  mismatches are excluded. In the combined geography: 78 usable room/per-bedroom
+  prices and 53 whole-unit prices; 25 prices excluded but still visible for review.
+- Three disjoint distance bands per campus: 0–1, >1–3 and >3–5 miles. Campus cards pool
+  all eligible listings within five miles. The combined comparison deduplicates IDs.
+- Both positive numeric endpoints are required. Means use the same paired denominator;
+  missing and zero-placeholder prices never enter a mean. The personal chart uses
+  room mean/median midpoints and explicit budget inputs, not whole-unit rent assigned
+  to a presumed student or the entire CDS average grant automatically.
+- This is an advertised-offer convenience sample, including future dates and varied
+  lease terms. It does not establish market coverage, current vacancies, students'
+  actual housing burden or a causal effect of distance on rent.
 
-The basemap currently uses OpenFreeMap's Positron MapLibre style for development. A later production version may use a self-hosted Raleigh-area PMTiles basemap.
+The complete [Excel formula audit](data/audits/ncsu-rent-audit.xlsx) replaces the old
+browser-generated cumulative-radius workbooks. It contains raw source tables, linked
+floor-plan checks, review inputs, Haversine/band formulas, all campus/band summaries,
+sensitivity analyses, personal budget calculations and official housing-rate changes.
+The [map checker](https://strokeofluck.github.io/ncsu-rent-article/rental-map-audit.html)
+filters all three campuses by band, price inclusion, category and text.
+
+## Rebuild and verify
+
+```sh
+python scripts/build_analysis.py
+python scripts/build_references.py
+python scripts/prepare_workbook_sources.py
+node scripts/build_workbook.mjs
+python scripts/verify_audit.py
+```
+
+Workbook generation requires `@oai/artifact-tool` in the Node environment. It uses
+ordinary Excel formulas, verifies recalculated values against the website's arithmetic,
+and exports the downloadable workbook. The temporary `source-tables.json` and render
+checks are not published. No npm build is needed to serve the static site.
+
+`scripts/build_analysis.py` derives automatic checks from the saved CSVs.
+`data/review-decisions.json` holds additional evidence decisions. Resolve a flagged
+record against source evidence before changing its status; never silently replace an
+old snapshot price with a new live price. Rebuild the data bundle and workbook together.
+`docs/revised-methods.html` is the reference-method template; the remaining historical
+source cards are retained in `references.html`. `assets/reference-math.js` calculates
+worked examples from the same reviewed dataset as the article.
 
 ## Rental source
 
-Listings were collected from NC State's Off-Campus Housing website:
-
-`https://offcampus.dasa.ncsu.edu/housing`
-
-Scrape timestamp: `2026-09-09T02:24:45.953Z`
-
-At collection time the unrestricted search reported:
-
-- `totalResults`: 527
-- `totalExact`: 168
-- `totalPages`: 5
-- `totalPins`: 168
-
-The scraper successfully collected all 168 exact property records and all 168 property-detail responses. Detailed property records produced 537 floor-plan rows.
-
-These counts describe different parts of the portal and should not be treated as interchangeable. The reporting unit for the main map is the unique property/location, not every floor plan.
-
-## Pricing methodology
-
-Per-bedroom pricing and whole-unit pricing are kept separate throughout the analysis.
-
-For each radius the map displays:
-
-- number of unique properties within the radius
-- mean advertised low and mean advertised high for per-bedroom listings
-- mean advertised low and mean advertised high for whole-unit listings
-
-Nonpositive prices and listings without a numeric advertised price are excluded from the corresponding price average rather than treated as zero.
-
-Distance is calculated from listing latitude/longitude using straight-line geographic distance rather than the portal's supplied campus-distance field. This is intentional because several portal distance values were obviously erroneous.
+[NC State Off-Campus Housing](https://offcampus.dasa.ncsu.edu/housing), collected
+September 9, 2026. Original collection log timestamp: `2026-09-09T02:24:45.953Z`.
+The log reported 527 total results, 168 exact records/map pins and five pages.
+The committed CSVs verify 168 unique records and 537 nested floor-plan rows, not
+complete coverage of all 527 results. Original lossless backend responses are not
+committed; preserve them privately for future collection audits.
 
 ## Campus GIS
 

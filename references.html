@@ -607,14 +607,14 @@ h2 {
   outline-offset:2px;
 }
 
-</style>
+.method-scroll{overflow-x:auto;margin:16px 0}.method-table{border-collapse:collapse;width:100%;font-size:12px}.method-table td,.method-table th{padding:10px;border-bottom:1px solid #ddd;text-align:left;vertical-align:top}.method-table th{background:#f4f1ec}.method-table td{min-width:90px}.method-table td:last-child{min-width:150px}.ref-body p,.ref-body li{line-height:1.65}.ref-body li{margin-bottom:9px}.method-nav{line-height:2;margin:16px 0}.audit-download{display:inline-block;padding:10px;background:#8b1f2d;color:white!important;border-radius:4px}details summary{cursor:pointer;font-weight:700}details[open] .method-table td:last-child{min-width:360px}</style>
 </head>
 <body>
 <main>
   <div class="kicker"><a class="article-back-link" href="index.html" aria-label="Back to NCSU rent article"><span aria-hidden="true">←</span> Back to NCSU rent article</a></div>
-  <h1>Reporting references</h1>
+  <h1>References & step-by-step math</h1><nav class="method-nav"><a href="#rental-method">Rent math</a> · <a href="#audit-downloads">Excel & review log</a> · <a href="#distance-math">Distances</a> · <a href="#sample-limits">Sample limits</a> · <a href="#aid-math">Budget math</a></nav>
   <div class="deck">
-    Working source log for data, quotes, methodology and supporting evidence used in the NC State rent article. Add new references here as reporting continues.
+    Source snapshot: September 9, 2026. Analysis revised September 13, 2026. Start with the worked math, then inspect the Excel audit and individual review decisions. Supporting reporting sources are retained below.
   </div>
 
   <section class="reference-search" id="reference-search" role="search" aria-label="Search reporting references">
@@ -637,425 +637,75 @@ h2 {
     </div>
 
 
-    <article class="ref">
-      <div class="ref-head">
-        <div>
-          <div class="ref-no">Reference 01</div>
-          <div class="ref-title">NC State Off-Campus Housing Listings — Source and Scrape Methodology</div>
-        </div>
-        <div class="tags">
-          <span class="tag">Primary source</span>
-          <span class="tag">NC State</span>
-          <span class="tag">Rental listings</span>
-          <span class="tag">Scrape methodology</span>
-        </div>
-      </div>
-
-      <div class="ref-body">
-        <div class="meta-grid">
-          <div class="meta-label">Organization</div>
-          <div class="meta-value">North Carolina State University, Off-Campus Housing</div>
-
-          <div class="meta-label">Source page</div>
-          <div class="meta-value"><a href="https://offcampus.dasa.ncsu.edu/housing" target="_blank" rel="noopener noreferrer">NC State Off-Campus Housing</a></div>
-
-          <div class="meta-label">Collection date</div>
-          <div class="meta-value">Sept. 9, 2026</div>
-
-          <div class="meta-label">Scrape timestamp</div>
-          <div class="meta-value"><code>2026-09-09T02:24:45.953Z</code></div>
-
-          <div class="meta-label">Collection method</div>
-          <div class="meta-value">Browser-console scraper run on the NC State housing site, collecting the structured JSON returned by the site's own search and property-detail backend requests.</div>
-
-          <div class="meta-label">Search endpoint pattern</div>
-          <div class="meta-value"><code>/bff/listing/search/combined?url=/housing...</code></div>
-
-          <div class="meta-label">Detail endpoint pattern</div>
-          <div class="meta-value"><code>/bff/listing/{siteId}?campus=&amp;v=5&amp;locale=en</code></div>
-
-          <div class="meta-label">Scraper</div>
-          <div class="meta-value"><a href="https://github.com/StrokeOfLuck/ncsu-rent-article/blob/main/scripts/ncsu-rental-scraper.js" target="_blank" rel="noopener noreferrer">ncsu-rental-scraper.js</a></div>
-
-          <div class="meta-label">Reproduction notes</div>
-          <div class="meta-value"><a href="https://github.com/StrokeOfLuck/ncsu-rent-article/blob/main/docs/scraper-README.md" target="_blank" rel="noopener noreferrer">Scraper README and rerun instructions</a></div>
-
-          <div class="meta-label">Source type</div>
-          <div class="meta-value">Official university-hosted listing portal / structured listing data</div>
-        </div>
-
-        <hr class="rule">
-
-        <h2>Reference citation</h2>
-        <div class="citation">
-          North Carolina State University. “Off-Campus Housing.” Rental listings advertised through NC State's Off-Campus Housing website, collected Sept. 9, 2026.
-        </div>
-
-        <hr class="rule">
-
-        <h2>What was collected</h2>
-        <div class="facts">
-          <div class="fact">
-            <div class="fact-label">Portal search metadata</div>
-            <div class="fact-value">The unrestricted search reported <strong>527 total results</strong>, <strong>168 exact listings</strong>, <strong>168 map pins</strong> and <strong>5 result pages</strong>. These counts describe different parts of the portal and are not treated as interchangeable.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Unique properties</div>
-            <div class="fact-value">The scraper collected <strong>all 168 unique exact property records</strong> returned by the unrestricted search.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Property details</div>
-            <div class="fact-value">A detail request was successfully collected for <strong>all 168 properties</strong>, producing <strong>537 floor-plan rows</strong>.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Map reporting unit</div>
-            <div class="fact-value">The map uses the <strong>unique property/location</strong> as its reporting unit rather than counting every floor plan as a separate rental location.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Price treatment</div>
-            <div class="fact-value"><strong>Per-bedroom and whole-unit prices are kept separate.</strong> Listings without a positive numeric advertised price are excluded from the corresponding price average rather than treated as zero.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Distance treatment</div>
-            <div class="fact-value">Distances used in the interactive are recalculated from each listing's latitude and longitude as straight-line geographic distance. The portal's supplied campus-distance field is not used for the radius calculations.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Combined affordability summary</div>
-            <div class="fact-value">The overall affordability visualizer is <strong>not tied to the currently selected map campus</strong>. It pools every unique listing appearing in any Main Campus, Centennial Campus or Centennial Biomedical Campus (CVM reference view) 1-, 3- or 5-mile view, then counts each NC State Off-Campus Housing listing once before averaging rents.</div>
-          </div>
-        </div>
-
-        <div class="use-note">
-          <strong>Worked calculation for the affordability visualizer:</strong> The nine displayed campus-radius views contain <strong>156 unique listings</strong> after deduplication by NC State Off-Campus Housing listing ID: <strong>67 per-bedroom listings</strong> and <strong>89 whole-unit listings</strong>. All 67 per-bedroom listings include numeric rent values; 88 of the 89 whole-unit listings include numeric low/high rent values and are used in the whole-unit average. The remaining whole-unit listing has no numeric advertised rent in the collected data. A property that appears in multiple overlapping views is counted once. <strong>Calculation method:</strong> add the numeric low rents for the unique listings and divide by the number of listings with a numeric low rent; repeat separately for the high rents. The three 1-, 3- and 5-mile summary rows are not averaged together because those radius groups overlap and would count many of the same listings more than once.<br><br>
-          <strong>Per bedroom:</strong> low-end advertised rents total <strong>$55,492.00</strong>. $55,492.00 ÷ 67 = <strong>$828.24</strong>. High-end advertised rents total <strong>$63,270.00</strong>. $63,270.00 ÷ 67 = <strong>$944.33</strong>. Midpoint = ($828.24 + $944.33) ÷ 2 = <strong>$886.28</strong>. Article display after rounding to whole dollars: <strong>$828–$944; midpoint $886</strong>.<br><br>
-          <strong>Whole unit:</strong> low-end advertised rents total <strong>$147,564.00</strong>. $147,564.00 ÷ 88 = <strong>$1,676.86</strong>. High-end advertised rents total <strong>$162,590.00</strong>. $162,590.00 ÷ 88 = <strong>$1,847.61</strong>. Midpoint = ($1,676.86 + $1,847.61) ÷ 2 = <strong>$1,762.24</strong>. Article display after rounding to whole dollars: <strong>$1,677–$1,848; midpoint $1,762</strong>.<br><br>
-          <strong>Why this is the combined set:</strong> the 1- and 3-mile views are subsets of each campus's 5-mile view. Combining all nine displayed views and deduplicating produces the same 156 unique listings as taking the union of the three 5-mile views. The calculation above is written as all nine views because that matches what the article displays.
-        </div>
-
-        <div class="use-note distance-band-method">
-          <strong>Non-overlapping distance-band method:</strong> The article's distance comparison uses <strong>0–1 mile</strong>, <strong>more than 1–3 miles</strong>, and <strong>more than 3–5 miles</strong> from the selected campus reference point. A listing can appear in only one band within a campus comparison. Distances are straight-line Haversine calculations from the campus reference point. Each mean is calculated directly from the listings in that confined band: sum the numeric low rents and divide by the number of numeric low rents, then repeat for the high rents. The band means are not produced by subtracting or averaging the cumulative-radius means.
-        </div>
-        <div class="use-note">
-          <strong>Worked calculation for the selected-campus off-campus summary card:</strong> The Main, Centennial and Biomedical buttons on this card are synchronized with the campus selector above the map. The card always shows the selected campus only; it does not combine the three campus averages. The card beneath the distance-band table gives the three non-overlapping bands equal weight. For each pricing type: (0–1 mile mean + >1–3 mile mean + >3–5 mile mean) ÷ 3. The same calculation is done separately for the low and high rent means; the midpoint is halfway between those results. Bands are not weighted by their number of listings.<br><br>
-          <strong>Main Campus check:</strong> Per-bedroom low = ($827.35 + $818.17 + $890.00) ÷ 3 = <strong>$845.17</strong>; high = ($928.20 + $955.02 + $920.00) ÷ 3 = <strong>$934.41</strong>; midpoint = <strong>$889.79</strong>. Article display: <strong>$845–$934; midpoint $890</strong>.<br>
-          Whole-unit low = ($1,855.18 + $1,597.06 + $1,560.19) ÷ 3 = <strong>$1,670.81</strong>; high = ($2,102.88 + $1,741.68 + $1,661.19) ÷ 3 = <strong>$1,835.25</strong>; midpoint = <strong>$1,753.03</strong>. Article display: <strong>$1,671–$1,835; midpoint $1,753</strong>.<br><br>
-          <strong>Other campus displays:</strong> Centennial Campus = <strong>$835–$945 per bedroom (midpoint $890)</strong> and <strong>$1,657–$1,833 whole unit (midpoint $1,745)</strong>. Centennial Biomedical Campus = <strong>$865–$1,066 per bedroom (midpoint $966)</strong> and <strong>$1,904–$2,003 whole unit (midpoint $1,954)</strong>. The individual band sums, counts and means used for these checks are in the table immediately below.
-        </div>
-
-        <div class="band-math-wrap">
-          <table class="band-math-table" aria-label="Worked rent calculations for non-overlapping campus distance bands">
-            <thead><tr><th>Campus</th><th>Distance band</th><th>Properties</th><th>Numeric rents used</th><th>Per bedroom low: sum ÷ n = mean</th><th>Per bedroom high: sum ÷ n = mean</th><th>Whole unit low: sum ÷ n = mean</th><th>Whole unit high: sum ÷ n = mean</th></tr></thead>
-            <tbody>
-<tr><td>Main Campus</td><td>0–1 mi</td><td>54</td><td>54 of 54</td><td>$16,547.00 ÷ 20 = <strong>$827.35</strong></td><td>$18,564.00 ÷ 20 = <strong>$928.20</strong></td><td>$63,076.00 ÷ 34 = <strong>$1,855.18</strong></td><td>$71,498.00 ÷ 34 = <strong>$2,102.88</strong></td></tr>
-<tr><td>Main Campus</td><td>>1–3 mi</td><td>73</td><td><strong>72 of 73</strong></td><td>$33,545.00 ÷ 41 = <strong>$818.17</strong></td><td>$39,156.00 ÷ 41 = <strong>$955.02</strong></td><td>$49,509.00 ÷ 31 = <strong>$1,597.06</strong></td><td>$53,992.00 ÷ 31 = <strong>$1,741.68</strong></td></tr>
-<tr><td>Main Campus</td><td>>3–5 mi</td><td>26</td><td>26 of 26</td><td>$4,450.00 ÷ 5 = <strong>$890.00</strong></td><td>$4,600.00 ÷ 5 = <strong>$920.00</strong></td><td>$32,764.00 ÷ 21 = <strong>$1,560.19</strong></td><td>$34,885.00 ÷ 21 = <strong>$1,661.19</strong></td></tr>
-<tr><td>Centennial Campus</td><td>0–1 mi</td><td>29</td><td>29 of 29</td><td>$8,109.00 ÷ 10 = <strong>$810.90</strong></td><td>$8,575.00 ÷ 10 = <strong>$857.50</strong></td><td>$36,309.00 ÷ 19 = <strong>$1,911.00</strong></td><td>$40,357.00 ÷ 19 = <strong>$2,124.05</strong></td></tr>
-<tr><td>Centennial Campus</td><td>>1–3 mi</td><td>96</td><td><strong>95 of 96</strong></td><td>$40,335.00 ÷ 49 = <strong>$823.16</strong></td><td>$46,551.00 ÷ 49 = <strong>$950.02</strong></td><td>$79,026.00 ÷ 46 = <strong>$1,717.96</strong></td><td>$87,588.00 ÷ 46 = <strong>$1,904.09</strong></td></tr>
-<tr><td>Centennial Campus</td><td>>3–5 mi</td><td>26</td><td>26 of 26</td><td>$6,098.00 ÷ 7 = <strong>$871.14</strong></td><td>$7,194.00 ÷ 7 = <strong>$1,027.71</strong></td><td>$25,504.00 ÷ 19 = <strong>$1,342.32</strong></td><td>$27,920.00 ÷ 19 = <strong>$1,469.47</strong></td></tr>
-<tr><td>Centennial Biomedical Campus</td><td>0–1 mi</td><td>10</td><td>10 of 10</td><td>$2,918.00 ÷ 3 = <strong>$972.67</strong></td><td>$4,099.00 ÷ 3 = <strong>$1,366.33</strong></td><td>$16,230.00 ÷ 7 = <strong>$2,318.57</strong></td><td>$16,475.00 ÷ 7 = <strong>$2,353.57</strong></td></tr>
-<tr><td>Centennial Biomedical Campus</td><td>>1–3 mi</td><td>92</td><td>92 of 92</td><td>$31,944.00 ÷ 37 = <strong>$863.35</strong></td><td>$36,162.00 ÷ 37 = <strong>$977.35</strong></td><td>$90,776.00 ÷ 55 = <strong>$1,650.47</strong></td><td>$105,057.00 ÷ 55 = <strong>$1,910.13</strong></td></tr>
-<tr><td>Centennial Biomedical Campus</td><td>>3–5 mi</td><td>44</td><td><strong>43 of 44</strong></td><td>$18,980.00 ÷ 25 = <strong>$759.20</strong></td><td>$21,359.00 ÷ 25 = <strong>$854.36</strong></td><td>$31,400.00 ÷ 18 = <strong>$1,744.44</strong></td><td>$31,400.00 ÷ 18 = <strong>$1,744.44</strong></td></tr>
-</tbody>
-          </table>
-        </div>
-        <div class="filter-note">
-          <strong>Numeric-rent count:</strong> “Properties” counts every listing in each distance band. “Numeric rents used” counts listings with numeric low/high rent values used in the sums and means. Three rows are short by one: <strong>Main Campus &gt;1–3 miles (72 of 73)</strong>, <strong>Centennial Campus &gt;1–3 miles (95 of 96)</strong>, and <strong>Centennial Biomedical Campus &gt;3–5 miles (43 of 44)</strong>. All three gaps are the same listing, <strong>Lofts at Lineberry</strong>, which was advertised as <strong>“Call for Pricing”</strong> with no numeric rent in the Sept. 9, 2026 collection. It is treated as <strong>missing / non-numeric rent data</strong>: it remains in each band’s property total, contributes nothing to the rent sum, is excluded from the rent-average denominator, and is not treated as $0.
-        </div>
-        <div class="filter-note">
-          <strong>Cumulative-radius audit:</strong> The audit page preserves the original <strong>≤ 1, ≤ 3 and ≤ 5 mile</strong> views for source checking. Those rows intentionally overlap: ≤ 3 miles repeats the ≤ 1-mile listings, and ≤ 5 miles repeats listings from both smaller radii. Each XLSX labels the cumulative sheets as overlapping and includes a <strong>Distance Band</strong> tab containing every listing in the matching non-overlapping territory, its calculated distance from the campus reference point, and spreadsheet SUM, COUNT and AVERAGE checks.
-        </div>
-
-        <div class="use-note">
-          <strong>Article use:</strong> This is the source and collection record for the rental data shown on the map. Preferred wording is <strong>“Listings advertised through NC State's Off-Campus Housing website, collected on September 9, 2026.”</strong> The dataset should not be described as every rental available around NC State or Raleigh.
-        </div>
-
-        <div class="filter-note">
-          <strong>Reproducibility and privacy:</strong> The scraper runs in the browser while the NC State housing page is open and does not save copied cookies or login credentials. The public repository includes cleaned analysis files and the scraper, but not the lossless raw response archive. Listings marked by the portal to hide an address have exact street-address text removed from the public checkpoint.
-        </div>
-      </div>
-    </article>
-
-
-    <article class="ref">
-      <div class="ref-head">
-        <div>
-          <div class="ref-no">Reference 01A</div>
-          <div class="ref-title">NC State Rental Map + Radius Audit</div>
-        </div>
-        <div class="tags">
-          <span class="tag">Reporting source</span>
-          <span class="tag">Interactive map</span>
-          <span class="tag">XLSX audit</span>
-        </div>
-      </div>
-
-      <div class="ref-body">
-        <div class="meta-grid">
-          <div class="meta-label">Purpose</div>
-          <div class="meta-value">Dedicated reporting copy of the rental map with both cumulative-radius and non-overlapping distance-band rent tables, with XLSX audit controls preserved outside the reader-facing article.</div>
-
-          <div class="meta-label">Interactive source</div>
-          <div class="meta-value"><a href="rental-map-audit.html" target="_blank" rel="noopener noreferrer">Open the rental map + radius audit page</a></div>
-
-          <div class="meta-label">Underlying data</div>
-          <div class="meta-value">NC State Off-Campus Housing listings collected Sept. 9, 2026, using the methodology documented in Reference 01.</div>
-
-          <div class="meta-label">Audit output</div>
-          <div class="meta-value">Each cumulative 1-, 3- and 5-mile row includes an XLSX button. The workbook labels the cumulative sheets as overlapping and adds a Distance Band tab for the matching 0–1, >1–3 or >3–5 mile territory, including every row, calculated distance from the campus reference point, and formula checks.</div>
-        </div>
-
-        <div class="audit-map-embed">
-          <iframe
-            src="rental-map-audit.html"
-            title="NC State rental map and radius audit"
-            loading="lazy"
-          ></iframe>
-        </div>
-
-        <a class="audit-source-link" href="rental-map-audit.html" target="_blank" rel="noopener noreferrer">Open interactive map and XLSX audits</a>
-
-        <div class="audit-source-note">
-          The main article keeps the same map and rent summary but omits the audit buttons so the reader-facing table stays clean. This separate page preserves the reporting and verification controls.
-        </div>
-      </div>
-    </article>
-
-
-    <article class="ref" id="kepler-distance-audit">
-      <div class="ref-head">
-        <div>
-          <div class="ref-no">Reference 01B</div>
-          <div class="ref-title">Main Campus Distance-Band Kepler Audit</div>
-        </div>
-        <div class="tags">
-          <span class="tag">Maps</span>
-          <span class="tag">Distance audit</span>
-          <span class="tag">Kepler.gl</span>
-        </div>
-      </div>
-
-      <div class="ref-body">
-        <div class="meta-grid">
-          <div class="meta-label">Purpose</div>
-          <div class="meta-value">Map-based verification of the Main Campus 0–1 mile, &gt;1–3 mile, and &gt;3–5 mile distance bands from the XLSX audits. Each listing map focuses on location, calculated distance from the Main Campus reference point, and distance to the nearest band boundary.</div>
-
-          <div class="meta-label">0–1 mile</div>
-          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_0-1mi-distance.kepler.gl.json" target="_blank" rel="noopener noreferrer">Kepler</a> · 54 listings. The point layer is on by default. Listing numbers are a separate toggleable layer; straight reference-to-listing distance checks are a separate layer and start turned off.</div>
-
-          <div class="meta-label">&gt;1–3 miles</div>
-          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_1-3mi-distance.kepler.gl.json" target="_blank" rel="noopener noreferrer">Kepler</a> · 73 listings. The point layer is on by default. Listing numbers are a separate toggleable layer; straight reference-to-listing distance checks are a separate layer and start turned off.</div>
-
-          <div class="meta-label">&gt;3–5 miles</div>
-          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_3-5mi-distance.kepler.gl.json" target="_blank" rel="noopener noreferrer">Kepler</a> · 26 listings. The shaded &gt;3–5 mile band, 3-mile boundary, 5-mile boundary, listing points, listing numbers, and Main Campus reference point are separate toggleable layers.</div>
-
-          <div class="meta-label">Borderline check</div>
-          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_borderline-distance-check.kepler.gl.json" target="_blank" rel="noopener noreferrer">Kepler</a> · Focused manual check of listings closest to the 1-, 3-, and 5-mile cutoffs. Each boundary has separate point and number layers; 1-mile cases open by default. The 5-mile group shows the closest listings inside the cutoff because the audited dataset ends at 5 miles.</div>
-
-          <div class="meta-label">Distance circles</div>
-          <div class="meta-value"><a href="https://kepler.gl/demo/map?mapUrl=https%3A%2F%2Fraw.githubusercontent.com%2FStrokeOfLuck%2Fncsu-rent-article%2Fmain%2Fdata%2Fkepler%2Fncsu-rent-main-campus_radius-circles.kepler.gl.json" target="_blank" rel="noopener noreferrer">Kepler</a> · The radius geometry is also kept as its own Kepler/GeoJSON source. The 1-, 3-, and 5-mile boundaries and the 0–1, >1–3, and >3–5 mile bands are separate toggleable layers.</div>
-
-          <div class="meta-label">Band geometry</div>
-          <div class="meta-value"><strong>0–1 mile</strong> is the area inside the 1-mile circle; <strong>&gt;1–3 miles</strong> is the ring between the 1- and 3-mile circles; <strong>&gt;3–5 miles</strong> is the ring between the 3- and 5-mile circles. The circle lines are boundaries, while the shaded areas are the actual non-overlapping bands.</div>
-
-          <div class="meta-label">Distance definition</div>
-          <div class="meta-value">Straight-line Haversine/geodesic distance from the Main Campus reference point at <strong>35.77951, -78.68168</strong>. This is not driving distance and is not measured from the edge of campus.</div>
-
-          <div class="meta-label">Verification</div>
-          <div class="meta-value">All 127 listing coordinates were independently recalculated. The largest difference from the workbook distance is <strong>0.0026 feet</strong>, which is rounding-level. The closest listing outside the 1-mile boundary is about <strong>140 feet</strong> beyond it, and the closest listing to the 3-mile outer boundary is about <strong>159 feet</strong> inside it.</div>
-        </div>
-
-        <div class="audit-source-note">The Kepler links use Kepler.gl's mapUrl parameter with the saved map files hosted in this repository, so clicking them opens the configured data and layers preloaded.</div>
-      </div>
-    </article>
-
-    <article class="ref">
-      <div class="ref-head">
-        <div>
-          <div class="ref-no">Reference 02</div>
-          <div class="ref-title">NC State Federal Work-Study Program</div>
-        </div>
-        <div class="tags">
-          <span class="tag">Primary source</span>
-          <span class="tag">NC State</span>
-          <span class="tag">Work-study</span>
-          <span class="tag">Wages</span>
-        </div>
-      </div>
-
-      <div class="ref-body">
-        <div class="meta-grid">
-          <div class="meta-label">Organization</div>
-          <div class="meta-value">North Carolina State University, Enrollment Management and Services</div>
-
-          <div class="meta-label">Page title</div>
-          <div class="meta-value">Federal Work-Study Program</div>
-
-          <div class="meta-label">Relevant sections</div>
-          <div class="meta-value">Work-study wage guidelines; Earning work-study funds; Payroll</div>
-
-          <div class="meta-label">URL</div>
-          <div class="meta-value"><a href="https://emas.ncsu.edu/employment/federal-work-study-program/" target="_blank" rel="noopener noreferrer">NC State Federal Work-Study Program</a></div>
-
-          <div class="meta-label">Accessed</div>
-          <div class="meta-value">Sept. 9, 2026</div>
-
-          <div class="meta-label">Source type</div>
-          <div class="meta-value">Official university program guidance</div>
-        </div>
-
-        <hr class="rule">
-
-        <h2>Reference citation</h2>
-        <div class="citation">
-          North Carolina State University, Enrollment Management and Services. “Federal Work-Study Program.” Accessed Sept. 9, 2026.
-        </div>
-
-        <hr class="rule">
-
-        <h2>Key facts for reporting</h2>
-        <div class="facts">
-          <div class="fact">
-            <div class="fact-label">Allowable wage range</div>
-            <div class="fact-value"><strong>$7.25–$15.00 per hour.</strong> Employers may request exceptions for higher wages on a case-by-case basis.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Hours</div>
-            <div class="fact-value">NC State says students should <strong>generally work no more than 20 hours per week</strong> in Federal Work-Study positions.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Community service</div>
-            <div class="fact-value">Off-campus community-service Federal Work-Study positions are listed at <strong>$14.00 per hour</strong>.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">How students are paid</div>
-            <div class="fact-value">Work-study earnings are paid <strong>directly to the student every two weeks</strong>, rather than automatically applied to the student account.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Funding split</div>
-            <div class="fact-value">The program states that Federal Work-Study covers <strong>75% of earnings</strong>, while the employing unit covers the remaining <strong>25%</strong>.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Wage-setting guidance</div>
-            <div class="fact-value">NC State says hourly wages should be based on job responsibilities and the student’s level of experience.</div>
-          </div>
-        </div>
-
-        <div class="use-note">
-          <strong>Article use:</strong> Primary source for the current NC State Federal Work-Study wage guidelines. The <strong>$7.25–$15 range is an allowable FWS range, not a university-wide student minimum-wage policy</strong>. NC State says wages should reflect job responsibilities and experience, and employers may request exceptions above $15.
-        </div>
-      </div>
-    </article>
-
-
-    <article class="ref">
-      <div class="ref-head">
-        <div>
-          <div class="ref-no">Reference 03</div>
-          <div class="ref-title">NC State Common Data Set 2025–2026 — Financial Aid</div>
-        </div>
-        <div class="tags">
-          <span class="tag">Primary source</span>
-          <span class="tag">NC State</span>
-          <span class="tag">Financial aid</span>
-          <span class="tag">Common Data Set</span>
-        </div>
-      </div>
-
-      <div class="ref-body">
-        <div class="meta-grid">
-          <div class="meta-label">Organization</div>
-          <div class="meta-value">North Carolina State University</div>
-
-          <div class="meta-label">Document</div>
-          <div class="meta-value">Common Data Set 2025–2026</div>
-
-          <div class="meta-label">Relevant section</div>
-          <div class="meta-value">H2 — Number of Enrolled Students Awarded Aid</div>
-
-          <div class="meta-label">Column used</div>
-          <div class="meta-value">Full-time Undergrad (Incl. Fresh)</div>
-
-          <div class="meta-label">Official source</div>
-          <div class="meta-value"><a href="https://report.isa.ncsu.edu/ir/cds/pdfs/CDS_2025-26.v1.pdf" target="_blank" rel="noopener noreferrer">Official NC State Common Data Set 2025–26 PDF</a></div>
-
-          <div class="meta-label">Working copy</div>
-          <div class="meta-value"><a href="https://docs.google.com/document/d/1JFSe2mZHmGom82aLOLtAeeyukhofKfnGY0V4wM0FBqs/edit?tab=t.0" target="_blank" rel="noopener noreferrer">Google Doc copy / reporting notes</a></div>
-
-          <div class="meta-label">Accessed</div>
-          <div class="meta-value">Sept. 9, 2026</div>
-
-          <div class="meta-label">Source type</div>
-          <div class="meta-value">Official institutional data / Common Data Set</div>
-        </div>
-
-        <hr class="rule">
-
-        <h2>Reference citation</h2>
-        <div class="citation">
-          North Carolina State University. <em>Common Data Set 2025–2026</em>. Section H2, “Number of Enrolled Students Awarded Aid.” Accessed Sept. 9, 2026.
-        </div>
-
-        <hr class="rule">
-
-        <h2>Key facts for reporting</h2>
-        <div class="facts">
-          <div class="fact">
-            <div class="fact-label">Full-time undergraduates</div>
-            <div class="fact-value"><strong>25,775</strong> degree-seeking full-time undergraduates are reported in H2 line A.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Applied for need-based aid</div>
-            <div class="fact-value"><strong>17,332</strong> full-time undergraduates applied for need-based financial aid.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Determined to have financial need</div>
-            <div class="fact-value"><strong>9,856</strong> full-time undergraduates were determined to have financial need.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Received need-based grant aid</div>
-            <div class="fact-value"><strong>9,611</strong> full-time undergraduates were awarded need-based scholarship or grant aid.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Average need met</div>
-            <div class="fact-value">For students awarded need-based aid, an average of <strong>75%</strong> of financial need was met.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Need fully met</div>
-            <div class="fact-value"><strong>1,550</strong> full-time undergraduates had their demonstrated need fully met under the CDS definition.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Average financial-aid package</div>
-            <div class="fact-value"><strong>$17,471</strong> among full-time undergraduates in line D who were awarded financial aid.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Average need-based grant</div>
-            <div class="fact-value"><strong>$14,743</strong> among the 9,611 full-time undergraduates in line E who received need-based scholarship or grant aid.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Average need-based self-help</div>
-            <div class="fact-value"><strong>$3,974</strong> among full-time undergraduates receiving need-based self-help aid.</div>
-          </div>
-          <div class="fact">
-            <div class="fact-label">Average need-based loan</div>
-            <div class="fact-value"><strong>$4,106</strong> among full-time undergraduates awarded a need-based loan, excluding PLUS loans, unsubsidized loans and private alternative loans.</div>
-          </div>
-        </div>
-
-        <div class="use-note">
-          <strong>Article use:</strong> Primary source for the financial-aid side of the student affordability model. The clearest grant figure is the <strong>$14,743 average need-based scholarship or grant award</strong>. Any assumption that parents contribute $0 is an article scenario and is <strong>not</strong> a claim made by the Common Data Set.
-        </div>
-      </div>
-    </article>
-
-
-    
-    <article class="ref" id="raleigh-rent-trend">
+<article class="ref" id="rental-method"><div class="ref-head"><div><div class="ref-no">Rental data & calculations</div><div class="ref-title">What this snapshot measures, and how every rent is calculated</div></div><span class="tag">Revised September 13, 2026</span></div><div class="ref-body">
+<p><strong>Reporting unit: one portal listing ID.</strong> These are advertised monthly prices collected September 9, 2026 from <a href="https://offcampus.dasa.ncsu.edu/housing">NC State’s Off-Campus Housing portal</a>. Listings are supplied by landlords and other advertisers; the university does not guarantee their accuracy. One building may have a community advertisement and separate room or sublet advertisements. We do not call the records distinct buildings, tenants, available beds or signed leases.</p>
+<p>The saved CSVs contain 168 unique listing IDs and 537 floor-plan rows. The earlier collection log recorded 168 exact results/map pins, five pages and a separate 527-result portal total. The saved data verify 168 records, not completeness of all 527 results or the Raleigh market. The original raw backend response archive is not in this repository; the derived CSVs and their hashes are preserved. Collection timestamp reported in the original source log: <code>2026-09-09T02:24:45.953Z</code>. A listing’s “last updated” field is not its collection timestamp.</p>
+<ol>
+<li><strong>Keep the snapshot fixed.</strong> Preserve the original property and floor-plan CSVs. A September 13 source check may clarify whether an offer is a room; it does not replace a September 9 price with a newer live price.</li>
+<li><strong>Separate pricing bases.</strong> A room or per-bedroom offer is a personal housing offer, including suites with shared facilities. A whole-unit offer prices a complete dwelling. Twenty saved titles explicitly say “Room in…” despite a whole-unit flag. Three additional descriptions establish room/suite offers. All 23 overrides and their evidence are recorded. Unresolved mixed or questionable price bases remain in the review group.</li>
+<li><strong>Use a positive, complete price pair.</strong> Both low and high must be numeric, greater than zero and ordered low ≤ high. “Call for pricing,” blank and zero placeholders are missing values. Search-summary and saved floor-plan envelopes that disagree are excluded until reconciled. The floor-plan envelope is a consistency check, not a replacement price. A difference may reflect fees, time or plan scope rather than a scraper error.</li>
+<li><strong>Choose the geography.</strong> Calculate straight-line distance from each fixed campus reference point. For the combined sample, keep IDs within five miles of at least one point and deduplicate once by ID. For a campus card, use all eligible listings within five miles of that campus. Each listing contributes once per relevant category; bands receive weight in proportion to their eligible counts.</li>
+<li><strong>Calculate the endpoint means.</strong> Low mean = sum of included low prices ÷ included price pairs. High mean = sum of included high prices ÷ the same count. Mean midpoint = (low mean + high mean) ÷ 2, which equals the mean of individual listing midpoints. Median midpoint = the middle individual midpoint, or the average of the two middle values for an even count.</li>
+<li><strong>Round only for display.</strong> Calculate from unrounded values. References show cents and the article usually shows whole dollars. The low-to-high mean interval is neither the sample’s minimum-to-maximum range nor a confidence interval.</li>
+</ol>
+<div id="sample-flow" class="use-note"></div><div id="worked-union"></div>
+<h2>Every campus and distance band, with sums and denominators</h2><p>Each campus has three disjoint bands: 0–1, more than 1–3, and more than 3–5 miles. “Mapped” includes excluded prices. “n” is the denominator for both means. Category counts can be smaller than the mapped count.</p><div class="method-scroll" id="band-math"></div>
+<p><a href="data/reviewed-rentals.csv" download>Reviewed listing table (.csv)</a> · <a href="data/reviewed-rentals.json">Review data, source hashes and version</a> · <a href="data/review-decisions.json">Additional evidence decisions</a> · <a href="https://github.com/StrokeOfLuck/ncsu-rent-article/blob/main/scripts/build_analysis.py">Rebuild the analysis</a></p>
+</div></article>
+
+<article class="ref" id="audit-downloads"><div class="ref-head"><div><div class="ref-no">Reproduce & inspect</div><div class="ref-title">Excel audit, source tables and listing review log</div></div></div><div class="ref-body">
+<p><a class="audit-download" href="data/audits/ncsu-rent-audit.xlsx" download>Download the complete Excel audit</a> · <a href="rental-map-audit.html">Open the map and searchable listing checker</a></p>
+<p>The new workbook replaces the former browser-generated radius files. It includes all three campuses, all nine nonoverlapping bands, pooled campus summaries and the deduplicated combined sample in one file. The old audit URL opens the current checker, so old links do not keep circulating obsolete calculations.</p>
+<ul><li><strong>Guide:</strong> definitions, limitations, source files, version and reading order.</li><li><strong>Raw properties / Raw floorplans:</strong> the saved source values, including conflicting fields and missing placeholders.</li><li><strong>Listings:</strong> original and revised categories, price checks, exclusions, full-precision Haversine formulas, band formulas, overlap flags and evidence links.</li><li><strong>Summary:</strong> formula counts, sums, means and mean midpoints for each geography and category.</li><li><strong>Sensitivity:</strong> effects of removing future-only advertisements, waitlist mentions and the flagged Centennial Ridge endpoint.</li><li><strong>Budget:</strong> editable wages, work weeks, budget months, living-expense aid, loans and housing-cost assumptions. Includes a separate calculation for a specific whole-unit lease and its actual number of payers.</li><li><strong>Housing rates:</strong> two-year published rates, dollar changes, percentage changes and residence-hall monthly equivalents.</li></ul>
+<p>In Excel, filter the <strong>Listings</strong> table by campus band, included flag, category or listing ID. Follow Summary counts and sums back to that table. Review decisions are documented editorial inputs; formulas recalculate price and distance checks when numeric inputs change. Resolving an exclusion requires updating its evidence and review flags, rebuilding and verifying the outputs.</p>
+<details><summary>Open the correction and exclusion log</summary><div id="review-log" class="method-scroll"></div></details>
+<p>Unmodified source files: <a href="data/ncsu-properties.csv">properties</a>, <a href="data/ncsu-floorplans.csv">floor plans</a>, <a href="data/ncsu-fees.csv">fees</a>, <a href="data/ncsu-amenities.csv">amenities</a>. <a href="https://github.com/StrokeOfLuck/ncsu-rent-article/blob/main/docs/scraper-README.md">Original collection instructions</a>. Future snapshots should also preserve raw backend responses and log the search URL, pages requested, errors and timestamps.</p>
+</div></article>
+
+<article class="ref" id="distance-math"><span id="kepler-distance-audit"></span><div class="ref-head"><div><div class="ref-no">Geography</div><div class="ref-title">Straight-line distances, band edges and campus overlap</div></div></div><div class="ref-body">
+<p>Reference coordinates (latitude, longitude): Main <code>35.77951, −78.68168</code>; Centennial <code>35.76870, −78.67750</code>; Centennial Biomedical <code>35.79847, −78.70408</code>. These are fixed map reference points, not the nearest campus entrance or perimeter. The portal’s own travel-distance field is not used.</p>
+<ol><li>Convert latitudes and longitudes from degrees to radians: radians = degrees × π ÷ 180.</li><li>Calculate <code>a = sin²(Δlatitude/2) + cos(latitude₁) × cos(latitude₂) × sin²(Δlongitude/2)</code>.</li><li>Calculate miles = <code>2 × 3958.7613 × asin(√a)</code>. The equivalent atan2 form is used in the website build.</li><li>Assign an unrounded distance: <code>d ≤ 1</code>; <code>1 &lt; d ≤ 3</code>; <code>3 &lt; d ≤ 5</code>. Never round a distance before deciding its band.</li></ol>
+<p>Example: Brook Hill is about 3.000166 miles from the Centennial point, just 0.87 feet outside the three-mile threshold. It belongs to the &gt;3–5 band under these coordinates; geocoding precision can change such edge cases. The workbook shows feet to the nearest 1-, 3- or 5-mile edge and flags listings within 100 feet for inspection. This flag does not imply a measured geocoding error. Straight-line proximity does not establish walking, cycling, bus or driving time.</p>
+<p>NC State Facilities GIS perimeter and building layers provide visual context, not the distance origin. <a href="data/ncsu-campus-perimeters.geojson">Saved perimeters</a> · <a href="data/ncsu-campus-buildings.geojson">Saved buildings</a>. Earlier Kepler exports are retained as historical distance artifacts in the repository; the reviewed checker and workbook are the current price audit.</p>
+</div></article>
+
+<article class="ref" id="sample-limits"><div class="ref-head"><div><div class="ref-no">Interpretation</div><div class="ref-title">What the sample can support, and sensitivity checks</div></div></div><div class="ref-body">
+<p><strong>Suitable use:</strong> a descriptive report about advertised offers on this portal at the collection date, with the stated exclusions and budget assumptions. It is not a random sample of Raleigh rentals or NC State students. The 537 floor-plan rows are nested within the 168 listing records and are not 537 independent rental locations.</p>
+<p>There is no universal minimum number of data points that makes a convenience sample representative. Some campus bands have few usable observations; use the displayed n. A community and a single-room advertisement each receive one vote. Multiple advertisements in a building may be related, and unique listing IDs do not prove unique physical inventory. The means are not weighted by vacant units, bedrooms, residents or enrollment. No sampling margin of error or population-wide affordability rate is estimated.</p>
+<p><strong>Availability:</strong> the primary sample includes all advertised offers, including future move-ins, short leases, sublets and waitlist mentions. “Active” in the source is not proof of a vacant unit today. An all-2027 flag requires every saved floor-plan row to have a date in 2027 or later; missing dates and “Available Soon” are not assumed to mean available now. Lease and availability fields remain visible in the workbook. Removing all-2027 rows is a sensitivity check, not a verified available-now sample.</p>
+<p><strong>Costs:</strong> source price fields do not consistently establish the same fee coverage. Some floor plans contain higher “all-in” amounts. Mandatory, optional, usage-based and one-time fees are not interchangeable; do not add an arbitrary fee adjustment to every listing or double-count included utilities. Rents, concessions, furniture, parking and utilities need lease-level verification before making a personal housing decision. A deposit is an up-front cash requirement, not automatically a nonrefundable monthly expense.</p>
+<div id="sensitivity-math" class="method-scroll"></div>
+<p>Centennial Ridge’s portal explicitly labels $599–$2,157 per bedroom. It is retained as reported and separately flagged; the upper price is not divided by three on an unsupported assumption. Its omission is shown below the primary result. Excluding disputed records can itself change the sample composition, so the reviewed subset is not guaranteed unbiased.</p>
+<div class="use-note" id="report-wording"></div>
+<p><strong>Claims needing more evidence:</strong> trends require comparable repeated snapshots; student burden or food insecurity requires student/household income and cost data; a campus-distance price effect needs controls for dwelling size, lease type, included services and amenities. This cross-section cannot establish those causal or population claims.</p>
+</div></article>
+
+<article class="ref" id="aid-math"><div class="ref-head"><div><div class="ref-no">Personal budget arithmetic</div><div class="ref-title">Work pay, living-expense aid and borrowed funds: step by step</div></div></div><div class="ref-body">
+<ol><li><strong>Choose one period:</strong> e.g. 12 months and 52 paid weeks, or 9 months and 30 paid weeks. The latter is an illustrative two-semester work schedule, not a guaranteed award. The calculator caps weeks at <code>52 × months ÷ 12</code> so the schedule fits the budget period.</li><li><strong>Work pay:</strong> hourly wage × weekly hours × paid weeks ÷ budget months. At $15 × 20 hours × 52 ÷ 12 = <strong>$1,300.00/month</strong>. At $7.25 × 20 × 52 ÷ 12 = <strong>$628.33/month</strong>. At $15 × 20 × 30 ÷ 9 = <strong>$1,000.00/month</strong>. These are gross pay, before taxes.</li><li><strong>Available support:</strong> enter only the total grant, loan and other support actually left for living expenses in that same period; divide each by the budget months. NC State first applies aid to eligible charges on the student account, then refunds any excess. Do not automatically treat an annual grant as cash available for rent. Other living costs compete for the remaining funds.</li><li><strong>Monthly resources:</strong> add the monthly pay, living-cost grant, borrowed funds and other support. A loan increases current cash resources but remains debt. The interactive names each component separately.</li><li><strong>Housing share:</strong> (room mean or median + your additional monthly housing costs) ÷ monthly resources × 100. Zero resources gives an undefined share, shown as a dash. Values above the chart’s 350% limit are reported in the number label and clipped only on the visual rail.</li></ol>
+<div id="budget-worked" class="use-note"></div>
+<p><strong>Whole-unit sharing:</strong> use a specific lease’s rent and an agreed division among actual payers. Example: ($2,400 rent + $180 shared utilities) ÷ 3 equal payers = $860 per person. $860 ÷ $1,300 = 66.15%. Three payers is an assumption, not inferred from a studio-to-five-bedroom community range. The workbook provides this separate example; the personal article chart uses room/per-bedroom offers only.</p>
+<h2>Financial-aid source and period</h2><p><a href="https://report.isa.ncsu.edu/ir/cds/pdfs/CDS_2025-26.v1.pdf">NC State Common Data Set 2025–26</a>, Section H: the checked reporting period is <strong>2024–25 final</strong>. H2 K reports a $14,743 average need-based scholarship/grant award for full-time undergraduate recipients; H2 M reports a $4,106 average need-based loan among its recipients. These are different recipient groups, not a joint package, a median, an amount for every student, or a 2026–27 estimate. For scale only, $14,743 ÷ 12 = $1,228.58 and $4,106 ÷ 12 = $342.17; neither amount is automatically added in the revised calculator.</p>
+<p><a href="https://studentservices.ncsu.edu/finances/scholarships-and-financial-aid/receive-your-financial-aid/">NC State: receiving financial aid and refunds</a>. The appropriate input is the student’s actual remaining living-expense allocation after charges and other commitments, not the CDS average.</p>
+<h2>Work-study source and award cap</h2><p><a href="https://emas.ncsu.edu/employment/federal-work-study-program/">NC State Federal Work-Study Program</a> gives a general $7.25–$15 hourly range, with exceptions, and generally limits work to 20 hours a week. Award amount, funded weeks and actual hours limit earnings. Fifteen weeks at 20 hours gives $2,175 at $7.25 or $4,500 at $15, before an award cap. Maximum FWS pay for an illustrative period = the smaller of hourly wage × hours × weeks and the remaining award. The Budget sheet includes this cap calculation. The article’s 21–40 hour scenarios describe work above the general FWS guideline.</p>
+</div></article>
+
+<article class="ref" id="hud-30-percent"><div class="ref-head"><div><div class="ref-no">Affordability definition</div><div class="ref-title">HUD’s household benchmark versus this personal scenario</div></div></div><div class="ref-body">
+<p><a href="https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html">HUD CHAS background and definitions</a> compares household housing costs, including utilities, with household income. More than 30% is cost burdened and more than 50% is severely cost burdened. At exactly 30%, the “more than 30%” threshold has not been crossed.</p>
+<p>This article’s personal calculation can include a grant, outside support and loans, and its advertised rents do not consistently include all housing costs. It therefore reports a <strong>modeled share of monthly resources</strong>, not a formal HUD classification. Income includes all relevant household members for a household calculation; a whole dwelling’s cost should not be compared with one roommate’s income as if that were the household’s full income.</p>
+</div></article>
+
+<article class="ref" id="cost-of-attendance"><div class="ref-head"><div><div class="ref-no">University benchmarks</div><div class="ref-title">Academic-year housing budgets and residence-hall equivalents</div></div></div><div class="ref-body">
+<p><a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/">NC State’s 2026–27 undergraduate cost of attendance</a> lists housing budgets of $8,738 on campus and $9,808 off campus for full-time fall and spring enrollment. These are budgeting allowances, not measured mean rents, twelve-month quotes or a promise that a student will find housing at that price.</p>
+<p><a href="https://housing.dasa.ncsu.edu/residential-communities/costs/">University Housing’s projected 2026–27 rates</a>: double room ($3,970 semester rent + $150 required ResNet) × 2 semesters = $8,240; $8,240 ÷ 9 months = <strong>$915.56/month per student</strong>. Single room ($4,600 + $150) × 2 = $9,500; $9,500 ÷ 9 = <strong>$1,055.56/month</strong>. Nine months is the display convention for an academic year, not nine equal monthly bills. Summer is excluded and winter-break arrangements may cost extra. On-campus furnishings, utilities and services differ from off-campus contracts.</p>
+<p>Year-to-year room-rate change = (new semester rate − old semester rate) ÷ old semester rate × 100. Example for a double: ($3,970 − $3,800) ÷ $3,800 × 100 = <strong>4.47%</strong>. The chart uses room charges alone in both years and excludes ResNet and Coastal Quarters communication fees; the monthly room examples include ResNet. The complete unchanged published rate table remains below and is reproduced with formulas in the workbook.</p>
+</div></article>
+
+<article class="ref" id="bls-housing-cpi-benchmarks"><div class="ref-head"><div><div class="ref-no">National price context</div><div class="ref-title">July 2026 CPI benchmarks, with a fixed release link</div></div></div><div class="ref-body">
+<p>The <a href="https://www.bls.gov/news.release/archives/cpi_08122026.htm">BLS July 2026 CPI release, published August 12, 2026</a> reports July-to-July increases of 3.0% for lodging while at school, 2.9% for rent of primary residence and 3.4% for all items. The article intentionally uses this fixed July comparison; a rolling “latest release” link would eventually point to a different month.</p>
+<p><a href="https://www.bls.gov/cpi/additional-resources/entry-level-item-descriptions.htm">BLS category definitions</a>: lodging while at school covers college/university owned, leased or controlled housing. Merely advertising a private rental on the NC State referral portal does not put it in that CPI category. Rent of primary residence is the closer national comparison for private off-campus rents. These national twelve-month changes provide context; they do not estimate NC State’s local rent inflation or explain an individual room-rate increase.</p>
+</div></article>
+
+<article class="ref" id="raleigh-rent-trend">
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 04</div>
@@ -1069,7 +719,7 @@ h2 {
         </div>
       </div>
 
-      <div class="ref-body">
+      <div class="ref-body"><p class="use-note"><strong>Supporting reporting source.</strong> Retained from the original reference log. Historical wage, survey and market figures below are background; they are not inputs to the revised rent or personal-resource calculations above.</p>
         <div class="meta-grid">
           <div class="meta-label">Source page</div>
           <div class="meta-value"><a href="https://www.apartmentlist.com/research/category/data-rent-estimates" target="_blank" rel="noopener noreferrer">Apartment List Rent Estimates data downloads</a></div>
@@ -1189,257 +839,7 @@ h2 {
         </div>
       </div>
     </article>
-
-
-
-    <article class="ref">
-      <div class="ref-head">
-        <div>
-          <div class="ref-no">Reference 05</div>
-          <div class="ref-title">HUD CHAS — Housing Cost-Burden Definition</div>
-        </div>
-        <div class="tags">
-          <span class="tag">Federal source</span>
-          <span class="tag">HUD</span>
-          <span class="tag">Affordability</span>
-          <span class="tag">Cost burden</span>
-        </div>
-      </div>
-
-      <div class="ref-body">
-        <div class="meta-grid">
-          <div class="meta-label">Organization</div>
-          <div class="meta-value">U.S. Department of Housing and Urban Development, HUD USER</div>
-
-          <div class="meta-label">Page title</div>
-          <div class="meta-value">CHAS: Background</div>
-
-          <div class="meta-label">Relevant section</div>
-          <div class="meta-value">Definitions — Cost burden and severe cost burden</div>
-
-          <div class="meta-label">URL</div>
-          <div class="meta-value"><a href="https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html" target="_blank" rel="noopener noreferrer">https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html</a></div>
-
-          <div class="meta-label">Accessed</div>
-          <div class="meta-value">Sept. 9, 2026</div>
-
-          <div class="meta-label">Source type</div>
-          <div class="meta-value">Federal housing-data definition</div>
-        </div>
-
-        <hr class="rule">
-
-        <h2>Reference citation</h2>
-        <div class="citation">
-          U.S. Department of Housing and Urban Development, HUD USER. “CHAS: Background.” Definitions of housing cost burden. Accessed Sept. 9, 2026.
-        </div>
-
-        <hr class="rule">
-
-        <h2>Key facts for reporting</h2>
-        <div class="facts">
-          <div class="fact">
-            <div class="fact-label">Cost burden</div>
-            <div class="fact-value">HUD defines a household as cost burdened when <strong>monthly housing costs, including utilities, exceed 30% of monthly income</strong>.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Severe cost burden</div>
-            <div class="fact-value">HUD defines severe cost burden as <strong>monthly housing costs, including utilities, exceeding 50% of monthly income</strong>.</div>
-          </div>
-        </div>
-
-        <div class="use-note">
-          <strong>Article use:</strong> Federal benchmark for interpreting the rent-burden percentages in the interactive. The 30% threshold is a housing-cost-burden benchmark, not a rule that every individual student must or should spend exactly 30% of income on rent.
-        </div>
-
-        <hr class="rule">
-
-        <h2>Saved evidence</h2>
-        <div class="evidence">
-          <img src="data:image/png;base64,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" alt="HUD CHAS definition stating that cost burden means monthly housing costs including utilities exceeding 30 percent of monthly income.">
-          <div class="caption">
-            Screenshot saved Sept. 9, 2026. HUD CHAS definition of cost burden.
-          </div>
-        </div>
-      </div>
-    </article>
-
-
-    <article class="ref">
-      <div class="ref-head">
-        <div>
-          <div class="ref-no">Reference 06</div>
-          <div class="ref-title">NC State Undergraduate Estimated Cost of Attendance — Housing Benchmarks</div>
-        </div>
-        <div class="tags">
-          <span class="tag">Primary source</span>
-          <span class="tag">NC State</span>
-          <span class="tag">Cost of attendance</span>
-          <span class="tag">Housing</span>
-        </div>
-      </div>
-
-      <div class="ref-body">
-        <div class="meta-grid">
-          <div class="meta-label">Organization</div>
-          <div class="meta-value">North Carolina State University, Student Services Center</div>
-
-          <div class="meta-label">Page title</div>
-          <div class="meta-value">Undergraduate Student Estimated Cost of Attendance</div>
-
-          <div class="meta-label">Relevant sections</div>
-          <div class="meta-value">Living On Campus and Living Off Campus — Academic Years 2025–26 and 2026–27</div>
-
-          <div class="meta-label">URL</div>
-          <div class="meta-value"><a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/" target="_blank" rel="noopener noreferrer">Official NC State undergraduate cost-of-attendance page</a></div>
-
-          <div class="meta-label">Accessed</div>
-          <div class="meta-value">Sept. 9, 2026</div>
-
-          <div class="meta-label">Source type</div>
-          <div class="meta-value">Official university cost-of-attendance estimates</div>
-        </div>
-
-        <hr class="rule">
-
-        <h2>Reference citation</h2>
-        <div class="citation">
-          North Carolina State University, Student Services Center. “Undergraduate Student Estimated Cost of Attendance.” Academic Years 2025–26 and 2026–27. Accessed Sept. 10, 2026.
-        </div>
-
-        <hr class="rule">
-
-        <h2>Key facts for reporting</h2>
-        <div class="facts">
-          <div class="fact">
-            <div class="fact-label">On-campus housing estimate</div>
-            <div class="fact-value"><strong>$8,738</strong> for the 2026–27 academic year. The prior 2025–26 estimate was <strong>$8,335</strong>.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Off-campus housing estimate</div>
-            <div class="fact-value"><strong>$9,808</strong> for the 2026–27 academic year. The prior 2025–26 estimate was <strong>$9,522</strong>.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Time period</div>
-            <div class="fact-value">NC State says the figures are annual expense estimates for <strong>full-time fall and spring semester enrollment</strong>.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Residency</div>
-            <div class="fact-value">The housing estimate is the <strong>same for North Carolina residents and out-of-state residents</strong> in both the on-campus and off-campus tables for 2025–26 and 2026–27.</div>
-          </div>
-        </div>
-
-        <div class="use-note">
-          <strong>Article use:</strong> University benchmark for comparing advertised rent near NC State with the housing amount built into the school's estimated cost of attendance. The current article visual uses the <strong>2026–27</strong> housing estimates: <strong>$8,738 on campus</strong> and <strong>$9,808 off campus</strong>. These are estimates, not a claim that every student pays exactly this amount.
-        </div>
-
-        <hr class="rule">
-
-        <h2>Saved evidence</h2>
-        <div class="use-note">
-          <strong>Evidence note:</strong> The current article visual uses the newer 2026–27 figures above. The screenshots below preserve the 2025–26 tables from the same official page and remain useful for showing the prior-year benchmark.
-        </div>
-        <div class="evidence-pair">
-          <div class="evidence">
-            <img src="data:image/webp;base64,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" alt="NC State 2025–26 undergraduate cost-of-attendance table for North Carolina residents living on campus, showing a housing estimate of $8,335 and a total of $27,481.">
-            <div class="caption">NC State 2025–26 living-on-campus estimate. Housing: <strong>$8,335</strong>. Screenshot saved Sept. 9, 2026.</div>
-          </div>
-          <div class="evidence">
-            <img src="data:image/webp;base64,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" alt="NC State 2025–26 undergraduate cost-of-attendance table for North Carolina residents living off campus, showing a housing estimate of $9,522 and a total of $28,668.">
-            <div class="caption">NC State 2025–26 living-off-campus estimate. Housing: <strong>$9,522</strong>. Screenshot saved Sept. 9, 2026.</div>
-          </div>
-        </div>
-      </div>
-    </article>
-
-
-    <article class="ref" id="hud-30-percent">
-      <div class="ref-head">
-        <div>
-          <div class="ref-no">Reference 07</div>
-          <div class="ref-title">HUD 30% Housing Affordability Benchmark</div>
-        </div>
-        <div class="tags">
-          <span class="tag">Federal source</span>
-          <span class="tag">HUD</span>
-          <span class="tag">30% benchmark</span>
-          <span class="tag">Affordability</span>
-        </div>
-      </div>
-
-      <div class="ref-body">
-        <div class="meta-grid">
-          <div class="meta-label">Organization</div>
-          <div class="meta-value">U.S. Department of Housing and Urban Development, HUD USER</div>
-
-          <div class="meta-label">Primary page</div>
-          <div class="meta-value"><a href="https://www.huduser.gov/archives/portal/glossary/glossary_a.html" target="_blank" rel="noopener noreferrer">HUD USER Glossary — Affordable Housing</a></div>
-
-          <div class="meta-label">Definition page</div>
-          <div class="meta-value"><a href="https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html" target="_blank" rel="noopener noreferrer">HUD CHAS — Cost burden definition</a></div>
-
-          <div class="meta-label">Plain-language source</div>
-          <div class="meta-value"><a href="https://www.hud.gov/sites/dfiles/PIH/documents/FY24_ICDBG_FAQs.pdf#page=8" target="_blank" rel="noopener noreferrer">HUD FY24 ICDBG FAQs, page 8 — housing cost burden and basic necessities</a><br>Published June 25, 2024</div>
-
-          <div class="meta-label">Accessed</div>
-          <div class="meta-value">Sept. 9, 2026</div>
-
-          <div class="meta-label">Source type</div>
-          <div class="meta-value">Federal housing-affordability definition and methodological guidance</div>
-        </div>
-
-        <hr class="rule">
-
-        <h2>What the “one-third rule” actually means</h2>
-        <div class="facts">
-          <div class="fact">
-            <div class="fact-label">What the 30% rule measures</div>
-            <div class="fact-value">HUD uses the share of income spent on housing as a simple affordability measure. Spending <strong>30% or less</strong> is treated as no cost burden; spending <strong>more than 30%</strong> is cost burdened, and spending <strong>more than 50%</strong> is severely cost burdened.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">What counts as housing cost</div>
-            <div class="fact-value">HUD's cost-burden definition uses <strong>monthly housing costs including utilities</strong>.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">Why the threshold matters</div>
-            <div class="fact-value">HUD explains that a household paying more than 30% of income toward housing may have difficulty affording necessities such as <strong>food, clothing, transportation and medical care</strong>. The 30% line is therefore a cost-burden warning threshold, not a federal definition of comfort, financial security or “thriving,” and it does not mean households should aim to spend exactly 30%.</div>
-          </div>
-
-          <div class="fact">
-            <div class="fact-label">College-student caveat</div>
-            <div class="fact-value">The benchmark is useful context for student housing, but students can have grants, loans, savings, family support, roommates and other resources that do not map neatly onto ordinary household income. The article should therefore use the 30% line as an affordability comparison rather than claim that every student above it is formally HUD cost burdened.</div>
-          </div>
-        </div>
-
-        <div class="use-note">
-          <strong>Article / interactive use:</strong> Red in the affordability visualizer marks a modeled rent share above <strong>30%</strong>. This is a comparison with HUD's housing-affordability benchmark. It is not a formal HUD classification when the interactive's denominator includes grants or borrowed money, and the rental listings may not include utilities.
-        </div>
-
-        <hr class="rule">
-
-        <h2>Plain-language HUD definition</h2>
-        <div class="citation">
-          “A household is said to be cost-burdened when it pays more than 30% of its income toward housing expenses and may have difficulty affording necessities such as food, clothing, transportation, and medical care.”
-        </div>
-        <div class="evidence">
-          <img src="data:image/webp;base64,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[... ELLIPSIZATION ...]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" alt="Screenshot of HUD FAQ question 29 defining housing cost burden as paying more than 30 percent of income toward housing expenses and noting difficulty affording food, clothing, transportation and medical care.">
-          <div class="caption">HUD FY24 ICDBG FAQs, question 29, page 8. Screenshot saved for the reporting record.</div>
-        </div>
-
-        <div class="filter-note">
-          <strong>Reporting language:</strong> Prefer “above HUD's 30% housing-affordability benchmark” or “above the 30% cost-burden threshold” over saying a student “fails the one-third rule.” The commonly repeated “one-third rule” is only shorthand; the federal benchmark used here is 30%.
-        </div>
-      </div>
-    </article>
-
-
-    <article class="ref" id="federal-minimum-wage">
+<article class="ref" id="federal-minimum-wage">
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 08</div>
@@ -1453,7 +853,7 @@ h2 {
         </div>
       </div>
 
-      <div class="ref-body">
+      <div class="ref-body"><p class="use-note"><strong>Supporting reporting source.</strong> Retained from the original reference log. Historical wage, survey and market figures below are background; they are not inputs to the revised rent or personal-resource calculations above.</p>
         <div class="meta-grid">
           <div class="meta-label">Organization</div>
           <div class="meta-value">U.S. Department of Labor, Wage and Hour Division</div>
@@ -1486,9 +886,7 @@ h2 {
         </div>
       </div>
     </article>
-
-
-    <article class="ref" id="ncsu-affordable-supportive-housing">
+<article class="ref" id="ncsu-affordable-supportive-housing">
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 09</div>
@@ -1502,7 +900,7 @@ h2 {
         </div>
       </div>
 
-      <div class="ref-body">
+      <div class="ref-body"><p class="use-note"><strong>Supporting reporting source.</strong> Retained from the original reference log. Historical wage, survey and market figures below are background; they are not inputs to the revised rent or personal-resource calculations above.</p>
         <div class="meta-grid">
           <div class="meta-label">Organization</div>
           <div class="meta-value">NC State College of Design, Affordable Housing + Sustainable Communities Initiative</div>
@@ -1548,9 +946,7 @@ h2 {
         </div>
       </div>
     </article>
-
-
-    <article class="ref" id="ncsu-dining-10-wage">
+<article class="ref" id="ncsu-dining-10-wage">
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 10</div>
@@ -1564,7 +960,7 @@ h2 {
         </div>
       </div>
 
-      <div class="ref-body">
+      <div class="ref-body"><p class="use-note"><strong>Supporting reporting source.</strong> Retained from the original reference log. Historical wage, survey and market figures below are background; they are not inputs to the revised rent or personal-resource calculations above.</p>
         <div class="meta-grid">
           <div class="meta-label">Organization</div>
           <div class="meta-value">North Carolina State University, Office of Finance and Administration</div>
@@ -1597,9 +993,7 @@ h2 {
         </div>
       </div>
     </article>
-
-
-    <article class="ref" id="ncsu-fws-15-current">
+<article class="ref" id="ncsu-fws-15-current">
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 11</div>
@@ -1613,7 +1007,7 @@ h2 {
         </div>
       </div>
 
-      <div class="ref-body">
+      <div class="ref-body"><p class="use-note"><strong>Supporting reporting source.</strong> Retained from the original reference log. Historical wage, survey and market figures below are background; they are not inputs to the revised rent or personal-resource calculations above.</p>
         <div class="meta-grid">
           <div class="meta-label">Organization</div>
           <div class="meta-value">North Carolina State University, Office of Undergraduate Research</div>
@@ -1646,9 +1040,7 @@ h2 {
         </div>
       </div>
     </article>
-
-
-    <article class="ref" id="ncsu-dining-current-wage">
+<article class="ref" id="ncsu-dining-current-wage">
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 12</div>
@@ -1662,7 +1054,7 @@ h2 {
         </div>
       </div>
 
-      <div class="ref-body">
+      <div class="ref-body"><p class="use-note"><strong>Supporting reporting source.</strong> Retained from the original reference log. Historical wage, survey and market figures below are background; they are not inputs to the revised rent or personal-resource calculations above.</p>
         <div class="meta-grid">
           <div class="meta-label">Organization</div>
           <div class="meta-value">NC State Campus Enterprises / NC State Dining</div>
@@ -1703,9 +1095,7 @@ h2 {
         </div>
       </div>
     </article>
-
-
-    <article class="ref" id="ncsu-2024-food-housing-report">
+<article class="ref" id="ncsu-2024-food-housing-report">
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 13</div>
@@ -1719,7 +1109,7 @@ h2 {
         </div>
       </div>
 
-      <div class="ref-body">
+      <div class="ref-body"><p class="use-note"><strong>Supporting reporting source.</strong> Retained from the original reference log. Historical wage, survey and market figures below are background; they are not inputs to the revised rent or personal-resource calculations above.</p>
         <div class="meta-grid">
           <div class="meta-label">Organization</div>
           <div class="meta-value">NC State Food and Housing Insecurity Steering Committee / Pack Essentials</div>
@@ -1759,9 +1149,7 @@ h2 {
         </div>
       </div>
     </article>
-
-
-    <article class="ref" id="map-basemap-attribution">
+<article class="ref" id="map-basemap-attribution">
       <div class="ref-head">
         <div>
           <div class="ref-no">Reference 14</div>
@@ -1807,8 +1195,6 @@ h2 {
         </div>
       </div>
     </article>
-
-
 <article class="ref" id="ncsu-housing-rates-2026-27">
   <div class="ref-head">
     <div>
@@ -1967,7 +1353,7 @@ h2 {
       The largest projected increase among the listed room-rate rows is the standard <strong>Single</strong> rate at <strong>7.60%</strong>; the smallest is the <strong>Coastal Quarters double</strong> at <strong>1.90%</strong>.
     </div>
     <div class="use-note">
-      <strong>BLS price context:</strong> Over the 12 months ending July 2026, <strong>lodging while at school increased 3.0%</strong>, <strong>rent of primary residence increased 2.9%</strong>, and the <strong>all-items CPI-U increased 3.4%</strong>. <a href="https://www.bls.gov/news.release/cpi.htm" target="_blank" rel="noopener noreferrer">Official BLS CPI release</a>. BLS defines “lodging while at school” as housing owned, leased or controlled by a college or university, including eligible on- or off-campus housing. <a href="https://www.bls.gov/cpi/additional-resources/entry-level-item-descriptions.htm" target="_blank" rel="noopener noreferrer">BLS category definition</a>.
+      <strong>BLS price context:</strong> Over the 12 months ending July 2026, <strong>lodging while at school increased 3.0%</strong>, <strong>rent of primary residence increased 2.9%</strong>, and the <strong>all-items CPI-U increased 3.4%</strong>. <a href="https://www.bls.gov/news.release/archives/cpi_08122026.htm" target="_blank" rel="noopener noreferrer">Official BLS CPI release</a>. BLS defines “lodging while at school” as housing owned, leased or controlled by a college or university, including eligible on- or off-campus housing. <a href="https://www.bls.gov/cpi/additional-resources/entry-level-item-descriptions.htm" target="_blank" rel="noopener noreferrer">BLS category definition</a>.
     </div>
 
     <hr class="rule">
@@ -1980,74 +1366,12 @@ h2 {
   </div>
 </article>
 
-
-
-<article class="ref" id="bls-housing-cpi-benchmarks">
-  <div class="ref-head">
-    <div>
-      <div class="ref-no">Reference 16</div>
-      <div class="ref-title">U.S. Bureau of Labor Statistics — Housing CPI Benchmarks</div>
-    </div>
-    <div class="tags">
-      <span class="tag">Primary source</span>
-      <span class="tag">BLS</span>
-      <span class="tag">CPI</span>
-      <span class="tag">Student housing</span>
-    </div>
-  </div>
-
-  <div class="ref-body">
-    <div class="meta-grid">
-      <div class="meta-label">Organization</div>
-      <div class="meta-value">U.S. Bureau of Labor Statistics</div>
-
-      <div class="meta-label">Release</div>
-      <div class="meta-value">Consumer Price Index — July 2026</div>
-
-      <div class="meta-label">CPI source</div>
-      <div class="meta-value"><a href="https://www.bls.gov/news.release/cpi.htm" target="_blank" rel="noopener noreferrer">Official BLS CPI release</a></div>
-
-      <div class="meta-label">Category definition</div>
-      <div class="meta-value"><a href="https://www.bls.gov/cpi/additional-resources/entry-level-item-descriptions.htm" target="_blank" rel="noopener noreferrer">BLS CPI entry-level item descriptions</a></div>
-
-      <div class="meta-label">Accessed</div>
-      <div class="meta-value">Sept. 11, 2026</div>
-
-      <div class="meta-label">Source type</div>
-      <div class="meta-value">Federal statistical release and CPI category documentation</div>
-    </div>
-
-    <hr class="rule">
-
-    <h2>Benchmarks used in the article</h2>
-    <div class="facts">
-      <div class="fact">
-        <div class="fact-label">Lodging while at school</div>
-        <div class="fact-value"><strong>+3.0%</strong> from July 2025 to July 2026.</div>
-      </div>
-      <div class="fact">
-        <div class="fact-label">Rent of primary residence</div>
-        <div class="fact-value"><strong>+2.9%</strong> from July 2025 to July 2026.</div>
-      </div>
-      <div class="fact">
-        <div class="fact-label">All items CPI-U</div>
-        <div class="fact-value"><strong>+3.4%</strong> from July 2025 to July 2026.</div>
-      </div>
-      <div class="fact">
-        <div class="fact-label">What “lodging while at school” means</div>
-        <div class="fact-value">BLS includes rooms, apartments, flats and homes while at school when the housing is owned, leased or controlled by the college or university. Eligible housing can be on or off campus; privately owned housing qualifies only when it is subject to university or college regulations and price policies.</div>
-      </div>
-    </div>
-
-    <div class="use-note">
-      <strong>Article use:</strong> “Lodging while at school” is the closest national CPI comparison for NC State-controlled student housing, while “rent of primary residence” is the broader rental-housing comparison and all-items CPI shows general consumer-price inflation. These are national benchmarks and should not be described as NC State-specific inflation rates.
-    </div>
-  </div>
-</article>
-
   </div>
 </main>
 
+<script src="assets/reviewed-data.js"></script>
+<script src="assets/rent-analysis.js"></script>
+<script src="assets/reference-math.js"></script>
 <script>
 (() => {
   const input = document.getElementById('reference-search-input');

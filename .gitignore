@@ -1,0 +1,4 @@
+node_modules
+data/audits/source-tables.json
+data/audits/*.inspect.ndjson
+__pycache__/
