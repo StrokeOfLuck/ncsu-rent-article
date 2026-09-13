@@ -4262,7 +4262,6 @@ th:first-child, td:first-child {
       <div class="section-label">How does room rent compare with a student’s monthly resources?</div>
     </div>
 
-    <p class="info-note" id="personal-sample-note"></p>
     <div class="aid-panel">
       <div class="aid-panel-head">
         <div><div class="aid-title">Compare with need-based aid</div><div class="aid-note">Optional examples using NC State’s reported award averages.</div></div>
@@ -4866,7 +4865,6 @@ function updateAffordability() {
   const local=overallDistanceBandSummary(currentCampusKey);
   const affordabilityStats=overallDistanceBandSummary(affordabilityCampusKey).perOverall;
   const affordabilityLabel=affordabilityCampusKey==='vet' ? 'Biomedical Campus' : campuses[affordabilityCampusKey].label;
-  document.getElementById('personal-sample-note').textContent=`${affordabilityLabel} · ${affordabilityStats.n} room/per-bedroom listings within five miles.`;
   document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · room/per-bedroom listings within five miles`;
   for(const [name,stats] of [['Per',local.perOverall]]) {
     document.getElementById('combined'+name+'Overall').textContent=stats.display;
