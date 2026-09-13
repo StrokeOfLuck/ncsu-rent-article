@@ -650,7 +650,7 @@ h2 {
 </ol>
 <div id="sample-flow" class="use-note"></div><div id="worked-union"></div>
 <h2>How the article's counts add up</h2>
-<p>The article's distance table and campus summary both count <strong>listings with usable rent data</strong>. Add the three nonoverlapping distance rows to get that campus's total, or add its room/per-bedroom and whole-unit counts. Mapped totals also include listings whose prices were excluded, so those larger counts appear here for audit purposes.</p>
+<p>The article's map, distance table and campus summary focus on <strong>usable room/per-bedroom listings</strong>. Add the three nonoverlapping room counts to get that campus's total. The affordability chart uses the mean listing midpoint; medians and whole-unit calculations remain here and in Excel for comparison. Whole-unit offers are valid audit data, but do not establish one student's rent share. The broader snapshot totals below include both price categories and excluded prices.</p>
 <div id="count-reconciliation" class="method-scroll"></div>
 <p>Do not add campus totals together: their five-mile areas overlap. The combined sample counts each listing ID once. Whole-unit and room/per-bedroom prices have separate means because they price different things.</p>
 <h2 id="distance-weighting">Should closer rentals have more weight?</h2>
@@ -665,6 +665,7 @@ h2 {
 <article class="ref" id="audit-downloads"><div class="ref-head"><div><div class="ref-no">Reproduce & inspect</div><div class="ref-title">Excel audit, source tables and listing review log</div></div></div><div class="ref-body">
 <p><a class="audit-download" href="data/audits/ncsu-rent-audit.xlsx?v=20260913-kept2" download>Download the complete Excel audit</a> · <a href="rental-map-audit.html">Open the map and searchable listing checker</a></p>
 <p>The new workbook replaces the former browser-generated radius files. It includes all three campuses, all nine nonoverlapping bands, pooled campus summaries and the deduplicated combined sample in one file. The old audit URL opens the current checker, so old links do not keep circulating obsolete calculations.</p>
+<p><strong>To reproduce the room-only article:</strong> in Kept, filter Price basis to Per bedroom. This gives 78 listings across the combined campus areas. Also filter Main band to the three in-area bands for Main Campus’s 76 room listings. Whole-unit rows remain kept in the broader audit; they are outside the article’s room-only scope, not invalid prices. Summary retains both categories and Budget retains the median comparison.</p>
 <p><strong>Start with the Kept and Excluded tabs.</strong> They split all 168 saved listing IDs by inclusion in the combined five-mile rent sample. Kept contains 131 usable listings. Excluded contains 37 listings: 25 with unusable prices inside the study area and 12 outside all three five-mile areas. One outside listing also has a price conflict; it is counted once. “Excluded” does not mean every price is wrong or every property is unavailable.</p>
 <p>Each tab includes names, prices, the decision reason, campus bands and source links. To reproduce Main Campus, filter <strong>Main band</strong> to the three bands within five miles: 128 kept listings and 25 excluded listings. The tabs record membership in this published snapshot. Linked fields follow the master Listings table by listing ID; rebuild the workbook after changing inputs or review decisions to refresh tab membership.</p>
 <ul><li><strong>Guide:</strong> definitions, limitations, source files, version and reading order.</li><li><strong>Raw properties / Raw floorplans:</strong> the saved source values, including conflicting fields and missing placeholders.</li><li><strong>Listings:</strong> original and revised categories, price checks, exclusions, full-precision Haversine formulas, band formulas, overlap flags and evidence links.</li><li><strong>Summary:</strong> formula counts, sums, means and mean midpoints for each geography and category.</li><li><strong>Sensitivity:</strong> effects of removing future-only advertisements, waitlist mentions and the flagged Centennial Ridge endpoint.</li><li><strong>Budget:</strong> the article’s two average-aid checkboxes, all four selection combinations, and an optional custom budget. Also includes a separate calculation for a specific whole-unit lease and its actual number of payers.</li><li><strong>Housing rates:</strong> two-year published rates, dollar changes, percentage changes and residence-hall monthly equivalents.</li></ul>
@@ -699,7 +700,7 @@ h2 {
 <li><strong>Add a grant only if checked.</strong> $14,743 ÷ 12 = <strong>$1,228.58/month equivalent</strong>. If unchecked, add $0.</li>
 <li><strong>Add a loan only if checked.</strong> $4,106 ÷ 12 = <strong>$342.17/month borrowed</strong>. If unchecked, add $0.</li>
 <li><strong>Add the selected resources.</strong> Monthly resources = gross work pay + selected grant equivalent + selected borrowed funds. At $15/hour and 20 hours/week with both boxes checked: $1,300 + ($14,743 + $4,106) ÷ 12 = <strong>$2,870.75/month</strong>.</li>
-<li><strong>Compare room rent.</strong> Room mean or median ÷ monthly resources × 100. The following table uses the same unrounded values as the article. Labels in the article are rounded; a value just above or below 30% is labeled &gt;30% or &lt;30% so rounding does not conceal which side of the reference it falls on.</li></ol>
+<li><strong>Compare room rent.</strong> Room mean ÷ monthly resources × 100. The median is retained here as a comparison. The following table uses the same unrounded values as the article. Labels in the article are rounded; a value just above or below 30% is labeled &gt;30% or &lt;30% so rounding does not conceal which side of the reference it falls on.</li></ol>
 <div id="budget-worked" class="use-note"></div><div id="aid-presets-math" class="method-scroll"></div>
 <h2>Optional: use a personal budget</h2>
 <p>Open <strong>Use your own budget (optional)</strong> and check <strong>Use custom amounts instead of the award averages</strong>. This pauses the average-award boxes. Enter only aid actually left for living expenses after tuition, fees, account charges and other commitments. Use the same budget period for all totals. Closing the optional panel does not switch modes; the visible status states when the custom budget is in use.</p>
@@ -1393,8 +1394,8 @@ h2 {
 </main>
 
 <script src="assets/reviewed-data.js"></script>
-<script src="assets/rent-analysis.js?v=20260913-kept"></script>
-<script src="assets/reference-math.js?v=20260913-kept"></script>
+<script src="assets/rent-analysis.js?v=20260913-rooms"></script>
+<script src="assets/reference-math.js?v=20260913-rooms"></script>
 <script>
 (() => {
   const input = document.getElementById('reference-search-input');

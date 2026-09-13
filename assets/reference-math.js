@@ -7,10 +7,10 @@
   document.getElementById('sample-flow').innerHTML=`<strong>Inclusion flow:</strong> ${rows.length} saved IDs − ${rows.length-u.length} outside all three five-mile views = ${u.length} mapped IDs in the combined geography. Of those, ${s.excluded} prices are excluded, leaving ${s.perOverall.n+s.wholeOverall.n} usable prices: ${s.perOverall.n} room/per-bedroom + ${s.wholeOverall.n} whole-unit. Excluded reasons can overlap; count each excluded ID once.`;
   const countRows=Object.entries(d.campuses).map(([key,c])=>{
     const v=A.summarize(A.campus(rows,key));
-    const bands=[[0,1],[1,3],[3,5]].map(([lo,hi])=>{const b=A.summarize(A.campus(rows,key,lo,hi));return b.perOverall.n+b.wholeOverall.n;});
-    return [esc(c.label),bands.join(' + ')+' = '+(v.perOverall.n+v.wholeOverall.n),v.perOverall.n,v.wholeOverall.n,v.excluded,v.uniqueCount];
+    const bands=[[0,1],[1,3],[3,5]].map(([lo,hi])=>{const b=A.summarize(A.campus(rows,key,lo,hi));return b.perOverall.n;});
+    return [esc(c.label),bands.join(' + ')+' = '+v.perOverall.n,v.perOverall.n,v.wholeOverall.n,v.excluded,v.uniqueCount];
   });
-  document.getElementById('count-reconciliation').innerHTML=table(['Campus','Three band counts = usable total','Room prices','Whole-unit prices','Excluded prices within 5 mi','Mapped total'],countRows);
+  document.getElementById('count-reconciliation').innerHTML=table(['Campus','Article room bands = room total','Room prices','Whole-unit prices','Excluded prices within 5 mi','Mapped total'],countRows);
   const main=A.summarize(A.campus(rows,'main')).perOverall;
   const roomBands=[[0,1],[1,3],[3,5]].map(([lo,hi])=>A.summarize(A.campus(rows,'main',lo,hi)).perOverall);
   document.getElementById('weighting-math').innerHTML=`<strong>Main Campus room example:</strong> the three bands contain ${roomBands.map(b=>b.n).join(' + ')} = ${main.n} usable room prices. Their shares of the pooled room mean are ${roomBands.map(b=>pct(b.n/main.n*100)).join(', ')}. Adding all individual room midpoints gives ${usd((main.low_sum+main.high_sum)/2)}; dividing by ${main.n} gives ${usd(main.midpoint)}. These shares reflect the number of advertisements, not measured student demand. Calculations use unrounded prices; displayed percentages may not sum to exactly 100% after rounding.`;

@@ -1456,7 +1456,7 @@ th:first-child, td:first-child {
 
 .combined-details{
   display:grid;
-  grid-template-columns:repeat(4, minmax(0,1fr));
+  grid-template-columns:repeat(2, minmax(0,1fr));
   gap:12px;
 }
 
@@ -3983,7 +3983,6 @@ th:first-child, td:first-child {
 
     <div class="legend-row" aria-label="Map legend">
       <div class="legend-item"><span class="dot bed"></span>Room / per-bedroom listing</div>
-      <div class="legend-item"><span class="dot unit"></span>Whole unit listing</div><div class="legend-item"><span class="dot" style="background:#777"></span>Price excluded / needs review</div>
       <div class="legend-item"><span class="diamond campus-ref">◆</span>Campus reference point</div>
       <div class="legend-item"><span class="box perim"></span>Campus perimeter</div>
       <div class="legend-item"><span class="box bldg"></span>NC State building</div>
@@ -3993,23 +3992,22 @@ th:first-child, td:first-child {
   </div>
 
   <div class="footer-note" style="margin-top:3px; margin-bottom:10px;">
-    Listings are advertised through NC State’s Off-Campus Housing site and do not represent the full Raleigh rental market. Campus boundaries and building footprints: NC State Facilities GIS. Distances are straight-line calculations from each campus reference point.
+    The map shows usable room/per-bedroom listings within five miles of at least one campus reference point. Listings are advertised through NC State’s Off-Campus Housing site and do not represent the full Raleigh rental market. Campus boundaries and building footprints: NC State Facilities GIS. Distances are straight-line calculations from each campus reference point.
   </div>
 
   <section class="block">
-    <div class="section-label">Mean advertised rent by distance band</div>
+    <div class="section-label">Mean advertised room/per-bedroom rent by distance band</div>
     <table>
       <thead>
         <tr>
           <th>Distance band</th>
-          <th>Listings with rent data</th>
-          <th>Per bedroom</th>
-          <th>Whole unit</th>
+          <th>Room listings</th>
+          <th>Monthly rent</th>
         </tr>
       </thead>
       <tbody id="summary"></tbody>
     </table>
-    <div class="row-hint">Listings with rent data = room prices used + whole-unit prices used. Distance bands do not overlap. <a href="references.html#rental-method">Read the inclusion rules and step-by-step math</a>.</div>
+    <div class="row-hint">Counts include the room/per-bedroom prices used in each average. Distance bands do not overlap. <a href="references.html#rental-method">Read the inclusion rules and step-by-step math</a>.</div>
   </section>
 
 
@@ -4019,7 +4017,7 @@ th:first-child, td:first-child {
         <div class="housing-section-head housing-section-first">
           <div>
             <div class="housing-section-kicker">Off campus listings</div>
-            <div class="housing-section-title">Advertised rents from NC State’s Off-Campus Housing site</div>
+            <div class="housing-section-title">Advertised room/per-bedroom rents from NC State’s Off-Campus Housing site</div>
           </div>
           <div class="summary-campus-buttons" aria-label="Campus rent summary selector">
             <button id="summary-btn-main" class="campus-btn active" type="button" onclick="setCampus('main')">Main</button>
@@ -4028,29 +4026,21 @@ th:first-child, td:first-child {
           </div>
         </div>
         <div class="combined-top-note">
-          <span id="combinedRentMeta">Main Campus · listings with rent data within five miles</span>
+          <span id="combinedRentMeta">Main Campus · room/per-bedroom listings within five miles</span>
         </div>
 
         <div class="combined-details">
           <div>
-            <div class="combined-label">Per bedroom overall</div>
+            <div class="combined-label">Average advertised price range</div>
             <div class="combined-value" id="combinedPerOverall">$0–$0</div>
           </div>
           <div>
-            <div class="combined-label">Per bedroom midpoint</div>
+            <div class="combined-label">Mean monthly room rent</div>
             <div class="combined-value" id="combinedPerMid">$0</div>
-          </div>
-          <div>
-            <div class="combined-label">Whole unit overall</div>
-            <div class="combined-value" id="combinedWholeOverall">$0–$0</div>
-          </div>
-          <div>
-            <div class="combined-label">Whole unit midpoint</div>
-            <div class="combined-value" id="combinedWholeMid">$0</div>
           </div>
         </div>
 
-        <p class="info-note" id="cleaned-summary-note"></p><p class="info-note">Ranges show the average low and average high advertised prices. <a href="references.html#rental-method">Rent math and exclusions</a> · <a href="rental-map-audit.html">Inspect listings</a> · <a href="references.html#audit-downloads">Excel audit</a></p><div class="housing-monthly">
+        <p class="info-note" id="cleaned-summary-note"></p><p class="info-note">Ranges show the average low and average high advertised prices. Mean monthly rent averages each listing’s price midpoint. <a href="references.html#rental-method">Rent math and exclusions</a> · <a href="rental-map-audit.html">Inspect listings</a> · <a href="references.html#audit-downloads">Excel audit</a></p><div class="housing-monthly">
           <div class="housing-section-head">
             <div>
               <div class="housing-section-kicker">On campus room rates</div>
@@ -4354,7 +4344,7 @@ th:first-child, td:first-child {
         <div class="burden-chart">
           <div class="burden-row">
             <div class="burden-label">
-              <b>Room mean</b>
+              <b>Average room rent</b>
               <div id="burdenLabelBedLow"><span class="midline">$0 midpoint</span></div>
             </div>
             <div class="burden-percent" id="burdenPctBedLow">0%<small>of resources</small></div>
@@ -4372,19 +4362,6 @@ th:first-child, td:first-child {
             <div class="burden-axis-scale"><span class="axis-hud">30% reference</span><span class="axis-0">0%</span><span class="axis-100">100%</span><span class="axis-200">200%</span><span class="axis-300">300%</span><span class="axis-350">350%</span></div>
           </div>
 
-          <div class="burden-row">
-            <div class="burden-label">
-              <b>Room median</b>
-              <div id="burdenLabelUnitLow"><span class="midline">$0 midpoint</span></div>
-            </div>
-            <div class="burden-percent" id="burdenPctUnitLow">0%<small>of resources</small></div>
-            <div class="burden-track">
-              <div class="hud-benchmark-line"></div>
-              <div class="threshold-line"></div>
-              <div id="rangeUnitLow" class="burden-range unit-range"></div>
-              <div id="pointUnitLow" class="burden-point unit-point"></div>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -4403,7 +4380,7 @@ th:first-child, td:first-child {
         <div class="burden-chart">
           <div class="burden-row">
             <div class="burden-label">
-              <b>Room mean</b>
+              <b>Average room rent</b>
               <div id="burdenLabelBedHigh"><span class="midline">$0 midpoint</span></div>
             </div>
             <div class="burden-percent" id="burdenPctBedHigh">0%<small>of resources</small></div>
@@ -4421,19 +4398,6 @@ th:first-child, td:first-child {
             <div class="burden-axis-scale"><span class="axis-hud">30% reference</span><span class="axis-0">0%</span><span class="axis-100">100%</span><span class="axis-200">200%</span><span class="axis-300">300%</span><span class="axis-350">350%</span></div>
           </div>
 
-          <div class="burden-row">
-            <div class="burden-label">
-              <b>Room median</b>
-              <div id="burdenLabelUnitHigh"><span class="midline">$0 midpoint</span></div>
-            </div>
-            <div class="burden-percent" id="burdenPctUnitHigh">0%<small>of resources</small></div>
-            <div class="burden-track">
-              <div class="hud-benchmark-line"></div>
-              <div class="threshold-line"></div>
-              <div id="rangeUnitHigh" class="burden-range unit-range"></div>
-              <div id="pointUnitHigh" class="burden-point unit-point"></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -4446,7 +4410,7 @@ th:first-child, td:first-child {
         </div>
 
         <div class="hud-context">
-          <strong>What this chart includes:</strong> <span id="selectedBlurb">All three campus reference views · combined overall per-bedroom and whole-unit averages</span>
+          <strong>What this chart includes:</strong> <span id="selectedBlurb">Room/per-bedroom mean across all three campus areas</span>
         </div>
 
         <div class="burden-key burden-legend" aria-label="Chart legend">
@@ -4463,7 +4427,7 @@ th:first-child, td:first-child {
         <div class="benchmark-note">
           <strong>What the HUD 30% rule means:</strong> The U.S. Department of Housing and Urban Development uses 30% as a housing-cost-burden threshold. Spending <strong>30% or less</strong> of income on housing is treated as not cost burdened; spending <strong>more than 30%</strong> is cost burdened, and <strong>more than 50%</strong> is severely cost burdened. <a href="https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html" target="_blank" rel="noopener noreferrer">HUD CHAS definitions</a>
 
-          HUD compares total household housing costs, including utilities, with household income. This personal scenario combines gross pay with any entered support and borrowed funds; it is a budget illustration, not a formal HUD classification. Whole-unit rents are excluded from this personal chart because the listings mix dwelling sizes and do not establish a student’s share. Published June 25, 2024 · <a href="https://www.hud.gov/sites/dfiles/PIH/documents/FY24_ICDBG_FAQs.pdf#page=8" target="_blank" rel="noopener noreferrer">HUD plain-language definition, p. 8</a> · <a href="references.html#hud-30-percent">Methods and explanation</a>
+          HUD compares total household housing costs, including utilities, with household income. This personal scenario combines gross pay with any entered support and borrowed funds; it is a budget illustration, not a formal HUD classification. Published June 25, 2024 · <a href="https://www.hud.gov/sites/dfiles/PIH/documents/FY24_ICDBG_FAQs.pdf#page=8" target="_blank" rel="noopener noreferrer">HUD plain-language definition, p. 8</a> · <a href="references.html#hud-30-percent">Methods and explanation</a>
         </div>
       </div>
     </dialog>
@@ -4562,7 +4526,7 @@ function ringLabelsGeo(c) {
 function rentalGeo() {
   return {
     type:"FeatureCollection",
-    features:rentals.filter(p=>p.in_union).map(p=>({
+    features:rentals.filter(p=>p.in_union && p.eligible_price && p.pricing_type === "Per bedroom").map(p=>({
       type:"Feature",
       geometry:{type:"Point", coordinates:[p.lon,p.lat]},
       properties:{...p, rent_label:rentRange(p.rent_low,p.rent_high)}
@@ -4661,19 +4625,6 @@ map.on("load", () => {
 
   map.addSource("rentals", {type:"geojson", data:rentalGeo()});
   map.addLayer({
-    id:"whole-rentals",
-    type:"circle",
-    source:"rentals",
-    filter:["all",["==",["get","pricing_type"],"Whole unit"],["==",["get","eligible_price"],true]],
-    paint:{
-      "circle-radius":["interpolate",["linear"],["zoom"],10,4,14,6.6],
-      "circle-color":"#b86626",
-      "circle-opacity":0.88,
-      "circle-stroke-color":"#ffffff",
-      "circle-stroke-width":1.1
-    }
-  });
-  map.addLayer({
     id:"per-rentals",
     type:"circle",
     source:"rentals",
@@ -4687,7 +4638,6 @@ map.on("load", () => {
     }
   });
 
-  map.addLayer({id:'review-rentals',type:'circle',source:'rentals',filter:['==',['get','eligible_price'],false],paint:{'circle-radius':5,'circle-color':'#777','circle-stroke-color':'#fff','circle-stroke-width':1.1}});
   map.addSource("campus-point", {type:"geojson", data:campusPoint(campuses.main)});
   map.addLayer({
     id:"campus-point",
@@ -4697,7 +4647,7 @@ map.on("load", () => {
     paint:{"text-color":"#2f7d73","text-halo-color":"#fff","text-halo-width":1.4}
   });
 
-  for(const layer of ["whole-rentals", "per-rentals", "review-rentals"]) {
+  for(const layer of ["per-rentals"]) {
     map.on("mouseenter", layer, e => {
       map.getCanvas().style.cursor="pointer";
       const p = e.features[0].properties;
@@ -4822,9 +4772,8 @@ function renderSummaryTable() {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${bandDef.label}</td>
-      <td>${band.perStats.n + band.wholeStats.n}</td>
-      <td>${band.perStats.display}<br><small>${band.perStats.n} prices used</small></td>
-      <td>${band.wholeStats.display}<br><small>${band.wholeStats.n} prices used</small></td>
+      <td>${band.perStats.n}</td>
+      <td>${band.perStats.display}</td>
     `;
     body.appendChild(tr);
   }
@@ -4950,16 +4899,14 @@ function updateAffordability() {
   const extra=custom?scenarioNumber('addedHousing'):0;
   const pooled=overallAllCampusesSummary(), local=overallDistanceBandSummary(currentCampusKey);
   document.getElementById('personal-sample-note').textContent=`Based on ${pooled.perOverall.n} room/per-bedroom prices across all three campus areas, with each listing counted once. This comparison stays the same when you switch the map’s campus.`;
-  document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · listings with rent data within five miles`;
-  for(const [name,stats] of [['Per',local.perOverall],['Whole',local.wholeOverall]]) {
+  document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · room/per-bedroom listings within five miles`;
+  for(const [name,stats] of [['Per',local.perOverall]]) {
     document.getElementById('combined'+name+'Overall').textContent=stats.display;
     document.getElementById('combined'+name+'Mid').textContent=money(stats.midpoint);
   }
-  document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n+local.wholeOverall.n} listings with rent data across the three bands: ${local.perOverall.n} room/per-bedroom + ${local.wholeOverall.n} whole-unit.`;
-  document.getElementById('selectedBlurb').textContent=`Uses ${pooled.perOverall.n} room/per-bedroom prices within five miles of at least one of the three campus points, with each listing counted once. The personal chart compares the mean and median listing midpoints with monthly resources, including any entered extra housing costs. Values above 350% are shown numerically but clipped on the rail.`;
+  document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n} room/per-bedroom listings across the three distance bands.`;
+  document.getElementById('selectedBlurb').textContent=`Uses ${pooled.perOverall.n} room/per-bedroom prices within five miles of at least one of the three campus points, with each listing counted once. The personal chart compares the mean listing midpoint with monthly resources, including any entered extra housing costs. Values above 350% are shown numerically but clipped on the rail.`;
   const meanStats={...pooled.perOverall,avg_low:pooled.perOverall.avg_low+extra,avg_high:pooled.perOverall.avg_high+extra,midpoint:pooled.perOverall.midpoint+extra,label:'mean'};
-  const median=pooled.perOverall.median_midpoint+extra;
-  const medianStats={avg_low:median,avg_high:median,midpoint:median,label:'median'};
   for(const [side,wage] of [['Low',7.25],['High',15]]) {
     const r=RentAnalysis.resources({...inputs,wage});
     document.getElementById('burdenKicker'+side).innerHTML=`<span>Monthly resources</span><span class="kicker-rate">$${wage}/hour</span>`;
@@ -4970,7 +4917,6 @@ function updateAffordability() {
     if(r.other)pieces.push(`${money(r.other)} other support`);
     document.getElementById('burdenSub'+side).textContent=pieces.join(' + ')+(custom?`; ${weeks.toFixed(1)} paid weeks ÷ ${months} months.`:' per month. Work pay assumes 52 paid weeks/year.')+(enteredWeeks>weeks?' Paid weeks capped to fit the budget period.':'');
     setBurdenRange('rangeBed'+side,'pointBed'+side,'burdenLabelBed'+side,'burdenPctBed'+side,r.total,meanStats);
-    setBurdenRange('rangeUnit'+side,'pointUnit'+side,'burdenLabelUnit'+side,'burdenPctUnit'+side,r.total,medianStats);
   }
 }
 document.getElementById('hours').addEventListener('input',updateWorkStudy);

@@ -24,7 +24,7 @@ revised pricing categories, exclusion reasons, move-in flags, source URLs and ha
   all eligible listings within five miles. The combined comparison deduplicates IDs.
 - Both positive numeric endpoints are required. Means use the same paired denominator;
   missing and zero-placeholder prices never enter a mean. The personal chart uses
-  room mean/median midpoints. Optional aid checkboxes model the full CDS averages
+  room mean midpoints (median retained in the audit). Optional aid checkboxes model the full CDS averages
   with tuition/fees covered separately; custom net-aid inputs are tucked into an
   optional panel. Whole-unit rent is not assigned to a presumed student.
 - This is an advertised-offer convenience sample, including future dates and varied
@@ -125,3 +125,5 @@ Preferred source description:
 > Listings advertised through NC State's Off-Campus Housing website, collected on September 9, 2026.
 
 This dataset should not be described as every rental available around NC State or Raleigh.
+
+The article now displays only usable room/per-bedroom listings on its map, distance table and campus summary. Main Campus room counts are 20 + 46 + 10 = 76. The personal chart uses the combined 78-listing room mean. References and the unchanged workbook retain both rent categories and medians; filter Kept by Price basis = Per bedroom to reproduce the article.

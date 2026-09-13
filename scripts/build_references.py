@@ -27,6 +27,6 @@ if '.ref{scroll-margin-top:130px}' not in s: s=s.replace('</style>', '.ref{scrol
 s=re.sub(r'<p class="reference-download-top">.*?</p>', '', s, flags=re.S)
 # A changed page must not reuse the prior calculator or workbook from browser cache.
 for asset in ['assets/rent-analysis.js','assets/reference-math.js','data/audits/ncsu-rent-audit.xlsx']:
-    version='20260913-kept2' if asset.endswith('.xlsx') else '20260913-kept'
+    version='20260913-kept2' if asset.endswith('.xlsx') else '20260913-rooms'
     s=re.sub(re.escape(asset)+r'(?:\?v=[^"\s]*)?(?=")', asset+'?v='+version, s)
 p.write_text(s)
