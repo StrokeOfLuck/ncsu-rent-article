@@ -30,7 +30,9 @@ revised pricing categories, exclusion reasons, move-in flags, source URLs and ha
   lease terms. It does not establish market coverage, current vacancies, students'
   actual housing burden or a causal effect of distance on rent.
 
-The complete [Excel formula audit](data/audits/ncsu-rent-audit.xlsx) replaces the old
+Start with the [room-only Excel audit](data/audits/ncsu-room-rent-audit.xlsx) to reproduce the article.
+
+The broader [Excel formula audit](data/audits/ncsu-rent-audit.xlsx) replaces the old
 browser-generated cumulative-radius workbooks. It contains raw source tables, linked
 floor-plan checks, review inputs, Haversine/band formulas, all campus/band summaries,
 sensitivity analyses, all aid-checkbox combinations, custom budget calculations and
@@ -53,6 +55,9 @@ filters all three campuses by band, price inclusion, category and text.
 python scripts/build_analysis.py
 python scripts/build_references.py
 python scripts/prepare_workbook_sources.py
+node scripts/build_room_workbook.mjs
+python scripts/verify_room_audit.py
+# Optional: rebuild the broader audit
 node scripts/build_workbook.mjs
 python scripts/verify_audit.py
 ```
@@ -125,7 +130,7 @@ Preferred source description:
 
 This dataset should not be described as every rental available around NC State or Raleigh.
 
-The article now displays only usable room/per-bedroom listings on its map, distance table and campus summary. Main Campus room counts are 20 + 46 + 10 = 76. The personal chart uses the combined 78-listing room mean. References and the unchanged workbook retain both rent categories and medians; filter Kept by Price basis = Per bedroom to reproduce the article.
+The article now displays only usable room/per-bedroom listings on its map, distance table and campus summary. Main Campus room counts are 20 + 46 + 10 = 76. The earnings comparison starts with Main Campus’s 76-listing room mean and follows the selected campus. The room-only workbook reproduces those figures directly. The broader workbook retains both categories and combined-area examples as supplementary evidence.
 
 ### Room-only listing audit
 

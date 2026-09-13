@@ -3997,7 +3997,7 @@ th:first-child, td:first-child {
   </div>
 
   <div class="footer-note" style="margin-top:3px; margin-bottom:10px;">
-    The map shows usable room/per-bedroom listings within five miles of at least one campus reference point. Listings are advertised through NC State’s Off-Campus Housing site and do not represent the full Raleigh rental market. Campus boundaries and building footprints: NC State Facilities GIS. Distances are straight-line calculations from each campus reference point.
+    This article compares advertised room and per-bedroom prices with student earnings. Whole-unit offers are excluded because the listing does not establish one student’s share. The map covers one portal’s listings within five straight-line miles of the campus reference points, including future move-ins. Campus boundaries and buildings: NC State Facilities GIS.
   </div>
 
   <section class="block rent-summary-block">
@@ -4019,11 +4019,12 @@ th:first-child, td:first-child {
         </div>
 
         <table class="room-band-table">
-          <thead><tr><th>Distance band</th><th>Room listings</th><th>Mean monthly rent range</th></tr></thead>
+          <thead><tr><th>Distance band</th><th>Room listings</th><th>Mean advertised low–high</th></tr></thead>
           <tbody id="summary"></tbody>
           <tfoot><tr><th scope="row">All three bands</th><td id="cleaned-summary-note"></td><td id="combinedPerOverall"></td></tr></tfoot>
         </table>
-        <div class="room-overall-line"><span>Mean monthly room rent <strong id="combinedPerMid">$0</strong></span></div>
+        <div class="room-overall-line"><span>Mean advertised room rent <strong id="combinedPerMid">$0</strong></span><a href="references.html#room-rent-audit">Check the Excel math ↗</a></div>
+        <p class="housing-monthly-note">Monthly prices. The range averages listings’ low and high prices separately. The mean averages each listing’s midpoint, with one vote per listing. Utilities and fees vary. <a href="references.html#rental-method">How this is calculated</a></p>
         <div class="housing-monthly">
           <div class="housing-section-head">
             <div>
@@ -4264,28 +4265,28 @@ th:first-child, td:first-child {
     <p class="info-note" id="personal-sample-note"></p>
     <div class="aid-panel">
       <div class="aid-panel-head">
-        <div><div class="aid-title">Compare with need-based aid</div><div class="aid-note">Select an average award to see how the comparison changes.</div></div>
+        <div><div class="aid-title">Compare with need-based aid</div><div class="aid-note">Optional examples using NC State’s reported award averages.</div></div>
         <a class="aid-source" href="https://report.isa.ncsu.edu/ir/cds/pdfs/CDS_2025-26.v1.pdf" target="_blank" rel="noopener noreferrer">NC State Common Data Set</a>
       </div>
       <div class="aid-options" id="aid-presets">
         <label class="aid-option">
           <input id="includeGrant" type="checkbox" aria-describedby="preset-assumption">
           <span class="aid-check" aria-hidden="true"></span>
-          <span class="aid-copy"><span class="aid-name">Need-based grant average</span><span class="aid-annual">$14,743/year</span><span class="aid-origin">2024–25 full-time undergraduate recipients</span><span class="aid-monthly">+$1,229/month equivalent</span></span>
+          <span class="aid-copy"><span class="aid-name">Need-based grant average</span><span class="aid-annual">$14,743/academic year</span><span class="aid-origin">2024–25 full-time undergraduate recipients</span><span class="aid-monthly">+$1,229/month equivalent</span></span>
         </label>
         <label class="aid-option loan-option">
           <input id="includeLoan" type="checkbox" aria-describedby="preset-assumption">
           <span class="aid-check" aria-hidden="true"></span>
-          <span class="aid-copy"><span class="aid-name">Need-based loan average</span><span class="aid-annual">$4,106/year</span><span class="aid-origin">2024–25 full-time undergraduate recipients</span><span class="aid-monthly">+$342/month borrowed</span></span>
+          <span class="aid-copy"><span class="aid-name">Need-based loan average</span><span class="aid-annual">$4,106/academic year</span><span class="aid-origin">2024–25 full-time undergraduate recipients</span><span class="aid-monthly">+$342/month borrowed</span></span>
         </label>
       </div>
-      <p class="aid-caution" id="preset-assumption">Selected awards are spread over 12 months, assuming tuition and school fees are paid separately. These are averages for different recipient groups, not one typical aid package. Loans must be repaid.</p>
+      <p class="aid-caution" id="preset-assumption">Each selection adds the full average award, assuming tuition and school fees are covered separately. Actual aid refunds may be smaller. Dividing by 12 gives a monthly equivalent, not a payment schedule. The averages describe different recipient groups; combining them is hypothetical. Loans must be repaid. <a href="references.html#aid-math">Aid assumptions</a></p>
     </div>
 
     <div class="burden-grid">
       <div class="burden-key burden-legend" aria-label="Chart legend">
         <div class="legend-column">
-          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">Housing cost as % of resources</span></span>
+          <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">Rent as % of resources</span></span>
           <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong><span class="legend-desc">Above 30%</span></span>
         </div>
         <div class="legend-column">
@@ -4392,7 +4393,7 @@ th:first-child, td:first-child {
 
         <div class="burden-key burden-legend" aria-label="Chart legend">
           <div class="legend-column">
-            <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">Housing cost as % of resources</span></span>
+            <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">Rent as % of resources</span></span>
             <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong><span class="legend-desc">Above 30%</span></span>
           </div>
           <div class="legend-column">
@@ -4404,7 +4405,7 @@ th:first-child, td:first-child {
         <div class="benchmark-note">
           <strong>What the HUD 30% rule means:</strong> The U.S. Department of Housing and Urban Development uses 30% as a housing-cost-burden threshold. Spending <strong>30% or less</strong> of income on housing is treated as not cost burdened; spending <strong>more than 30%</strong> is cost burdened, and <strong>more than 50%</strong> is severely cost burdened. <a href="https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html" target="_blank" rel="noopener noreferrer">HUD CHAS definitions</a>
 
-          HUD compares total household housing costs, including utilities, with household income. This personal scenario combines gross pay with selected grant and loan award averages; it is a budget illustration, not a formal HUD classification. Published June 25, 2024 · <a href="https://www.hud.gov/sites/dfiles/PIH/documents/FY24_ICDBG_FAQs.pdf#page=8" target="_blank" rel="noopener noreferrer">HUD plain-language definition, p. 8</a> · <a href="references.html#hud-30-percent">Methods and explanation</a>
+          HUD compares total household housing costs, including utilities, with household income. This article compares advertised room rent with gross pay and optional aid examples. Loans add borrowed funds, not earnings. The red line provides context; the chart does not classify students as HUD cost burdened. <a href="references.html#hud-30-percent">Methods and explanation</a>
         </div>
       </div>
     </dialog>
