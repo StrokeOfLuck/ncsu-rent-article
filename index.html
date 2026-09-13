@@ -3956,7 +3956,7 @@ th:first-child, td:first-child {
 }
 /* End housing-rate dollar increase */
 
-.scenario-inputs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:16px 0}.scenario-inputs label{font-size:12px;font-weight:650;line-height:1.4}.scenario-inputs input{display:block;width:100%;min-width:0;font:inherit;font-size:16px;margin-top:5px;padding:8px;border:1px solid #b7b0a6;border-radius:4px;background:white;color:#272523}.aid-caution,.info-note{line-height:1.55}.burden-pct small{white-space:normal}#summary small{font-size:10px;color:#68615b}@media(max-width:650px){.scenario-inputs{grid-template-columns:repeat(2,minmax(0,1fr))}.aid-panel-head{flex-wrap:wrap;gap:8px}}
+.scenario-inputs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:16px 0}.scenario-inputs label{font-size:12px;font-weight:650;line-height:1.4}.scenario-inputs input{display:block;width:100%;min-width:0;font:inherit;font-size:16px;margin-top:5px;padding:8px;border:1px solid #b7b0a6;border-radius:4px;background:white;color:#272523}.aid-caution,.info-note{line-height:1.55;font-size:12px}.aid-note{font-size:12px;line-height:1.5}.burden-pct small{white-space:normal}#summary small{font-size:10px;color:#68615b}@media(max-width:650px){.scenario-inputs{grid-template-columns:repeat(2,minmax(0,1fr))}.aid-panel-head{flex-wrap:wrap;gap:8px}}
 </style>
 </head>
 <body>
@@ -4285,6 +4285,7 @@ th:first-child, td:first-child {
       <div class="section-label">How does room rent compare with a student’s monthly resources?</div>
     </div>
 
+    <p class="info-note" id="personal-sample-note"></p>
     <div class="aid-panel">
       <div class="aid-panel-head"><div><div class="aid-title">Set a personal budget scenario</div><div class="aid-note">Enter totals for the same budget period. Defaults assume steady work all year and $0 in aid or family support.</div></div><a href="references.html#aid-math">How to use these inputs</a></div>
       <div class="scenario-inputs">
@@ -4343,7 +4344,7 @@ th:first-child, td:first-child {
           <div class="burden-axis burden-axis-middle">
             <div class="burden-axis-spacer"></div>
             <div class="burden-axis-spacer"></div>
-            <div class="burden-axis-scale"><span class="axis-hud">30% HUD</span><span class="axis-0">0%</span><span class="axis-100">100%</span><span class="axis-200">200%</span><span class="axis-300">300%</span><span class="axis-350">350%</span></div>
+            <div class="burden-axis-scale"><span class="axis-hud">30% reference</span><span class="axis-0">0%</span><span class="axis-100">100%</span><span class="axis-200">200%</span><span class="axis-300">300%</span><span class="axis-350">350%</span></div>
           </div>
 
           <div class="burden-row">
@@ -4392,7 +4393,7 @@ th:first-child, td:first-child {
           <div class="burden-axis burden-axis-middle">
             <div class="burden-axis-spacer"></div>
             <div class="burden-axis-spacer"></div>
-            <div class="burden-axis-scale"><span class="axis-hud">30% HUD</span><span class="axis-0">0%</span><span class="axis-100">100%</span><span class="axis-200">200%</span><span class="axis-300">300%</span><span class="axis-350">350%</span></div>
+            <div class="burden-axis-scale"><span class="axis-hud">30% reference</span><span class="axis-0">0%</span><span class="axis-100">100%</span><span class="axis-200">200%</span><span class="axis-300">300%</span><span class="axis-350">350%</span></div>
           </div>
 
           <div class="burden-row">
@@ -4889,7 +4890,7 @@ function setBurdenRange(rangeId, pointId, labelId, pctId, incomeMonthly, stats) 
   const midClamped = clamp(midPct ?? 0);
 
   rangeEl.style.left = `${(leftPct / 350) * 100}%`;
-  rangeEl.style.width = `${Math.max(1.2, ((rightPct - leftPct) / 350) * 100)}%`;
+  rangeEl.style.width = `${Math.max(0, ((rightPct - leftPct) / 350) * 100)}%`;
   pointEl.style.left = `${(midClamped / 350) * 100}%`;
 
   const aboveHudBenchmark = midPct != null && midPct > 30;
@@ -4913,6 +4914,7 @@ function updateAffordability() {
   const inputs={hours:h,months,weeks,grant:scenarioNumber('livingGrant'),loan:scenarioNumber('livingLoan'),other:scenarioNumber('otherSupport')};
   const extra=scenarioNumber('addedHousing');
   const pooled=overallAllCampusesSummary(), local=overallDistanceBandSummary(currentCampusKey);
+  document.getElementById('personal-sample-note').textContent=`This personal comparison always uses ${pooled.perOverall.n} eligible room/per-bedroom offers within five miles of at least one of the three campus points, counted once by listing ID. It does not change with the campus selector. Whole-unit means remain in the rent summary above.`;
   document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · pooled eligible listings within five miles`;
   for(const [name,stats] of [['Per',local.perOverall],['Whole',local.wholeOverall]]) {
     document.getElementById('combined'+name+'Overall').textContent=stats.display;
