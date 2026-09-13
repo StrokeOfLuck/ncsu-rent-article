@@ -649,6 +649,19 @@ h2 {
 <p>Formulas retain full precision and show cents. Filters do not change the published totals. These are fixed extracts: editing a linked price recalculates its midpoint and totals, but changing classification, location, inclusion decisions or source rows requires rebuilding the extracts. Live listings may have changed since the September 9 snapshot.</p>
 </div></article>
 
+<article class="ref" id="audit-downloads"><div class="ref-head"><div><div class="ref-no">Additional evidence</div><div class="ref-title">Source files, review log and broader audit</div></div></div><div class="ref-body">
+<p>The <a href="#room-rent-audit">room-only workbook above</a> reproduces the article directly. The broader audit retains whole-unit calculations and additional checks for readers who want to inspect the earlier, wider analysis.</p>
+<p><a href="data/audits/ncsu-rent-audit.xlsx?v=20260913-kept2" download>Download the broader Excel audit</a> · <a href="rental-map-audit.html">Open the map and searchable listing checker</a></p>
+<details><summary>What the broader workbook includes</summary>
+<p>Its Kept tab contains 131 usable listings: 78 room offers and 53 whole-unit offers. Its Excluded tab contains 37 records: 25 price exclusions within the study area and 12 outside all three five-mile areas. These definitions differ from the room-only workbook, where all 90 records outside the room article are excluded. Reasons may overlap; each ID is counted once.</p>
+<p>Filter Kept to <strong>Price basis = Per bedroom</strong> for the article’s 78 unique room listings. Filter Main band to the three in-area bands for Main Campus’s 76. Summary and Budget retain combined-area examples, so use the room-only workbook and the Main Campus worked example on this page to match the article’s default.</p>
+<p>The broader file also retains sensitivity checks, housing-rate calculations, optional personal-budget inputs and a whole-unit sharing example. Those additional inputs are not part of the article interface.</p>
+<div id="worked-whole"></div>
+</details>
+<details><summary>Open the classification and exclusion log</summary><div id="review-log" class="method-scroll"></div></details>
+<p>Saved source files: <a href="data/ncsu-properties.csv">properties</a>, <a href="data/ncsu-floorplans.csv">floor plans</a>, <a href="data/ncsu-fees.csv">fees</a>, <a href="data/ncsu-amenities.csv">amenities</a>. <a href="https://github.com/StrokeOfLuck/ncsu-rent-article/blob/main/docs/scraper-README.md">Collection instructions</a>.</p>
+</div></article>
+
 <article class="ref" id="rental-method"><div class="ref-head"><div><div class="ref-no">Room-only scope and calculations</div><div class="ref-title">What the advertised room prices measure</div></div></div><div class="ref-body">
 <p><strong>The question is what one student is advertised a room for.</strong> The article uses room, per-bedroom and single-person suite offers from <a href="https://offcampus.dasa.ncsu.edu/housing">NC State’s Off-Campus Housing portal</a>. Whole-unit prices are excluded because the listing does not establish an individual student’s share. The analysis does not divide apartment prices by an assumed number of roommates.</p>
 <p><strong>One observation is one portal listing ID.</strong> A community advertisement and a separate room advertisement can refer to the same building. The unit being counted is an advertisement, not a distinct building, tenant, available bed or signed lease. Advertisers supply the prices; the university does not guarantee their accuracy.</p>
@@ -673,19 +686,6 @@ h2 {
 <details><summary>Collection record and coverage</summary>
 <p>The saved CSVs contain 168 unique listing IDs and 537 floor-plan rows. The original collection log reported 168 exact results/map pins, five pages and a separate 527-result portal total. The saved records do not verify coverage of all 527 results or the full rental market. The original raw backend response archive is not published; the saved CSVs and their hashes are preserved. The log timestamp is <code>2026-09-09T02:24:45.953Z</code> (UTC). A listing’s “last updated” field is not its collection time.</p>
 </details>
-</div></article>
-
-<article class="ref" id="audit-downloads"><div class="ref-head"><div><div class="ref-no">Additional evidence</div><div class="ref-title">Source files, review log and broader audit</div></div></div><div class="ref-body">
-<p>The <a href="#room-rent-audit">room-only workbook above</a> reproduces the article directly. The broader audit retains whole-unit calculations and additional checks for readers who want to inspect the earlier, wider analysis.</p>
-<p><a href="data/audits/ncsu-rent-audit.xlsx?v=20260913-kept2" download>Download the broader Excel audit</a> · <a href="rental-map-audit.html">Open the map and searchable listing checker</a></p>
-<details><summary>What the broader workbook includes</summary>
-<p>Its Kept tab contains 131 usable listings: 78 room offers and 53 whole-unit offers. Its Excluded tab contains 37 records: 25 price exclusions within the study area and 12 outside all three five-mile areas. These definitions differ from the room-only workbook, where all 90 records outside the room article are excluded. Reasons may overlap; each ID is counted once.</p>
-<p>Filter Kept to <strong>Price basis = Per bedroom</strong> for the article’s 78 unique room listings. Filter Main band to the three in-area bands for Main Campus’s 76. Summary and Budget retain combined-area examples, so use the room-only workbook and the Main Campus worked example on this page to match the article’s default.</p>
-<p>The broader file also retains sensitivity checks, housing-rate calculations, optional personal-budget inputs and a whole-unit sharing example. Those additional inputs are not part of the article interface.</p>
-<div id="worked-whole"></div>
-</details>
-<details><summary>Open the classification and exclusion log</summary><div id="review-log" class="method-scroll"></div></details>
-<p>Saved source files: <a href="data/ncsu-properties.csv">properties</a>, <a href="data/ncsu-floorplans.csv">floor plans</a>, <a href="data/ncsu-fees.csv">fees</a>, <a href="data/ncsu-amenities.csv">amenities</a>. <a href="https://github.com/StrokeOfLuck/ncsu-rent-article/blob/main/docs/scraper-README.md">Collection instructions</a>.</p>
 </div></article>
 
 <article class="ref" id="distance-math"><span id="kepler-distance-audit"></span><div class="ref-head"><div><div class="ref-no">Geography</div><div class="ref-title">Straight-line distances, band edges and campus overlap</div></div></div><div class="ref-body">
