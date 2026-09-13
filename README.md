@@ -126,3 +126,9 @@ Preferred source description:
 This dataset should not be described as every rental available around NC State or Raleigh.
 
 The article now displays only usable room/per-bedroom listings on its map, distance table and campus summary. Main Campus room counts are 20 + 46 + 10 = 76. The personal chart uses the combined 78-listing room mean. References and the unchanged workbook retain both rent categories and medians; filter Kept by Price basis = Per bedroom to reproduce the article.
+
+### Room-only listing audit
+
+`data/audits/ncsu-room-rent-audit.xlsx` is the reader-facing room reference. It contains raw property/floor-plan tables, reviewed Listings, 78 Rooms, 90 Excluded IDs with reasons, and nine campus/distance-band tabs with COUNT, SUM, mean and median formulas beneath the listings. Summary pools band totals by listing count; the combined union is deduplicated by ID. Rebuild with `scripts/build_room_workbook.mjs` using the same runtime and output-directory options as the complete audit. Source-linked prices recalculate, but changed membership or new rows require a rebuild.
+
+The page now combines band counts and pooled rent into one campus table. The hourly-pay arrows use whole-dollar steps, and the default $15 FWS context is shown beside reset.
