@@ -525,7 +525,7 @@ th:first-child, td:first-child {
   gap:12px;
 }
 
-.rent-area-control{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 14px;font-size:12px;font-weight:700}.rent-area-control select{min-width:210px;padding:7px 28px 7px 9px;border:1px solid #aaa397;border-radius:4px;background:#fff;color:var(--ink);font:inherit;font-weight:500}
+.card-rent-area{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:9px;font-size:10px;font-weight:700}.card-rent-area select{min-width:190px;padding:5px 25px 5px 7px;border:1px solid #aaa397;border-radius:4px;background:#fff;color:var(--ink);font:inherit;font-weight:500}.aid-caution{white-space:nowrap}@media(max-width:1200px){.aid-caution{white-space:normal}}
 
 .affordability-block{
   border-top:0;
@@ -4262,14 +4262,6 @@ th:first-child, td:first-child {
     </div>
 
     <p class="info-note" id="personal-sample-note"></p>
-    <label class="rent-area-control" for="affordabilityCampus">Rent area
-      <select id="affordabilityCampus">
-        <option value="main">Main Campus</option>
-        <option value="centennial">Centennial Campus</option>
-        <option value="vet">Centennial Biomedical Campus</option>
-        <option value="all">All three campus areas</option>
-      </select>
-    </label>
     <div class="aid-panel">
       <div class="aid-panel-head">
         <div><div class="aid-title">Compare with need-based aid</div><div class="aid-note">Select an average award to see how the comparison changes.</div></div>
@@ -4338,6 +4330,11 @@ th:first-child, td:first-child {
           </div>
 
         </div>
+        <label class="card-rent-area">Rent area
+          <select class="affordability-campus-select" aria-label="Rent area for the $7.25 monthly-resources comparison">
+            <option value="main">Main Campus</option><option value="centennial">Centennial Campus</option><option value="vet">Centennial Biomedical Campus</option><option value="all">All three campus areas</option>
+          </select>
+        </label>
       </div>
 
       <div class="burden-card">
@@ -4374,6 +4371,11 @@ th:first-child, td:first-child {
           </div>
 
         </div>
+        <label class="card-rent-area">Rent area
+          <select class="affordability-campus-select" aria-label="Rent area for the adjustable-pay monthly-resources comparison">
+            <option value="main">Main Campus</option><option value="centennial">Centennial Campus</option><option value="vet">Centennial Biomedical Campus</option><option value="all">All three campus areas</option>
+          </select>
+        </label>
       </div>
     </div>
 
@@ -4721,8 +4723,7 @@ function setCampus(key) {
     curve:1.15
   });
   affordabilityCampusKey = key;
-  const affordabilityCampus = document.getElementById('affordabilityCampus');
-  if(affordabilityCampus) affordabilityCampus.value = key;
+  document.querySelectorAll('.affordability-campus-select').forEach(select=>select.value=key);
   renderSummaryTable();
   updateWorkStudy();
 }
@@ -4893,10 +4894,11 @@ document.querySelectorAll('.synced-hours').forEach(slider=>slider.addEventListen
   document.getElementById('hours').value=slider.value;updateWorkStudy();
 }));
 for(const id of ['includeGrant','includeLoan']) document.getElementById(id).addEventListener('change',updateAffordability);
-document.getElementById('affordabilityCampus').addEventListener('change',event=>{
+document.querySelectorAll('.affordability-campus-select').forEach(select=>select.addEventListener('change',event=>{
   affordabilityCampusKey=event.target.value;
+  document.querySelectorAll('.affordability-campus-select').forEach(other=>other.value=affordabilityCampusKey);
   updateAffordability();
-});
+}));
 const wageInput=document.getElementById('hourlyRate');
 wageInput.addEventListener('input',()=>{
   const valid=wageInput.value!=='' && wageInput.validity.valid && Number.isFinite(wageInput.valueAsNumber);
