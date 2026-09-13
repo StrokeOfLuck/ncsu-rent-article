@@ -66,7 +66,7 @@ for f in ['index.html','references.html','rental-map-audit.html','rental-map-aud
  text=(root/f).read_text();h=HTML();h.feed(text);assert len(h.ids)==len(set(h.ids)),f+' duplicate IDs'
  for href in h.links:
   if href.startswith(('https:','http:','data:','mailto:')):continue
-  file,_,anchor=href.partition('#');target=root/(file or f)
+  file,_,anchor=href.partition('#');file=file.split('?',1)[0];target=root/(file or f)
   assert target.exists(),(f,href)
   if anchor and target.suffix=='.html':
    other=HTML();other.feed(target.read_text());assert anchor in other.ids,(f,href,'missing anchor')

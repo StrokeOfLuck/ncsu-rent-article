@@ -612,7 +612,7 @@ h2 {
 <body>
 <main>
   <div class="kicker"><a class="article-back-link" href="index.html" aria-label="Back to NCSU rent article"><span aria-hidden="true">←</span> Back to NCSU rent article</a></div>
-  <h1>References & step-by-step math</h1><p class="reference-download-top"><a class="audit-download" href="data/audits/ncsu-rent-audit.xlsx" download>Download Excel audit (.xlsx)</a></p><nav class="method-nav"><a href="#rental-method">Rent math</a> · <a href="#audit-downloads">Excel & review log</a> · <a href="#distance-math">Distances</a> · <a href="#sample-limits">Sample limits</a> · <a href="#aid-math">Budget math</a></nav>
+  <h1>References & step-by-step math</h1><p class="reference-download-top"><a class="audit-download" href="data/audits/ncsu-rent-audit.xlsx?v=20260913-aid" download>Download Excel audit (.xlsx)</a></p><nav class="method-nav"><a href="#rental-method">Rent math</a> · <a href="#audit-downloads">Excel & review log</a> · <a href="#distance-math">Distances</a> · <a href="#sample-limits">Sample limits</a> · <a href="#aid-math">Budget math</a></nav>
   <div class="deck">
     Source snapshot: September 9, 2026. Analysis revised September 13, 2026. Start with the worked math, then inspect the Excel audit and individual review decisions. Supporting reporting sources are retained below.
   </div>
@@ -654,7 +654,7 @@ h2 {
 </div></article>
 
 <article class="ref" id="audit-downloads"><div class="ref-head"><div><div class="ref-no">Reproduce & inspect</div><div class="ref-title">Excel audit, source tables and listing review log</div></div></div><div class="ref-body">
-<p><a class="audit-download" href="data/audits/ncsu-rent-audit.xlsx" download>Download the complete Excel audit</a> · <a href="rental-map-audit.html">Open the map and searchable listing checker</a></p>
+<p><a class="audit-download" href="data/audits/ncsu-rent-audit.xlsx?v=20260913-aid" download>Download the complete Excel audit</a> · <a href="rental-map-audit.html">Open the map and searchable listing checker</a></p>
 <p>The new workbook replaces the former browser-generated radius files. It includes all three campuses, all nine nonoverlapping bands, pooled campus summaries and the deduplicated combined sample in one file. The old audit URL opens the current checker, so old links do not keep circulating obsolete calculations.</p>
 <ul><li><strong>Guide:</strong> definitions, limitations, source files, version and reading order.</li><li><strong>Raw properties / Raw floorplans:</strong> the saved source values, including conflicting fields and missing placeholders.</li><li><strong>Listings:</strong> original and revised categories, price checks, exclusions, full-precision Haversine formulas, band formulas, overlap flags and evidence links.</li><li><strong>Summary:</strong> formula counts, sums, means and mean midpoints for each geography and category.</li><li><strong>Sensitivity:</strong> effects of removing future-only advertisements, waitlist mentions and the flagged Centennial Ridge endpoint.</li><li><strong>Budget:</strong> the article’s two average-aid checkboxes, all four selection combinations, and an optional custom budget. Also includes a separate calculation for a specific whole-unit lease and its actual number of payers.</li><li><strong>Housing rates:</strong> two-year published rates, dollar changes, percentage changes and residence-hall monthly equivalents.</li></ul>
 <p>In Excel, filter the <strong>Listings</strong> table by campus band, included flag, category or listing ID. Follow Summary counts and sums back to that table. Review decisions are documented editorial inputs; formulas recalculate price and distance checks when numeric inputs change. Resolving an exclusion requires updating its evidence and review flags, rebuilding and verifying the outputs.</p>
@@ -1382,8 +1382,8 @@ h2 {
 </main>
 
 <script src="assets/reviewed-data.js"></script>
-<script src="assets/rent-analysis.js"></script>
-<script src="assets/reference-math.js"></script>
+<script src="assets/rent-analysis.js?v=20260913-aid"></script>
+<script src="assets/reference-math.js?v=20260913-aid"></script>
 <script>
 (() => {
   const input = document.getElementById('reference-search-input');

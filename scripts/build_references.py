@@ -18,11 +18,14 @@ s=s[:start]+new+s[end:]
 s=s.replace('Working source log for data, quotes, methodology and supporting evidence used in the NC State rent article. Add new references here as reporting continues.', 'Source snapshot: September 9, 2026. Analysis revised September 13, 2026. Start with the worked math, then inspect the Excel audit and individual review decisions. Supporting reporting sources are retained below.')
 s=s.replace('<h1>Reporting references</h1>','<h1>References & step-by-step math</h1><nav class="method-nav"><a href="#rental-method">Rent math</a> · <a href="#audit-downloads">Excel & review log</a> · <a href="#distance-math">Distances</a> · <a href="#sample-limits">Sample limits</a> · <a href="#aid-math">Budget math</a></nav>')
 scripts='<script src="assets/reviewed-data.js"></script>\n<script src="assets/rent-analysis.js"></script>\n<script src="assets/reference-math.js"></script>\n'
-if 'src="assets/reference-math.js"' not in s: s=s.replace('<script>',scripts+'<script>',1)
+if 'src="assets/reference-math.js' not in s: s=s.replace('<script>',scripts+'<script>',1)
 if '.method-scroll{' not in s:
     s=s.replace('</style>','.method-scroll{overflow-x:auto;margin:16px 0}.method-table{border-collapse:collapse;width:100%;font-size:12px}.method-table td,.method-table th{padding:10px;border-bottom:1px solid #ddd;text-align:left;vertical-align:top}.method-table th{background:#f4f1ec}.method-table td{min-width:90px}.method-table td:last-child{min-width:150px}.ref-body p,.ref-body li{line-height:1.65}.ref-body li{margin-bottom:9px}.method-nav{line-height:2;margin:16px 0}.audit-download{display:inline-block;padding:10px;background:#8b1f2d;color:white!important;border-radius:4px}details summary{cursor:pointer;font-weight:700}details[open] .method-table td:last-child{min-width:360px}</style>',1)
 s=s.replace('https://www.bls.gov/news.release/cpi.htm','https://www.bls.gov/news.release/archives/cpi_08122026.htm')
 if '.ref{scroll-margin-top:130px}' not in s: s=s.replace('</style>', '.ref{scroll-margin-top:130px}</style>',1)
 if 'class="reference-download-top"' not in s:
     s=s.replace('<h1>References & step-by-step math</h1>', '<h1>References & step-by-step math</h1><p class="reference-download-top"><a class="audit-download" href="data/audits/ncsu-rent-audit.xlsx" download>Download Excel audit (.xlsx)</a></p>',1)
+# A changed page must not reuse the prior calculator or workbook from browser cache.
+for asset in ['assets/rent-analysis.js','assets/reference-math.js','data/audits/ncsu-rent-audit.xlsx']:
+    s=re.sub(re.escape(asset)+r'(?:\?v=[^"\s]*)?(?=")', asset+'?v=20260913-aid', s)
 p.write_text(s)
