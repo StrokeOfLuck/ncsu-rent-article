@@ -67,6 +67,16 @@ for row,total,excluded in [(31,128,25),(32,126,25),(33,123,23),(34,131,25)]:
  v=sheets['Summary'];assert v['E'+str(row)]==total and v['H'+str(row)]==excluded
  assert v['F'+str(row)]+v['G'+str(row)]==total and total+excluded==v['I'+str(row)]
  if row!=34:assert sum(v[c+str(row)] for c in 'BCD')==total
+filtered_tables=set()
+for file in z.namelist():
+ if file.startswith('xl/tables/') and file.endswith('.xml'):
+  table=ET.fromstring(z.read(file))
+  if table.get('name') in ['KeptListings','ExcludedListings']:
+   auto_filter=table.find('s:autoFilter',ns)
+   assert auto_filter is not None and auto_filter.get('ref')==table.get('ref')
+   assert not any(c.get('hiddenButton')=='1' or c.get('showButton')=='0' for c in auto_filter.findall('s:filterColumn',ns))
+   filtered_tables.add(table.get('name'))
+assert filtered_tables=={'KeptListings','ExcludedListings'}
 
 class HTML(HTMLParser):
  def __init__(self):super().__init__();self.ids=[];self.links=[];self.inputs={}

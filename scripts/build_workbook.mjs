@@ -102,7 +102,8 @@ for(const [name,rs] of [['Kept',keptRows],['Excluded',excludedRows]]){
  sh.getRange(`A2:K${last}`).format.verticalAlignment='top';sh.getRange(`A2:K${last}`).format.wrapText=true;
  sh.getRange(`C2:D${last}`).setNumberFormat(money);sh.getRange('A1:K1').format.horizontalAlignment='center';
  sh.getRange(`A2:K${last}`).format.autofitRows();
- sh.tables.add(`A1:K${last}`,true,name==='Kept'?'KeptListings':'ExcludedListings');
+ const table=sh.tables.add(`A1:K${last}`,true,name==='Kept'?'KeptListings':'ExcludedListings');
+ table.showFilterButton=true;
 }
 // Formula summaries: all three disjoint bands, pooled campuses and the combined union.
 const summaryRows=[];
