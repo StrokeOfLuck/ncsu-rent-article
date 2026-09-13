@@ -35,8 +35,16 @@ The complete [Excel formula audit](data/audits/ncsu-rent-audit.xlsx) replaces th
 browser-generated cumulative-radius workbooks. It contains raw source tables, linked
 floor-plan checks, review inputs, Haversine/band formulas, all campus/band summaries,
 sensitivity analyses, all aid-checkbox combinations, custom budget calculations and
-official housing-rate changes. Counts use plain labels, with exclusions shown so
-category counts reconcile to total listings.
+official housing-rate changes. The article's band counts and campus summary both
+count usable prices. References and Excel retain the mapped totals and exclusions.
+The Kept and Excluded tabs split all 168 saved IDs: 131 in the combined rent sample
+and 37 outside it (25 price exclusions in the study area plus 12 outside all three
+five-mile areas). Filter Main band to the three in-area bands to see 128 kept and
+25 excluded. Summary rows 30–34 show how every campus's band totals reconcile.
+Tab membership records the published review; ID lookups link fields to Listings.
+Rebuild after changing inputs or decisions to refresh the two tabs' membership.
+Closer offers are available in the 0–1 mile rows. An extra proximity weight would
+require a separate, justified measure; the current mean gives each listing one vote.
 The [map checker](https://strokeofluck.github.io/ncsu-rent-article/rental-map-audit.html)
 filters all three campuses by band, price inclusion, category and text.
 
@@ -54,6 +62,10 @@ Workbook generation requires `@oai/artifact-tool` in the Node environment. It us
 ordinary Excel formulas, verifies recalculated values against the website's arithmetic,
 and exports the downloadable workbook. The temporary `source-tables.json` and render
 checks are not published. No npm build is needed to serve the static site.
+When running the builder from a temporary runtime directory, pass the repository root
+as its first argument. `RENT_AUDIT_OUTPUT_DIR` and `RENT_AUDIT_QA_DIR` can redirect its
+workbook and preview outputs. Update the version query on changed public assets and
+workbook links so returning browsers do not reuse an older file.
 
 `scripts/build_analysis.py` derives automatic checks from the saved CSVs.
 `data/review-decisions.json` holds additional evidence decisions. Resolve a flagged

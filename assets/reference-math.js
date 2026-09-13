@@ -5,6 +5,15 @@
   const pct=x=>x.toFixed(2)+'%';
   const table=(headers,rs)=>'<table class="method-table"><thead><tr>'+headers.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+rs.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
   document.getElementById('sample-flow').innerHTML=`<strong>Inclusion flow:</strong> ${rows.length} saved IDs − ${rows.length-u.length} outside all three five-mile views = ${u.length} mapped IDs in the combined geography. Of those, ${s.excluded} prices are excluded, leaving ${s.perOverall.n+s.wholeOverall.n} usable prices: ${s.perOverall.n} room/per-bedroom + ${s.wholeOverall.n} whole-unit. Excluded reasons can overlap; count each excluded ID once.`;
+  const countRows=Object.entries(d.campuses).map(([key,c])=>{
+    const v=A.summarize(A.campus(rows,key));
+    const bands=[[0,1],[1,3],[3,5]].map(([lo,hi])=>{const b=A.summarize(A.campus(rows,key,lo,hi));return b.perOverall.n+b.wholeOverall.n;});
+    return [esc(c.label),bands.join(' + ')+' = '+(v.perOverall.n+v.wholeOverall.n),v.perOverall.n,v.wholeOverall.n,v.excluded,v.uniqueCount];
+  });
+  document.getElementById('count-reconciliation').innerHTML=table(['Campus','Three band counts = usable total','Room prices','Whole-unit prices','Excluded prices within 5 mi','Mapped total'],countRows);
+  const main=A.summarize(A.campus(rows,'main')).perOverall;
+  const roomBands=[[0,1],[1,3],[3,5]].map(([lo,hi])=>A.summarize(A.campus(rows,'main',lo,hi)).perOverall);
+  document.getElementById('weighting-math').innerHTML=`<strong>Main Campus room example:</strong> the three bands contain ${roomBands.map(b=>b.n).join(' + ')} = ${main.n} usable room prices. Their shares of the pooled room mean are ${roomBands.map(b=>pct(b.n/main.n*100)).join(', ')}. Adding all individual room midpoints gives ${usd((main.low_sum+main.high_sum)/2)}; dividing by ${main.n} gives ${usd(main.midpoint)}. These shares reflect the number of advertisements, not measured student demand. Calculations use unrounded prices; displayed percentages may not sum to exactly 100% after rounding.`;
   document.getElementById('worked-union').innerHTML=[['Room / per bedroom',s.perOverall],['Whole unit',s.wholeOverall]].map(([label,v])=>`<h2>${label}: combined five-mile sample</h2><ol><li>Add low prices: <strong>${usd(v.low_sum)}</strong>; divide by ${v.n} = <strong>${usd(v.avg_low)}</strong>.</li><li>Add high prices: <strong>${usd(v.high_sum)}</strong>; divide by ${v.n} = <strong>${usd(v.avg_high)}</strong>.</li><li>Mean midpoint = (${usd(v.low_sum)} ÷ ${v.n} + ${usd(v.high_sum)} ÷ ${v.n}) ÷ 2 = <strong>${usd(v.midpoint)}</strong>.</li><li>Sort the ${v.n} individual listing midpoints. Median midpoint = <strong>${usd(v.median_midpoint)}</strong>.</li></ol>`).join('');
   const br=[];
   for(const [key,c] of Object.entries(d.campuses)) for(const [inner,outer,label] of [[0,1,'0–1 mi'],[1,3,'>1–3 mi'],[3,5,'>3–5 mi'],[0,5,'Pooled 0–5 mi']]) {

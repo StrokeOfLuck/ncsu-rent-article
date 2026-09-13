@@ -7,7 +7,7 @@
 <link href="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css" rel="stylesheet">
 <script src="https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js"></script>
 <script src="assets/reviewed-data.js"></script>
-<script src="assets/rent-analysis.js?v=20260913-aid"></script>
+<script src="assets/rent-analysis.js?v=20260913-kept"></script>
 <style>
 :root {
   --paper:#ffffff;
@@ -4009,7 +4009,7 @@ th:first-child, td:first-child {
       </thead>
       <tbody id="summary"></tbody>
     </table>
-    <div class="row-hint">Listings with rent data = room prices used + whole-unit prices used. Listings with missing or unresolved prices are omitted from these counts and averages. Distance bands do not overlap. <a href="references.html#rental-method">Read the inclusion rules and step-by-step math</a>.</div>
+    <div class="row-hint">Listings with rent data = room prices used + whole-unit prices used. Distance bands do not overlap. <a href="references.html#rental-method">Read the inclusion rules and step-by-step math</a>.</div>
   </section>
 
 
@@ -4028,7 +4028,7 @@ th:first-child, td:first-child {
           </div>
         </div>
         <div class="combined-top-note">
-          <span id="combinedRentMeta">Main Campus · pooled eligible listings within five miles</span>
+          <span id="combinedRentMeta">Main Campus · listings with rent data within five miles</span>
         </div>
 
         <div class="combined-details">
@@ -4050,7 +4050,7 @@ th:first-child, td:first-child {
           </div>
         </div>
 
-        <p class="info-note" id="cleaned-summary-note"></p><p class="info-note">These are means of listing-level low and high advertised prices, not the cheapest and most expensive listings or a confidence interval. Each listing has equal weight; multiple listings may describe the same building. <a href="rental-map-audit.html">Inspect every listing</a> · <a href="data/audits/ncsu-rent-audit.xlsx?v=20260913-aid" download>Download the formula audit (.xlsx)</a></p><div class="housing-monthly">
+        <p class="info-note" id="cleaned-summary-note"></p><p class="info-note">Ranges show the average low and average high advertised prices. <a href="references.html#rental-method">Rent math and exclusions</a> · <a href="rental-map-audit.html">Inspect listings</a> · <a href="references.html#audit-downloads">Excel audit</a></p><div class="housing-monthly">
           <div class="housing-section-head">
             <div>
               <div class="housing-section-kicker">On campus room rates</div>
@@ -4950,13 +4950,13 @@ function updateAffordability() {
   const extra=custom?scenarioNumber('addedHousing'):0;
   const pooled=overallAllCampusesSummary(), local=overallDistanceBandSummary(currentCampusKey);
   document.getElementById('personal-sample-note').textContent=`Based on ${pooled.perOverall.n} room/per-bedroom prices across all three campus areas, with each listing counted once. This comparison stays the same when you switch the map’s campus.`;
-  document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · pooled eligible listings within five miles`;
+  document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · listings with rent data within five miles`;
   for(const [name,stats] of [['Per',local.perOverall],['Whole',local.wholeOverall]]) {
     document.getElementById('combined'+name+'Overall').textContent=stats.display;
     document.getElementById('combined'+name+'Mid').textContent=money(stats.midpoint);
   }
-  document.getElementById('cleaned-summary-note').textContent=`${local.uniqueCount} mapped listings: ${local.perOverall.n} room/per-bedroom prices + ${local.wholeOverall.n} whole-unit prices used; ${local.excluded} prices excluded. Category means are pooled by listing, so small distance bands do not receive extra weight.`;
-  document.getElementById('selectedBlurb').textContent=`All three campus five-mile views, deduplicated by listing ID: ${pooled.uniqueCount} mapped listings, ${pooled.perOverall.n} eligible room/per-bedroom prices. Personal chart uses the mean of listing midpoints and their median, with any entered extra housing costs. Values above 350% are shown numerically but clipped on the rail.`;
+  document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n+local.wholeOverall.n} listings with rent data across the three bands: ${local.perOverall.n} room/per-bedroom + ${local.wholeOverall.n} whole-unit.`;
+  document.getElementById('selectedBlurb').textContent=`Uses ${pooled.perOverall.n} room/per-bedroom prices within five miles of at least one of the three campus points, with each listing counted once. The personal chart compares the mean and median listing midpoints with monthly resources, including any entered extra housing costs. Values above 350% are shown numerically but clipped on the rail.`;
   const meanStats={...pooled.perOverall,avg_low:pooled.perOverall.avg_low+extra,avg_high:pooled.perOverall.avg_high+extra,midpoint:pooled.perOverall.midpoint+extra,label:'mean'};
   const median=pooled.perOverall.median_midpoint+extra;
   const medianStats={avg_low:median,avg_high:median,midpoint:median,label:'median'};

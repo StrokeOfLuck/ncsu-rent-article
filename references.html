@@ -649,13 +649,24 @@ h2 {
 <li><strong>Round only for display.</strong> Calculate from unrounded values. References show cents and the article usually shows whole dollars. The low-to-high mean interval is neither the sample’s minimum-to-maximum range nor a confidence interval.</li>
 </ol>
 <div id="sample-flow" class="use-note"></div><div id="worked-union"></div>
+<h2>How the article's counts add up</h2>
+<p>The article's distance table and campus summary both count <strong>listings with usable rent data</strong>. Add the three nonoverlapping distance rows to get that campus's total, or add its room/per-bedroom and whole-unit counts. Mapped totals also include listings whose prices were excluded, so those larger counts appear here for audit purposes.</p>
+<div id="count-reconciliation" class="method-scroll"></div>
+<p>Do not add campus totals together: their five-mile areas overlap. The combined sample counts each listing ID once. Whole-unit and room/per-bedroom prices have separate means because they price different things.</p>
+<h2 id="distance-weighting">Should closer rentals have more weight?</h2>
+<p>Closeness matters when choosing housing. The overall average answers a specific question: <strong>what are the average advertised prices among the included listings within five miles?</strong> Each included listing has one equal contribution. To focus on the closest offers, use the 0–1 mile row directly.</p>
+<p>A proximity-weighted average would answer a different question. It would require a published rule, such as how much more a listing at one mile counts than one at three miles, and a reason for that choice. This snapshot does not measure students' location preferences or where they actually live, so it does not establish those weights. Giving every distance band the same weight also changes the result: a listing in a band with fewer prices would count more.</p>
+<p>For the current average, each band contributes in proportion to its <strong>usable price count</strong>. Pool all listing prices before dividing, or multiply each band's unrounded average by its usable count, add those products, and divide by the total usable count. Keep room and whole-unit calculations separate.</p>
+<div id="weighting-math" class="use-note"></div>
 <h2>Every campus and distance band, with sums and denominators</h2><p>Each campus has three disjoint bands: 0–1, more than 1–3, and more than 3–5 miles. “Total listings” includes excluded prices. “Prices used” is the count used to divide both sums. Room prices used + whole-unit prices used + excluded listings = total listings. The total and excluded counts repeat for the two category rows; do not add those repeated counts together.</p><div class="method-scroll" id="band-math"></div>
 <p><a href="data/reviewed-rentals.csv" download>Reviewed listing table (.csv)</a> · <a href="data/reviewed-rentals.json">Review data, source hashes and version</a> · <a href="data/review-decisions.json">Additional evidence decisions</a> · <a href="https://github.com/StrokeOfLuck/ncsu-rent-article/blob/main/scripts/build_analysis.py">Rebuild the analysis</a></p>
 </div></article>
 
 <article class="ref" id="audit-downloads"><div class="ref-head"><div><div class="ref-no">Reproduce & inspect</div><div class="ref-title">Excel audit, source tables and listing review log</div></div></div><div class="ref-body">
-<p><a class="audit-download" href="data/audits/ncsu-rent-audit.xlsx?v=20260913-aid" download>Download the complete Excel audit</a> · <a href="rental-map-audit.html">Open the map and searchable listing checker</a></p>
+<p><a class="audit-download" href="data/audits/ncsu-rent-audit.xlsx?v=20260913-kept" download>Download the complete Excel audit</a> · <a href="rental-map-audit.html">Open the map and searchable listing checker</a></p>
 <p>The new workbook replaces the former browser-generated radius files. It includes all three campuses, all nine nonoverlapping bands, pooled campus summaries and the deduplicated combined sample in one file. The old audit URL opens the current checker, so old links do not keep circulating obsolete calculations.</p>
+<p><strong>Start with the Kept and Excluded tabs.</strong> They split all 168 saved listing IDs by inclusion in the combined five-mile rent sample. Kept contains 131 usable listings. Excluded contains 37 listings: 25 with unusable prices inside the study area and 12 outside all three five-mile areas. One outside listing also has a price conflict; it is counted once. “Excluded” does not mean every price is wrong or every property is unavailable.</p>
+<p>Each tab includes names, prices, the decision reason, campus bands and source links. To reproduce Main Campus, filter <strong>Main band</strong> to the three bands within five miles: 128 kept listings and 25 excluded listings. The tabs record membership in this published snapshot. Linked fields follow the master Listings table by listing ID; rebuild the workbook after changing inputs or review decisions to refresh tab membership.</p>
 <ul><li><strong>Guide:</strong> definitions, limitations, source files, version and reading order.</li><li><strong>Raw properties / Raw floorplans:</strong> the saved source values, including conflicting fields and missing placeholders.</li><li><strong>Listings:</strong> original and revised categories, price checks, exclusions, full-precision Haversine formulas, band formulas, overlap flags and evidence links.</li><li><strong>Summary:</strong> formula counts, sums, means and mean midpoints for each geography and category.</li><li><strong>Sensitivity:</strong> effects of removing future-only advertisements, waitlist mentions and the flagged Centennial Ridge endpoint.</li><li><strong>Budget:</strong> the article’s two average-aid checkboxes, all four selection combinations, and an optional custom budget. Also includes a separate calculation for a specific whole-unit lease and its actual number of payers.</li><li><strong>Housing rates:</strong> two-year published rates, dollar changes, percentage changes and residence-hall monthly equivalents.</li></ul>
 <p>In Excel, filter the <strong>Listings</strong> table by campus band, included flag, category or listing ID. Follow Summary counts and sums back to that table. Review decisions are documented editorial inputs; formulas recalculate price and distance checks when numeric inputs change. Resolving an exclusion requires updating its evidence and review flags, rebuilding and verifying the outputs.</p>
 <details><summary>Open the correction and exclusion log</summary><div id="review-log" class="method-scroll"></div></details>
@@ -1382,8 +1393,8 @@ h2 {
 </main>
 
 <script src="assets/reviewed-data.js"></script>
-<script src="assets/rent-analysis.js?v=20260913-aid"></script>
-<script src="assets/reference-math.js?v=20260913-aid"></script>
+<script src="assets/rent-analysis.js?v=20260913-kept"></script>
+<script src="assets/reference-math.js?v=20260913-kept"></script>
 <script>
 (() => {
   const input = document.getElementById('reference-search-input');

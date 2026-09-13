@@ -1,16 +1,17 @@
 /** Author the downloadable audit with @oai/artifact-tool. Source CSVs remain intact. */
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { Workbook, SpreadsheetFile } from '@oai/artifact-tool';
-import A from '../assets/rent-analysis.js';
-const root=path.dirname(path.dirname(fileURLToPath(import.meta.url)));
+const root=path.resolve(process.argv[2]||path.dirname(path.dirname(fileURLToPath(import.meta.url))));
+const {default:A}=await import(pathToFileURL(path.join(root,'assets/rent-analysis.js')).href);
 const d=JSON.parse(await fs.readFile(path.join(root,'data/reviewed-rentals.json'),'utf8'));
 const raw=JSON.parse(await fs.readFile(path.join(root,'data/audits/source-tables.json'),'utf8'));
-const out=path.join(root,'data/audits'), qa=process.env.RENT_AUDIT_QA_DIR||'/tmp/ncsu-rent-workbook-qa';
+const out=process.env.RENT_AUDIT_OUTPUT_DIR||path.join(root,'data/audits'), qa=process.env.RENT_AUDIT_QA_DIR||'/tmp/ncsu-rent-workbook-qa';
+await fs.mkdir(out,{recursive:true});
 await fs.mkdir(qa,{recursive:true});
 const wb=Workbook.create();
-const names=['Guide','Raw properties','Raw floorplans','Listings','Summary','Sensitivity','Budget','Housing rates'];
+const names=['Guide','Kept','Excluded','Raw properties','Raw floorplans','Listings','Summary','Sensitivity','Budget','Housing rates'];
 const sheets=Object.fromEntries(names.map(name=>[name,wb.worksheets.add(name)]));
 const money='$#,##0.00;($#,##0.00);"$0.00"', percent='0.00%';
 function col(i){let s='';for(i++;i;i=Math.floor((i-1)/26))s=String.fromCharCode(65+(i-1)%26)+s;return s;}
@@ -72,6 +73,37 @@ ls.tables.add(`A1:AL${end}`,true,'ReviewedListings');
 ls.getRange(`O2:O${end}`).conditionalFormats.add('cellIs',{operator:'equal',formula:0,format:{fill:'#FCE8E6'}});
 note(ls,'L1','Documented editorial exclusion input. Resolve pricing basis against evidence before changing from 1 to 0. See reviewed-rentals.json and review-decisions.json.');
 note(ls,'J1','Envelope from saved floor-plan price_low fields. Used only to detect search/detail inconsistencies, not substitute rent.');
+// Published membership is fixed by ID; linked fields remain correct when Listings is sorted.
+const keptRows=d.rentals.filter(r=>r.in_union&&A.valid(r)).sort((a,b)=>a.name.localeCompare(b.name,'en'));
+const excludedRows=d.rentals.filter(r=>!(r.in_union&&A.valid(r))).sort((a,b)=>a.name.localeCompare(b.name,'en'));
+function decisionReason(r,kept){
+ if(kept)return r.pricing_type!==r.original_pricing_type?'Kept after room/per-bedroom correction.':'Usable price pair within study area.';
+ const reasons=[];
+ if(!r.in_union)reasons.push('Outside all three five-mile areas.');
+ if(!(Number.isFinite(r.rent_low)&&Number.isFinite(r.rent_high)&&r.rent_low>0&&r.rent_high>=r.rent_low))reasons.push('Missing or invalid advertised price pair.');
+ if(r.flags.includes('pricing_basis_review'))reasons.push('Unresolved room/whole-unit pricing basis.');
+ if(r.flags.includes('price_mismatch'))reasons.push('Search and floor-plan prices disagree.');
+ if(!reasons.length)throw new Error('Excluded listing has no reason: '+r.site_id);
+ return reasons.join(' ');
+}
+for(const [name,rs] of [['Kept',keptRows],['Excluded',excludedRows]]){
+ const sh=sheets[name],last=rs.length+1;
+ block(sh,['Listing name','Price basis','Low price ($/mo)','High price ($/mo)','Published decision','Main band','Centennial band','Biomedical band','Listing ID','Source URL','Review evidence'],rs.map(r=>[null,null,null,null,decisionReason(r,name==='Kept'),null,null,null,r.site_id,null,null]));
+ for(let j=0;j<rs.length;j++){
+  const i=j+2,match=`MATCH($I${i},'Listings'!$A$2:$A$${end},0)`;
+  for(const [target,source] of [['A','B'],['B','E'],['C','H'],['D','I'],['F','Q'],['G','S'],['H','U'],['J','C'],['K','AG']]){
+   const value=`INDEX('Listings'!$${source}$2:$${source}$${end},${match})`;
+   formula(sh,target+i,`=IF(${value}="","",${value})`);
+  }
+ }
+ sh.getRange('A:A').format.columnWidth=39;sh.getRange('B:B').format.columnWidth=17;sh.getRange('C:D').format.columnWidth=16;
+ sh.getRange('E:E').format.columnWidth=45;sh.getRange('F:H').format.columnWidth=18;sh.getRange('I:I').format.columnWidth=17;
+ sh.getRange('J:J').format.columnWidth=38;sh.getRange('K:K').format.columnWidth=85;
+ sh.getRange(`A2:K${last}`).format.verticalAlignment='top';sh.getRange(`A2:K${last}`).format.wrapText=true;
+ sh.getRange(`C2:D${last}`).setNumberFormat(money);sh.getRange('A1:K1').format.horizontalAlignment='center';
+ sh.getRange(`A2:K${last}`).format.autofitRows();
+ sh.tables.add(`A1:K${last}`,true,name==='Kept'?'KeptListings':'ExcludedListings');
+}
 // Formula summaries: all three disjoint bands, pooled campuses and the combined union.
 const summaryRows=[];
 for(const [key,c] of Object.entries(d.campuses)) for(const [low,high,label] of [[0,1,'0–1 mi'],[1,3,'>1–3 mi'],[3,5,'>3–5 mi'],[0,5,'Pooled 0–5 mi']]) for(const type of ['Per bedroom','Whole unit']) summaryRows.push({key,campus:c.label,low,high,label,type});
@@ -89,6 +121,15 @@ for(let j=0;j<summaryRows.length;j++){
  formula(ss,'K'+i,`=COUNTIFS(${g},${range('O')},0)`);
 }
 ss.freezePanes.freezeRows(1);
+// Reconcile the simpler article counts without repeating mapped totals by category.
+ss.getRange('A30:I34').values=[['Count reconciliation','0–1 mi kept','>1–3 mi kept','>3–5 mi kept','Kept total','Room prices','Whole-unit prices','Excluded prices in area','Mapped total'],['Main Campus',null,null,null,null,null,null,null,null],['Centennial Campus',null,null,null,null,null,null,null,null],['Centennial Biomedical Campus',null,null,null,null,null,null,null,null],['All three (unique IDs)',null,null,null,null,null,null,null,null]];
+ss.getRange('A30:I34').format.font={name:'Arial',size:10};ss.getRange('A30:I30').format={fill:'#2D485D',font:{name:'Arial',bold:true,color:'#FFFFFF'},rowHeight:42,wrapText:true};
+ss.getRange('A31:I34').format.rowHeight=28;ss.getRange('A31:A34').format.wrapText=true;ss.getRange('A31:I34').format.autofitRows();
+for(const [r,start,pool] of [[31,2,8],[32,10,16],[33,18,24]]){
+ for(const [c,offset] of [['B',0],['C',2],['D',4]])formula(ss,c+r,`=SUM(E${start+offset}:E${start+offset+1})`);
+ formula(ss,'E'+r,`=SUM(B${r}:D${r})`);formula(ss,'F'+r,`=E${pool}`);formula(ss,'G'+r,`=E${pool+1}`);formula(ss,'H'+r,`=K${pool}`);formula(ss,'I'+r,`=D${pool}`);
+}
+for(const [c,f] of [['E','=SUM(F34:G34)'],['F','=E26'],['G','=E27'],['H','=K26'],['I','=D26']])formula(ss,c+'34',f);
 // Explicit sensitivity selectors stay live as listing numeric inputs change.
 const sn=sheets.Sensitivity;
 const checks=[['Primary reviewed sample',''],['Omit all plans dated 2027+',`,${range('Y')},0`],['Omit waitlist mentions',`,${range('Z')},0`],['Omit flagged endpoint',`,${range('AA')},0`],['All three omissions',`,${range('Y')},0,${range('Z')},0,${range('AA')},0`]];
@@ -171,7 +212,11 @@ hs.getRange('A14:C19').values=[['Academic-year conversion','Value','Explanation'
 // Guide makes caveats and source provenance visible without formulas hidden in prose.
 const gs=sheets.Guide;
 const guide=[
- ['Snapshot / revision',d.snapshot_date+' / '+d.review_date],['Analysis version',d.version],['Reading order','Summary → Listings → Raw properties / Raw floorplans. Use Budget for a separate personal scenario.'],
+ ['Snapshot / revision',d.snapshot_date+' / '+d.review_date],['Analysis version',d.version],['Reading order','Start with Kept and Excluded to read individual decisions. Summary shows the counts and math; Listings links to the raw source tables. Budget is a separate personal scenario.'],
+ ['Kept and Excluded','Kept: 131 usable listings within at least one five-mile campus area. Excluded: 37 other IDs (25 price exclusions within the area plus 12 outside all three areas). Together they contain all 168 saved IDs once.'],
+ ['Match a campus','Filter Main band to the three bands within five miles: 128 Kept and 25 Excluded. Summary rows 30–34 reconcile each campus. The combined sample counts each ID once across overlapping campus areas.'],
+ ['Published membership','Kept/Excluded membership and decision text record the published review. Other columns use ID lookups into Listings. Rebuild after changing source inputs or review decisions to refresh membership.'],
+ ['Price versus geography','Listings price-status labels describe the price checks. Eleven usable-price records still fall outside all three five-mile areas and therefore appear in Excluded. One outside record also has a price conflict; count it once.'],
  ['Scope',d.scope],['Unit of observation','One portal listing ID. Not one building, tenant or available bedroom. Separate ads in a building may be related.'],
  ['Primary inclusion rule','Within five miles of any reference point; positive ordered price pair; no unresolved price basis or search/detail mismatch.'],
  ['Room overrides','23 whole-unit flags reclassified using 20 explicit saved room titles and 3 source descriptions. Snapshot prices unchanged.'],
@@ -181,7 +226,8 @@ const guide=[
  ['Sample limitations','Convenience sample of one portal. No claim of full-market coverage, statistical representativeness, available vacancies or student burden prevalence.'],
  ['Distance method','Haversine with Earth radius 3958.7613 miles; full-precision distances decide bands. Straight line, not route distance or campus-edge distance.'],
  ['Combined sample','Union by listing ID, not sum of campus counts. One ID appears once in the Listings table.'],
- ['Means','Sum low / included n; sum high / same n. Mean midpoint = (low mean + high mean) / 2. Do not average band means equally.'],
+ ['Means','Sum low / prices used; sum high / same count. Mean midpoint = (low mean + high mean) / 2. Each included listing contributes once; band means combine in proportion to their price counts.'],
+ ['Why not weight by closeness?','The current mean describes the included five-mile advertisements. Use the 0–1 mile row for the closest offers. A proximity-weighted measure needs a stated weighting rule and rationale; this snapshot does not measure student location preferences.'],
  ['Medians','Website also gives median individual midpoint as a robustness measure. Excel summary shows auditable endpoint and midpoint means.'],
  ['Original versus revised','Raw sheets are unchanged source values. Reviewed basis and basis-review flags are documented editorial inputs; numeric checks are formulas.'],
  ['Missing price','A raw zero or blank is preserved on source sheets; it fails the positive-pair test and does not lower the mean.'],
@@ -193,7 +239,7 @@ const guide=[
  ['Monthly periods','52/12 is a valid steady-work conversion, not a guarantee of year-round FWS. Enter actual weeks and months; FWS award cap example is separate.'],
  ['Source portal','https://offcampus.dasa.ncsu.edu/housing'],['Article / full methodology','https://strokeofluck.github.io/ncsu-rent-article/references.html'],
  ['Raw source commit',d.source_commit],['Property CSV SHA-256',d.raw_sha256['ncsu-properties.csv']],['Floor-plan CSV SHA-256',d.raw_sha256['ncsu-floorplans.csv']],
- ['Rebuild','python scripts/build_analysis.py; python scripts/prepare_workbook_sources.py; node scripts/build_workbook.mjs (requires @oai/artifact-tool).'],
+ ['Rebuild','Use the repository rebuild instructions. The workbook builder accepts the repository root as an optional argument when run from a temporary working directory.'],
  ['Updating raw data','Use a new dated snapshot and update the documented review decisions. This workbook is a fixed-snapshot audit; appended source rows require a rebuild.'],
  ['Financial aid source','https://report.isa.ncsu.edu/ir/cds/pdfs/CDS_2025-26.v1.pdf'],['Work-study source','https://emas.ncsu.edu/employment/federal-work-study-program/'],
  ['Aid allocation source','https://studentservices.ncsu.edu/finances/scholarships-and-financial-aid/receive-your-financial-aid/'],['HUD definitions','https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html']
@@ -203,6 +249,21 @@ wb.recalculate();
 const expected=A.summarize(A.union(d.rentals));
 const values=ss.getRange('D26:K27').values;
 if(values[0][1]!==expected.perOverall.n||values[1][1]!==expected.wholeOverall.n||Math.abs(values[0][6]-expected.perOverall.midpoint)>1e-7||Math.abs(values[1][6]-expected.wholeOverall.midpoint)>1e-7) throw new Error('Workbook/site mismatch: '+JSON.stringify(values));
+for(const [name,rs] of [['Kept',keptRows],['Excluded',excludedRows]]){
+ const sh=sheets[name],v=sh.getRange(`A2:K${rs.length+1}`).values;
+ for(let i=0;i<rs.length;i++)if(v[i][8]!==rs[i].site_id||v[i][0]!==rs[i].name||v[i][5]!==rs[i].band_main||v[i][6]!==rs[i].band_centennial||v[i][7]!==rs[i].band_vet)throw new Error('Published listing view mismatch: '+name+' '+rs[i].site_id);
+}
+if(keptRows.length+excludedRows.length!==d.rentals.length||new Set([...keptRows,...excludedRows].map(r=>r.site_id)).size!==d.rentals.length)throw new Error('Kept/Excluded partition mismatch');
+for(const [row,key] of [[31,'main'],[32,'centennial'],[33,'vet']]){
+ const v=ss.getRange(`B${row}:I${row}`).values[0],e=A.summarize(A.campus(d.rentals,key));
+ if(v[0]+v[1]+v[2]!==v[3]||v[4]+v[5]!==v[3]||v[3]+v[6]!==v[7]||v[3]!==e.perOverall.n+e.wholeOverall.n)throw new Error('Campus count reconciliation failed');
+}
+// Check that the new views follow a source edit by listing ID, then restore the source.
+const probe=keptRows[0],sourceRow=d.rentals.findIndex(r=>r.site_id===probe.site_id)+2;
+const sourceName=sheets['Raw properties'].getRange(rawCol('name')+sourceRow),savedName=sourceName.values;
+sourceName.values=[['Temporary source-name check']];wb.recalculate();
+if(sheets.Kept.getRange('A2').values[0][0]!=='Temporary source-name check')throw new Error('Kept source lookup did not recalculate');
+sourceName.values=savedName;wb.recalculate();
 for(let i=0;i<d.rentals.length;i++){const r=d.rentals[i],v=ls.getRange(`L${i+2}:X${i+2}`).values[0];if(Boolean(v[3])!==r.eligible_price||Boolean(v[10])!==r.in_union||Math.abs(v[4]-r.distance_main)>1e-8||Math.abs(v[6]-r.distance_centennial)>1e-8||Math.abs(v[8]-r.distance_vet)>1e-8)throw new Error('Listing formula mismatch '+r.site_id);}
 const budgetDefault=bs.getRange('B16:B19').values; if(Math.abs(budgetDefault[0][0]-1300)>1e-9||Math.abs(budgetDefault[3][0]-expected.perOverall.midpoint/1300)>1e-9)throw new Error('Budget formula mismatch');
 // All checkbox combinations must agree with the shared article presets.
@@ -216,9 +277,10 @@ bs.getRange('B37:B39').values=[[0],[0],[15]];wb.recalculate();
 bs.getRange('B4:B7').values=[[9],[30],[1800],[900]];wb.recalculate();if(Math.abs(bs.getRange('B16').values[0][0]-1300)>1e-8)throw new Error('Term aid recalc failed');
 bs.getRange('B2').values=[[0]];bs.getRange('B6:B8').values=[[0],[0],[0]];wb.recalculate();if(bs.getRange('B19').values[0][0]!=='')throw new Error('Zero denominator not blank');
 bs.getRange('B2').values=[[15]];bs.getRange('B4:B7').values=[[12],[52],[0],[0]];wb.recalculate();
-console.log((await wb.inspect({kind:'region',sheetId:'Summary',range:'A24:K27',maxChars:4000,tableMaxRows:5,tableMaxCols:11})).ndjson);
-for(const [name,r] of [['Summary','A1:K9'],['Budget','A35:C53']]) {
- const preview=await wb.render({sheetName:name,range:r,scale:1,format:'png'});await fs.writeFile(path.join(qa,name.replaceAll(' ','-')+'.png'),new Uint8Array(await preview.arrayBuffer()));
+console.log((await wb.inspect({kind:'region',sheetId:'Summary',range:'A30:I34',maxChars:3000,tableMaxRows:5,tableMaxCols:9})).ndjson);
+console.log((await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!|#NULL!|#SPILL!|#CALC!',options:{useRegex:true,maxResults:5},summary:'Final formula error scan',maxChars:1200})).ndjson);
+for(const [name,r,label] of [['Guide','A1:B10','Guide'],['Summary','A30:I34','Counts'],['Kept','A1:E7','Kept'],['Excluded','A1:E8','Excluded'],['Excluded','F1:K6','Excluded-evidence']]) {
+ const preview=await wb.render({sheetName:name,range:r,scale:1,format:'png'});await fs.writeFile(path.join(qa,label+'.png'),new Uint8Array(await preview.arrayBuffer()));
 }
 await fs.writeFile(path.join(qa,'verification.json'),JSON.stringify({version:d.version,combined:values,budget:bs.getRange('B16:B19').values,allListingDistanceChecks:rows.length},null,2));
 const xlsx=await SpreadsheetFile.exportXlsx(wb);await xlsx.save(path.join(out,'ncsu-rent-audit.xlsx'));

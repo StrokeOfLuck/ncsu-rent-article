@@ -31,7 +31,8 @@ def cells(sheet):
   elif val is not None and c.get('t') not in ['str']:val=float(val)
   out[c.get('r')]=val
  return out
-sheets={n:cells(n) for n in range(1,9)}
+sheet_names=[e.get('name') for e in ET.fromstring(z.read('xl/workbook.xml')).findall('s:sheets/s:sheet',ns)]
+sheets={name:cells(i+1) for i,name in enumerate(sheet_names)}
 sets=[]
 for k in d['campuses']:
  for lo,hi in [(0,1),(1,3),(3,5),(0,5)]:sets.append([r for r in rs if (r['distance_'+k]>=0 if lo==0 else r['distance_'+k]>lo) and r['distance_'+k]<=hi])
@@ -39,19 +40,34 @@ sets.append(union)
 i=2
 for rows in sets:
  for cat in ['Per bedroom','Whole unit']:
-  v=stats(rows,cat);assert sheets[5]['D'+str(i)]==len(rows)
-  for col,expected in zip('EFGHIJ',v):assert math.isclose(sheets[5][col+str(i)],expected,abs_tol=1e-7),(i,col,expected)
-  assert sheets[5]['K'+str(i)]==sum(not r['eligible_price'] for r in rows)
+  v=stats(rows,cat);assert sheets['Summary']['D'+str(i)]==len(rows)
+  for col,expected in zip('EFGHIJ',v):assert math.isclose(sheets['Summary'][col+str(i)],expected,abs_tol=1e-7),(i,col,expected)
+  assert sheets['Summary']['K'+str(i)]==sum(not r['eligible_price'] for r in rows)
   i+=1
 for i,r in enumerate(rs,2):
- assert sheets[4]['O'+str(i)]==int(r['eligible_price'])
- for c,k in [('P','main'),('R','centennial'),('T','vet')]:assert math.isclose(sheets[4][c+str(i)],r['distance_'+k],abs_tol=1e-8)
-assert math.isclose(sheets[7]['B19'],stats(union,'Per bedroom')[-1]/1300,abs_tol=1e-10)
-assert math.isclose(sheets[8]['B18'],8240/9,abs_tol=1e-10)
-assert math.isclose(sheets[7]['B44'],1300,abs_tol=1e-10)
+ assert sheets['Listings']['O'+str(i)]==int(r['eligible_price'])
+ for c,k in [('P','main'),('R','centennial'),('T','vet')]:assert math.isclose(sheets['Listings'][c+str(i)],r['distance_'+k],abs_tol=1e-8)
+assert math.isclose(sheets['Budget']['B19'],stats(union,'Per bedroom')[-1]/1300,abs_tol=1e-10)
+assert math.isclose(sheets['Housing rates']['B18'],8240/9,abs_tol=1e-10)
+assert math.isclose(sheets['Budget']['B44'],1300,abs_tol=1e-10)
 for row,resources in [(50,1300),(51,1300+14743/12),(52,1300+4106/12),(53,1300+(14743+4106)/12)]:
- assert math.isclose(sheets[7]['B'+str(row)],resources,abs_tol=1e-9)
- assert math.isclose(sheets[7]['C'+str(row)],stats(union,'Per bedroom')[-1]/resources,abs_tol=1e-10)
+ assert math.isclose(sheets['Budget']['B'+str(row)],resources,abs_tol=1e-9)
+ assert math.isclose(sheets['Budget']['C'+str(row)],stats(union,'Per bedroom')[-1]/resources,abs_tol=1e-10)
+# The published Kept/Excluded views partition the source IDs and preserve campus filters.
+for name,expected_rows in [('Kept',[r for r in rs if r['in_union'] and r['eligible_price']]),('Excluded',[r for r in rs if not(r['in_union'] and r['eligible_price'])])]:
+ expected_by_id={r['site_id']:r for r in expected_rows};actual_ids=[]
+ for row in range(2,len(expected_rows)+2):
+  v=sheets[name];key=v['I'+str(row)];actual_ids.append(key);r=expected_by_id[key]
+  assert v['A'+str(row)]==r['name'] and v['B'+str(row)]==r['pricing_type']
+  for col,field in [('C','rent_low'),('D','rent_high')]:assert v.get(col+str(row))==r[field] or (r[field] is None and v.get(col+str(row)) in [None,''])
+  for col,field in [('F','band_main'),('G','band_centennial'),('H','band_vet')]:assert v[col+str(row)]==r[field]
+  assert v['E'+str(row)] and v['J'+str(row)]==r['listing_url'] and v['K'+str(row)]==r['review_note']
+ assert len(actual_ids)==len(set(actual_ids)) and set(actual_ids)==set(expected_by_id)
+for row,total,excluded in [(31,128,25),(32,126,25),(33,123,23),(34,131,25)]:
+ v=sheets['Summary'];assert v['E'+str(row)]==total and v['H'+str(row)]==excluded
+ assert v['F'+str(row)]+v['G'+str(row)]==total and total+excluded==v['I'+str(row)]
+ if row!=34:assert sum(v[c+str(row)] for c in 'BCD')==total
+
 class HTML(HTMLParser):
  def __init__(self):super().__init__();self.ids=[];self.links=[];self.inputs={}
  def handle_starttag(self,tag,attrs):
@@ -75,4 +91,4 @@ for f in ['index.html','references.html','rental-map-audit.html','rental-map-aud
   path=Path(tempfile.gettempdir())/f'ncsu-{f}-{j}.js';path.write_text(script);subprocess.run([node,'--check',str(path)],check=True,capture_output=True)
  if f=='index.html':
   (Path(tempfile.gettempdir())/'ncsu-dom.json').write_text(json.dumps({'ids':h.ids,'inputs':h.inputs}))
-print('PASS: 168 records, source hashes, 26 geography/category summaries, 504 distances, workbook cached results, budget/rate math, local links, unique IDs and JS syntax.')
+print('PASS: 168 records, source hashes, 26 geography/category summaries, 504 distances, Kept/Excluded IDs and campus count reconciliation, workbook cached results, budget/rate math, local links, unique IDs and JS syntax.')
