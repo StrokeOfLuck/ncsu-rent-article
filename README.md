@@ -25,8 +25,7 @@ revised pricing categories, exclusion reasons, move-in flags, source URLs and ha
 - Both positive numeric endpoints are required. Means use the same paired denominator;
   missing and zero-placeholder prices never enter a mean. The personal chart uses
   room mean midpoints (median retained in the audit). Optional aid checkboxes model the full CDS averages
-  with tuition/fees covered separately; custom net-aid inputs are tucked into an
-  optional panel. Whole-unit rent is not assigned to a presumed student.
+  with tuition/fees covered separately; the right comparison card has an inline hourly-pay input and Reset $15 control. Detailed personal-budget inputs remain in Excel. Whole-unit rent is not assigned to a presumed student.
 - This is an advertised-offer convenience sample, including future dates and varied
   lease terms. It does not establish market coverage, current vacancies, students'
   actual housing burden or a causal effect of distance on rent.

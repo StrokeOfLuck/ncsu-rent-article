@@ -3959,6 +3959,7 @@ th:first-child, td:first-child {
 .scenario-inputs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:16px 0}.scenario-inputs label{font-size:12px;font-weight:650;line-height:1.4}.scenario-inputs input{display:block;width:100%;min-width:0;font:inherit;font-size:16px;margin-top:5px;padding:8px;border:1px solid #b7b0a6;border-radius:4px;background:white;color:#272523}.aid-caution,.info-note{line-height:1.55;font-size:12px}.aid-note{font-size:12px;line-height:1.5}.burden-pct small{white-space:normal}#summary small{font-size:10px;color:#68615b}@media(max-width:650px){.scenario-inputs{grid-template-columns:repeat(2,minmax(0,1fr))}.aid-panel-head{flex-wrap:wrap;gap:8px}}
 .custom-budget{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}.custom-budget summary{cursor:pointer;font-size:12px;font-weight:700}.custom-budget-toggle{display:flex;gap:8px;align-items:center;font-size:12px;margin:16px 0}.custom-budget fieldset{padding:0;border:0;margin:0;min-width:0}.custom-budget legend{font-size:12px;font-weight:700}.custom-budget fieldset:disabled{opacity:.5}.presets-disabled{opacity:.5}.aid-option:has(input:focus-visible){outline:2px solid #315e83;outline-offset:4px}.aid-option .aid-origin{line-height:1.4}#summary small{font-size:11px}#summary td{vertical-align:top}
 .aid-title{font-size:14px;line-height:1.4}.aid-source{font-size:12px}.aid-option,.aid-option:first-child{padding:12px;gap:10px}.aid-name{font-size:13px;line-height:1.35}.aid-origin{font-size:11px}.aid-annual{font-size:20px}.aid-monthly{font-size:11px;line-height:1.4}.aid-check{width:18px;height:18px}@media(max-width:480px){.aid-options{grid-template-columns:1fr}.aid-option,.aid-option:first-child{grid-template-columns:18px minmax(0,1fr)}}
+.wage-control{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:3px;text-transform:none;letter-spacing:0;font-size:10px}.wage-control label{font-weight:600}.wage-field{display:inline-flex;align-items:center;gap:3px;white-space:nowrap}.wage-field input{width:62px;min-width:0;padding:3px 4px;font:inherit;font-size:16px;border:1px solid #b7b0a6;border-radius:3px;background:#fff;color:inherit}.wage-control button{border:0;background:none;padding:5px 2px;color:var(--muted);font:inherit;text-decoration:underline;cursor:pointer}.wage-control input:focus-visible,.wage-control button:focus-visible{outline:2px solid #315e83;outline-offset:2px}#wage-error{display:block;max-width:220px;color:var(--accent);font-size:10px;text-transform:none;letter-spacing:0;margin-top:4px}#wage-error[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -4296,23 +4297,6 @@ th:first-child, td:first-child {
         </label>
       </div>
       <p class="aid-caution" id="preset-assumption"><strong>Illustration:</strong> selected awards are spread over 12 months, assuming tuition and school fees are paid separately. These are averages for different recipient groups, not one typical aid package. Loans must be repaid.</p>
-      <p id="budget-mode-status" class="info-note" aria-live="polite" hidden></p>
-      <details class="custom-budget">
-        <summary>Use your own budget (optional)</summary>
-        <label class="custom-budget-toggle"><input id="useCustomBudget" type="checkbox"> Use custom amounts instead of the award averages</label>
-        <fieldset id="customBudgetFields" disabled>
-          <legend>Your budget assumptions</legend>
-          <div class="scenario-inputs">
-            <label>Budget period (months)<input id="budgetMonths" type="number" min="1" max="12" value="12" step="1"></label>
-            <label>Paid work weeks in period<input id="workWeeks" type="number" min="0" max="52" value="52" step="1"></label>
-            <label>Grant left for living costs ($)<input id="livingGrant" type="number" min="0" value="0" step="100"></label>
-            <label>Loan left for living costs ($)<input id="livingLoan" type="number" min="0" value="0" step="100"></label>
-            <label>Other support in period ($)<input id="otherSupport" type="number" min="0" value="0" step="100"></label>
-            <label>Your added monthly housing costs ($)<input id="addedHousing" type="number" min="0" value="0" step="25"></label>
-          </div>
-        </fieldset>
-        <p class="aid-caution">Use the same period for every total. Enter aid remaining after tuition, fees and other commitments. Only add housing costs not already included in rent. Work-study hours and paid weeks must fit the actual award.</p>
-      </details>
     </div>
 
     <div class="burden-grid">
@@ -4367,7 +4351,7 @@ th:first-child, td:first-child {
 
       <div class="burden-card">
         <div class="burden-card-head">
-          <div class="card-kicker" id="burdenKickerHigh"><span>Monthly income</span><span class="kicker-rate">$15/hour</span></div>
+          <div class="card-kicker" id="burdenKickerHigh"><span>Monthly resources</span><div class="wage-control"><label for="hourlyRate">Change pay</label><span class="wage-field">$<input id="hourlyRate" type="number" min="0" step="0.01" value="15" inputmode="decimal" aria-describedby="wage-error">/hour</span><button id="resetWage" type="button">Reset $15</button></div><span id="wage-error" hidden role="status">Enter $0 or more, using up to two decimal places.</span></div>
           <span class="burden-hours-warning"><span>Above NC State’s general</span><span>Federal Work-Study guideline</span><span>(more than 20 hrs/week).</span></span>
           <div class="burden-hours-readout"><span id="hoursHighVal">20</span> hrs</div>
         </div>
@@ -4427,7 +4411,7 @@ th:first-child, td:first-child {
         <div class="benchmark-note">
           <strong>What the HUD 30% rule means:</strong> The U.S. Department of Housing and Urban Development uses 30% as a housing-cost-burden threshold. Spending <strong>30% or less</strong> of income on housing is treated as not cost burdened; spending <strong>more than 30%</strong> is cost burdened, and <strong>more than 50%</strong> is severely cost burdened. <a href="https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html" target="_blank" rel="noopener noreferrer">HUD CHAS definitions</a>
 
-          HUD compares total household housing costs, including utilities, with household income. This personal scenario combines gross pay with any entered support and borrowed funds; it is a budget illustration, not a formal HUD classification. Published June 25, 2024 · <a href="https://www.hud.gov/sites/dfiles/PIH/documents/FY24_ICDBG_FAQs.pdf#page=8" target="_blank" rel="noopener noreferrer">HUD plain-language definition, p. 8</a> · <a href="references.html#hud-30-percent">Methods and explanation</a>
+          HUD compares total household housing costs, including utilities, with household income. This personal scenario combines gross pay with selected grant and loan award averages; it is a budget illustration, not a formal HUD classification. Published June 25, 2024 · <a href="https://www.hud.gov/sites/dfiles/PIH/documents/FY24_ICDBG_FAQs.pdf#page=8" target="_blank" rel="noopener noreferrer">HUD plain-language definition, p. 8</a> · <a href="references.html#hud-30-percent">Methods and explanation</a>
         </div>
       </div>
     </dialog>
@@ -4877,26 +4861,11 @@ function setBurdenRange(rangeId, pointId, labelId, pctId, incomeMonthly, stats) 
 }
 
 
-function scenarioNumber(id, fallback=0) {
-  const e=document.getElementById(id), value=Number(e.value);
-  return Number.isFinite(value) ? Math.max(Number(e.min)||0,Math.min(e.max?Number(e.max):1000000,value)) : fallback;
-}
+let comparisonWage = 15;
 function updateAffordability() {
   const h=Number(document.getElementById('hours').value);
-  const custom=document.getElementById('useCustomBudget').checked;
-  document.getElementById('customBudgetFields').disabled=!custom;
-  document.getElementById('includeGrant').disabled=custom;
-  document.getElementById('includeLoan').disabled=custom;
-  document.getElementById('aid-presets').classList.toggle('presets-disabled',custom);
-  document.getElementById('preset-assumption').hidden=custom;
-  document.getElementById('budget-mode-status').hidden=!custom;
-  document.getElementById('budget-mode-status').textContent=custom?'Custom budget is in use. The average-award checkboxes are paused.':'';
   const preset=RentAnalysis.aidPreset({includeGrant:document.getElementById('includeGrant').checked,includeLoan:document.getElementById('includeLoan').checked});
-  const months=custom?scenarioNumber('budgetMonths',12):preset.months;
-  const enteredWeeks=custom?scenarioNumber('workWeeks',52):preset.weeks;
-  const weeks=Math.min(enteredWeeks,52*months/12);
-  const inputs={hours:h,months,weeks,grant:custom?scenarioNumber('livingGrant'):preset.grant,loan:custom?scenarioNumber('livingLoan'):preset.loan,other:custom?scenarioNumber('otherSupport'):0};
-  const extra=custom?scenarioNumber('addedHousing'):0;
+  const inputs={hours:h,...preset};
   const pooled=overallAllCampusesSummary(), local=overallDistanceBandSummary(currentCampusKey);
   document.getElementById('personal-sample-note').textContent=`Based on ${pooled.perOverall.n} room/per-bedroom prices across all three campus areas, with each listing counted once. This comparison stays the same when you switch the map’s campus.`;
   document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · room/per-bedroom listings within five miles`;
@@ -4905,17 +4874,17 @@ function updateAffordability() {
     document.getElementById('combined'+name+'Mid').textContent=money(stats.midpoint);
   }
   document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n} room/per-bedroom listings across the three distance bands.`;
-  document.getElementById('selectedBlurb').textContent=`Uses ${pooled.perOverall.n} room/per-bedroom prices within five miles of at least one of the three campus points, with each listing counted once. The personal chart compares the mean listing midpoint with monthly resources, including any entered extra housing costs. Values above 350% are shown numerically but clipped on the rail.`;
-  const meanStats={...pooled.perOverall,avg_low:pooled.perOverall.avg_low+extra,avg_high:pooled.perOverall.avg_high+extra,midpoint:pooled.perOverall.midpoint+extra,label:'mean'};
-  for(const [side,wage] of [['Low',7.25],['High',15]]) {
+  document.getElementById('selectedBlurb').textContent=`Uses ${pooled.perOverall.n} room/per-bedroom prices within five miles of at least one of the three campus points, with each listing counted once. The personal chart compares the mean listing midpoint with monthly resources. The comparison uses advertised rent only; unlisted housing costs are not included. Values above 350% are shown numerically but clipped on the rail.`;
+  const meanStats={...pooled.perOverall,label:'mean'};
+  for(const [side,wage] of [['Low',7.25],['High',comparisonWage]]) {
     const r=RentAnalysis.resources({...inputs,wage});
-    document.getElementById('burdenKicker'+side).innerHTML=`<span>Monthly resources</span><span class="kicker-rate">$${wage}/hour</span>`;
+    if(side==='Low') document.getElementById('burdenKicker'+side).innerHTML=`<span>Monthly resources</span><span class="kicker-rate">$${wage}/hour</span>`;
     document.getElementById('burdenIncome'+side).textContent=Math.round(r.total).toLocaleString('en-US');
     const pieces=[`${money(r.pay)} gross pay`];
-    if(r.grant)pieces.push(`${money(r.grant)} ${custom?'living-cost grant':'grant equivalent'}`);
+    if(r.grant)pieces.push(`${money(r.grant)} grant equivalent`);
     if(r.loan)pieces.push(`${money(r.loan)} borrowed`);
     if(r.other)pieces.push(`${money(r.other)} other support`);
-    document.getElementById('burdenSub'+side).textContent=pieces.join(' + ')+(custom?`; ${weeks.toFixed(1)} paid weeks ÷ ${months} months.`:' per month. Work pay assumes 52 paid weeks/year.')+(enteredWeeks>weeks?' Paid weeks capped to fit the budget period.':'');
+    document.getElementById('burdenSub'+side).textContent=pieces.join(' + ')+' per month. Work pay assumes 52 paid weeks/year.';
     setBurdenRange('rangeBed'+side,'pointBed'+side,'burdenLabelBed'+side,'burdenPctBed'+side,r.total,meanStats);
   }
 }
@@ -4923,8 +4892,18 @@ document.getElementById('hours').addEventListener('input',updateWorkStudy);
 document.querySelectorAll('.synced-hours').forEach(slider=>slider.addEventListener('input',()=>{
   document.getElementById('hours').value=slider.value;updateWorkStudy();
 }));
-for(const id of ['includeGrant','includeLoan','useCustomBudget']) document.getElementById(id).addEventListener('change',updateAffordability);
-for(const id of ['budgetMonths','workWeeks','livingGrant','livingLoan','otherSupport','addedHousing']) document.getElementById(id).addEventListener('input',updateAffordability);
+for(const id of ['includeGrant','includeLoan']) document.getElementById(id).addEventListener('change',updateAffordability);
+const wageInput=document.getElementById('hourlyRate');
+wageInput.addEventListener('input',()=>{
+  const valid=wageInput.value!=='' && wageInput.validity.valid && Number.isFinite(wageInput.valueAsNumber);
+  wageInput.setAttribute('aria-invalid',String(!valid));
+  document.getElementById('wage-error').hidden=valid;
+  if(valid){comparisonWage=wageInput.valueAsNumber;updateAffordability();}
+});
+document.getElementById('resetWage').addEventListener('click',()=>{
+  wageInput.value='15';comparisonWage=15;wageInput.setAttribute('aria-invalid','false');
+  document.getElementById('wage-error').hidden=true;updateAffordability();
+});
 // Numeric reporting must work even if the map tiles never load.
 renderSummaryTable();
 updateWorkStudy();
