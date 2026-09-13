@@ -4864,7 +4864,7 @@ function updateAffordability() {
   const inputs={hours:h,...preset};
   const local=overallDistanceBandSummary(currentCampusKey);
   const affordabilityStats=overallDistanceBandSummary(affordabilityCampusKey).perOverall;
-  const affordabilityLabel=campuses[affordabilityCampusKey].label;
+  const affordabilityLabel=affordabilityCampusKey==='vet' ? 'Biomedical Campus' : campuses[affordabilityCampusKey].label;
   document.getElementById('personal-sample-note').textContent=`${affordabilityLabel} · ${affordabilityStats.n} room/per-bedroom listings within five miles.`;
   document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · room/per-bedroom listings within five miles`;
   for(const [name,stats] of [['Per',local.perOverall]]) {
