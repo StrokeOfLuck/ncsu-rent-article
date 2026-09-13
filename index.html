@@ -525,6 +525,8 @@ th:first-child, td:first-child {
   gap:12px;
 }
 
+.rent-area-control{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 14px;font-size:12px;font-weight:700}.rent-area-control select{min-width:210px;padding:7px 28px 7px 9px;border:1px solid #aaa397;border-radius:4px;background:#fff;color:var(--ink);font:inherit;font-weight:500}
+
 .affordability-block{
   border-top:0;
 }
@@ -4260,6 +4262,14 @@ th:first-child, td:first-child {
     </div>
 
     <p class="info-note" id="personal-sample-note"></p>
+    <label class="rent-area-control" for="affordabilityCampus">Rent area
+      <select id="affordabilityCampus">
+        <option value="main">Main Campus</option>
+        <option value="centennial">Centennial Campus</option>
+        <option value="vet">Centennial Biomedical Campus</option>
+        <option value="all">All three campus areas</option>
+      </select>
+    </label>
     <div class="aid-panel">
       <div class="aid-panel-head">
         <div><div class="aid-title">Compare with need-based aid</div><div class="aid-note">Select an average award to see how the comparison changes.</div></div>
@@ -4309,7 +4319,7 @@ th:first-child, td:first-child {
         <div class="burden-chart">
           <div class="burden-row">
             <div class="burden-label">
-              <b>Average room rent</b>
+              <b id="burdenRentTitleLow">Main Campus room rent</b>
               <div id="burdenLabelBedLow"><span class="midline">$0 midpoint</span></div>
             </div>
             <div class="burden-percent" id="burdenPctBedLow">0%<small>of resources</small></div>
@@ -4345,7 +4355,7 @@ th:first-child, td:first-child {
         <div class="burden-chart">
           <div class="burden-row">
             <div class="burden-label">
-              <b>Average room rent</b>
+              <b id="burdenRentTitleHigh">Main Campus room rent</b>
               <div id="burdenLabelBedHigh"><span class="midline">$0 midpoint</span></div>
             </div>
             <div class="burden-percent" id="burdenPctBedHigh">0%<small>of resources</small></div>
@@ -4710,6 +4720,9 @@ function setCampus(key) {
     duration:850,
     curve:1.15
   });
+  affordabilityCampusKey = key;
+  const affordabilityCampus = document.getElementById('affordabilityCampus');
+  if(affordabilityCampus) affordabilityCampus.value = key;
   renderSummaryTable();
   updateWorkStudy();
 }
@@ -4843,20 +4856,26 @@ function setBurdenRange(rangeId, pointId, labelId, pctId, incomeMonthly, stats) 
 
 
 let comparisonWage = 15;
+let affordabilityCampusKey = 'main';
 function updateAffordability() {
   const h=Number(document.getElementById('hours').value);
   const preset=RentAnalysis.aidPreset({includeGrant:document.getElementById('includeGrant').checked,includeLoan:document.getElementById('includeLoan').checked});
   const inputs={hours:h,...preset};
   const pooled=overallAllCampusesSummary(), local=overallDistanceBandSummary(currentCampusKey);
-  document.getElementById('personal-sample-note').textContent=`All three campus areas combined · ${pooled.perOverall.n} unique room/per-bedroom listings.`;
+  const affordabilityStats=affordabilityCampusKey==='all' ? pooled.perOverall : overallDistanceBandSummary(affordabilityCampusKey).perOverall;
+  const affordabilityLabel=affordabilityCampusKey==='all' ? 'All three campus areas' : campuses[affordabilityCampusKey].label;
+  document.getElementById('personal-sample-note').textContent=`${affordabilityLabel} · ${affordabilityStats.n} room/per-bedroom listings within five miles${affordabilityCampusKey==='all' ? ', with each listing counted once' : ''}.`;
   document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · room/per-bedroom listings within five miles`;
   for(const [name,stats] of [['Per',local.perOverall]]) {
     document.getElementById('combined'+name+'Overall').textContent=stats.display;
     document.getElementById('combined'+name+'Mid').textContent=money(stats.midpoint);
   }
   document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n}`;
-  document.getElementById('selectedBlurb').textContent=`Uses ${pooled.perOverall.n} room/per-bedroom prices within five miles of at least one of the three campus points, with each listing counted once. The personal chart compares the mean listing midpoint with monthly resources. The comparison uses advertised rent only; unlisted housing costs are not included. Values above 350% are shown numerically but clipped on the rail.`;
-  const meanStats={...pooled.perOverall,label:'mean'};
+  document.getElementById('selectedBlurb').textContent=`Uses ${affordabilityStats.n} room/per-bedroom prices for ${affordabilityLabel}. The personal chart compares the mean listing midpoint with monthly resources. The comparison uses advertised rent only; unlisted housing costs are not included. Values above 350% are shown numerically but clipped on the rail.`;
+  const rentTitle=affordabilityCampusKey==='all' ? 'Combined-area room rent' : `${affordabilityLabel} room rent`;
+  document.getElementById('burdenRentTitleLow').textContent=rentTitle;
+  document.getElementById('burdenRentTitleHigh').textContent=rentTitle;
+  const meanStats={...affordabilityStats,label:'mean'};
   for(const [side,wage] of [['Low',7.25],['High',comparisonWage]]) {
     const r=RentAnalysis.resources({...inputs,wage});
     if(side==='Low') document.getElementById('burdenKicker'+side).innerHTML=`<span>Monthly resources</span><span class="kicker-rate">$${wage}/hour</span>`;
@@ -4874,6 +4893,10 @@ document.querySelectorAll('.synced-hours').forEach(slider=>slider.addEventListen
   document.getElementById('hours').value=slider.value;updateWorkStudy();
 }));
 for(const id of ['includeGrant','includeLoan']) document.getElementById(id).addEventListener('change',updateAffordability);
+document.getElementById('affordabilityCampus').addEventListener('change',event=>{
+  affordabilityCampusKey=event.target.value;
+  updateAffordability();
+});
 const wageInput=document.getElementById('hourlyRate');
 wageInput.addEventListener('input',()=>{
   const valid=wageInput.value!=='' && wageInput.validity.valid && Number.isFinite(wageInput.valueAsNumber);

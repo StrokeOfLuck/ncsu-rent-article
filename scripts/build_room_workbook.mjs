@@ -146,7 +146,7 @@ for(let j=0;j<summaryItems.length;j++){
 ss.getRange('C6:G18').setNumberFormat(money);ss.getRange('A6:G18').format.rowHeight=25;
 const notes=[
  ['Read the math','Open a distance-band tab and scroll below its listings. COUNT, SUM, average and median are live Excel formulas.'],
- ['Main Campus count','20 + 46 + 10 = 76. The middle band contains 46 listings, not 45.'],
+ ['Main Campus count','20 + 46 + 10 = 76 room listings.'],
  ['Overlapping campuses','Do not add campus totals. Rooms has 78 unique IDs across the union of the three campus areas.'],
  ['Raw to reviewed to rooms','Raw properties and Raw floorplans preserve the saved source values. Listings applies reviewed categories and formula checks. Rooms keeps usable room offers within five miles of any campus.'],
  ['Excluded scope','Excluded has 90 IDs not used in the room article. Valid whole-unit offers are outside this scope, not bad data. Reasons can overlap. Rooms plus Excluded account for all 168 raw IDs.'],
