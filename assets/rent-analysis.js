@@ -20,7 +20,13 @@
     const pay=wage*hours*weeks/months;
     return {pay,grant:grant/months,loan:loan/months,other:other/months,total:pay+(grant+loan+other)/months};
   }
-  const api={valid,stats,summarize,union,campus,resources};
+  // CDS 2025–26, Section H: 2024–25 final recipient averages, not a typical joint package.
+  const aidBenchmarks=Object.freeze({grant:14743,loan:4106,months:12,weeks:52,year:'2024–25'});
+  function aidPreset({includeGrant=false,includeLoan=false}={}) {
+    return {months:aidBenchmarks.months,weeks:aidBenchmarks.weeks,
+      grant:includeGrant?aidBenchmarks.grant:0,loan:includeLoan?aidBenchmarks.loan:0,other:0};
+  }
+  const api={valid,stats,summarize,union,campus,resources,aidBenchmarks,aidPreset};
   if(typeof module!=='undefined' && module.exports) module.exports=api;
   else root.RentAnalysis=api;
 })(typeof window==='undefined'?globalThis:window);

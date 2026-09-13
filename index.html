@@ -3957,6 +3957,8 @@ th:first-child, td:first-child {
 /* End housing-rate dollar increase */
 
 .scenario-inputs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:16px 0}.scenario-inputs label{font-size:12px;font-weight:650;line-height:1.4}.scenario-inputs input{display:block;width:100%;min-width:0;font:inherit;font-size:16px;margin-top:5px;padding:8px;border:1px solid #b7b0a6;border-radius:4px;background:white;color:#272523}.aid-caution,.info-note{line-height:1.55;font-size:12px}.aid-note{font-size:12px;line-height:1.5}.burden-pct small{white-space:normal}#summary small{font-size:10px;color:#68615b}@media(max-width:650px){.scenario-inputs{grid-template-columns:repeat(2,minmax(0,1fr))}.aid-panel-head{flex-wrap:wrap;gap:8px}}
+.custom-budget{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}.custom-budget summary{cursor:pointer;font-size:12px;font-weight:700}.custom-budget-toggle{display:flex;gap:8px;align-items:center;font-size:12px;margin:16px 0}.custom-budget fieldset{padding:0;border:0;margin:0;min-width:0}.custom-budget legend{font-size:12px;font-weight:700}.custom-budget fieldset:disabled{opacity:.5}.presets-disabled{opacity:.5}.aid-option:has(input:focus-visible){outline:2px solid #315e83;outline-offset:4px}.aid-option .aid-origin{line-height:1.4}#summary small{font-size:11px}#summary td{vertical-align:top}
+.aid-title{font-size:14px;line-height:1.4}.aid-source{font-size:12px}.aid-option,.aid-option:first-child{padding:12px;gap:10px}.aid-name{font-size:13px;line-height:1.35}.aid-origin{font-size:11px}.aid-annual{font-size:20px}.aid-monthly{font-size:11px;line-height:1.4}.aid-check{width:18px;height:18px}@media(max-width:480px){.aid-options{grid-template-columns:1fr}.aid-option,.aid-option:first-child{grid-template-columns:18px minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -4000,14 +4002,14 @@ th:first-child, td:first-child {
       <thead>
         <tr>
           <th>Distance band</th>
-          <th>Listings</th>
+          <th>Total listings</th>
           <th>Per bedroom</th>
           <th>Whole unit</th>
         </tr>
       </thead>
       <tbody id="summary"></tbody>
     </table>
-    <div class="row-hint">Bands do not overlap. Counts include all mapped listings; n counts only usable price pairs in that category. Room/per-bedroom and whole-unit prices stay separate. Unresolved pricing and missing prices are excluded from means. <a href="references.html#rental-method">Read the inclusion rules and step-by-step math</a>.</div>
+    <div class="row-hint">Each row adds up: room prices used + whole-unit prices used + excluded listings = total listings. Excluded listings have missing or unresolved prices. Distance bands do not overlap. <a href="references.html#rental-method">Read the inclusion rules and step-by-step math</a>.</div>
   </section>
 
 
@@ -4287,17 +4289,40 @@ th:first-child, td:first-child {
 
     <p class="info-note" id="personal-sample-note"></p>
     <div class="aid-panel">
-      <div class="aid-panel-head"><div><div class="aid-title">Set a personal budget scenario</div><div class="aid-note">Enter totals for the same budget period. Defaults assume steady work all year and $0 in aid or family support.</div></div><a href="references.html#aid-math">How to use these inputs</a></div>
-      <div class="scenario-inputs">
-        <label>Budget period (months)<input id="budgetMonths" type="number" min="1" max="12" value="12" step="1"></label>
-        <label>Paid work weeks in period<input id="workWeeks" type="number" min="0" max="52" value="52" step="1"></label>
-        <label>Grant left for living costs ($)<input id="livingGrant" type="number" min="0" value="0" step="100"></label>
-        <label>Loan left for living costs ($)<input id="livingLoan" type="number" min="0" value="0" step="100"></label>
-        <label>Other support in period ($)<input id="otherSupport" type="number" min="0" value="0" step="100"></label>
-        <label>Your added monthly housing costs ($)<input id="addedHousing" type="number" min="0" value="0" step="25"></label>
+      <div class="aid-panel-head">
+        <div><div class="aid-title">Compare with need-based aid</div><div class="aid-note">Select an average award to see how the comparison changes.</div></div>
+        <a class="aid-source" href="references.html#aid-math">Source &amp; assumptions</a>
       </div>
-      <div class="aid-caution">Enter aid only after tuition, fees and other school charges, and allow for food, books and transport. Loans are borrowed funds, not earnings. Do not add utility charges already included in a listing’s price. For a 9-month academic-year scenario, adjust both months and paid weeks. FWS users should enter weeks consistent with their award cap.</div>
-      <p class="info-note">The CDS 2025–26 document reports <strong>2024–25 final</strong> aid data: a $14,743 grant average and $4,106 need-based loan average among different recipient groups. These historical averages are background information and are not automatically added to your budget.</p>
+      <div class="aid-options" id="aid-presets">
+        <label class="aid-option">
+          <input id="includeGrant" type="checkbox" aria-describedby="preset-assumption">
+          <span class="aid-check" aria-hidden="true"></span>
+          <span class="aid-copy"><span class="aid-name">Need-based grant average</span><span class="aid-annual">$14,743/year</span><span class="aid-origin">2024–25 full-time undergraduate recipients</span><span class="aid-monthly">+$1,229/month equivalent</span></span>
+        </label>
+        <label class="aid-option loan-option">
+          <input id="includeLoan" type="checkbox" aria-describedby="preset-assumption">
+          <span class="aid-check" aria-hidden="true"></span>
+          <span class="aid-copy"><span class="aid-name">Need-based loan average</span><span class="aid-annual">$4,106/year</span><span class="aid-origin">2024–25 full-time undergraduate recipients</span><span class="aid-monthly">+$342/month borrowed</span></span>
+        </label>
+      </div>
+      <p class="aid-caution" id="preset-assumption"><strong>Illustration:</strong> selected awards are spread over 12 months, assuming tuition and school fees are paid separately. These are averages for different recipient groups, not one typical aid package. Loans must be repaid.</p>
+      <p id="budget-mode-status" class="info-note" aria-live="polite" hidden></p>
+      <details class="custom-budget">
+        <summary>Use your own budget (optional)</summary>
+        <label class="custom-budget-toggle"><input id="useCustomBudget" type="checkbox"> Use custom amounts instead of the award averages</label>
+        <fieldset id="customBudgetFields" disabled>
+          <legend>Your budget assumptions</legend>
+          <div class="scenario-inputs">
+            <label>Budget period (months)<input id="budgetMonths" type="number" min="1" max="12" value="12" step="1"></label>
+            <label>Paid work weeks in period<input id="workWeeks" type="number" min="0" max="52" value="52" step="1"></label>
+            <label>Grant left for living costs ($)<input id="livingGrant" type="number" min="0" value="0" step="100"></label>
+            <label>Loan left for living costs ($)<input id="livingLoan" type="number" min="0" value="0" step="100"></label>
+            <label>Other support in period ($)<input id="otherSupport" type="number" min="0" value="0" step="100"></label>
+            <label>Your added monthly housing costs ($)<input id="addedHousing" type="number" min="0" value="0" step="25"></label>
+          </div>
+        </fieldset>
+        <p class="aid-caution">Use the same period for every total. Enter aid remaining after tuition, fees and other commitments. Only add housing costs not already included in rent. Work-study hours and paid weeks must fit the actual award.</p>
+      </details>
     </div>
 
     <div class="burden-grid">
@@ -4797,9 +4822,9 @@ function renderSummaryTable() {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${bandDef.label}</td>
-      <td>${band.near.length}</td>
-      <td>${band.perStats.display}<br><small>n = ${band.perStats.n}</small></td>
-      <td>${band.wholeStats.display}<br><small>n = ${band.wholeStats.n}</small></td>
+      <td>${band.near.length}<br><small>${band.near.length-band.perStats.n-band.wholeStats.n} excluded</small></td>
+      <td>${band.perStats.display}<br><small>${band.perStats.n} prices used</small></td>
+      <td>${band.wholeStats.display}<br><small>${band.wholeStats.n} prices used</small></td>
     `;
     body.appendChild(tr);
   }
@@ -4898,7 +4923,8 @@ function setBurdenRange(rangeId, pointId, labelId, pctId, incomeMonthly, stats) 
   pctEl.classList.toggle("over-benchmark", aboveHudBenchmark);
 
   labelEl.innerHTML = `<span class="midline">${money(mid)} ${stats.label || "midpoint"}</span>`;
-  pctEl.innerHTML = `${pctFormat(midPct)}<small>of resources${midPct>350?" · beyond scale":""}</small>`;
+  const percentLabel = Math.round(midPct)===30 && midPct!==30 ? (midPct>30 ? "&gt;30%" : "&lt;30%") : pctFormat(midPct);
+  pctEl.innerHTML = `${percentLabel}<small>of resources${midPct>350?" · beyond scale":""}</small>`;
 }
 
 
@@ -4908,13 +4934,22 @@ function scenarioNumber(id, fallback=0) {
 }
 function updateAffordability() {
   const h=Number(document.getElementById('hours').value);
-  const months=scenarioNumber('budgetMonths',12);
-  const enteredWeeks=scenarioNumber('workWeeks',52);
+  const custom=document.getElementById('useCustomBudget').checked;
+  document.getElementById('customBudgetFields').disabled=!custom;
+  document.getElementById('includeGrant').disabled=custom;
+  document.getElementById('includeLoan').disabled=custom;
+  document.getElementById('aid-presets').classList.toggle('presets-disabled',custom);
+  document.getElementById('preset-assumption').hidden=custom;
+  document.getElementById('budget-mode-status').hidden=!custom;
+  document.getElementById('budget-mode-status').textContent=custom?'Custom budget is in use. The average-award checkboxes are paused.':'';
+  const preset=RentAnalysis.aidPreset({includeGrant:document.getElementById('includeGrant').checked,includeLoan:document.getElementById('includeLoan').checked});
+  const months=custom?scenarioNumber('budgetMonths',12):preset.months;
+  const enteredWeeks=custom?scenarioNumber('workWeeks',52):preset.weeks;
   const weeks=Math.min(enteredWeeks,52*months/12);
-  const inputs={hours:h,months,weeks,grant:scenarioNumber('livingGrant'),loan:scenarioNumber('livingLoan'),other:scenarioNumber('otherSupport')};
-  const extra=scenarioNumber('addedHousing');
+  const inputs={hours:h,months,weeks,grant:custom?scenarioNumber('livingGrant'):preset.grant,loan:custom?scenarioNumber('livingLoan'):preset.loan,other:custom?scenarioNumber('otherSupport'):0};
+  const extra=custom?scenarioNumber('addedHousing'):0;
   const pooled=overallAllCampusesSummary(), local=overallDistanceBandSummary(currentCampusKey);
-  document.getElementById('personal-sample-note').textContent=`This personal comparison always uses ${pooled.perOverall.n} eligible room/per-bedroom offers within five miles of at least one of the three campus points, counted once by listing ID. It does not change with the campus selector. Whole-unit means remain in the rent summary above.`;
+  document.getElementById('personal-sample-note').textContent=`Based on ${pooled.perOverall.n} room/per-bedroom prices across all three campus areas, with each listing counted once. This comparison stays the same when you switch the map’s campus.`;
   document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · pooled eligible listings within five miles`;
   for(const [name,stats] of [['Per',local.perOverall],['Whole',local.wholeOverall]]) {
     document.getElementById('combined'+name+'Overall').textContent=stats.display;
@@ -4929,7 +4964,11 @@ function updateAffordability() {
     const r=RentAnalysis.resources({...inputs,wage});
     document.getElementById('burdenKicker'+side).innerHTML=`<span>Monthly resources</span><span class="kicker-rate">$${wage}/hour</span>`;
     document.getElementById('burdenIncome'+side).textContent=Math.round(r.total).toLocaleString('en-US');
-    document.getElementById('burdenSub'+side).textContent=`${money(r.pay)} gross pay + ${money(r.grant)} living-cost grant + ${money(r.loan)} borrowed + ${money(r.other)} other; ${weeks.toFixed(1)} paid weeks ÷ ${months} months.`+(enteredWeeks>weeks?' Paid weeks capped to fit the budget period.':'');
+    const pieces=[`${money(r.pay)} gross pay`];
+    if(r.grant)pieces.push(`${money(r.grant)} ${custom?'living-cost grant':'grant equivalent'}`);
+    if(r.loan)pieces.push(`${money(r.loan)} borrowed`);
+    if(r.other)pieces.push(`${money(r.other)} other support`);
+    document.getElementById('burdenSub'+side).textContent=pieces.join(' + ')+(custom?`; ${weeks.toFixed(1)} paid weeks ÷ ${months} months.`:' per month. Work pay assumes 52 paid weeks/year.')+(enteredWeeks>weeks?' Paid weeks capped to fit the budget period.':'');
     setBurdenRange('rangeBed'+side,'pointBed'+side,'burdenLabelBed'+side,'burdenPctBed'+side,r.total,meanStats);
     setBurdenRange('rangeUnit'+side,'pointUnit'+side,'burdenLabelUnit'+side,'burdenPctUnit'+side,r.total,medianStats);
   }
@@ -4938,6 +4977,7 @@ document.getElementById('hours').addEventListener('input',updateWorkStudy);
 document.querySelectorAll('.synced-hours').forEach(slider=>slider.addEventListener('input',()=>{
   document.getElementById('hours').value=slider.value;updateWorkStudy();
 }));
+for(const id of ['includeGrant','includeLoan','useCustomBudget']) document.getElementById(id).addEventListener('change',updateAffordability);
 for(const id of ['budgetMonths','workWeeks','livingGrant','livingLoan','otherSupport','addedHousing']) document.getElementById(id).addEventListener('input',updateAffordability);
 // Numeric reporting must work even if the map tiles never load.
 renderSummaryTable();

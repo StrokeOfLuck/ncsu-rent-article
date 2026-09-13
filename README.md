@@ -24,8 +24,9 @@ revised pricing categories, exclusion reasons, move-in flags, source URLs and ha
   all eligible listings within five miles. The combined comparison deduplicates IDs.
 - Both positive numeric endpoints are required. Means use the same paired denominator;
   missing and zero-placeholder prices never enter a mean. The personal chart uses
-  room mean/median midpoints and explicit budget inputs, not whole-unit rent assigned
-  to a presumed student or the entire CDS average grant automatically.
+  room mean/median midpoints. Optional aid checkboxes model the full CDS averages
+  with tuition/fees covered separately; custom net-aid inputs are tucked into an
+  optional panel. Whole-unit rent is not assigned to a presumed student.
 - This is an advertised-offer convenience sample, including future dates and varied
   lease terms. It does not establish market coverage, current vacancies, students'
   actual housing burden or a causal effect of distance on rent.
@@ -33,7 +34,9 @@ revised pricing categories, exclusion reasons, move-in flags, source URLs and ha
 The complete [Excel formula audit](data/audits/ncsu-rent-audit.xlsx) replaces the old
 browser-generated cumulative-radius workbooks. It contains raw source tables, linked
 floor-plan checks, review inputs, Haversine/band formulas, all campus/band summaries,
-sensitivity analyses, personal budget calculations and official housing-rate changes.
+sensitivity analyses, all aid-checkbox combinations, custom budget calculations and
+official housing-rate changes. Counts use plain labels, with exclusions shown so
+category counts reconcile to total listings.
 The [map checker](https://strokeofluck.github.io/ncsu-rent-article/rental-map-audit.html)
 filters all three campuses by band, price inclusion, category and text.
 

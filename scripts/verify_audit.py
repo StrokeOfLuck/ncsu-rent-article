@@ -48,6 +48,10 @@ for i,r in enumerate(rs,2):
  for c,k in [('P','main'),('R','centennial'),('T','vet')]:assert math.isclose(sheets[4][c+str(i)],r['distance_'+k],abs_tol=1e-8)
 assert math.isclose(sheets[7]['B19'],stats(union,'Per bedroom')[-1]/1300,abs_tol=1e-10)
 assert math.isclose(sheets[8]['B18'],8240/9,abs_tol=1e-10)
+assert math.isclose(sheets[7]['B44'],1300,abs_tol=1e-10)
+for row,resources in [(50,1300),(51,1300+14743/12),(52,1300+4106/12),(53,1300+(14743+4106)/12)]:
+ assert math.isclose(sheets[7]['B'+str(row)],resources,abs_tol=1e-9)
+ assert math.isclose(sheets[7]['C'+str(row)],stats(union,'Per bedroom')[-1]/resources,abs_tol=1e-10)
 class HTML(HTMLParser):
  def __init__(self):super().__init__();self.ids=[];self.links=[];self.inputs={}
  def handle_starttag(self,tag,attrs):

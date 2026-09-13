@@ -23,4 +23,6 @@ if '.method-scroll{' not in s:
     s=s.replace('</style>','.method-scroll{overflow-x:auto;margin:16px 0}.method-table{border-collapse:collapse;width:100%;font-size:12px}.method-table td,.method-table th{padding:10px;border-bottom:1px solid #ddd;text-align:left;vertical-align:top}.method-table th{background:#f4f1ec}.method-table td{min-width:90px}.method-table td:last-child{min-width:150px}.ref-body p,.ref-body li{line-height:1.65}.ref-body li{margin-bottom:9px}.method-nav{line-height:2;margin:16px 0}.audit-download{display:inline-block;padding:10px;background:#8b1f2d;color:white!important;border-radius:4px}details summary{cursor:pointer;font-weight:700}details[open] .method-table td:last-child{min-width:360px}</style>',1)
 s=s.replace('https://www.bls.gov/news.release/cpi.htm','https://www.bls.gov/news.release/archives/cpi_08122026.htm')
 if '.ref{scroll-margin-top:130px}' not in s: s=s.replace('</style>', '.ref{scroll-margin-top:130px}</style>',1)
+if 'class="reference-download-top"' not in s:
+    s=s.replace('<h1>References & step-by-step math</h1>', '<h1>References & step-by-step math</h1><p class="reference-download-top"><a class="audit-download" href="data/audits/ncsu-rent-audit.xlsx" download>Download Excel audit (.xlsx)</a></p>',1)
 p.write_text(s)

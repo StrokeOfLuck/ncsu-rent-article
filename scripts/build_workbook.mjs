@@ -77,7 +77,7 @@ const summaryRows=[];
 for(const [key,c] of Object.entries(d.campuses)) for(const [low,high,label] of [[0,1,'0–1 mi'],[1,3,'>1–3 mi'],[3,5,'>3–5 mi'],[0,5,'Pooled 0–5 mi']]) for(const type of ['Per bedroom','Whole unit']) summaryRows.push({key,campus:c.label,low,high,label,type});
 for(const type of ['Per bedroom','Whole unit'])summaryRows.push({key:'union',campus:'All three campuses',low:0,high:5,label:'Unique-ID union',type});
 const ss=sheets.Summary;
-block(ss,['Geography','Band / pool','Category','Mapped IDs (all types)','Included n','Low-price sum ($)','High-price sum ($)','Low mean ($/mo)','High mean ($/mo)','Mean midpoint ($/mo)','Excluded IDs (all types)'],summaryRows.map(r=>[r.campus,r.label,r.type,null,null,null,null,null,null,null,null]));
+block(ss,['Geography','Band / pool','Category','Total listings (all types)','Prices used','Low-price sum ($)','High-price sum ($)','Low mean ($/mo)','High mean ($/mo)','Mean midpoint ($/mo)','Excluded IDs (all types)'],summaryRows.map(r=>[r.campus,r.label,r.type,null,null,null,null,null,null,null,null]));
 ss.getRange('A:A').format.columnWidth=32;ss.getRange('B:C').format.columnWidth=20;ss.getRange('D:K').format.columnWidth=19;ss.getRange('F2:J27').setNumberFormat(money);
 const range=c=>`Listings!$${c}$2:$${c}$${end}`;
 function geoCriteria(r){if(r.key==='union')return `${range('V')},1`;const dc={main:'P',centennial:'R',vet:'T'}[r.key];return `${range(dc)},"${r.low===0?'>=':'>'}${r.low}",${range(dc)},"<=${r.high}"`;}
@@ -93,7 +93,7 @@ ss.freezePanes.freezeRows(1);
 const sn=sheets.Sensitivity;
 const checks=[['Primary reviewed sample',''],['Omit all plans dated 2027+',`,${range('Y')},0`],['Omit waitlist mentions',`,${range('Z')},0`],['Omit flagged endpoint',`,${range('AA')},0`],['All three omissions',`,${range('Y')},0,${range('Z')},0,${range('AA')},0`]];
 const sen=[];for(const [label,extra] of checks)for(const cat of ['Per bedroom','Whole unit'])sen.push({label,extra,cat});
-block(sn,['Scenario','Category','Included n','Low sum ($)','High sum ($)','Low mean ($/mo)','High mean ($/mo)','Mean midpoint ($/mo)'],sen.map(r=>[r.label,r.cat,null,null,null,null,null,null]));sn.getRange('A:A').format.columnWidth=33;sn.getRange('B:B').format.columnWidth=21;sn.getRange('D2:H11').setNumberFormat(money);
+block(sn,['Scenario','Category','Prices used','Low sum ($)','High sum ($)','Low mean ($/mo)','High mean ($/mo)','Mean midpoint ($/mo)'],sen.map(r=>[r.label,r.cat,null,null,null,null,null,null]));sn.getRange('A:A').format.columnWidth=33;sn.getRange('B:B').format.columnWidth=21;sn.getRange('D2:H11').setNumberFormat(money);
 for(let j=0;j<sen.length;j++){const r=sen[j],i=j+2,f=`${range('X')},1,${range('E')},B${i}${r.extra}`;formula(sn,'C'+i,`=COUNTIFS(${f})`);for(const [target,source] of [['D','H'],['E','I']])formula(sn,target+i,`=SUMIFS(${range(source)},${f})`);formula(sn,'F'+i,`=IF(C${i}=0,"",D${i}/C${i})`);formula(sn,'G'+i,`=IF(C${i}=0,"",E${i}/C${i})`);formula(sn,'H'+i,`=IF(C${i}=0,"",(F${i}+G${i})/2)`);}
 // Budget: one common period and actual remaining living-expense funds, not CDS average awards.
 const bs=sheets.Budget;
@@ -125,8 +125,8 @@ const budget=[
  ['FWS pay after award cap ($)',null,'Minimum of work pay in period and remaining FWS award.'],
  ['FWS monthly capped pay ($)',null,'Capped FWS pay / budget months; not automatically substituted for generic work above.'],
  ['Weeks supportable by award',null,'Award / (wage × hours); actual employment weeks may be fewer.'],
- ['CDS grant average, 2024–25 ($)',14743,'Historical recipient average in CDS 2025–26, H2 K. NOT a budget input.'],
- ['CDS need-loan average, 2024–25 ($)',4106,'Historical recipient average in CDS 2025–26, H2 M. Different recipient group. NOT a budget input.'],
+ ['CDS grant average, 2024–25 ($)',A.aidBenchmarks.grant,'Historical recipient average in CDS 2025–26, H2 K. Source for the optional article presets below.'],
+ ['CDS need-loan average, 2024–25 ($)',A.aidBenchmarks.loan,'Historical recipient average in CDS 2025–26, H2 M. Different recipient group; source for optional presets.'],
  ['CDS grant / 12, context only ($)',null,'Scale illustration only; does not establish a refund available for housing.'],
  ['CDS loan / 12, context only ($)',null,'Scale illustration only; does not establish a typical combined aid package.']
 ];
@@ -138,6 +138,30 @@ for(const rangeName of ['B2:B9','B20:B22','B25'])bs.getRange(rangeName).format.f
 bs.getRange('B4').dataValidation={rule:{type:'whole',operator:'between',formula1:1,formula2:12}};
 bs.getRange('B22').dataValidation={rule:{type:'whole',operator:'between',formula1:1,formula2:20}};
 for(const r of [2,3,5,6,7,8,9,20,21,25])bs.getRange('B'+r).dataValidation={rule:{type:'decimal',operator:'greaterThanOrEqual',formula1:0}};
+// Low-effort article presets are separate from the optional personal budget above.
+bs.getRange('A35:C46').values=[
+ ['Article average-aid checkboxes',null,null],
+ ['Preset control / calculation','Value','Meaning / assumption'],
+ ['Include need-based grant average',0,'0 = unchecked; 1 = checked. Full average award only under the tuition-paid-separately assumption.'],
+ ['Include need-based loan average',0,'0 = unchecked; 1 = checked. Borrowed funds, not earnings.'],
+ ['Preset hourly wage ($/hour)',15,'Change to 7.25 to audit the other article panel.'],
+ ['Preset hours per week',20,'The article slider changes this input; presets use 52 paid weeks and 12 months.'],
+ ['Preset monthly gross work pay ($)',null,'Wage × weekly hours × 52 / 12.'],
+ ['Selected monthly grant equivalent ($)',null,'Grant checkbox × historical grant average / 12.'],
+ ['Selected monthly borrowed funds ($)',null,'Loan checkbox × historical loan average / 12.'],
+ ['Preset monthly resources ($)',null,'Gross pay + selected grant + selected loan.'],
+ ['Room mean / preset resources',null,'Use unrounded values. This is a personal budget illustration, not a HUD classification.'],
+ ['Tuition and fee assumption',null,'Paid separately. Different recipient-group averages do not establish a typical combined aid package.']
+];
+for(const [cell,f] of Object.entries({B41:'=B39*B40*52/12',B42:'=B37*B29/12',B43:'=B38*B30/12',B44:'=SUM(B41:B43)',B45:'=IF(B44=0,"",B17/B44)'}))formula(bs,cell,f);
+bs.getRange('A36:C36').format={fill:'#2D485D',font:{name:'Arial',bold:true,color:'#FFFFFF'},rowHeight:32};
+bs.getRange('A35:C53').format.font={name:'Arial',size:10};bs.getRange('C35:C53').format.wrapText=true;bs.getRange('A35:C53').format.rowHeight=38;
+bs.getRange('B37:B40').format.fill='#FFF2CC';bs.getRange('B37:B38').dataValidation={rule:{type:'whole',operator:'between',formula1:0,formula2:1}};
+bs.getRange('B39').setNumberFormat(money);bs.getRange('B41:B44').setNumberFormat(money);bs.getRange('B45').setNumberFormat(percent);
+bs.getRange('A49:C53').values=[['All four checkbox combinations','Monthly resources ($)','Room mean / resources'],['Work only',null,null],['Work + grant',null,null],['Work + loan',null,null],['Work + both',null,null]];
+bs.getRange('A49:C49').format={fill:'#2D485D',font:{name:'Arial',bold:true,color:'#FFFFFF'},rowHeight:34};
+for(const [r,f] of [[50,'=B41'],[51,'=B41+B29/12'],[52,'=B41+B30/12'],[53,'=B41+(B29+B30)/12']]){formula(bs,'B'+r,f);formula(bs,'C'+r,`=IF(B${r}=0,"",B17/B${r})`);}
+bs.getRange('B50:B53').setNumberFormat(money);bs.getRange('C50:C53').setNumberFormat(percent);
 // Official rate changes and academic-year conversions.
 const hs=sheets['Housing rates'];
 const rates=[['Residence hall double',3800,3970],['Residence hall single',4275,4600],['Wolf Village/Ridge 1 bedroom or studio',5000,5375],['Wolf Village/Ridge 2–4 bedrooms',4500,4780],['E.S. King undergraduate double',4125,4350],['E.S. King/Western Manor studio',3900,4150],['E.S. King/Western Manor 1 bedroom',4375,4600],['E.S. King/Western Manor 2 bedroom',5000,5300],['Coastal Quarters single',4225,4350],['Coastal Quarters double',3950,4025]];
@@ -163,8 +187,8 @@ const guide=[
  ['Missing price','A raw zero or blank is preserved on source sheets; it fails the positive-pair test and does not lower the mean.'],
  ['Review flag meaning','1 means flagged; 0 means not flagged. Flags may overlap, so sum of reasons can exceed number of excluded IDs.'],
  ['Sensitivity','Omit future-only dates, waitlists and the flagged Centennial Ridge endpoint separately and together. Not an available-now sample.'],
- ['Budget input color','Pale yellow = editable scenario. Other cells are formulas or source/context. Loans are borrowed funds, not earnings.'],
- ['Aid year','CDS 2025–26 Section H selects 2024–25 Final. Different recipient-group means must not be treated as a typical combined package.'],
+ ['Budget input color','Pale yellow = editable scenario. Budget rows 37–53 audit the article checkboxes; rows 2–32 audit optional custom inputs. Loans are borrowed funds.'],
+ ['Aid year','CDS 2025–26 Section H selects 2024–25 Final. Checkboxes model selected full average awards with tuition/fees covered separately, not a typical combined package.'],
  ['HUD comparison','Housing plus utilities / household income is the HUD basis. This personal resources model is not a formal classification.'],
  ['Monthly periods','52/12 is a valid steady-work conversion, not a guarantee of year-round FWS. Enter actual weeks and months; FWS award cap example is separate.'],
  ['Source portal','https://offcampus.dasa.ncsu.edu/housing'],['Article / full methodology','https://strokeofluck.github.io/ncsu-rent-article/references.html'],
@@ -181,12 +205,19 @@ const values=ss.getRange('D26:K27').values;
 if(values[0][1]!==expected.perOverall.n||values[1][1]!==expected.wholeOverall.n||Math.abs(values[0][6]-expected.perOverall.midpoint)>1e-7||Math.abs(values[1][6]-expected.wholeOverall.midpoint)>1e-7) throw new Error('Workbook/site mismatch: '+JSON.stringify(values));
 for(let i=0;i<d.rentals.length;i++){const r=d.rentals[i],v=ls.getRange(`L${i+2}:X${i+2}`).values[0];if(Boolean(v[3])!==r.eligible_price||Boolean(v[10])!==r.in_union||Math.abs(v[4]-r.distance_main)>1e-8||Math.abs(v[6]-r.distance_centennial)>1e-8||Math.abs(v[8]-r.distance_vet)>1e-8)throw new Error('Listing formula mismatch '+r.site_id);}
 const budgetDefault=bs.getRange('B16:B19').values; if(Math.abs(budgetDefault[0][0]-1300)>1e-9||Math.abs(budgetDefault[3][0]-expected.perOverall.midpoint/1300)>1e-9)throw new Error('Budget formula mismatch');
+// All checkbox combinations must agree with the shared article presets.
+for(const wage of [7.25,15]) for(const grant of [0,1]) for(const loan of [0,1]) {
+ bs.getRange('B37:B39').values=[[grant],[loan],[wage]];wb.recalculate();
+ const r=A.resources({wage,hours:20,...A.aidPreset({includeGrant:!!grant,includeLoan:!!loan})});
+ if(Math.abs(bs.getRange('B44').values[0][0]-r.total)>1e-8||Math.abs(bs.getRange('B45').values[0][0]-expected.perOverall.midpoint/r.total)>1e-8)throw new Error('Preset checkbox recalc failed');
+}
+bs.getRange('B37:B39').values=[[0],[0],[15]];wb.recalculate();
 // Meaningful recalc probes: tuition-net support, term work, and zero resources. Restore default before export.
 bs.getRange('B4:B7').values=[[9],[30],[1800],[900]];wb.recalculate();if(Math.abs(bs.getRange('B16').values[0][0]-1300)>1e-8)throw new Error('Term aid recalc failed');
 bs.getRange('B2').values=[[0]];bs.getRange('B6:B8').values=[[0],[0],[0]];wb.recalculate();if(bs.getRange('B19').values[0][0]!=='')throw new Error('Zero denominator not blank');
 bs.getRange('B2').values=[[15]];bs.getRange('B4:B7').values=[[12],[52],[0],[0]];wb.recalculate();
 console.log((await wb.inspect({kind:'region',sheetId:'Summary',range:'A24:K27',maxChars:4000,tableMaxRows:5,tableMaxCols:11})).ndjson);
-for(const [name,r] of [['Guide','A1:B8'],['Raw properties','A1:F7'],['Raw floorplans','A1:H7'],['Listings','D1:O8'],['Summary','A1:K9'],['Sensitivity','A1:H11'],['Budget','A1:C19'],['Housing rates','A1:E11']]) {
+for(const [name,r] of [['Summary','A1:K9'],['Budget','A35:C53']]) {
  const preview=await wb.render({sheetName:name,range:r,scale:1,format:'png'});await fs.writeFile(path.join(qa,name.replaceAll(' ','-')+'.png'),new Uint8Array(await preview.arrayBuffer()));
 }
 await fs.writeFile(path.join(qa,'verification.json'),JSON.stringify({version:d.version,combined:values,budget:bs.getRange('B16:B19').values,allListingDistanceChecks:rows.length},null,2));
