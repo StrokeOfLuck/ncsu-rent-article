@@ -4002,14 +4002,14 @@ th:first-child, td:first-child {
       <thead>
         <tr>
           <th>Distance band</th>
-          <th>Total listings</th>
+          <th>Listings with rent data</th>
           <th>Per bedroom</th>
           <th>Whole unit</th>
         </tr>
       </thead>
       <tbody id="summary"></tbody>
     </table>
-    <div class="row-hint">Each row adds up: room prices used + whole-unit prices used + excluded listings = total listings. Excluded listings have missing or unresolved prices. Distance bands do not overlap. <a href="references.html#rental-method">Read the inclusion rules and step-by-step math</a>.</div>
+    <div class="row-hint">Listings with rent data = room prices used + whole-unit prices used. Listings with missing or unresolved prices are omitted from these counts and averages. Distance bands do not overlap. <a href="references.html#rental-method">Read the inclusion rules and step-by-step math</a>.</div>
   </section>
 
 
@@ -4822,7 +4822,7 @@ function renderSummaryTable() {
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${bandDef.label}</td>
-      <td>${band.near.length}<br><small>${band.near.length-band.perStats.n-band.wholeStats.n} excluded</small></td>
+      <td>${band.perStats.n + band.wholeStats.n}</td>
       <td>${band.perStats.display}<br><small>${band.perStats.n} prices used</small></td>
       <td>${band.wholeStats.display}<br><small>${band.wholeStats.n} prices used</small></td>
     `;
