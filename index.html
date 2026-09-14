@@ -4084,6 +4084,15 @@ th:first-child, td:first-child {
     grid-template-rows: subgrid;
   }
 }
+
+/* Bring the rent control alongside the chart's percentage scale. */
+@media (min-width: 701px) {
+  .burden-card > .card-rent-area {
+    margin-top: -24px;
+    justify-self: start;
+    width: max-content;
+  }
+}
 </style>
 </head>
 <body>
