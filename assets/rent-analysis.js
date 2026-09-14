@@ -30,3 +30,11 @@
   if(typeof module!=='undefined' && module.exports) module.exports=api;
   else root.RentAnalysis=api;
 })(typeof window==='undefined'?globalThis:window);
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    const label = [...document.querySelectorAll('.winter-map-legend span')]
+      .find(el => el.textContent.trim() === 'Rent per bedroom listing');
+    if (label) label.textContent = 'Rent ($) per bedroom';
+  });
+}
