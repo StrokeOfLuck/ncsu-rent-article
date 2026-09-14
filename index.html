@@ -4561,11 +4561,7 @@ th:first-child, td:first-child {
           <button class="hud-close" type="button" onclick="document.getElementById('hudInfoDialog').close()">Close</button>
         </div>
 
-        <div class="hud-context">
-          <strong>What this chart includes:</strong> <span id="selectedBlurb">Rent per bedroom mean across all three campus areas</span>
-        </div>
-
-        <div class="burden-key burden-legend" aria-label="Chart legend">
+<div class="burden-key burden-legend" aria-label="Chart legend">
           <div class="legend-column">
             <span class="legend-piece"><span class="legend-dot-small"></span><strong>Circle:</strong><span class="legend-desc">Rent as % of resources</span></span>
             <span class="legend-piece"><span class="legend-dot-small red"></span><strong>Red circle:</strong><span class="legend-desc">Above 30%</span></span>
@@ -4581,7 +4577,7 @@ th:first-child, td:first-child {
           “A household is said to be cost-burdened when it pays more than 30% of its income toward housing expenses and may have difficulty affording necessities such as food, clothing, transportation, and medical care.”<br>
           <a href="https://www.hud.gov/sites/dfiles/PIH/documents/FY24_ICDBG_FAQs.pdf#page=8" target="_blank" rel="noopener noreferrer">HUD FAQ, p. 8</a> · Published June 25, 2024</p>
           <p>HUD also defines spending <strong>more than 50%</strong> of income on housing as severely cost burdened. <a href="https://www.huduser.gov/portal/datasets/cp/CHAS/bg_chas.html" target="_blank" rel="noopener noreferrer">HUD CHAS definitions</a></p>
-          <p>HUD compares total household housing costs, including utilities, with household income. This article compares advertised room rent with gross pay and optional aid examples. Loans add borrowed funds, not earnings. The red line provides context; the chart does not classify students as HUD cost burdened. <a href="references.html#hud-30-percent">Methods and explanation</a></p>
+          <p>HUD compares total household housing costs, including utilities, with household income. This article compares advertised room rent with gross pay and optional aid examples. Loans add borrowed funds, not earnings. The red line provides context; the chart does not classify students as HUD cost burdened. Values above 350% are shown numerically, but their markers stop at the chart’s edge. <a href="references.html#hud-30-percent">Methods and explanation</a></p>
         </div>
       </div>
     </dialog>
@@ -5048,7 +5044,6 @@ function updateAffordability() {
     document.getElementById('combined'+name+'Mid').textContent=money(stats.midpoint);
   }
   document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n}`;
-  document.getElementById('selectedBlurb').textContent=`Uses ${affordabilityStats.n} Rent per bedroom prices for ${affordabilityLabel}. The personal chart compares the mean listing midpoint with monthly resources. The comparison uses advertised rent only; unlisted housing costs are not included. Values above 350% are shown numerically but clipped on the rail.`;
   const rentTitle=`${affordabilityLabel} room rent`;
   document.getElementById('burdenRentTitleLow').textContent=rentTitle;
   document.getElementById('burdenRentTitleHigh').textContent=rentTitle;
