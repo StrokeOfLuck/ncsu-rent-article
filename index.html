@@ -3972,13 +3972,23 @@ th:first-child, td:first-child {
   }
 
   .burden-card-head .card-kicker {
-    grid-column: 1;
+    grid-column: 1 / span 2;
     grid-row: 1;
+  }
+
+  .wage-control,
+  .wage-reset {
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .burden-income-line {
+    margin-bottom: 12px;
   }
 
   .burden-hours-warning {
     position: absolute;
-    top: 38px;
+    top: 70px;
     left: 50%;
     z-index: 1;
     max-width: none;
