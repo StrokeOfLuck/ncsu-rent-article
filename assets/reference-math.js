@@ -7,6 +7,23 @@
   const pct=x=>x.toFixed(2)+'%';
   const table=(headers,rs)=>'<table class="method-table"><thead><tr>'+headers.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+rs.map(r=>'<tr>'+r.map(x=>'<td>'+x+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
 
+  const housingRef=document.getElementById('student-housing-insecurity-2024');
+  if(housingRef){
+    housingRef.innerHTML=`
+      <div class="ref-head"><div><div class="ref-no">Housing insecurity and support</div><div class="ref-title">March 2024 NC State food and housing insecurity report</div></div></div>
+      <div class="ref-body">
+        <h2>Highlighted housing insecurity measure</h2>
+        <blockquote class="survey-highlight">Housing insecurity was measured by whether students were confident they could pay for their current housing through the end of the school year.</blockquote>
+        <div class="facts" style="margin-top:12px">
+          <div class="fact"><div class="fact-label">Housing insecure</div><div class="fact-value"><strong>11.3%</strong> · 153 of 1,354 respondents</div></div>
+          <div class="fact"><div class="fact-label">Survey question</div><div class="fact-value">“Are you confident about your ability to pay for the place you're currently staying, so you can remain there at least until the end of the school year?”</div></div>
+        </div>
+        <div class="evidence" style="margin-top:14px"><img src="assets/housing-insecurity-11-3-evidence.svg" alt="Recreated excerpt from the March 2024 NC State report showing the housing insecurity question and Table 3, where 153 of 1,354 students, or 11.3 percent, were housing insecure."><div class="caption">Recreated from the report's housing insecurity definition and Table 3. The linked source contains the original report.</div></div>
+        <p><a href="https://doi.org/10.31234/osf.io/t46jv" target="_blank" rel="noopener noreferrer">Mary E. Haskett, Homelessness and Food &amp; Housing Insecurity among College Students: Third Wave</a> · March 2024 NC State report, 2023 survey data.</p>
+        <div class="use-note"><strong>Reporting note:</strong> This article uses the 11.3% housing insecurity measure because it directly asks about students' confidence in paying for their current housing. It does not use the report's 14% homelessness figure as a direct affordability measure. That measure counts any of nine qualifying housing situations at any point during the previous 12 months, including temporary couch surfing, and the report does not establish a minimum duration.</div>
+      </div>`;
+  }
+
   document.getElementById('sample-flow').innerHTML=`<strong>Room-only selection:</strong> ${rows.length} saved listing IDs = ${s.perOverall.n} included room listings + ${rows.length-s.perOverall.n} outside the room article. The latter comprise ${rows.length-u.length} outside all three five-mile areas, ${s.wholeOverall.n} usable whole-unit offers inside the areas, and ${s.excluded} inside-area records with unusable or unresolved prices. Each ID is counted once in this reconciliation.`;
   const countRows=Object.keys(d.campuses).map(key=>{
     const v=A.summarize(A.campus(rows,key)).perOverall;
