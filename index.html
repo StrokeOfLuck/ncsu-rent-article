@@ -3987,7 +3987,7 @@ th:first-child, td:first-child {
     <div id="map"></div>
 
     <div class="legend-row" aria-label="Map legend">
-      <div class="legend-item"><span class="dot bed"></span>Room / per-bedroom listing</div>
+      <div class="legend-item"><span class="dot bed"></span>Rent per bedroom listing</div>
       <div class="legend-item"><span class="diamond campus-ref">◆</span>Campus reference point</div>
       <div class="legend-item"><span class="box perim"></span>Campus perimeter</div>
       <div class="legend-item"><span class="box bldg"></span>NC State building</div>
@@ -4006,7 +4006,7 @@ th:first-child, td:first-child {
         <div class="housing-section-head housing-section-first">
           <div>
             <div class="housing-section-kicker">Off campus listings</div>
-            <div class="housing-section-title">Advertised room/per-bedroom rents from NC State’s Off-Campus Housing site</div>
+            <div class="housing-section-title">Advertised rent per bedroom listings from NC State’s Off-Campus Housing site</div>
           </div>
           <div class="summary-campus-buttons" aria-label="Campus rent summary selector">
             <button id="summary-btn-main" class="campus-btn active" type="button" onclick="setCampus('main')">Main</button>
@@ -4015,7 +4015,7 @@ th:first-child, td:first-child {
           </div>
         </div>
         <div class="combined-top-note">
-          <span id="combinedRentMeta">Main Campus · room/per-bedroom listings within five miles</span>
+          <span id="combinedRentMeta">Main Campus · rent per bedroom listings within five miles</span>
         </div>
 
         <table class="room-band-table">
@@ -4387,7 +4387,7 @@ th:first-child, td:first-child {
         </div>
 
         <div class="hud-context">
-          <strong>What this chart includes:</strong> <span id="selectedBlurb">Room/per-bedroom mean across all three campus areas</span>
+          <strong>What this chart includes:</strong> <span id="selectedBlurb">Rent per bedroom mean across all three campus areas</span>
         </div>
 
         <div class="burden-key burden-legend" aria-label="Chart legend">
@@ -4867,13 +4867,13 @@ function updateAffordability() {
   const local=overallDistanceBandSummary(currentCampusKey);
   const affordabilityStats=overallDistanceBandSummary(affordabilityCampusKey).perOverall;
   const affordabilityLabel=affordabilityCampusKey==='vet' ? 'Biomedical Campus' : campuses[affordabilityCampusKey].label;
-  document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · room/per-bedroom listings within five miles`;
+  document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · rent per bedroom listings within five miles`;
   for(const [name,stats] of [['Per',local.perOverall]]) {
     document.getElementById('combined'+name+'Overall').textContent=stats.display;
     document.getElementById('combined'+name+'Mid').textContent=money(stats.midpoint);
   }
   document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n}`;
-  document.getElementById('selectedBlurb').textContent=`Uses ${affordabilityStats.n} room/per-bedroom prices for ${affordabilityLabel}. The personal chart compares the mean listing midpoint with monthly resources. The comparison uses advertised rent only; unlisted housing costs are not included. Values above 350% are shown numerically but clipped on the rail.`;
+  document.getElementById('selectedBlurb').textContent=`Uses ${affordabilityStats.n} Rent per bedroom prices for ${affordabilityLabel}. The personal chart compares the mean listing midpoint with monthly resources. The comparison uses advertised rent only; unlisted housing costs are not included. Values above 350% are shown numerically but clipped on the rail.`;
   const rentTitle=`${affordabilityLabel} room rent`;
   document.getElementById('burdenRentTitleLow').textContent=rentTitle;
   document.getElementById('burdenRentTitleHigh').textContent=rentTitle;
