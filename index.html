@@ -976,6 +976,11 @@ th:first-child, td:first-child {
   line-height:1.35;
 }
 
+.card-rent-area + .burden-sub {
+  margin-top:10px;
+  text-align:left;
+}
+
 .burden-chart {
   margin-top:16px;
 }
@@ -4347,8 +4352,6 @@ th:first-child, td:first-child {
           <div class="card-title">$<span id="burdenIncomeLow">628</span></div>
           <input id="hoursLow" class="mini-hours-slider synced-hours" type="range" min="1" max="40" value="20" step="1" aria-label="Hours worked in a week">
         </div>
-        <div class="burden-sub" id="burdenSubLow">Gross monthly work pay at the selected weekly hours</div>
-
         <div class="burden-chart">
           <div class="burden-row">
             <div class="burden-label">
@@ -4376,6 +4379,7 @@ th:first-child, td:first-child {
             <option value="main">Main Campus</option><option value="centennial">Centennial Campus</option><option value="vet">Biomedical Campus</option>
           </select>
         </label>
+        <div class="burden-sub" id="burdenSubLow">Gross pay per month. Work pay assumes 52 paid weeks/year.</div>
       </div>
 
       <div class="burden-card">
@@ -4388,8 +4392,6 @@ th:first-child, td:first-child {
           <div class="card-title">$<span id="burdenIncomeHigh">1,300</span></div>
           <input id="hoursHigh" class="mini-hours-slider synced-hours" type="range" min="1" max="40" value="20" step="1" aria-label="Hours worked in a week">
         </div>
-        <div class="burden-sub" id="burdenSubHigh">Gross monthly work pay at the selected weekly hours</div>
-
         <div class="burden-chart">
           <div class="burden-row">
             <div class="burden-label">
@@ -4417,6 +4419,7 @@ th:first-child, td:first-child {
             <option value="main">Main Campus</option><option value="centennial">Centennial Campus</option><option value="vet">Biomedical Campus</option>
           </select>
         </label>
+        <div class="burden-sub" id="burdenSubHigh">Gross pay per month. Work pay assumes 52 paid weeks/year.</div>
       </div>
     </div>
 
@@ -4923,7 +4926,7 @@ function updateAffordability() {
     const r=RentAnalysis.resources({...inputs,wage});
     if(side==='Low') document.getElementById('burdenKicker'+side).innerHTML=`<span>Monthly resources</span><span class="kicker-rate">$${wage}/hour</span>`;
     document.getElementById('burdenIncome'+side).textContent=Math.round(r.total).toLocaleString('en-US');
-    const pieces=[`${money(r.pay)} gross pay`];
+    const pieces=['Gross pay'];
     if(r.grant)pieces.push(`${money(r.grant)} grant equivalent`);
     if(r.loan)pieces.push(`${money(r.loan)} borrowed`);
     if(r.other)pieces.push(`${money(r.other)} other support`);
