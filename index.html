@@ -3982,7 +3982,7 @@ th:first-child, td:first-child {
   grid-template-columns: minmax(0, 1fr) auto;
   grid-template-rows: auto auto;
   align-items: start;
-  gap: 10px 12px;
+  gap: 5px 12px;
 }
 .burden-card-head .card-kicker {
   grid-column: 1;
@@ -4038,10 +4038,10 @@ th:first-child, td:first-child {
 .burden-card .burden-income-line {
   grid-template-columns: 58px minmax(0, 1fr);
   gap: 12px;
-  margin: 8px 0 0;
+  margin: 5px 0 0;
 }
 .burden-card .burden-chart {
-  margin-top: 22px;
+  margin-top: 14px;
 }
 .burden-card .burden-row {
   margin-top: 0;
@@ -4050,15 +4050,29 @@ th:first-child, td:first-child {
   margin-top: 8px;
 }
 .burden-card .burden-axis-scale .axis-hud {
-  top: -4px;
+  display: none;
+}
+.burden-card .burden-track {
+  overflow: visible;
+}
+.burden-card .hud-benchmark-line::after {
+  content: "30%";
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 50%;
   transform: translateX(-50%);
+  color: var(--accent);
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
 }
 .burden-card > .card-rent-area {
-  margin: 16px 0 0;
+  margin: 8px 0 0;
   align-self: end;
 }
 .burden-card > .burden-sub {
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   text-align: left;
 }
 @media (min-width: 981px) {
