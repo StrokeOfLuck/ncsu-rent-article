@@ -57,4 +57,81 @@
   }
   document.getElementById('aid-presets-math').innerHTML=table(['Wage at 20 hours/week','Selection','Gross pay','Grant equivalent','Borrowed funds','Total resources','Main room mean ÷ resources'],aidRows);
   document.getElementById('report-wording').innerHTML=`<strong>A supported description:</strong> The ${main.n} usable room/per-bedroom advertisements within five straight-line miles of the Main Campus reference point had a mean listing midpoint of ${usd(main.midpoint)} in the September 9 snapshot. That is ${pct(main.midpoint/1300*100)} of gross wages at $15/hour and 20 hours/week in a steady, year-round work example. This describes the portal sample and a wage comparison, not how many NC State students can afford housing.`;
+
+  const refsContainer=document.querySelector('.refs');
+  if(refsContainer){
+    refsContainer.insertAdjacentHTML('beforeend', `
+<article class="ref" id="ncsu-local-market-housing-comparison">
+  <div class="ref-head">
+    <div>
+      <div class="ref-no">Reference 16</div>
+      <div class="ref-title">NC State Board of Trustees: Local Market Student Housing Rental Rate Comparison</div>
+    </div>
+    <div class="tags">
+      <span class="tag">Primary source</span>
+      <span class="tag">NC State</span>
+      <span class="tag">Housing market</span>
+      <span class="tag">Board of Trustees</span>
+    </div>
+  </div>
+  <div class="ref-body">
+    <div class="meta-grid">
+      <div class="meta-label">Committee</div>
+      <div class="meta-value">NC State Board of Trustees, Audit, Risk Management and Finance Committee</div>
+      <div class="meta-label">Document</div>
+      <div class="meta-value">November 2025 committee meeting book, Cates West presentation</div>
+      <div class="meta-label">Relevant page</div>
+      <div class="meta-value">PDF page 36</div>
+      <div class="meta-label">Source</div>
+      <div class="meta-value"><a href="https://leadership.ncsu.edu/wp-content/uploads/sites/2/2025/11/Meeting-Book-November-2025-Audit-Risk-Management-and-Finance-Committee-Meeting-2.pdf#page=36" target="_blank" rel="noopener noreferrer">Local Market Student Housing Rental Rate Comparison</a></div>
+    </div>
+    <hr class="rule">
+    <h2>Highlighted comparison</h2>
+    <div class="facts">
+      <div class="fact"><div class="fact-label">2025–26 NC State apartments</div><div class="fact-value"><strong>$11,000</strong></div></div>
+      <div class="fact"><div class="fact-label">2025–26 off-campus apartments</div><div class="fact-value"><strong>$13,151</strong></div></div>
+      <div class="fact"><div class="fact-label">Reported cost difference</div><div class="fact-value"><strong>$2,151</strong>, or <strong>19.6%</strong> lower for NC State apartments in the university comparison.</div></div>
+      <div class="fact"><div class="fact-label">Projection assumption</div><div class="fact-value">The slide assumes <strong>4% annual rate increases for peer institutions</strong>.</div></div>
+    </div>
+    <div class="citation" style="margin-top:12px">“University Housing remains well positioned in the local market throughout the project duration.”</div>
+    <div class="use-note"><strong>Reporting note:</strong> This is NC State's own market comparison, not the September 2026 room-listing sample used in this article. The slide compares apartment costs and explicitly notes that the local market requires a 12-month lease.</div>
+  </div>
+</article>
+
+<article class="ref" id="ncsu-housing-weighted-increase-2026-27">
+  <div class="ref-head">
+    <div>
+      <div class="ref-no">Reference 17</div>
+      <div class="ref-title">NC State Board of Trustees: 5% Weighted Average Housing Rate Increase for 2026–27</div>
+    </div>
+    <div class="tags">
+      <span class="tag">Primary source</span>
+      <span class="tag">NC State</span>
+      <span class="tag">Housing rates</span>
+      <span class="tag">Board of Trustees</span>
+    </div>
+  </div>
+  <div class="ref-body">
+    <div class="meta-grid">
+      <div class="meta-label">Committee</div>
+      <div class="meta-value">NC State Board of Trustees, University Affairs Committee</div>
+      <div class="meta-label">Minutes</div>
+      <div class="meta-value">November 13, 2025 open-session minutes, reproduced in the February 2026 meeting book</div>
+      <div class="meta-label">Relevant page</div>
+      <div class="meta-value">PDF page 7, minutes page 2</div>
+      <div class="meta-label">Source</div>
+      <div class="meta-value"><a href="https://leadership.ncsu.edu/wp-content/uploads/sites/2/2026/02/Meeting-Book-February-2026-University-Affairs-Committee-Meeting.pdf#page=7" target="_blank" rel="noopener noreferrer">University Affairs Committee meeting book</a></div>
+    </div>
+    <hr class="rule">
+    <h2>Highlighted finding</h2>
+    <div class="citation">“Regarding university housing rates, the proposed increase on a weighted average basis is 5%.”</div>
+    <div class="facts" style="margin-top:12px">
+      <div class="fact"><div class="fact-label">Housing increase</div><div class="fact-value"><strong>5%</strong> proposed weighted-average increase for 2026–27.</div></div>
+      <div class="fact"><div class="fact-label">University explanation</div><div class="fact-value">Housing and dining are described as self-supporting programs, with higher costs tied to labor-market pressure, inflation and capital investment needs.</div></div>
+      <div class="fact"><div class="fact-label">Board action</div><div class="fact-value">The committee motion recommending approval of the 2026–27 housing and dining rate requests to the full board passed.</div></div>
+    </div>
+    <div class="use-note"><strong>Reporting note:</strong> The 5% figure is a weighted average across University Housing, not a 5% increase for every room type. The individual rate schedule above shows increases that vary by housing type.</div>
+  </div>
+</article>`);
+  }
 })();
