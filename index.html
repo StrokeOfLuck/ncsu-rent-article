@@ -3965,21 +3965,26 @@ th:first-child, td:first-child {
 .burden-card-head{grid-template-rows:minmax(44px,auto)}.burden-card-head .card-kicker{grid-column:1 / span 2;grid-row:1}.burden-hours-warning{grid-column:1 / -1;grid-row:2;justify-self:start;text-align:left;max-width:none}.burden-hours-warning:not(.over-limit){display:none}
 .room-band-table{margin:12px 0}.room-band-table tfoot{font-weight:750}.room-band-table tfoot td,.room-band-table tfoot th{border-top:1px solid var(--line);padding-top:12px}.room-overall-line{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin:14px 0 18px;font-size:12px}.room-overall-line strong{font-size:22px;margin-left:8px}.room-overall-line a{font-size:11px}.wage-reset{display:inline-flex;align-items:center;gap:4px;flex-wrap:wrap;font-weight:500}.burden-card-head{grid-template-rows:auto}
 
-/* Keep the over-hours note centered on one line when the cards have desktop room. */
+/* Keep the over-hours note centered over the slider on wider screens. */
 @media (min-width: 701px) {
+  .burden-card {
+    position: relative;
+  }
+
   .burden-card-head .card-kicker {
     grid-column: 1;
     grid-row: 1;
   }
 
   .burden-hours-warning {
-    grid-column: 2;
-    grid-row: 1;
-    justify-self: center;
-    align-self: start;
+    position: absolute;
+    top: 38px;
+    left: 50%;
+    z-index: 1;
     max-width: none;
-    text-align: center;
     white-space: nowrap;
+    text-align: center;
+    transform: translateX(-50%);
   }
 
   .burden-hours-warning > span {
