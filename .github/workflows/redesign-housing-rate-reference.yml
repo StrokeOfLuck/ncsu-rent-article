@@ -15,6 +15,7 @@ on:
       - .github/update-wage-barrie-copy.py
       - .github/add-resource-comparison-section.py
       - .github/sync-hours-and-resource-layout.py
+      - .github/clarify-resnet-labels.py
 permissions:
   contents: write
 jobs:
@@ -36,6 +37,7 @@ jobs:
           python .github/update-wage-barrie-copy.py
           python .github/add-resource-comparison-section.py
           python .github/sync-hours-and-resource-layout.py
+          python .github/clarify-resnet-labels.py
       - name: Commit change
         shell: bash
         run: |
