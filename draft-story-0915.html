@@ -210,7 +210,7 @@
   .off-campus-embed iframe {
     display:block;
     width:100%;
-    height:900px;
+    min-height:760px;
     border:0;
     background:#fff;
   }
@@ -236,7 +236,6 @@
     .amount strong { font-size:19px; }
     .story-copy { font-size:16px; }
     .story-copy blockquote { font-size:18px; }
-    .off-campus-embed iframe { height:760px; }
   }
 </style>
 </head>
@@ -314,7 +313,7 @@
   </section>
 
   <section class="off-campus-embed" aria-label="Interactive off-campus housing map and rent listing summary">
-    <iframe src="index.html#map" title="NC State off-campus housing map and advertised room rent analysis" loading="lazy"></iframe>
+    <iframe id="off-campus-frame" src="index.html#map" title="NC State off-campus housing map, advertised room rents and campus room comparison" loading="lazy"></iframe>
   </section>
 
   <div class="continue">Continue drafting here…</div>
@@ -334,6 +333,91 @@
   }
   box.addEventListener('change',render);
   render();
+})();
+
+(function(){
+  const frame=document.getElementById('off-campus-frame');
+  if(!frame) return;
+
+  function trimFrame(){
+    try {
+      const d=frame.contentDocument;
+      if(!d) return;
+      const wrapper=d.querySelector('.wrapper');
+      const mapStage=d.querySelector('.map-stage');
+      const summaryBlock=d.querySelector('.rent-summary-block');
+      if(!wrapper || !mapStage || !summaryBlock) return;
+
+      const mapNote=[...wrapper.children].find(el =>
+        el.classList && el.classList.contains('footer-note') &&
+        el.textContent.includes('This article compares advertised room and per-bedroom prices')
+      );
+
+      [...wrapper.children].forEach(el => {
+        const keep=el===mapStage || el===mapNote || el===summaryBlock;
+        el.style.display=keep ? '' : 'none';
+      });
+
+      [...summaryBlock.children].forEach(el => {
+        el.style.display=el.classList.contains('combined-summary') ? '' : 'none';
+      });
+
+      const combinedCard=d.querySelector('.combined-card');
+      const housingMonthly=combinedCard && combinedCard.querySelector('.housing-monthly');
+      if(combinedCard && housingMonthly){
+        let afterHousing=false;
+        [...combinedCard.children].forEach(el => {
+          if(afterHousing) el.style.display='none';
+          if(el===housingMonthly) afterHousing=true;
+        });
+      }
+
+      const overall=d.querySelector('.room-overall-line');
+      const priceNote=overall && overall.nextElementSibling;
+      if(priceNote && priceNote.classList.contains('housing-monthly-note')){
+        priceNote.innerHTML='Monthly advertised room prices. Utilities and fees vary by listing: some include utilities; some disclose additional monthly fees. The mean is advertised rent, not a standardized all-in housing cost. <a href="references.html#rental-method">How this is calculated</a>';
+      }
+
+      const benchmarkRow=d.querySelector('.rent-benchmark-row');
+      if(benchmarkRow){
+        const cards=[...benchmarkRow.querySelectorAll(':scope > .rent-benchmark')];
+        const single=cards.find(el => el.textContent.toLowerCase().includes('single'));
+        const shared=cards.find(el => el.textContent.toLowerCase().includes('double'));
+        if(single) benchmarkRow.appendChild(single);
+        if(shared) benchmarkRow.appendChild(shared);
+
+        benchmarkRow.querySelectorAll('.rent-benchmark-note').forEach(note => {
+          if(note.textContent.includes('$150 required ResNet fee') && !note.textContent.includes('paid to OIT')){
+            note.textContent=note.textContent.replace('$150 required ResNet fee','$150 required ResNet fee (paid to OIT)');
+          }
+        });
+      }
+
+      const campusContext=housingMonthly && housingMonthly.querySelector('.housing-monthly-note');
+      if(campusContext){
+        campusContext.innerHTML='Projected 2026–27 residence hall rates from <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a>, converted from two semester charges to a 9-month academic-year monthly equivalent. Includes required ResNet; summer is excluded. Off-campus listings and residence halls differ in utilities, services, furnishings, occupancy and lease length.';
+      }
+
+      wrapper.style.width='100%';
+      wrapper.style.maxWidth='none';
+      wrapper.style.padding='0';
+      d.documentElement.style.background='#fff';
+      d.body.style.margin='0';
+      d.body.style.background='#fff';
+
+      const resize=()=>{
+        frame.style.height=Math.ceil(Math.max(d.body.scrollHeight,d.documentElement.scrollHeight)+4)+'px';
+        try { frame.contentWindow.dispatchEvent(new Event('resize')); } catch(e) {}
+      };
+      resize();
+      setTimeout(resize,250);
+      setTimeout(resize,900);
+    } catch(e) {
+      // Same-origin GitHub Pages embed should allow trimming; if it does not, leave the source page intact.
+    }
+  }
+
+  frame.addEventListener('load',trimFrame);
 })();
 </script>
 </body>
