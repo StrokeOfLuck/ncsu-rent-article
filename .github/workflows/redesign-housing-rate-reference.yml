@@ -14,6 +14,7 @@ on:
       - .github/update-bls-august-reference.py
       - .github/update-wage-barrie-copy.py
       - .github/add-resource-comparison-section.py
+      - .github/sync-hours-and-resource-layout.py
 permissions:
   contents: write
 jobs:
@@ -34,6 +35,7 @@ jobs:
           python .github/update-bls-august-reference.py
           python .github/update-wage-barrie-copy.py
           python .github/add-resource-comparison-section.py
+          python .github/sync-hours-and-resource-layout.py
       - name: Commit change
         shell: bash
         run: |
