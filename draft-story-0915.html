@@ -197,6 +197,23 @@
     font-size:19px;
     line-height:1.45;
   }
+  .trend-note {
+    margin:10px 0 0;
+    color:#66615b;
+    font:12px/1.45 Arial, Helvetica, sans-serif;
+  }
+  .off-campus-embed {
+    margin-top:24px;
+    border-top:1px solid #ece9e3;
+    padding-top:18px;
+  }
+  .off-campus-embed iframe {
+    display:block;
+    width:100%;
+    height:900px;
+    border:0;
+    background:#fff;
+  }
   .continue {
     margin-top:34px;
     border-top:1px solid #ece9e3;
@@ -219,6 +236,7 @@
     .amount strong { font-size:19px; }
     .story-copy { font-size:16px; }
     .story-copy blockquote { font-size:18px; }
+    .off-campus-embed iframe { height:760px; }
   }
 </style>
 </head>
@@ -259,7 +277,7 @@
       <input type="checkbox" id="winter-break">
       <label for="winter-break">
         <strong>Include a full winter-break stay</strong>
-        <span class="break-note">Adds $360 to the academic-year example, using NC State's latest published full-break charge: $360 for 2025–26 ($15 per night). NC State lists 2026–27 winter-break housing as a separate term, but the exact 2026–27 full-break charge and dates have not yet been posted. Checked values are therefore a reference scenario, not a quoted 2026–27 total.</span>
+        <span class="break-note">Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.</span>
       </label>
     </div>
 
@@ -287,14 +305,19 @@
   </section>
 
   <section class="story-copy" aria-label="Off-campus housing transition">
-    <p>Most NC State students eventually have to look beyond University Housing. <a href="references.html#student-housing-cds-2024">NC State’s Common Data Set reports that 62% of undergraduates live off campus or commute.</a> <a href="references.html#raleigh-rent-trend">Raleigh rents have declined from their 2022 peaks</a>, but housing around NC State remains expensive.</p>
+    <p>Most NC State students eventually have to look beyond University Housing. <a href="references.html#student-housing-cds-2024">NC State’s Common Data Set reports that 62% of undergraduates live off campus or commute.</a></p>
 
     <p>Thomas Barrie, an NC State professor of architecture who directs the university’s Affordable Housing and Sustainable Communities Initiative and teaches housing policy, said increased construction has helped cool the rental market.</p>
 
-    <blockquote>“Rent has gone down. It’s dipped a little bit in downtown Raleigh, and it’s because we’ve actually built a lot of rental housing,” Barrie said. “But it’s still very expensive.”</blockquote>
+    <blockquote>“Rent has gone down. It’s dipped a little bit in downtown Raleigh, and it’s because we’ve actually built a lot of rental housing,” Barrie said. “But it’s still very expensive.”*</blockquote>
+    <p class="trend-note">* Raleigh 1- and 2-bedroom rents peaked in 2022 at about 40% above August 2017 levels. By August 2026, both had declined from that peak but remained about 24% above 2017 levels. <a href="references.html#raleigh-rent-trend">See References.</a></p>
   </section>
 
-  <div class="continue">Off-campus housing map and listing analysis next…</div>
+  <section class="off-campus-embed" aria-label="Interactive off-campus housing map and rent listing summary">
+    <iframe src="index.html#map" title="NC State off-campus housing map and advertised room rent analysis" loading="lazy"></iframe>
+  </section>
+
+  <div class="continue">Continue drafting here…</div>
 </main>
 <script>
 (function(){
