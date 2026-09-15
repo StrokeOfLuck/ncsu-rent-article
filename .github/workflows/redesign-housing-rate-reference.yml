@@ -7,6 +7,7 @@ on:
       - .github/add-housing-dollar-increase.py
       - .github/embed-original-housing-rate.py
       - .github/add-resnet-toggle.py
+      - .github/bust-reference-math-cache.py
 permissions:
   contents: write
 jobs:
@@ -20,15 +21,16 @@ jobs:
           python .github/add-housing-dollar-increase.py
           python .github/embed-original-housing-rate.py
           python .github/add-resnet-toggle.py
+          python .github/bust-reference-math-cache.py
       - name: Commit change
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898257+StrokeOfLuck@users.noreply.github.com"
-          git add index.html draft-story-0915.html
+          git add index.html draft-story-0915.html references.html
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Add ResNet comparison toggle to draft"
+            git commit -m "Add ResNet comparison toggle and reference math"
             git push
           fi
