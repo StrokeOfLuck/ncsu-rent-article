@@ -344,14 +344,14 @@
       <div class="rate">
         <div>
           <div class="name">Residence hall double (shared room)</div>
-          <div class="detail">$3,970/semester housing + $150 required ResNet fee (paid to OIT)</div>
+          <div class="detail">$3,970/semester housing · Required ResNet: +$150/semester (paid to OIT)</div>
         </div>
         <div class="amount"><strong id="double-monthly">≈ $882/month</strong><span>per student</span></div>
       </div>
       <div class="rate">
         <div>
           <div class="name">Residence hall single</div>
-          <div class="detail">$4,600/semester housing + $150 required ResNet fee (paid to OIT)</div>
+          <div class="detail">$4,600/semester housing · Required ResNet: +$150/semester (paid to OIT)</div>
         </div>
         <div class="amount"><strong id="single-monthly">≈ $1,022/month</strong><span>per student</span></div>
       </div>
@@ -535,7 +535,7 @@
 
         benchmarkRow.querySelectorAll('.rent-benchmark-note').forEach(note => {
           if(note.textContent.includes('$150 required ResNet fee') && !note.textContent.includes('paid to OIT')){
-            note.textContent=note.textContent.replace('$150 required ResNet fee','$150 required ResNet fee (paid to OIT)');
+            note.textContent=note.textContent.replace('$4,600/semester + $150 required ResNet fee','$4,600/semester housing · Required ResNet: +$150/semester (paid to OIT)').replace('$3,970/semester + $150 required ResNet fee','$3,970/semester housing · Required ResNet: +$150/semester (paid to OIT)').replace('$150 required ResNet fee','$150 required ResNet fee (paid to OIT)');
           }
         });
 
