@@ -458,7 +458,7 @@
               grid-template-columns:repeat(3,minmax(0,1fr));
               margin-top:8px;
               border-top:1px solid var(--line);
-              border-bottom:1px solid var(--line);
+              border-bottom:0;
               background:#fff;
             }
             .draft-comparison-strip > *{
@@ -467,6 +467,10 @@
               border:0 !important;
               border-right:1px solid var(--line) !important;
               background:#fff !important;
+            }
+            .draft-comparison-strip > *:nth-child(2),
+            .draft-comparison-strip > *:nth-child(3){
+              border-bottom:1px solid var(--line) !important;
             }
             .draft-comparison-strip > *:last-child{
               border-right:0 !important;
