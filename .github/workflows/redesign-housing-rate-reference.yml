@@ -5,6 +5,7 @@ on:
       - .github/workflows/redesign-housing-rate-reference.yml
       - .github/align-benchmark-label.py
       - .github/add-housing-dollar-increase.py
+      - .github/embed-original-housing-rate.py
 permissions:
   contents: write
 jobs:
@@ -16,15 +17,16 @@ jobs:
         run: |
           python .github/align-benchmark-label.py
           python .github/add-housing-dollar-increase.py
+          python .github/embed-original-housing-rate.py
       - name: Commit change
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898257+StrokeOfLuck@users.noreply.github.com"
-          git add index.html
+          git add index.html draft-story-0915.html
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Refine housing rate chart layout"
+            git commit -m "Reuse original housing rate panel in draft"
             git push
           fi
