@@ -18,19 +18,28 @@ s, n = re.subn(
 if n != 1:
     raise SystemExit('Could not replace student wages section')
 
-if 'Barrie said he often asks students who are struggling in studio' not in s:
-    work_embed = '''  <section class="work-wages-original-embed" aria-label="Illustrative student work earnings at selected hours">
+work_embed = '''  <section class="work-wages-original-embed" aria-label="Illustrative student work earnings at selected hours">
     <iframe id="work-wages-frame" src="index.html" title="Illustrative gross earnings and Federal Work-Study hours" loading="lazy"></iframe>
   </section>'''
-    barrie = work_embed + '''
+
+barrie = work_embed + '''
 
   <section class="story-copy" aria-label="Student work hours and academic pressure">
-    <p>Barrie said he often asks students who are struggling in studio how much they are working and whether they can afford to cut back.</p>
+    <p>Professor Barrie said he often asks students who are struggling in studio how much they are working and whether they can afford to cut back.</p>
 
     <blockquote>“I’ll say, ‘So how much are you working?’ And they’ll tell me, and I’ll say, ‘Do you need to work that much?’ And then often the answer is, ‘I do.’”</blockquote>
 
     <p>For those students, Barrie said, the answer is to take that financial reality “at face value” and work with it.</p>
   </section>'''
+
+s, n = re.subn(
+    re.escape(work_embed) + r'\s*<section class="story-copy" aria-label="Student work hours and academic pressure">.*?</section>',
+    barrie,
+    s,
+    count=1,
+    flags=re.S,
+)
+if n == 0:
     if work_embed not in s:
         raise SystemExit('Could not find work wages embed for Barrie insertion')
     s = s.replace(work_embed, barrie, 1)
