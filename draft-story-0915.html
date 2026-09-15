@@ -374,10 +374,6 @@
 
       const overall=d.querySelector('.room-overall-line');
       const priceNote=overall && overall.nextElementSibling;
-      if(priceNote && priceNote.classList.contains('housing-monthly-note')){
-        priceNote.innerHTML='Monthly advertised room prices. Utilities and fees vary by listing: some include utilities; some disclose additional monthly fees. The mean is advertised rent, not a standardized all-in housing cost. <a href="references.html#rental-method">How this is calculated</a>';
-      }
-
       const benchmarkRow=d.querySelector('.rent-benchmark-row');
       if(benchmarkRow && overall && combinedCard){
         const cards=[...benchmarkRow.querySelectorAll(':scope > .rent-benchmark')];
@@ -400,6 +396,58 @@
         if(single) strip.appendChild(single);
         if(shared) strip.appendChild(shared);
         housingMonthly.style.display='none';
+
+        if(!overall.querySelector('.draft-offcampus-note')){
+          const note=d.createElement('p');
+          note.className='draft-offcampus-note';
+          note.innerHTML='<strong>Advertised rent only.</strong> Utilities and fees vary by listing; some are included and some are extra. <a href="references.html#rental-method">How this is calculated</a>';
+          overall.appendChild(note);
+        }
+        if(priceNote && priceNote.classList.contains('housing-monthly-note')){
+          priceNote.style.display='none';
+        }
+
+        let breakRow=d.querySelector('.draft-campus-break-row');
+        if(!breakRow){
+          breakRow=d.createElement('div');
+          breakRow.className='draft-campus-break-row';
+          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span></div>';
+          strip.parentNode.insertBefore(breakRow,strip.nextSibling);
+        }
+
+        const embeddedBox=breakRow.querySelector('.draft-campus-break-checkbox');
+        const parentBox=document.getElementById('winter-break');
+        const singleValue=single && single.querySelector('.rent-benchmark-value');
+        const sharedValue=shared && shared.querySelector('.rent-benchmark-value');
+
+        function renderEmbeddedWinter(checked){
+          if(singleValue) singleValue.innerHTML='≈ $'+(checked ? '1,096' : '1,056')+'/month<span>per student</span>';
+          if(sharedValue) sharedValue.innerHTML='≈ $'+(checked ? '956' : '916')+'/month<span>per student</span>';
+          if(embeddedBox) embeddedBox.checked=!!checked;
+        }
+
+        if(embeddedBox && !embeddedBox.dataset.bound){
+          embeddedBox.dataset.bound='1';
+          embeddedBox.addEventListener('change',()=>{
+            renderEmbeddedWinter(embeddedBox.checked);
+            if(parentBox && parentBox.checked!==embeddedBox.checked){
+              parentBox.checked=embeddedBox.checked;
+              parentBox.dispatchEvent(new Event('change'));
+            }
+            setTimeout(resize,0);
+          });
+        }
+
+        if(parentBox){
+          renderEmbeddedWinter(parentBox.checked);
+          if(!parentBox.dataset.offCampusLinked){
+            parentBox.dataset.offCampusLinked='1';
+            parentBox.addEventListener('change',()=>{
+              renderEmbeddedWinter(parentBox.checked);
+              setTimeout(resize,0);
+            });
+          }
+        }
 
         if(!d.getElementById('draft-comparison-style')){
           const style=d.createElement('style');
@@ -441,6 +489,20 @@
               margin:0;
               font:700 31px/1 Georgia,\"Times New Roman\",serif;
             }
+            .draft-offcampus-note{
+              margin:10px 0 0 !important;
+              padding:9px 0 0 !important;
+              border-top:1px solid var(--line);
+              color:#625d56;
+              font-size:9px !important;
+              font-weight:400 !important;
+              line-height:1.35 !important;
+            }
+            .draft-offcampus-note strong{
+              display:inline !important;
+              font:700 9px/1.35 Arial,sans-serif !important;
+            }
+            .draft-offcampus-note a{white-space:nowrap;}
             .draft-comparison-strip .rent-benchmark{
               display:block !important;
             }
@@ -465,10 +527,43 @@
               font-size:8px !important;
               line-height:1.1;
             }
-            .draft-comparison-strip + .housing-monthly-note{
-              margin:8px 0 0 !important;
-              padding:0 2px 2px !important;
-              line-height:1.4;
+            .draft-campus-break-row{
+              display:grid;
+              grid-template-columns:repeat(3,minmax(0,1fr));
+              background:#fff;
+              border-bottom:1px solid var(--line);
+            }
+            .draft-campus-break-control{
+              grid-column:2 / 4;
+              display:flex;
+              align-items:center;
+              gap:7px;
+              min-width:0;
+              padding:9px 16px 10px;
+              border-left:1px solid var(--line);
+              color:#514d47;
+              font-size:9.5px;
+              line-height:1.25;
+            }
+            .draft-campus-break-control label{
+              display:flex;
+              align-items:center;
+              gap:6px;
+              cursor:pointer;
+            }
+            .draft-campus-break-control input{
+              margin:0;
+              accent-color:#8b1f2d;
+            }
+            .draft-campus-break-year{
+              color:#746f68;
+              white-space:nowrap;
+            }
+            .draft-campus-break-info{
+              cursor:help;
+              color:#315d86;
+              font-size:12px;
+              line-height:1;
             }
             @media(max-width:700px){
               .draft-comparison-strip{grid-template-columns:1fr;}
@@ -477,6 +572,12 @@
                 border-bottom:1px solid var(--line) !important;
               }
               .draft-comparison-strip > *:last-child{border-bottom:0 !important;}
+              .draft-campus-break-row{grid-template-columns:1fr;}
+              .draft-campus-break-control{
+                grid-column:1;
+                border-left:0;
+                flex-wrap:wrap;
+              }
             }
           `;
           d.head.appendChild(style);
