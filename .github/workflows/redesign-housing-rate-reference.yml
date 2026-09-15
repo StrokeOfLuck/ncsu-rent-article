@@ -18,6 +18,7 @@ on:
       - .github/clarify-resnet-labels.py
       - .github/fix-rent-options-and-embed-gap.py
       - .github/fix-350-axis.py
+      - .github/fix-lede-and-aid-title.py
 permissions:
   contents: write
 jobs:
@@ -42,6 +43,7 @@ jobs:
           python .github/clarify-resnet-labels.py
           python .github/fix-rent-options-and-embed-gap.py
           python .github/fix-350-axis.py
+          python .github/fix-lede-and-aid-title.py
       - name: Commit change
         shell: bash
         run: |
