@@ -248,7 +248,7 @@
 .housing-rate-original-embed iframe{
   display:block;
   width:100%;
-  min-height:520px;
+  min-height:0;
   border:0;
   background:#fff;
 }
@@ -278,6 +278,35 @@
 }
 /* End original work-study wages panel embed */
 
+
+
+/* Compact comparison options */
+.comparison-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:1px 0 12px;
+}
+.comparison-options .break-option{
+  margin:0;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  align-items:center;
+}
+.comparison-options .break-option + .break-option{
+  margin-top:0;
+  border-top:1px solid var(--line);
+}
+.comparison-options .break-note{
+  display:inline;
+  margin:0 0 0 5px;
+}
+@media (max-width:700px){
+  .comparison-options{ grid-template-columns:1fr; gap:6px; }
+  .comparison-options .break-note{ display:block; margin:2px 0 0; }
+}
+/* End compact comparison options */
+
 </style>
 </head>
 <body>
@@ -294,7 +323,7 @@
 
     <div class="eyebrow">On campus room rates</div>
     <h2>Residence hall monthly equivalent</h2>
-    <p class="method">Projected 2026–27 residence hall rates from official housing rates, converted from two semester charges to a 9-month academic-year monthly equivalent. By default, the calculation includes the required $150-per-semester ResNet fee, which residents pay for internet access but which goes to OIT, not University Housing. Use the ResNet toggle below to view the room charge alone; residents still pay the required fee. Summer is excluded. Winter break is a separate housing term for most residents and is not included unless selected below. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</p>
+    <p class="method">Projected 2026–27 residence hall rates from official housing rates, converted from two semester charges to a 9-month academic-year monthly equivalent. By default, the comparison shows the University Housing room charge alone. Residents also pay a required $150-per-semester ResNet fee for internet access, which goes to OIT rather than University Housing; use the ResNet checkbox below to add it. Summer is excluded. Winter break is a separate housing term for most residents and is not included unless selected below. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</p>
 
     <div class="rate-grid">
       <div class="rate">
@@ -302,31 +331,27 @@
           <div class="name">Residence hall double (shared room)</div>
           <div class="detail">$3,970/semester housing + $150 required ResNet fee (paid to OIT)</div>
         </div>
-        <div class="amount"><strong id="double-monthly">≈ $916/month</strong><span>per student</span></div>
+        <div class="amount"><strong id="double-monthly">≈ $882/month</strong><span>per student</span></div>
       </div>
       <div class="rate">
         <div>
           <div class="name">Residence hall single</div>
           <div class="detail">$4,600/semester housing + $150 required ResNet fee (paid to OIT)</div>
         </div>
-        <div class="amount"><strong id="single-monthly">≈ $1,056/month</strong><span>per student</span></div>
+        <div class="amount"><strong id="single-monthly">≈ $1,022/month</strong><span>per student</span></div>
       </div>
     </div>
 
-    <div class="break-option">
-      <input type="checkbox" id="winter-break">
-      <label for="winter-break">
-        <strong>Include a full winter-break stay</strong>
-        <span class="break-note">Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.</span>
-      </label>
-    </div>
+    <div class="comparison-options">
+      <div class="break-option">
+        <input type="checkbox" id="winter-break">
+        <label for="winter-break"><strong>Full winter break (+$360)</strong> <span class="break-note">2025–26 reference rate; 2026–27 rate not yet posted.</span></label>
+      </div>
 
-    <div class="break-option resnet-option">
-      <input type="checkbox" id="resnet-fee" checked>
-      <label for="resnet-fee">
-        <strong>Include required ResNet fee (+$150/semester)</strong>
-        <span class="break-note">Checked by default because residents pay this separate OIT charge for internet access. Turn it off only to compare University Housing room charges without the internet fee.</span>
-      </label>
+      <div class="break-option resnet-option">
+        <input type="checkbox" id="resnet-fee">
+        <label for="resnet-fee"><strong>Required ResNet (+$150/semester; ≈ +$33/month)</strong> <span class="break-note">Paid to OIT for internet access.</span></label>
+      </div>
     </div>
 
     <div class="section-rule">
