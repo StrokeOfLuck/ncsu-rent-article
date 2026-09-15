@@ -6,6 +6,7 @@ on:
       - .github/align-benchmark-label.py
       - .github/add-housing-dollar-increase.py
       - .github/embed-original-housing-rate.py
+      - .github/add-resnet-toggle.py
 permissions:
   contents: write
 jobs:
@@ -18,6 +19,7 @@ jobs:
           python .github/align-benchmark-label.py
           python .github/add-housing-dollar-increase.py
           python .github/embed-original-housing-rate.py
+          python .github/add-resnet-toggle.py
       - name: Commit change
         shell: bash
         run: |
@@ -27,6 +29,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Reuse original housing rate panel in draft"
+            git commit -m "Add ResNet comparison toggle to draft"
             git push
           fi
