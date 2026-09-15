@@ -574,7 +574,7 @@
           breakRow=d.createElement('div');
           breakRow.className='draft-campus-break-row';
           breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span><span class="draft-campus-option-divider" aria-hidden="true"></span><label><input type="checkbox" class="draft-campus-resnet-checkbox"> <strong>Add required ResNet (+$150/semester; ≈ +$33/month)</strong></label><span class="draft-campus-resnet-note">Paid to OIT</span></div>';
-          strip.parentNode.insertBefore(breakRow,strip);
+          strip.insertBefore(breakRow, strip.children[1] || null);
         }
 
         const embeddedBox=breakRow.querySelector('.draft-campus-break-checkbox');
@@ -775,7 +775,52 @@
               font-size:12px;
               line-height:1;
             }
+            /* Attach campus-only controls to the two residence-hall cards. */
+            .draft-comparison-strip > *:nth-child(1){
+              grid-column:1;
+              grid-row:1 / span 2;
+              border-top:1px solid var(--line) !important;
+              border-bottom:1px solid var(--line) !important;
+            }
+            .draft-comparison-strip > .draft-campus-break-row{
+              grid-column:2 / 4 !important;
+              grid-row:1;
+              margin:0 !important;
+              padding:0 !important;
+              border-top:1px solid var(--line) !important;
+              border-bottom:1px solid var(--line) !important;
+              border-left:1px solid var(--line) !important;
+              border-right:0 !important;
+              background:#fff !important;
+            }
+            .draft-comparison-strip > *:nth-child(3){
+              grid-column:2;
+              grid-row:2;
+              border-bottom:1px solid var(--line) !important;
+            }
+            .draft-comparison-strip > *:nth-child(4){
+              grid-column:3;
+              grid-row:2;
+              border-bottom:1px solid var(--line) !important;
+              border-right:0 !important;
+            }
+            .draft-comparison-strip .draft-campus-break-control{
+              grid-column:1 / -1;
+              border-left:0;
+            }
+
             @media(max-width:700px){
+              .draft-comparison-strip > *:nth-child(1),
+              .draft-comparison-strip > .draft-campus-break-row,
+              .draft-comparison-strip > *:nth-child(3),
+              .draft-comparison-strip > *:nth-child(4){
+                grid-column:1 !important;
+                grid-row:auto !important;
+              }
+              .draft-comparison-strip > .draft-campus-break-row{
+                border-left:0 !important;
+              }
+
               .draft-comparison-strip{grid-template-columns:1fr;}
               .draft-comparison-strip > *{
                 border-right:0 !important;
