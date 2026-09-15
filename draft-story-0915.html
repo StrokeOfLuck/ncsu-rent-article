@@ -58,7 +58,7 @@
   }
   .method {
     margin:0 0 14px;
-    max-width:780px;
+    max-width:800px;
     color:#5e5a55;
     font-size:9.5px;
     line-height:1.35;
@@ -103,6 +103,31 @@
     letter-spacing:.06em;
     text-transform:uppercase;
   }
+  .break-option {
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin:1px 0 12px;
+    padding:9px 10px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:#fff;
+  }
+  .break-option input[type="checkbox"] {
+    margin:1px 0 0;
+    accent-color:var(--red);
+  }
+  .break-option label {
+    cursor:pointer;
+    font-size:9px;
+    line-height:1.35;
+  }
+  .break-option strong { font-size:9.5px; }
+  .break-option .break-note {
+    display:block;
+    margin-top:2px;
+    color:#66615b;
+  }
   .section-rule {
     border-top:1px solid var(--line);
     margin:0 0 11px;
@@ -132,6 +157,7 @@
     text-align:right;
     color:#5f5b55;
     font-size:8px;
+    line-height:1.35;
   }
   .source a { color:#315d86; }
   .continue {
@@ -160,7 +186,7 @@
   <section class="graphic" aria-label="NC State on-campus room rates and housing budget estimates">
     <div class="eyebrow">On campus room rates</div>
     <h2>Residence hall monthly equivalent</h2>
-    <p class="method">Projected 2026–27 residence hall rates from official housing rates, converted from two semester charges to a 9-month academic-year monthly equivalent. Includes required ResNet; summer is excluded. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</p>
+    <p class="method">Projected 2026–27 residence hall rates from official housing rates, converted from two semester charges to a 9-month academic-year monthly equivalent. Includes required ResNet; summer is excluded. Winter break is a separate housing term for most residents and is not included unless selected below. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</p>
 
     <div class="rate-grid">
       <div class="rate">
@@ -168,15 +194,23 @@
           <div class="name">Residence hall double (shared room)</div>
           <div class="detail">$3,970/semester + $150 required ResNet fee</div>
         </div>
-        <div class="amount"><strong>≈ $916/month</strong><span>per student</span></div>
+        <div class="amount"><strong id="double-monthly">≈ $916/month</strong><span>per student</span></div>
       </div>
       <div class="rate">
         <div>
           <div class="name">Residence hall single</div>
           <div class="detail">$4,600/semester + $150 required ResNet fee</div>
         </div>
-        <div class="amount"><strong>≈ $1,056/month</strong><span>per student</span></div>
+        <div class="amount"><strong id="single-monthly">≈ $1,056/month</strong><span>per student</span></div>
       </div>
+    </div>
+
+    <div class="break-option">
+      <input type="checkbox" id="winter-break">
+      <label for="winter-break">
+        <strong>Include a full winter-break stay</strong>
+        <span class="break-note">Adds $360 to the academic-year example, using NC State's latest published full-break charge: $360 for 2025–26 ($15 per night). NC State lists 2026–27 winter-break housing as a separate term, but the exact 2026–27 full-break charge and dates have not yet been posted. Checked values are therefore a reference scenario, not a quoted 2026–27 total.</span>
+      </label>
     </div>
 
     <div class="section-rule">
@@ -199,11 +233,28 @@
           <div class="amount"><strong>$9,808</strong><span>academic year</span></div>
         </div>
       </div>
-      <div class="source">Source: <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/">NC State Cost of Attendance</a></div>
+      <div class="source">Sources: <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/">University Housing rates</a> · <a href="https://housing.dasa.ncsu.edu/assignments/break-and-transition-housing/">Winter Break Housing</a> · <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/">NC State Cost of Attendance</a></div>
     </div>
   </section>
 
   <div class="continue">Continue drafting here…</div>
 </main>
+<script>
+(function(){
+  const box=document.getElementById('winter-break');
+  const doubleOut=document.getElementById('double-monthly');
+  const singleOut=document.getElementById('single-monthly');
+  function money(n){ return Math.round(n).toLocaleString('en-US'); }
+  function render(){
+    const winter=box.checked ? 360 : 0;
+    const doubleYear=(3970+150)*2+winter;
+    const singleYear=(4600+150)*2+winter;
+    doubleOut.textContent='≈ $'+money(doubleYear/9)+'/month';
+    singleOut.textContent='≈ $'+money(singleYear/9)+'/month';
+  }
+  box.addEventListener('change',render);
+  render();
+})();
+</script>
 </body>
 </html>
