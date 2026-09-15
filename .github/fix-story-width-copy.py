@@ -110,4 +110,58 @@ if js_marker not in s:
 '''
     s = s.replace('</script>', js + '\n</script>', 1)
 
+# Default the comparison to room charges only. ResNet remains a required separate
+# cost and can be added with the checkbox.
+s = s.replace(
+    '''Projected 2026–27 residence hall rates from official housing rates, converted from two semester charges to a 9-month academic-year monthly equivalent. By default, the calculation includes the required $150-per-semester ResNet fee, which residents pay for internet access but which goes to OIT, not University Housing. Use the ResNet toggle below to view the room charge alone; residents still pay the required fee.''',
+    '''Projected 2026–27 residence hall rates from official housing rates, converted from two semester charges to a 9-month academic-year monthly equivalent. By default, the comparison shows the University Housing room charge alone. Residents also pay a required $150-per-semester ResNet fee for internet access, which goes to OIT rather than University Housing; use the ResNet checkbox below to add it.''',
+    1,
+)
+s = s.replace('id="resnet-fee" checked', 'id="resnet-fee"', 1)
+s = s.replace('≈ $916/month', '≈ $882/month', 1)
+s = s.replace('≈ $1,056/month', '≈ $1,022/month', 1)
+
+old_options = '''    <div class="break-option">\n      <input type="checkbox" id="winter-break">\n      <label for="winter-break">\n        <strong>Include a full winter-break stay</strong>\n        <span class="break-note">Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.</span>\n      </label>\n    </div>\n\n    <div class="break-option resnet-option">\n      <input type="checkbox" id="resnet-fee">\n      <label for="resnet-fee">\n        <strong>Include required ResNet fee (+$150/semester)</strong>\n        <span class="break-note">Checked by default because residents pay this separate OIT charge for internet access. Turn it off only to compare University Housing room charges without the internet fee.</span>\n      </label>\n    </div>'''
+new_options = '''    <div class="comparison-options">\n      <div class="break-option">\n        <input type="checkbox" id="winter-break">\n        <label for="winter-break"><strong>Full winter break (+$360)</strong> <span class="break-note">2025–26 reference rate; 2026–27 rate not yet posted.</span></label>\n      </div>\n\n      <div class="break-option resnet-option">\n        <input type="checkbox" id="resnet-fee">\n        <label for="resnet-fee"><strong>Required ResNet (+$150/semester; ≈ +$33/month)</strong> <span class="break-note">Paid to OIT for internet access.</span></label>\n      </div>\n    </div>'''
+if old_options in s:
+    s = s.replace(old_options, new_options, 1)
+elif 'class="comparison-options"' not in s:
+    raise SystemExit('Could not find housing comparison options')
+
+if '/* Compact comparison options */' not in s:
+    compact_css = r'''
+
+/* Compact comparison options */
+.comparison-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:1px 0 12px;
+}
+.comparison-options .break-option{
+  margin:0;
+  padding:9px 10px;
+  border:1px solid var(--line);
+  align-items:center;
+}
+.comparison-options .break-option + .break-option{
+  margin-top:0;
+  border-top:1px solid var(--line);
+}
+.comparison-options .break-note{
+  display:inline;
+  margin:0 0 0 5px;
+}
+@media (max-width:700px){
+  .comparison-options{ grid-template-columns:1fr; gap:6px; }
+  .comparison-options .break-note{ display:block; margin:2px 0 0; }
+}
+/* End compact comparison options */
+'''
+    s = s.replace('</style>', compact_css + '\n</style>', 1)
+
+# The iframe is resized by JS after load. The 520px minimum prevented it from
+# shrinking to the embedded panel's actual height and created a large white gap.
+s = s.replace('''  min-height:520px;\n  border:0;''', '''  min-height:0;\n  border:0;''', 1)
+
 p.write_text(s, encoding='utf-8')
