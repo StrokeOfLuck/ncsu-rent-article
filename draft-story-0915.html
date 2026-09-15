@@ -640,8 +640,8 @@
             .draft-comparison-strip{
               display:grid;
               grid-template-columns:repeat(3,minmax(0,1fr));
-              margin-top:8px;
-              border-top:1px solid var(--line);
+              margin-top:0;
+              border-top:0;
               border-bottom:0;
               background:#fff;
             }
@@ -718,7 +718,9 @@
             .draft-campus-break-row{
               display:grid;
               grid-template-columns:1fr;
+              margin:8px 0 0;
               background:#fff;
+              border-top:1px solid var(--line);
               border-bottom:1px solid var(--line);
             }
             .draft-campus-break-control{
@@ -727,7 +729,7 @@
               align-items:center;
               gap:7px;
               min-width:0;
-              padding:9px 16px 10px;
+              padding:8px 16px 9px;
               border-left:0;
               color:#514d47;
               font-size:9.5px;
