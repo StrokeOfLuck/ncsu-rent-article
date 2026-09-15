@@ -17,6 +17,7 @@ on:
       - .github/sync-hours-and-resource-layout.py
       - .github/clarify-resnet-labels.py
       - .github/fix-rent-options-and-embed-gap.py
+      - .github/fix-350-axis.py
 permissions:
   contents: write
 jobs:
@@ -40,6 +41,7 @@ jobs:
           python .github/sync-hours-and-resource-layout.py
           python .github/clarify-resnet-labels.py
           python .github/fix-rent-options-and-embed-gap.py
+          python .github/fix-350-axis.py
       - name: Commit change
         shell: bash
         run: |
