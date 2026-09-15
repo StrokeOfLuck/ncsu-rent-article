@@ -794,7 +794,7 @@
       d.body.style.background='#fff';
 
       const resize=()=>{
-        frame.style.height=Math.ceil(Math.max(d.body.scrollHeight,d.documentElement.scrollHeight)+4)+'px';
+        frame.style.height=Math.ceil(wrapper.getBoundingClientRect().height+4)+'px';
         try { frame.contentWindow.dispatchEvent(new Event('resize')); } catch(e) {}
       };
       resize();

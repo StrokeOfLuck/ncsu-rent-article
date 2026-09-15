@@ -525,7 +525,7 @@ th:first-child, td:first-child {
   gap:12px;
 }
 
-.card-rent-area{display:flex;align-items:center;gap:6px;width:auto;margin-top:-18px;position:relative;z-index:2;font-size:10px;font-weight:700;white-space:nowrap}.card-rent-area select{width:132px;max-width:calc(100% - 58px);padding:5px 19px 5px 6px;border:1px solid #aaa397;border-radius:4px;background:#fff;color:var(--ink);font:inherit;font-weight:500}.aid-caution{white-space:normal}@media(max-width:650px){.card-rent-area{width:100%;margin-top:9px}.card-rent-area select{width:min(100%,132px)}}
+.card-rent-area{display:flex;align-items:center;gap:6px;width:auto;margin-top:-18px;position:relative;z-index:2;font-size:10px;font-weight:700;white-space:nowrap}.card-rent-area select{width:270px;max-width:calc(100% - 78px);padding:5px 19px 5px 6px;border:1px solid #aaa397;border-radius:4px;background:#fff;color:var(--ink);font:inherit;font-weight:500}.aid-caution{white-space:normal}@media(max-width:650px){.card-rent-area{width:100%;margin-top:9px}.card-rent-area select{width:min(100%,270px)}}
 
 .affordability-block{
   border-top:0;
@@ -4311,6 +4311,7 @@ th:first-child, td:first-child {
         
         
         
+        
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Doubles</strong>$3,800 → $3,970 <span class="housing-rate-mobile-dollar">(+$170)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$170</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:55.875%"></span></div><div class="housing-rate-value">4.47%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Singles</strong>$4,275 → $4,600 <span class="housing-rate-mobile-dollar">(+$325)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$325</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:95%"></span></div><div class="housing-rate-value">7.60%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375 <span class="housing-rate-mobile-dollar">(+$375)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$375</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:93.75%"></span></div><div class="housing-rate-value">7.50%</div></div>
@@ -4321,6 +4322,7 @@ th:first-child, td:first-child {
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300 <span class="housing-rate-mobile-dollar">(+$300)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$300</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:75%"></span></div><div class="housing-rate-value">6.00%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350 <span class="housing-rate-mobile-dollar">(+$125)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$125</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:37%"></span></div><div class="housing-rate-value">2.96%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025 <span class="housing-rate-mobile-dollar">(+$75)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$75</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:23.75%"></span></div><div class="housing-rate-value">1.90%</div></div>
+      
       
       
       
@@ -4537,9 +4539,9 @@ th:first-child, td:first-child {
           </div>
 
         </div>
-        <label class="card-rent-area">Rent area
-          <select class="affordability-campus-select" aria-label="Rent area for the $7.25 monthly-resources comparison">
-            <option value="main">Main Campus</option><option value="centennial">Centennial Campus</option><option value="vet">Biomedical Campus</option>
+        <label class="card-rent-area">Housing option
+          <select class="affordability-campus-select" aria-label="Housing option for the $7.25 monthly-resources comparison">
+            <option value="main">Off campus — Main Campus room mean</option><option value="centennial">Off campus — Centennial Campus room mean</option><option value="vet">Off campus — Biomedical Campus room mean</option><option value="housing-double">On campus — double (shared room; room charge only)</option><option value="housing-single">On campus — single (room charge only)</option>
           </select>
         </label>
         <div class="burden-sub" id="burdenSubLow">Gross pay per month. Work pay assumes 52 paid weeks/year.</div>
@@ -4577,9 +4579,9 @@ th:first-child, td:first-child {
           </div>
 
         </div>
-        <label class="card-rent-area">Rent area
-          <select class="affordability-campus-select" aria-label="Rent area for the adjustable-pay monthly-resources comparison">
-            <option value="main">Main Campus</option><option value="centennial">Centennial Campus</option><option value="vet">Biomedical Campus</option>
+        <label class="card-rent-area">Housing option
+          <select class="affordability-campus-select" aria-label="Housing option for the adjustable-pay monthly-resources comparison">
+            <option value="main">Off campus — Main Campus room mean</option><option value="centennial">Off campus — Centennial Campus room mean</option><option value="vet">Off campus — Biomedical Campus room mean</option><option value="housing-double">On campus — double (shared room; room charge only)</option><option value="housing-single">On campus — single (room charge only)</option>
           </select>
         </label>
         <div class="burden-sub" id="burdenSubHigh">Gross pay per month. Work pay assumes 52 paid weeks/year.</div>
@@ -5068,18 +5070,29 @@ function updateAffordability() {
   const preset=RentAnalysis.aidPreset({includeGrant:document.getElementById('includeGrant').checked,includeLoan:document.getElementById('includeLoan').checked});
   const inputs={hours:h,...preset};
   const local=overallDistanceBandSummary(currentCampusKey);
-  const affordabilityStats=overallDistanceBandSummary(affordabilityCampusKey).perOverall;
-  const affordabilityLabel=affordabilityCampusKey==='vet' ? 'Biomedical Campus' : campuses[affordabilityCampusKey].label;
+  const onCampusAffordability={
+    'housing-double':{
+      label:'On-campus residence hall double (shared room)',
+      stats:{avg_low:(3970*2/9),avg_high:(3970*2/9),midpoint:(3970*2/9)}
+    },
+    'housing-single':{
+      label:'On-campus residence hall single',
+      stats:{avg_low:(4600*2/9),avg_high:(4600*2/9),midpoint:(4600*2/9)}
+    }
+  };
+  const onCampusSelection=onCampusAffordability[affordabilityCampusKey] || null;
+  const affordabilityStats=onCampusSelection ? onCampusSelection.stats : overallDistanceBandSummary(affordabilityCampusKey).perOverall;
+  const affordabilityLabel=onCampusSelection ? onCampusSelection.label : (affordabilityCampusKey==='vet' ? 'Biomedical Campus' : campuses[affordabilityCampusKey].label);
   document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · rent per bedroom listings within five miles`;
   for(const [name,stats] of [['Per',local.perOverall]]) {
     document.getElementById('combined'+name+'Overall').textContent=stats.display;
     document.getElementById('combined'+name+'Mid').textContent=money(stats.midpoint);
   }
   document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n}`;
-  const rentTitle=`${affordabilityLabel} room rent`;
+  const rentTitle=onCampusSelection ? `${affordabilityLabel} room charge` : `Off-campus ${affordabilityLabel} room rent`;
   document.getElementById('burdenRentTitleLow').textContent=rentTitle;
   document.getElementById('burdenRentTitleHigh').textContent=rentTitle;
-  const meanStats={...affordabilityStats,label:'mean'};
+  const meanStats={...affordabilityStats,label:onCampusSelection ? 'monthly equivalent' : 'mean'};
   for(const [side,wage] of [['Low',7.25],['High',comparisonWage]]) {
     const r=RentAnalysis.resources({...inputs,wage});
     if(side==='Low') document.getElementById('burdenKicker'+side).innerHTML=`<span>Monthly resources</span><span class="kicker-rate">$${wage}/hour</span>`;
@@ -5098,7 +5111,14 @@ document.querySelectorAll('.synced-hours').forEach(slider=>slider.addEventListen
 }));
 for(const id of ['includeGrant','includeLoan']) document.getElementById(id).addEventListener('change',updateAffordability);
 document.querySelectorAll('.affordability-campus-select').forEach(select=>select.addEventListener('change',event=>{
-  setCampus(event.target.value);
+  const key=event.target.value;
+  if(key==='housing-double' || key==='housing-single'){
+    affordabilityCampusKey=key;
+    document.querySelectorAll('.affordability-campus-select').forEach(other=>other.value=key);
+    updateAffordability();
+  }else{
+    setCampus(key);
+  }
 }));
 const wageInput=document.getElementById('hourlyRate');
 function stepWage(change){
