@@ -8,6 +8,7 @@ on:
       - .github/embed-original-housing-rate.py
       - .github/add-resnet-toggle.py
       - .github/bust-reference-math-cache.py
+      - .github/fix-story-width-copy.py
 permissions:
   contents: write
 jobs:
@@ -22,6 +23,7 @@ jobs:
           python .github/embed-original-housing-rate.py
           python .github/add-resnet-toggle.py
           python .github/bust-reference-math-cache.py
+          python .github/fix-story-width-copy.py
       - name: Commit change
         shell: bash
         run: |
@@ -31,6 +33,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Add ResNet comparison toggle and reference math"
+            git commit -m "Align story copy with graphics"
             git push
           fi
