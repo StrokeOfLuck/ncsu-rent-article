@@ -25,14 +25,27 @@
     margin:0 auto;
     padding:34px 0 70px;
   }
-  .draft-label {
+  .topbar {
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    align-items:center;
     margin:0 0 18px;
+  }
+  .draft-label {
     color:#777;
     font-size:11px;
     font-weight:700;
     letter-spacing:.12em;
     text-transform:uppercase;
   }
+  .references-link {
+    color:#315d86;
+    font-size:11px;
+    font-weight:700;
+    text-decoration:none;
+  }
+  .references-link:hover { text-decoration:underline; }
   .lede {
     max-width:820px;
     margin:0 0 18px;
@@ -40,10 +53,22 @@
     line-height:1.28;
   }
   .graphic {
+    position:relative;
     border:1px solid var(--line);
     background:var(--soft);
     padding:14px 14px 10px;
   }
+  .graphic-sources {
+    position:absolute;
+    top:10px;
+    right:12px;
+    max-width:58%;
+    color:#5f5b55;
+    font-size:8px;
+    line-height:1.35;
+    text-align:right;
+  }
+  .graphic-sources a { color:#315d86; }
   .eyebrow {
     margin:0 0 2px;
     font-size:9px;
@@ -152,14 +177,6 @@
   .budget strong {
     font-size:20px;
   }
-  .source {
-    margin-top:10px;
-    text-align:right;
-    color:#5f5b55;
-    font-size:8px;
-    line-height:1.35;
-  }
-  .source a { color:#315d86; }
   .continue {
     margin-top:34px;
     border-top:1px solid #ece9e3;
@@ -170,6 +187,12 @@
   @media (max-width:700px) {
     main { width:min(100% - 24px, 920px); padding-top:24px; }
     .lede { font-size:18px; }
+    .graphic-sources {
+      position:static;
+      max-width:none;
+      margin:0 0 12px;
+      text-align:left;
+    }
     .rate-grid,
     .budget-grid { grid-template-columns:1fr; gap:8px; }
     .rate { border-bottom:1px solid #e7e3dc; }
@@ -179,11 +202,16 @@
 </head>
 <body>
 <main>
-  <div class="draft-label">Article draft</div>
+  <div class="topbar">
+    <div class="draft-label">Article draft</div>
+    <a class="references-link" href="references.html">References</a>
+  </div>
 
   <p class="lede">For many students at NC State, college marks a new chapter of independence. With that comes a new home and, for first-year students, a requirement to live on campus. But that independence comes with a price. For students who are already balancing tuition, food, and other expenses, housing can quickly become one of the bigger costs of attending college.</p>
 
   <section class="graphic" aria-label="NC State on-campus room rates and housing budget estimates">
+    <div class="graphic-sources">Sources: <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/">University Housing rates</a> · <a href="https://housing.dasa.ncsu.edu/assignments/break-and-transition-housing/">Winter Break Housing</a> · <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/">NC State Cost of Attendance</a></div>
+
     <div class="eyebrow">On campus room rates</div>
     <h2>Residence hall monthly equivalent</h2>
     <p class="method">Projected 2026–27 residence hall rates from official housing rates, converted from two semester charges to a 9-month academic-year monthly equivalent. Includes required ResNet; summer is excluded. Winter break is a separate housing term for most residents and is not included unless selected below. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</p>
@@ -233,7 +261,6 @@
           <div class="amount"><strong>$9,808</strong><span>academic year</span></div>
         </div>
       </div>
-      <div class="source">Sources: <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/">University Housing rates</a> · <a href="https://housing.dasa.ncsu.edu/assignments/break-and-transition-housing/">Winter Break Housing</a> · <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/">NC State Cost of Attendance</a></div>
     </div>
   </section>
 
