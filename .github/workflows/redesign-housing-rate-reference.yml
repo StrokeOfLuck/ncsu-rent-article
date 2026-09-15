@@ -12,6 +12,7 @@ on:
       - .github/remove-work-wages-heading.py
       - .github/tighten-embedded-campus-controls.py
       - .github/update-bls-august-reference.py
+      - .github/update-wage-barrie-copy.py
 permissions:
   contents: write
 jobs:
@@ -30,6 +31,7 @@ jobs:
           python .github/remove-work-wages-heading.py
           python .github/tighten-embedded-campus-controls.py
           python .github/update-bls-august-reference.py
+          python .github/update-wage-barrie-copy.py
       - name: Commit change
         shell: bash
         run: |
