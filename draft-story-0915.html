@@ -937,6 +937,19 @@
       d.body.style.margin='0';
       d.body.style.background='#fff';
 
+      if(!d.getElementById('draft-resources-layout-style')){
+        const style=d.createElement('style');
+        style.id='draft-resources-layout-style';
+        style.textContent=`
+          @media (min-width:701px){
+            .burden-grid{
+              grid-template-columns:19fr 20fr !important;
+            }
+          }
+        `;
+        d.head.appendChild(style);
+      }
+
       const resize=()=>{
         frame.style.height=Math.ceil(block.getBoundingClientRect().height+4)+'px';
       };
@@ -953,6 +966,64 @@
   }
 
   frame.addEventListener('load',trimResources);
+})();
+
+
+
+// Sync all visible hour sliders across the work and affordability embeds.
+(function(){
+  const workFrame=document.getElementById('work-wages-frame');
+  const resourcesFrame=document.getElementById('resources-frame');
+  if(!workFrame || !resourcesFrame) return;
+
+  let syncing=false;
+
+  function hourSliders(){
+    const out=[];
+    try {
+      const d=workFrame.contentDocument;
+      const slider=d && d.querySelector('#hours');
+      if(slider) out.push(slider);
+    } catch(e) {}
+    try {
+      const d=resourcesFrame.contentDocument;
+      if(d) out.push(...d.querySelectorAll('.mini-hours-slider'));
+    } catch(e) {}
+    return out;
+  }
+
+  function syncFrom(source, includeChange){
+    if(syncing) return;
+    syncing=true;
+    const value=source.value;
+    hourSliders().forEach(target=>{
+      if(target===source || target.value===value) return;
+      target.value=value;
+      const w=target.ownerDocument.defaultView;
+      target.dispatchEvent(new w.Event('input',{bubbles:true}));
+      if(includeChange) target.dispatchEvent(new w.Event('change',{bubbles:true}));
+    });
+    syncing=false;
+  }
+
+  function bind(){
+    hourSliders().forEach(slider=>{
+      if(slider.dataset.draftHoursSynced) return;
+      slider.dataset.draftHoursSynced='1';
+      slider.addEventListener('input',()=>syncFrom(slider,false));
+      slider.addEventListener('change',()=>syncFrom(slider,true));
+    });
+  }
+
+  function afterLoad(){
+    setTimeout(bind,0);
+    setTimeout(bind,250);
+    setTimeout(bind,900);
+  }
+
+  workFrame.addEventListener('load',afterLoad);
+  resourcesFrame.addEventListener('load',afterLoad);
+  afterLoad();
 })();
 
 </script>
