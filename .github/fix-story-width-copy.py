@@ -28,7 +28,7 @@ elif new not in s:
 if 'id="work-wages-frame"' not in s:
     marker = '''  <div class="continue">Continue drafting here…</div>'''
     insert = '''  <section class="story-copy" aria-label="Student wages and Federal Work-Study">
-    <p>As prices rise, students have to stretch each dollar further. <a href="https://www.labor.nc.gov/workplace-rights/employee-rights-regarding-time-worked-and-wages-earned/minimum-wage-nc" target="_blank" rel="noopener noreferrer">North Carolina’s minimum wage has remained $7.25 an hour since July 2009.</a> <a href="https://emas.ncsu.edu/employment/federal-work-study-program/" target="_blank" rel="noopener noreferrer">NC State’s Federal Work-Study program</a> lists an allowable wage range of $7.25 to $15 an hour, with higher wages requiring a case-by-case exception.</p>
+    <p>As prices rise, students have to stretch each dollar further. <a href="https://www.dol.gov/agencies/whd/minimum-wage/history/chart" target="_blank" rel="noopener noreferrer">North Carolina’s minimum wage has remained $7.25 an hour since July 2009.</a> <a href="https://emas.ncsu.edu/employment/federal-work-study-program/" target="_blank" rel="noopener noreferrer">NC State’s Federal Work-Study program</a> lists an allowable wage range of $7.25 to $15 an hour, with higher wages requiring a case-by-case exception.</p>
   </section>
 
   <section class="work-wages-original-embed" aria-label="Illustrative student work earnings at selected hours">
@@ -163,5 +163,27 @@ if '/* Compact comparison options */' not in s:
 # The iframe is resized by JS after load. The 520px minimum prevented it from
 # shrinking to the embedded panel's actual height and created a large white gap.
 s = s.replace('''  min-height:520px;\n  border:0;''', '''  min-height:0;\n  border:0;''', 1)
+
+# In the embedded campus comparison, put the winter-break control above the comparison
+# strip because it changes the campus figures displayed in that strip.
+s = s.replace(
+    'strip.parentNode.insertBefore(breakRow,strip.nextSibling);',
+    'strip.parentNode.insertBefore(breakRow,strip);',
+    1,
+)
+
+# Make the off-campus caveat explicit that omitted charges are outside advertised rent.
+s = s.replace(
+    '<strong>Advertised rent only.</strong> Utilities and fees vary by listing; some are included and some are extra.',
+    '<strong>Advertised rent only.</strong> Utilities and fees vary by listing; some are included and some are excluded as extra charges.',
+    1,
+)
+
+# Link the July 2009 claim to the federal history table already documented in References.
+s = s.replace(
+    'https://www.labor.nc.gov/workplace-rights/employee-rights-regarding-time-worked-and-wages-earned/minimum-wage-nc',
+    'https://www.dol.gov/agencies/whd/minimum-wage/history/chart',
+    1,
+)
 
 p.write_text(s, encoding='utf-8')
