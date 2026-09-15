@@ -4,8 +4,8 @@ p = Path('draft-story-0915.html')
 s = p.read_text(encoding='utf-8')
 
 # The embedded campus comparison changes both for winter-break housing and for the
-# separately billed required ResNet fee. Put both controls in the same full-width
-# row above the comparison instead of reserving an empty first column.
+# separately billed required ResNet fee. Put both controls in the same row above
+# the campus comparison.
 old_html = '''          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span></div>';'''
 new_html = '''          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span><span class="draft-campus-option-divider" aria-hidden="true"></span><label><input type="checkbox" class="draft-campus-resnet-checkbox"> <strong>Add required ResNet (+$150/semester; ≈ +$33/month)</strong></label><span class="draft-campus-resnet-note">Paid to OIT</span></div>';'''
 if old_html in s:
@@ -23,12 +23,14 @@ new_vars = '''        const embeddedBox=breakRow.querySelector('.draft-campus-br
 if old_vars in s:
     s = s.replace(old_vars, new_vars, 1)
 
-s = s.replace(
-    '''          if(embeddedBox) embeddedBox.checked=!!winterChecked;''',
-    '''          if(embeddedBox) embeddedBox.checked=!!winterChecked;
-          if(embeddedResnetBox) embeddedResnetBox.checked=!!resnetChecked;''',
-    1,
-)
+# Keep the embedded ResNet control synchronized with the parent calculation.
+needle = '''          if(embeddedBox) embeddedBox.checked=!!winterChecked;'''
+if needle in s and 'if(embeddedResnetBox) embeddedResnetBox.checked=!!resnetChecked;' not in s[s.find(needle):s.find(needle)+250]:
+    s = s.replace(
+        needle,
+        needle + '''\n          if(embeddedResnetBox) embeddedResnetBox.checked=!!resnetChecked;''',
+        1,
+    )
 
 if 'embeddedResnetBox.dataset.bound' not in s:
     marker = '''
@@ -99,6 +101,44 @@ if '.draft-campus-option-divider{' not in s:
     if marker not in s:
         raise SystemExit('Could not find campus control label styles')
     s = s.replace(marker, styles, 1)
+
+# Make the control row read as the attached header for the rate cards, rather than
+# a separate floating band. Remove the gap and let the row/strip share one border.
+s = s.replace(
+    '''            .draft-comparison-strip{
+              display:grid;
+              grid-template-columns:repeat(3,minmax(0,1fr));
+              margin-top:8px;
+              border-top:1px solid var(--line);''',
+    '''            .draft-comparison-strip{
+              display:grid;
+              grid-template-columns:repeat(3,minmax(0,1fr));
+              margin-top:0;
+              border-top:0;''',
+    1,
+)
+s = s.replace(
+    '''            .draft-campus-break-row{
+              display:grid;
+              grid-template-columns:1fr;
+              background:#fff;
+              border-bottom:1px solid var(--line);
+            }''',
+    '''            .draft-campus-break-row{
+              display:grid;
+              grid-template-columns:1fr;
+              margin:8px 0 0;
+              background:#fff;
+              border-top:1px solid var(--line);
+              border-bottom:1px solid var(--line);
+            }''',
+    1,
+)
+s = s.replace(
+    '''              padding:9px 16px 10px;''',
+    '''              padding:8px 16px 9px;''',
+    1,
+)
 
 # On narrow screens let the two options wrap cleanly and hide the divider.
 if '.draft-campus-option-divider{display:none;}' not in s:
