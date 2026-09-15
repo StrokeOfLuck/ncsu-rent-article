@@ -20,6 +20,7 @@ on:
       - .github/fix-350-axis.py
       - .github/fix-lede-and-aid-title.py
       - .github/attach-campus-controls-to-rate-cards.py
+      - .github/fix-resnet-note.py
 permissions:
   contents: write
 jobs:
@@ -46,6 +47,7 @@ jobs:
           python .github/fix-350-axis.py
           python .github/fix-lede-and-aid-title.py
           python .github/attach-campus-controls-to-rate-cards.py
+          python .github/fix-resnet-note.py
       - name: Commit change
         shell: bash
         run: |
