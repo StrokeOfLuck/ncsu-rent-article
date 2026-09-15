@@ -573,7 +573,7 @@
         if(!breakRow){
           breakRow=d.createElement('div');
           breakRow.className='draft-campus-break-row';
-          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span><span class="draft-campus-option-divider" aria-hidden="true"></span><label><input type="checkbox" class="draft-campus-resnet-checkbox"> <strong>Add required ResNet (+$150/semester; ≈ +$33/month)</strong></label><span class="draft-campus-resnet-note">Paid to OIT</span></div>';
+          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span><span class="draft-campus-option-divider" aria-hidden="true"></span><label><input type="checkbox" class="draft-campus-resnet-checkbox"> <strong>Add required ResNet (+$150/semester; ≈ +$33/month)</strong></label><span class="draft-campus-resnet-note">Paid to OIT for internet access.</span></div>';
           strip.insertBefore(breakRow, strip.children[1] || null);
         }
 
@@ -753,7 +753,9 @@
             }
             .draft-campus-resnet-note{
               color:#746f68;
-              white-space:nowrap;
+              white-space:normal;
+              line-height:1.25;
+              flex:0 1 auto;
             }
             .draft-campus-break-control label{
               display:flex;
