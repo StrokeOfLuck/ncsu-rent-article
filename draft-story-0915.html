@@ -413,7 +413,7 @@
 
     <blockquote>“Trying to describe the comprehensive nature of what goes into these numbers,” McGalliard said. “We’re trying to not only adjust for utility costs that we have to pay for, we’re adjusting for, you know, the cost of the elevator contract and the grounds and housekeeping and landscaping and roof contracts. Like all of the things go into setting a rate to include the money to provide activities, the money for the staff that is taking care of the buildings, the ones who are living there, providing the behavioral response, et cetera.”</blockquote>
 
-    <p>When asked what specific numerical affordability target University Housing uses when setting rates, however, officials did not identify one. Its published projections show that eight of 10 housing options are expected to increase faster than the 3.0% average for the Bureau of Labor Statistics’ lodging-while-at-school measure.</p>
+    <p>When asked what specific numerical affordability target University Housing uses when setting rates, however, officials did not identify one. Its published projections show that eight of 10 housing options are expected to increase faster than the 3.1% 12-month increase in the Bureau of Labor Statistics’ lodging-while-at-school index from August 2025 to August 2026.</p>
   </section>
 
   <section class="housing-rate-original-embed" aria-label="NC State University Housing projected rate increases compared with inflation">
@@ -421,7 +421,7 @@
   </section>
 
   <section class="story-copy" aria-label="Student wages and Federal Work-Study">
-    <p>As prices rise, students have to stretch each dollar further. <a href="https://www.labor.nc.gov/workplace-rights/employee-rights-regarding-time-worked-and-wages-earned/minimum-wage-nc" target="_blank" rel="noopener noreferrer">North Carolina’s minimum wage has remained $7.25 an hour since July 2009.</a> <a href="https://emas.ncsu.edu/employment/federal-work-study-program/" target="_blank" rel="noopener noreferrer">NC State’s Federal Work-Study program</a> lists an allowable wage range of $7.25 to $15 an hour, with higher wages requiring a case-by-case exception.</p>
+    <p>As prices rise, students have to stretch each dollar further. <a href="https://www.dol.gov/agencies/whd/minimum-wage/history/chart" target="_blank" rel="noopener noreferrer">North Carolina’s minimum wage has remained $7.25 an hour since July 2009.</a> <a href="https://emas.ncsu.edu/employment/federal-work-study-program/" target="_blank" rel="noopener noreferrer">NC State’s Federal Work-Study program</a> lists an allowable wage range of $7.25 to $15 an hour, with higher wages requiring a case-by-case exception.</p>
   </section>
 
   <section class="work-wages-original-embed" aria-label="Illustrative student work earnings at selected hours">
@@ -518,7 +518,7 @@
         if(!overall.querySelector('.draft-offcampus-note')){
           const note=d.createElement('p');
           note.className='draft-offcampus-note';
-          note.innerHTML='<strong>Advertised rent only.</strong> Utilities and fees vary by listing; some are included and some are extra. <a href="references.html#rental-method">How this is calculated</a>';
+          note.innerHTML='<strong>Advertised rent only.</strong> Utilities and fees vary by listing; some are included and some are excluded as extra charges. <a href="references.html#rental-method">How this is calculated</a>';
           overall.appendChild(note);
         }
         if(priceNote && priceNote.classList.contains('housing-monthly-note')){
@@ -530,7 +530,7 @@
           breakRow=d.createElement('div');
           breakRow.className='draft-campus-break-row';
           breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span></div>';
-          strip.parentNode.insertBefore(breakRow,strip.nextSibling);
+          strip.parentNode.insertBefore(breakRow,strip);
         }
 
         const embeddedBox=breakRow.querySelector('.draft-campus-break-checkbox');
@@ -803,6 +803,8 @@
       const workGrid=d.querySelector('.work-grid.clean-work-grid');
       const block=workGrid && workGrid.closest('section.block');
       if(!wrapper || !block) return;
+      const sectionLabel=block.querySelector('.section-label');
+      if(sectionLabel) sectionLabel.style.display='none';
 
       [...wrapper.children].forEach(el => {
         el.style.display = el===block ? '' : 'none';
