@@ -9,6 +9,7 @@ on:
       - .github/add-resnet-toggle.py
       - .github/bust-reference-math-cache.py
       - .github/fix-story-width-copy.py
+      - .github/remove-work-wages-heading.py
       - .github/update-bls-august-reference.py
 permissions:
   contents: write
@@ -25,6 +26,7 @@ jobs:
           python .github/add-resnet-toggle.py
           python .github/bust-reference-math-cache.py
           python .github/fix-story-width-copy.py
+          python .github/remove-work-wages-heading.py
           python .github/update-bls-august-reference.py
       - name: Commit change
         shell: bash
