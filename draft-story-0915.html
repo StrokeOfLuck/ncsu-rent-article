@@ -379,23 +379,108 @@
       }
 
       const benchmarkRow=d.querySelector('.rent-benchmark-row');
-      if(benchmarkRow){
+      if(benchmarkRow && overall && combinedCard){
         const cards=[...benchmarkRow.querySelectorAll(':scope > .rent-benchmark')];
         const single=cards.find(el => el.textContent.toLowerCase().includes('single'));
         const shared=cards.find(el => el.textContent.toLowerCase().includes('double'));
-        if(single) benchmarkRow.appendChild(single);
-        if(shared) benchmarkRow.appendChild(shared);
 
         benchmarkRow.querySelectorAll('.rent-benchmark-note').forEach(note => {
           if(note.textContent.includes('$150 required ResNet fee') && !note.textContent.includes('paid to OIT')){
             note.textContent=note.textContent.replace('$150 required ResNet fee','$150 required ResNet fee (paid to OIT)');
           }
         });
-      }
 
-      const campusContext=housingMonthly && housingMonthly.querySelector('.housing-monthly-note');
-      if(campusContext){
-        campusContext.innerHTML='Projected 2026–27 residence hall rates from <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a>, converted from two semester charges to a 9-month academic-year monthly equivalent. Includes required ResNet; summer is excluded. Off-campus listings and residence halls differ in utilities, services, furnishings, occupancy and lease length.';
+        let strip=d.querySelector('.draft-comparison-strip');
+        if(!strip){
+          strip=d.createElement('div');
+          strip.className='draft-comparison-strip';
+          overall.parentNode.insertBefore(strip,overall);
+        }
+        strip.appendChild(overall);
+        if(single) strip.appendChild(single);
+        if(shared) strip.appendChild(shared);
+        housingMonthly.style.display='none';
+
+        if(!d.getElementById('draft-comparison-style')){
+          const style=d.createElement('style');
+          style.id='draft-comparison-style';
+          style.textContent=`
+            .draft-comparison-strip{
+              display:grid;
+              grid-template-columns:repeat(3,minmax(0,1fr));
+              margin-top:8px;
+              border-top:1px solid var(--line);
+              border-bottom:1px solid var(--line);
+              background:#fff;
+            }
+            .draft-comparison-strip > *{
+              min-width:0;
+              padding:14px 16px 13px !important;
+              border:0 !important;
+              border-right:1px solid var(--line) !important;
+              background:#fff !important;
+            }
+            .draft-comparison-strip > *:last-child{
+              border-right:0 !important;
+            }
+            .draft-comparison-strip .room-overall-line{
+              display:block !important;
+              margin:0 !important;
+            }
+            .draft-comparison-strip .room-overall-line > span{
+              display:flex;
+              flex-direction:column;
+              align-items:flex-start;
+              gap:5px;
+              font-size:12px;
+              font-weight:800;
+              line-height:1.2;
+            }
+            .draft-comparison-strip .room-overall-line strong{
+              display:block;
+              margin:0;
+              font:700 31px/1 Georgia,\"Times New Roman\",serif;
+            }
+            .draft-comparison-strip .rent-benchmark{
+              display:block !important;
+            }
+            .draft-comparison-strip .rent-benchmark-label{
+              font-size:12px !important;
+              line-height:1.2;
+            }
+            .draft-comparison-strip .rent-benchmark-note{
+              margin-top:4px;
+              font-size:9.5px !important;
+              line-height:1.25;
+            }
+            .draft-comparison-strip .rent-benchmark-value{
+              margin-top:7px;
+              text-align:left !important;
+              font-size:28px !important;
+              line-height:1 !important;
+            }
+            .draft-comparison-strip .rent-benchmark-value span{
+              display:block;
+              margin-top:4px;
+              font-size:8px !important;
+              line-height:1.1;
+            }
+            .draft-comparison-strip + .housing-monthly-note{
+              margin:8px 0 0 !important;
+              padding:0 2px 2px !important;
+              line-height:1.4;
+            }
+            @media(max-width:700px){
+              .draft-comparison-strip{grid-template-columns:1fr;}
+              .draft-comparison-strip > *{
+                border-right:0 !important;
+                border-bottom:1px solid var(--line) !important;
+              }
+              .draft-comparison-strip > *:last-child{border-bottom:0 !important;}
+            }
+          `;
+          d.head.appendChild(style);
+        }
       }
 
       wrapper.style.width='100%';
