@@ -177,6 +177,26 @@
   .budget strong {
     font-size:20px;
   }
+  .story-copy {
+    max-width:820px;
+    margin:30px 0 0;
+    font:17px/1.55 Georgia, "Times New Roman", serif;
+  }
+  .story-copy p {
+    margin:0 0 16px;
+  }
+  .story-copy a {
+    color:#315d86;
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
+  .story-copy blockquote {
+    margin:20px 0 0;
+    padding:0 0 0 18px;
+    border-left:3px solid var(--red);
+    font-size:19px;
+    line-height:1.45;
+  }
   .continue {
     margin-top:34px;
     border-top:1px solid #ece9e3;
@@ -197,6 +217,8 @@
     .budget-grid { grid-template-columns:1fr; gap:8px; }
     .rate { border-bottom:1px solid #e7e3dc; }
     .amount strong { font-size:19px; }
+    .story-copy { font-size:16px; }
+    .story-copy blockquote { font-size:18px; }
   }
 </style>
 </head>
@@ -264,7 +286,15 @@
     </div>
   </section>
 
-  <div class="continue">Continue drafting here…</div>
+  <section class="story-copy" aria-label="Off-campus housing transition">
+    <p>Most NC State students eventually have to look beyond University Housing. <a href="references.html#student-housing-cds-2024">NC State’s Common Data Set reports that 62% of undergraduates live off campus or commute.</a> <a href="references.html#raleigh-rent-trend">Raleigh rents have declined from their 2022 peaks</a>, but housing around NC State remains expensive.</p>
+
+    <p>Thomas Barrie, an NC State professor of architecture who directs the university’s Affordable Housing and Sustainable Communities Initiative and teaches housing policy, said increased construction has helped cool the rental market.</p>
+
+    <blockquote>“Rent has gone down. It’s dipped a little bit in downtown Raleigh, and it’s because we’ve actually built a lot of rental housing,” Barrie said. “But it’s still very expensive.”</blockquote>
+  </section>
+
+  <div class="continue">Off-campus housing map and listing analysis next…</div>
 </main>
 <script>
 (function(){
