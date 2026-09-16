@@ -59,9 +59,9 @@ s = re.sub(
 s = s.replace("    const resnet=resnetBox && resnetBox.checked ? 150 : 0;", "    const resnet=150;", 1)
 s = s.replace("    const suffix=resnet ? 'per student' : 'per student · ResNet excluded';", "    const suffix='per student';", 1)
 
-# Remove the embedded ResNet checkbox from the single-line generated control row.
+# Remove the embedded ResNet checkbox from the generated control row.
 s = re.sub(
-    r"^\s*breakRow\.innerHTML='[^\n]*draft-campus-resnet-checkbox[^\n]*';\s*$",
+    r"^\s*breakRow\.innerHTML='[^\n]*class=\\\"draft-campus-resnet-checkbox\\\"[^\n]*';\s*$",
     "          breakRow.innerHTML='<div class=\"draft-campus-break-control\"><label><input type=\"checkbox\" class=\"draft-campus-break-checkbox\"> <strong>Add full winter break (+$360)</strong></label><span class=\"draft-campus-break-year\">2025–26 rate</span><span class=\"draft-campus-break-info\" tabindex=\"0\" role=\"img\" aria-label=\"Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.\" title=\"Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.\">ⓘ</span></div>';",
     s,
     count=1,
@@ -86,11 +86,12 @@ s = s.replace(
     "$150 required ResNet fee (paid to OIT for internet, not University Housing)",
 )
 
-# Guardrails so this cleanup cannot silently leave an optional ResNet control behind.
+# Guardrails: no actual ResNet checkbox markup may remain. Old null-safe JS selectors
+# can remain without rendering a control, but the UI itself must not offer a choice.
 if 'id="resnet-fee"' in s:
     raise SystemExit('Parent ResNet checkbox still present')
-if 'draft-campus-resnet-checkbox' in s:
-    raise SystemExit('Embedded ResNet checkbox still present')
+if 'class=\"draft-campus-resnet-checkbox\"' in s:
+    raise SystemExit('Embedded ResNet checkbox markup still present')
 if '.rate-grid,\n  .budget-grid {\n    display:grid;\n    grid-template-columns:1fr 1fr;' not in s:
     raise SystemExit('Desktop rate grid was not restored')
 
