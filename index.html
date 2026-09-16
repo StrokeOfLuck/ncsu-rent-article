@@ -4630,7 +4630,7 @@ th:first-child, td:first-child {
         </div>
         <label class="card-rent-area">Housing option
           <select class="affordability-campus-select" aria-label="Housing option for the $7.25 monthly-resources comparison">
-            <option value="main">Off campus — Main Campus room mean</option><option value="centennial">Off campus — Centennial Campus room mean</option><option value="vet">Off campus — Biomedical Campus room mean</option><option value="housing-double">On campus — double (shared room; room charge only)</option><option value="housing-single">On campus — single (room charge only)</option>
+            <option value="main">Off campus — Main Campus room mean</option><option value="centennial">Off campus — Centennial Campus room mean</option><option value="vet">Off campus — Biomedical Campus room mean</option><option value="housing-double">On campus — double (shared room; required ResNet included)</option><option value="housing-single">On campus — single (required ResNet included)</option>
           </select>
         </label>
         <div class="burden-sub" id="burdenSubLow">Gross pay per month. Work pay assumes 52 paid weeks/year.</div>
@@ -4670,7 +4670,7 @@ th:first-child, td:first-child {
         </div>
         <label class="card-rent-area">Housing option
           <select class="affordability-campus-select" aria-label="Housing option for the adjustable-pay monthly-resources comparison">
-            <option value="main">Off campus — Main Campus room mean</option><option value="centennial">Off campus — Centennial Campus room mean</option><option value="vet">Off campus — Biomedical Campus room mean</option><option value="housing-double">On campus — double (shared room; room charge only)</option><option value="housing-single">On campus — single (room charge only)</option>
+            <option value="main">Off campus — Main Campus room mean</option><option value="centennial">Off campus — Centennial Campus room mean</option><option value="vet">Off campus — Biomedical Campus room mean</option><option value="housing-double">On campus — double (shared room; required ResNet included)</option><option value="housing-single">On campus — single (required ResNet included)</option>
           </select>
         </label>
         <div class="burden-sub" id="burdenSubHigh">Gross pay per month. Work pay assumes 52 paid weeks/year.</div>
@@ -5162,11 +5162,11 @@ function updateAffordability() {
   const onCampusAffordability={
     'housing-double':{
       label:'On-campus residence hall double (shared room)',
-      stats:{avg_low:(3970*2/9),avg_high:(3970*2/9),midpoint:(3970*2/9)}
+      stats:{avg_low:((3970+150)*2/9),avg_high:((3970+150)*2/9),midpoint:((3970+150)*2/9)}
     },
     'housing-single':{
       label:'On-campus residence hall single',
-      stats:{avg_low:(4600*2/9),avg_high:(4600*2/9),midpoint:(4600*2/9)}
+      stats:{avg_low:((4600+150)*2/9),avg_high:((4600+150)*2/9),midpoint:((4600+150)*2/9)}
     }
   };
   const onCampusSelection=onCampusAffordability[affordabilityCampusKey] || null;
@@ -5184,9 +5184,14 @@ function updateAffordability() {
     document.getElementById('combined'+name+'Mid').textContent=displayedMidText;
   }
   document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n}`;
-  const rentTitle=onCampusSelection ? `${affordabilityLabel} room charge` : `Off-campus ${affordabilityLabel} room rent`;
+  const rentTitle=onCampusSelection ? affordabilityLabel : `Off-campus ${affordabilityLabel} room rent`;
   document.getElementById('burdenRentTitleLow').textContent=rentTitle;
   document.getElementById('burdenRentTitleHigh').textContent=rentTitle;
+  const burdenSub=onCampusSelection
+    ? 'Gross pay per month. On-campus figure includes the required $150/semester ResNet fee, paid to OIT for internet, not University Housing.'
+    : 'Gross pay per month. Work pay assumes 52 paid weeks/year.';
+  document.getElementById('burdenSubLow').textContent=burdenSub;
+  document.getElementById('burdenSubHigh').textContent=burdenSub;
   const meanStats={...affordabilityStats,label:onCampusSelection ? 'monthly equivalent' : 'mean'};
   for(const [side,wage] of [['Low',7.25],['High',comparisonWage]]) {
     const r=RentAnalysis.resources({...inputs,wage});
