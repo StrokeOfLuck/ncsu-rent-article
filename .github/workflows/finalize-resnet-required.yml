@@ -18,7 +18,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898257+StrokeOfLuck@users.noreply.github.com"
-          git add draft-story-0915.html
+          git add draft-story-0915.html index.html
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
