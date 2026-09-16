@@ -18,10 +18,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898257+StrokeOfLuck@users.noreply.github.com"
-          git add index.html
+          git add index.html draft-story-0915.html
           if git diff --cached --quiet; then
             echo "No changes needed"
           else
-            git commit -m "Clarify how aid changes available monthly resources"
+            git commit -m "Sync aid support explanation into article embed"
             git push
           fi
