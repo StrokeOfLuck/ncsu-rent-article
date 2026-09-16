@@ -4163,6 +4163,48 @@ th:first-child, td:first-child {
 }
 /* End aid title collision fix */
 
+
+
+/* Main residence hall comparison controls */
+.main-campus-comparison-options{
+  display:grid;
+  grid-template-columns:19fr 20fr;
+  gap:12px;
+  margin-top:10px;
+}
+.main-campus-option{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  min-width:0;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  background:var(--soft2);
+  font-size:9px;
+  line-height:1.35;
+}
+.main-campus-option input{
+  flex:0 0 auto;
+  margin:2px 0 0;
+}
+.main-campus-option label{
+  min-width:0;
+  cursor:pointer;
+}
+.main-campus-option strong{
+  display:inline;
+  font-size:10px;
+}
+.main-campus-option span{
+  margin-left:6px;
+  color:var(--muted);
+}
+@media (max-width:720px){
+  .main-campus-comparison-options{grid-template-columns:1fr;gap:7px;}
+  .main-campus-option span{display:block;margin:2px 0 0;}
+}
+/* End main residence hall comparison controls */
+
 </style>
 </head>
 <body>
@@ -4231,22 +4273,33 @@ th:first-child, td:first-child {
               <div class="housing-section-title">Residence hall monthly equivalent</div>
             </div>
           </div>
-          <div class="housing-monthly-note">Projected 2026–27 residence hall rates from <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a>, converted from two semester charges to a 9-month academic-year monthly equivalent. Includes required ResNet; summer is excluded. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</div>
+          <div class="housing-monthly-note">Projected 2026–27 residence hall rates from <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a>, converted from two semester charges to a 9-month academic-year monthly equivalent. By default, the comparison shows the University Housing room charge alone. Residents also pay a required $150-per-semester ResNet fee for internet access, which goes to OIT rather than University Housing; use the ResNet checkbox below to add it. Summer is excluded. Winter break is a separate housing term for most residents and is not included unless selected below. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</div>
 
           <div class="rent-benchmark-row">
             <div class="rent-benchmark">
               <div>
                 <div class="rent-benchmark-label">Residence hall double (shared room)</div>
-                <div class="rent-benchmark-note">$3,970/semester + $150 required ResNet fee</div>
+                <div class="rent-benchmark-note">$3,970/semester housing · Required ResNet: +$150/semester (paid to OIT)</div>
               </div>
-              <div class="rent-benchmark-value">≈ $916/month<span>per student</span></div>
+              <div class="rent-benchmark-value" id="main-double-monthly">≈ $882/month<span>per student · ResNet excluded</span></div>
             </div>
             <div class="rent-benchmark">
               <div>
                 <div class="rent-benchmark-label">Residence hall single</div>
-                <div class="rent-benchmark-note">$4,600/semester + $150 required ResNet fee</div>
+                <div class="rent-benchmark-note">$4,600/semester housing · Required ResNet: +$150/semester (paid to OIT)</div>
               </div>
-              <div class="rent-benchmark-value">≈ $1,056/month<span>per student</span></div>
+              <div class="rent-benchmark-value" id="main-single-monthly">≈ $1,022/month<span>per student · ResNet excluded</span></div>
+            </div>
+          </div>
+
+          <div class="main-campus-comparison-options">
+            <div class="main-campus-option">
+              <input type="checkbox" id="main-winter-break">
+              <label for="main-winter-break"><strong>Full winter break (+$360)</strong><span>2025–26 reference rate; 2026–27 rate not yet posted.</span></label>
+            </div>
+            <div class="main-campus-option">
+              <input type="checkbox" id="main-resnet-fee">
+              <label for="main-resnet-fee"><strong>Required ResNet (+$150/semester; ≈ +$33/month)</strong><span>Paid to OIT for internet access.</span></label>
             </div>
           </div>
 
@@ -4338,6 +4391,7 @@ th:first-child, td:first-child {
         
         
         
+        
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Doubles</strong>$3,800 → $3,970 <span class="housing-rate-mobile-dollar">(+$170)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$170</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:55.875%"></span></div><div class="housing-rate-value">4.47%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Singles</strong>$4,275 → $4,600 <span class="housing-rate-mobile-dollar">(+$325)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$325</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:95%"></span></div><div class="housing-rate-value">7.60%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375 <span class="housing-rate-mobile-dollar">(+$375)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$375</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:93.75%"></span></div><div class="housing-rate-value">7.50%</div></div>
@@ -4348,6 +4402,7 @@ th:first-child, td:first-child {
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300 <span class="housing-rate-mobile-dollar">(+$300)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$300</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:75%"></span></div><div class="housing-rate-value">6.00%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350 <span class="housing-rate-mobile-dollar">(+$125)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$125</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:37%"></span></div><div class="housing-rate-value">2.96%</div></div>
         <div class="housing-rate-row"><div class="housing-rate-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025 <span class="housing-rate-mobile-dollar">(+$75)</span></div><div class="housing-rate-dollar" aria-label="Dollar increase">+$75</div><div class="housing-rate-plot"><span class="housing-rate-benchmark-line benchmark-rent"></span><span class="housing-rate-benchmark-line benchmark-school"></span><span class="housing-rate-benchmark-line benchmark-cpi"></span><span class="housing-rate-dot" style="left:23.75%"></span></div><div class="housing-rate-value">1.90%</div></div>
+      
       
       
       
@@ -5224,6 +5279,32 @@ hudInfoDialog?.addEventListener("click", (event) => {
   });
 
   show(pinned);
+})();
+</script>
+
+
+<script>
+(function(){
+  const winterBox=document.getElementById('main-winter-break');
+  const resnetBox=document.getElementById('main-resnet-fee');
+  const doubleOut=document.getElementById('main-double-monthly');
+  const singleOut=document.getElementById('main-single-monthly');
+  if(!doubleOut || !singleOut) return;
+
+  function money(n){ return Math.round(n).toLocaleString('en-US'); }
+  function renderMainCampusRates(){
+    const winter=winterBox && winterBox.checked ? 360 : 0;
+    const resnet=resnetBox && resnetBox.checked ? 150 : 0;
+    const doubleMonthly=((3970+resnet)*2+winter)/9;
+    const singleMonthly=((4600+resnet)*2+winter)/9;
+    const suffix=resnet ? 'per student' : 'per student · ResNet excluded';
+    doubleOut.innerHTML='≈ $'+money(doubleMonthly)+'/month<span>'+suffix+'</span>';
+    singleOut.innerHTML='≈ $'+money(singleMonthly)+'/month<span>'+suffix+'</span>';
+  }
+
+  if(winterBox) winterBox.addEventListener('change',renderMainCampusRates);
+  if(resnetBox) resnetBox.addEventListener('change',renderMainCampusRates);
+  renderMainCampusRates();
 })();
 </script>
 
