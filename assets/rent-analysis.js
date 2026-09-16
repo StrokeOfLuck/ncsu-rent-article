@@ -36,5 +36,14 @@ if (typeof document !== 'undefined') {
     const label = [...document.querySelectorAll('.winter-map-legend span')]
       .find(el => el.textContent.trim() === 'Rent per bedroom listing');
     if (label) label.textContent = 'Rent ($) per bedroom';
+
+    const aidNote = document.getElementById('preset-assumption');
+    const burdenClarifier = 'With aid selected, this is a share-of-resources example, not a formal housing-cost-burden measure.';
+    if (aidNote && !aidNote.textContent.includes(burdenClarifier)) {
+      const link = aidNote.querySelector('a');
+      const note = document.createTextNode(` ${burdenClarifier} `);
+      if (link) aidNote.insertBefore(note, link);
+      else aidNote.appendChild(note);
+    }
   });
 }
