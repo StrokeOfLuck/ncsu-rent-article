@@ -4264,8 +4264,8 @@ th:first-child, td:first-child {
           <tbody id="summary"></tbody>
           <tfoot><tr><th scope="row">All three bands</th><td id="cleaned-summary-note"></td><td id="combinedPerOverall"></td></tr></tfoot>
         </table>
-        <div class="room-overall-line"><span>Mean advertised room rent <strong id="combinedPerMid">$0</strong></span></div>
-        <p class="housing-monthly-note">Monthly prices. The range averages listings’ low and high prices separately. The mean averages each listing’s midpoint, with one vote per listing. Utilities and fees vary. <a href="references.html#rental-method">How this is calculated</a></p>
+        <div class="room-overall-line"><span>Midpoint of displayed mean range <strong id="combinedPerMid">$0</strong></span></div>
+        <p class="housing-monthly-note">Monthly prices. The low–high range is rounded to whole dollars. The displayed midpoint is calculated from those rounded figures so the visible arithmetic checks. Underlying analysis still uses unrounded listing values, with one vote per listing. Utilities and fees vary. <a href="references.html#rental-method">How this is calculated</a></p>
         <div class="housing-monthly">
           <div class="housing-section-head">
             <div>
@@ -5175,7 +5175,13 @@ function updateAffordability() {
   document.getElementById('combinedRentMeta').textContent=`${campuses[currentCampusKey].label} · rent per bedroom listings within five miles`;
   for(const [name,stats] of [['Per',local.perOverall]]) {
     document.getElementById('combined'+name+'Overall').textContent=stats.display;
-    document.getElementById('combined'+name+'Mid').textContent=money(stats.midpoint);
+    const displayedLow=Math.round(stats.avg_low);
+    const displayedHigh=Math.round(stats.avg_high);
+    const displayedMid=(displayedLow+displayedHigh)/2;
+    const displayedMidText=Number.isInteger(displayedMid)
+      ? '$'+displayedMid.toLocaleString('en-US')
+      : '$'+displayedMid.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+    document.getElementById('combined'+name+'Mid').textContent=displayedMidText;
   }
   document.getElementById('cleaned-summary-note').textContent=`${local.perOverall.n}`;
   const rentTitle=onCampusSelection ? `${affordabilityLabel} room charge` : `Off-campus ${affordabilityLabel} room rent`;
