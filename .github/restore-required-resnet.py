@@ -13,7 +13,6 @@ method_variants = [
 final_method = '''Projected 2026–27 residence hall rates from official housing rates, converted from two semester charges to a 9-month academic-year monthly equivalent. The calculation includes the required $150-per-semester ResNet fee for internet access. ResNet is paid to OIT for internet access, not to University Housing. Summer is excluded. Winter break is a separate housing term for most residents and is not included unless selected below. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.'''
 for old in method_variants:
     if old in s:
-        # Include the trailing common sentences in the replacement only once.
         tail = ''' Summer is excluded. Winter break is a separate housing term for most residents and is not included unless selected below. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.'''
         if old + tail in s:
             s = s.replace(old + tail, final_method, 1)
@@ -41,7 +40,19 @@ s = re.sub(
     count=1,
     flags=re.S,
 )
-s = s.replace('grid-template-columns:1fr 1fr;', 'grid-template-columns:1fr;', 1)
+
+# Preserve the two-column rate/budget layout and make the remaining winter-break
+# option span the comparison row by itself.
+s = s.replace(
+    '  .rate-grid,\n  .budget-grid {\n    display:grid;\n    grid-template-columns:1fr;\n    gap:34px;\n  }',
+    '  .rate-grid,\n  .budget-grid {\n    display:grid;\n    grid-template-columns:1fr 1fr;\n    gap:34px;\n  }',
+    1,
+)
+s = s.replace(
+    '.comparison-options{\n  display:grid;\n  grid-template-columns:1fr 1fr;',
+    '.comparison-options{\n  display:grid;\n  grid-template-columns:1fr;',
+    1,
+)
 
 # The required fee is always part of the parent calculation.
 s = s.replace("    const resnet=resnetBox && resnetBox.checked ? 150 : 0;", "    const resnet=150;", 1)
