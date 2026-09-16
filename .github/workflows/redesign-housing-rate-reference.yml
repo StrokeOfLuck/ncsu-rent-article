@@ -22,6 +22,7 @@ on:
       - .github/attach-campus-controls-to-rate-cards.py
       - .github/fix-resnet-note.py
       - .github/restore-required-resnet.py
+      - .github/fix-visible-rent-midpoint.py
 permissions:
   contents: write
 jobs:
@@ -50,6 +51,7 @@ jobs:
           python .github/attach-campus-controls-to-rate-cards.py
           python .github/fix-resnet-note.py
           python .github/restore-required-resnet.py
+          python .github/fix-visible-rent-midpoint.py
       - name: Commit change
         shell: bash
         run: |
