@@ -21,6 +21,7 @@ on:
       - .github/fix-lede-and-aid-title.py
       - .github/attach-campus-controls-to-rate-cards.py
       - .github/fix-resnet-note.py
+      - .github/restore-required-resnet.py
 permissions:
   contents: write
 jobs:
@@ -48,6 +49,7 @@ jobs:
           python .github/fix-lede-and-aid-title.py
           python .github/attach-campus-controls-to-rate-cards.py
           python .github/fix-resnet-note.py
+          python .github/restore-required-resnet.py
       - name: Commit change
         shell: bash
         run: |
