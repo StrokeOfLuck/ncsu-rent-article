@@ -89,3 +89,146 @@ if old_resize in s:
 elif new_resize not in s:
     raise SystemExit('Could not find off-campus iframe resize rule')
 p.write_text(s, encoding='utf-8')
+
+# Keep the standalone/original index comparison in sync with the updated story:
+# show room charge alone by default, then let readers add winter break and ResNet.
+p = Path('index.html')
+s = p.read_text(encoding='utf-8')
+
+old_note = '''<div class="housing-monthly-note">Projected 2026–27 residence hall rates from <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a>, converted from two semester charges to a 9-month academic-year monthly equivalent. Includes required ResNet; summer is excluded. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</div>'''
+new_note = '''<div class="housing-monthly-note">Projected 2026–27 residence hall rates from <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">official housing rates</a>, converted from two semester charges to a 9-month academic-year monthly equivalent. By default, the comparison shows the University Housing room charge alone. Residents also pay a required $150-per-semester ResNet fee for internet access, which goes to OIT rather than University Housing; use the ResNet checkbox below to add it. Summer is excluded. Winter break is a separate housing term for most residents and is not included unless selected below. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</div>'''
+if old_note in s:
+    s = s.replace(old_note, new_note, 1)
+elif 'By default, the comparison shows the University Housing room charge alone.' not in s:
+    raise SystemExit('Could not update main residence-hall method note')
+
+s = s.replace(
+    '<div class="rent-benchmark-note">$3,970/semester + $150 required ResNet fee</div>',
+    '<div class="rent-benchmark-note">$3,970/semester housing · Required ResNet: +$150/semester (paid to OIT)</div>',
+    1,
+)
+s = s.replace(
+    '<div class="rent-benchmark-note">$4,600/semester + $150 required ResNet fee</div>',
+    '<div class="rent-benchmark-note">$4,600/semester housing · Required ResNet: +$150/semester (paid to OIT)</div>',
+    1,
+)
+
+if 'id="main-double-monthly"' not in s:
+    old_double = '<div class="rent-benchmark-value">≈ $916/month<span>per student</span></div>'
+    new_double = '<div class="rent-benchmark-value" id="main-double-monthly">≈ $882/month<span>per student · ResNet excluded</span></div>'
+    if old_double not in s:
+        raise SystemExit('Could not find main double monthly value')
+    s = s.replace(old_double, new_double, 1)
+
+if 'id="main-single-monthly"' not in s:
+    old_single = '<div class="rent-benchmark-value">≈ $1,056/month<span>per student</span></div>'
+    new_single = '<div class="rent-benchmark-value" id="main-single-monthly">≈ $1,022/month<span>per student · ResNet excluded</span></div>'
+    if old_single not in s:
+        raise SystemExit('Could not find main single monthly value')
+    s = s.replace(old_single, new_single, 1)
+
+if 'class="main-campus-comparison-options"' not in s:
+    anchor = '''
+
+        </div>
+
+        <div class="housing-monthly housing-budget-section">'''
+    controls = '''
+
+          <div class="main-campus-comparison-options">
+            <div class="main-campus-option">
+              <input type="checkbox" id="main-winter-break">
+              <label for="main-winter-break"><strong>Full winter break (+$360)</strong><span>2025–26 reference rate; 2026–27 rate not yet posted.</span></label>
+            </div>
+            <div class="main-campus-option">
+              <input type="checkbox" id="main-resnet-fee">
+              <label for="main-resnet-fee"><strong>Required ResNet (+$150/semester; ≈ +$33/month)</strong><span>Paid to OIT for internet access.</span></label>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="housing-monthly housing-budget-section">'''
+    if anchor not in s:
+        raise SystemExit('Could not find main housing budget transition')
+    s = s.replace(anchor, controls, 1)
+
+css_marker = '/* Main residence hall comparison controls */'
+if css_marker not in s:
+    css = '''
+
+/* Main residence hall comparison controls */
+.main-campus-comparison-options{
+  display:grid;
+  grid-template-columns:19fr 20fr;
+  gap:12px;
+  margin-top:10px;
+}
+.main-campus-option{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+  min-width:0;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  background:var(--soft2);
+  font-size:9px;
+  line-height:1.35;
+}
+.main-campus-option input{
+  flex:0 0 auto;
+  margin:2px 0 0;
+}
+.main-campus-option label{
+  min-width:0;
+  cursor:pointer;
+}
+.main-campus-option strong{
+  display:inline;
+  font-size:10px;
+}
+.main-campus-option span{
+  margin-left:6px;
+  color:var(--muted);
+}
+@media (max-width:720px){
+  .main-campus-comparison-options{grid-template-columns:1fr;gap:7px;}
+  .main-campus-option span{display:block;margin:2px 0 0;}
+}
+/* End main residence hall comparison controls */
+'''
+    s = s.replace('</style>', css + '\n</style>', 1)
+
+js_marker = 'function renderMainCampusRates()'
+if js_marker not in s:
+    js = '''
+<script>
+(function(){
+  const winterBox=document.getElementById('main-winter-break');
+  const resnetBox=document.getElementById('main-resnet-fee');
+  const doubleOut=document.getElementById('main-double-monthly');
+  const singleOut=document.getElementById('main-single-monthly');
+  if(!doubleOut || !singleOut) return;
+
+  function money(n){ return Math.round(n).toLocaleString('en-US'); }
+  function renderMainCampusRates(){
+    const winter=winterBox && winterBox.checked ? 360 : 0;
+    const resnet=resnetBox && resnetBox.checked ? 150 : 0;
+    const doubleMonthly=((3970+resnet)*2+winter)/9;
+    const singleMonthly=((4600+resnet)*2+winter)/9;
+    const suffix=resnet ? 'per student' : 'per student · ResNet excluded';
+    doubleOut.innerHTML='≈ $'+money(doubleMonthly)+'/month<span>'+suffix+'</span>';
+    singleOut.innerHTML='≈ $'+money(singleMonthly)+'/month<span>'+suffix+'</span>';
+  }
+
+  if(winterBox) winterBox.addEventListener('change',renderMainCampusRates);
+  if(resnetBox) resnetBox.addEventListener('change',renderMainCampusRates);
+  renderMainCampusRates();
+})();
+</script>
+'''
+    if '</body>' not in s:
+        raise SystemExit('Could not find body close for main housing controls')
+    s = s.replace('</body>', js + '\n</body>', 1)
+
+p.write_text(s, encoding='utf-8')
