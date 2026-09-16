@@ -92,7 +92,7 @@
   .rate-grid,
   .budget-grid {
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr;
     gap:34px;
   }
   .rate {
@@ -347,20 +347,20 @@
 
     <div class="eyebrow">On campus room rates</div>
     <h2>Residence hall monthly equivalent</h2>
-    <p class="method">Projected 2026–27 residence hall rates from official housing rates, converted from two semester charges to a 9-month academic-year monthly equivalent. The calculation includes the required $150-per-semester ResNet fee for internet access, which residents must pay but which goes to OIT rather than University Housing. The ResNet checkbox is checked by default; turn it off only to view the University Housing room charge by itself. Summer is excluded. Winter break is a separate housing term for most residents and is not included unless selected below. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</p>
+    <p class="method">Projected 2026–27 residence hall rates from official housing rates, converted from two semester charges to a 9-month academic-year monthly equivalent. The calculation includes the required $150-per-semester ResNet fee for internet access. ResNet is paid to OIT for internet access, not to University Housing. Summer is excluded. Winter break is a separate housing term for most residents and is not included unless selected below. Furnishing, included services, shared-room occupancy and lease lengths differ from off-campus offers.</p>
 
     <div class="rate-grid">
       <div class="rate">
         <div>
           <div class="name">Residence hall double (shared room)</div>
-          <div class="detail">$3,970/semester housing · Required ResNet: +$150/semester (paid to OIT)</div>
+          <div class="detail">$3,970/semester housing (+$150/semester required ResNet fee; paid to OIT for internet, not University Housing)</div>
         </div>
         <div class="amount"><strong id="double-monthly">≈ $916/month</strong><span>per student</span></div>
       </div>
       <div class="rate">
         <div>
           <div class="name">Residence hall single</div>
-          <div class="detail">$4,600/semester housing · Required ResNet: +$150/semester (paid to OIT)</div>
+          <div class="detail">$4,600/semester housing (+$150/semester required ResNet fee; paid to OIT for internet, not University Housing)</div>
         </div>
         <div class="amount"><strong id="single-monthly">≈ $1,056/month</strong><span>per student</span></div>
       </div>
@@ -370,11 +370,6 @@
       <div class="break-option">
         <input type="checkbox" id="winter-break">
         <label for="winter-break"><strong>Full winter break (+$360)</strong> <span class="break-note">2025–26 reference rate; 2026–27 rate not yet posted.</span></label>
-      </div>
-
-      <div class="break-option resnet-option">
-        <input type="checkbox" id="resnet-fee" checked>
-        <label for="resnet-fee"><strong>Required ResNet (+$150/semester; ≈ +$33/month)</strong> <span class="break-note">Required fee paid to OIT for internet access; included by default.</span></label>
       </div>
     </div>
 
@@ -485,12 +480,12 @@
   function money(n){ return Math.round(n).toLocaleString('en-US'); }
   function render(){
     const winter=winterBox && winterBox.checked ? 360 : 0;
-    const resnet=resnetBox && resnetBox.checked ? 150 : 0;
+    const resnet=150;
     const doubleYear=(3970+resnet)*2+winter;
     const singleYear=(4600+resnet)*2+winter;
     doubleOut.textContent='≈ $'+money(doubleYear/9)+'/month';
     singleOut.textContent='≈ $'+money(singleYear/9)+'/month';
-    const suffix=resnet ? 'per student' : 'per student · ResNet excluded';
+    const suffix='per student';
     if(doubleOut.nextElementSibling) doubleOut.nextElementSibling.textContent=suffix;
     if(singleOut.nextElementSibling) singleOut.nextElementSibling.textContent=suffix;
   }
@@ -546,7 +541,7 @@
 
         benchmarkRow.querySelectorAll('.rent-benchmark-note').forEach(note => {
           if(note.textContent.includes('$150 required ResNet fee') && !note.textContent.includes('paid to OIT')){
-            note.textContent=note.textContent.replace('$4,600/semester + $150 required ResNet fee','$4,600/semester housing · Required ResNet: +$150/semester (paid to OIT)').replace('$3,970/semester + $150 required ResNet fee','$3,970/semester housing · Required ResNet: +$150/semester (paid to OIT)').replace('$150 required ResNet fee','$150 required ResNet fee (paid to OIT)');
+            note.textContent=note.textContent.replace('$4,600/semester + $150 required ResNet fee','$4,600/semester housing (+$150/semester required ResNet fee; paid to OIT for internet, not University Housing)').replace('$3,970/semester + $150 required ResNet fee','$3,970/semester housing (+$150/semester required ResNet fee; paid to OIT for internet, not University Housing)').replace('$150 required ResNet fee','$150 required ResNet fee (paid to OIT for internet, not University Housing)');
           }
         });
 
@@ -575,7 +570,7 @@
         if(!breakRow){
           breakRow=d.createElement('div');
           breakRow.className='draft-campus-break-row';
-          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span><span class="draft-campus-option-divider" aria-hidden="true"></span><label><input type="checkbox" class="draft-campus-resnet-checkbox"> <strong>Add required ResNet (+$150/semester; ≈ +$33/month)</strong></label><span class="draft-campus-resnet-note">Paid to OIT for internet access.</span></div>';
+          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span></div>';
           strip.insertBefore(breakRow, strip.children[1] || null);
         }
 
@@ -588,10 +583,10 @@
 
         function renderEmbeddedCampus(winterChecked,resnetChecked){
           const winter=winterChecked ? 360 : 0;
-          const resnet=resnetChecked ? 150 : 0;
+          const resnet=150;
           const singleMonthly=Math.round(((4600+resnet)*2+winter)/9).toLocaleString('en-US');
           const sharedMonthly=Math.round(((3970+resnet)*2+winter)/9).toLocaleString('en-US');
-          const suffix=resnetChecked ? 'per student' : 'per student · ResNet excluded';
+          const suffix='per student';
           if(singleValue) singleValue.innerHTML='≈ $'+singleMonthly+'/month<span>'+suffix+'</span>';
           if(sharedValue) sharedValue.innerHTML='≈ $'+sharedMonthly+'/month<span>'+suffix+'</span>';
           if(embeddedBox) embeddedBox.checked=!!winterChecked;
