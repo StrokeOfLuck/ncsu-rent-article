@@ -1,6 +1,9 @@
 from pathlib import Path
 import re
 
+# -----------------------------------------------------------------------------
+# Story draft: ResNet is required and always included in the on-campus figures.
+# -----------------------------------------------------------------------------
 p = Path('draft-story-0915.html')
 s = p.read_text(encoding='utf-8')
 
@@ -94,5 +97,67 @@ if 'class=\"draft-campus-resnet-checkbox\"' in s:
     raise SystemExit('Embedded ResNet checkbox markup still present')
 if '.rate-grid,\n  .budget-grid {\n    display:grid;\n    grid-template-columns:1fr 1fr;' not in s:
     raise SystemExit('Desktop rate grid was not restored')
+
+p.write_text(s, encoding='utf-8')
+
+# -----------------------------------------------------------------------------
+# Main interactive affordability cards: use the same ResNet-inclusive figures.
+# -----------------------------------------------------------------------------
+p = Path('index.html')
+s = p.read_text(encoding='utf-8')
+
+# The dropdown should no longer imply that readers can choose a room-charge-only
+# version. ResNet is required, so say it is included.
+s = s.replace(
+    'On campus — double (shared room; room charge only)',
+    'On campus — double (shared room; required ResNet included)',
+)
+s = s.replace(
+    'On campus — single (room charge only)',
+    'On campus — single (required ResNet included)',
+)
+
+# Recalculate the on-campus affordability options with the required $150 fee in
+# each semester. This updates the displayed monthly equivalent and every burden /
+# resources percentage derived from the selected housing cost.
+s = s.replace(
+    "stats:{avg_low:(3970*2/9),avg_high:(3970*2/9),midpoint:(3970*2/9)}",
+    "stats:{avg_low:((3970+150)*2/9),avg_high:((3970+150)*2/9),midpoint:((3970+150)*2/9)}",
+)
+s = s.replace(
+    "stats:{avg_low:(4600*2/9),avg_high:(4600*2/9),midpoint:(4600*2/9)}",
+    "stats:{avg_low:((4600+150)*2/9),avg_high:((4600+150)*2/9),midpoint:((4600+150)*2/9)}",
+)
+
+# The card title should describe the housing option, not call it a room charge,
+# since the displayed amount also contains the required OIT ResNet fee.
+s = s.replace(
+    "const rentTitle=onCampusSelection ? `${affordabilityLabel} room charge` : `Off-campus ${affordabilityLabel} room rent`;",
+    "const rentTitle=onCampusSelection ? affordabilityLabel : `Off-campus ${affordabilityLabel} room rent`;",
+)
+
+# Add the billing clarification directly under the dropdown whenever an on-campus
+# option is selected. Keep the existing wage note for off-campus selections.
+old_sub_anchor = """  document.getElementById('burdenRentTitleLow').textContent=rentTitle;
+  document.getElementById('burdenRentTitleHigh').textContent=rentTitle;
+  const meanStats={...affordabilityStats,label:onCampusSelection ? 'monthly equivalent' : 'mean'};"""
+new_sub_anchor = """  document.getElementById('burdenRentTitleLow').textContent=rentTitle;
+  document.getElementById('burdenRentTitleHigh').textContent=rentTitle;
+  const burdenSub=onCampusSelection
+    ? 'Gross pay per month. On-campus figure includes the required $150/semester ResNet fee, paid to OIT for internet, not University Housing.'
+    : 'Gross pay per month. Work pay assumes 52 paid weeks/year.';
+  document.getElementById('burdenSubLow').textContent=burdenSub;
+  document.getElementById('burdenSubHigh').textContent=burdenSub;
+  const meanStats={...affordabilityStats,label:onCampusSelection ? 'monthly equivalent' : 'mean'};"""
+if old_sub_anchor in s:
+    s = s.replace(old_sub_anchor, new_sub_anchor, 1)
+elif "On-campus figure includes the required $150/semester ResNet fee" not in s:
+    raise SystemExit('Could not add affordability ResNet billing note')
+
+# Guardrails for the interactive cards.
+if 'room charge only' in s:
+    raise SystemExit('Affordability dropdown still says room charge only')
+if "stats:{avg_low:(3970*2/9)" in s or "stats:{avg_low:(4600*2/9)" in s:
+    raise SystemExit('Affordability calculation still excludes ResNet')
 
 p.write_text(s, encoding='utf-8')
