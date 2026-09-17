@@ -193,6 +193,9 @@
   .story-copy p {
     margin:0 0 16px;
   }
+  .story-copy + .story-copy {
+    margin-top:0;
+  }
   .story-copy a {
     color:#315d86;
     text-decoration:underline;
@@ -1213,8 +1216,33 @@ main > section, iframe { min-width:0; max-width:100%; }
           .aid-options { grid-template-columns:minmax(0,1fr); }
           .aid-copy { min-width:0; }
           .aid-name { white-space:normal; }
-          .burden-grid > .burden-legend { grid-template-columns:repeat(2,minmax(0,1fr)); }
-          .burden-grid > .burden-legend > .legend-action { grid-column:1 / -1; grid-row:2; justify-self:start; }
+          .burden-grid > .burden-legend {
+            grid-template-columns:max-content max-content minmax(100px,1fr);
+            column-gap:8px;
+            row-gap:3px;
+            align-items:center;
+          }
+          .burden-grid > .burden-legend > .legend-column {
+            min-width:0;
+            gap:2px;
+          }
+          .burden-grid > .burden-legend .legend-piece {
+            display:flex;
+            align-items:center;
+            gap:4px;
+            font-size:8.5px;
+            white-space:nowrap;
+          }
+          .burden-grid > .burden-legend > .legend-action {
+            grid-column:3;
+            grid-row:1;
+            justify-self:end;
+            align-self:center;
+          }
+          .burden-grid > .burden-legend .hud-info-btn {
+            max-width:120px;
+            white-space:normal;
+          }
         }
         @media(max-width:600px) {
           .room-band-table { width:100%; table-layout:fixed; }
@@ -1226,9 +1254,24 @@ main > section, iframe { min-width:0; max-width:100%; }
           .draft-campus-break-control { min-width:0; }
           .draft-campus-break-control label { align-items:flex-start; }
           .draft-campus-break-control input { flex-shrink:0; }
-          .burden-grid > .burden-legend { grid-template-columns:minmax(0,1fr); }
-          .burden-grid > .burden-legend > .legend-column,
-          .burden-grid > .burden-legend > .legend-action { grid-column:1; grid-row:auto; }
+          .burden-grid > .burden-legend {
+            grid-template-columns:max-content max-content minmax(86px,1fr);
+            gap:3px 6px;
+            padding:8px;
+          }
+          .burden-grid > .burden-legend .legend-piece {
+            gap:3px;
+            font-size:8px;
+          }
+          .burden-grid > .burden-legend > .legend-action {
+            grid-column:3;
+            grid-row:1;
+          }
+          .burden-grid > .burden-legend .hud-info-btn {
+            max-width:100px;
+            padding:6px;
+            font-size:8px;
+          }
         }
       `;
       d.head.appendChild(style);
