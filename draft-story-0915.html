@@ -1170,6 +1170,13 @@ main > section, iframe { min-width:0; max-width:100%; }
           display:grid; grid-template-columns:auto minmax(0,1fr); gap:8px;
         }
         .card-rent-area select { width:100%; min-width:0; max-width:100%; }
+        /* Keep the scale attached to its bar, independent of label height. */
+        .draft-burden-plot { grid-column:3; grid-row:1; min-width:0; align-self:center; }
+        .draft-burden-plot .burden-axis-scale {
+          height:12px; margin-top:16px; color:#8a857d;
+          font-size:9px; font-variant-numeric:tabular-nums; line-height:12px;
+        }
+        .draft-burden-plot .burden-axis-scale span { top:0; }
         @media(max-width:900px) {
           .burden-grid { grid-template-columns:minmax(0,1fr) !important; }
           .burden-grid > .burden-card { grid-row:auto; grid-template-rows:auto auto 1fr auto auto; }
@@ -1195,6 +1202,18 @@ main > section, iframe { min-width:0; max-width:100%; }
         }
       `;
       d.head.appendChild(style);
+      d.querySelectorAll('.burden-chart').forEach(chart=>{
+        const row=chart.querySelector('.burden-row');
+        const track=row && row.querySelector('.burden-track');
+        const axis=chart.querySelector('.burden-axis');
+        const scale=axis && axis.querySelector('.burden-axis-scale');
+        if(!track || !scale) return;
+        const plot=d.createElement('div');
+        plot.className='draft-burden-plot';
+        row.insertBefore(plot,track);
+        plot.append(track,scale);
+        axis.remove();
+      });
       const wrapper=d.querySelector('.wrapper');
       if(!wrapper) return;
       let lastWidth=0;
