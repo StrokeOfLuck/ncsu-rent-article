@@ -625,6 +625,12 @@ main > section, iframe { min-width:0; max-width:100%; }
           strip.insertBefore(breakRow, strip.children[1] || null);
         }
 
+        const auditLink=breakRow.querySelector('.draft-room-audit-link');
+        if(auditLink){
+          auditLink.removeAttribute('style');
+          overall.appendChild(auditLink);
+        }
+
         const embeddedBox=breakRow.querySelector('.draft-campus-break-checkbox');
         const embeddedResnetBox=breakRow.querySelector('.draft-campus-resnet-checkbox');
         const parentBox=document.getElementById('winter-break');
@@ -717,8 +723,25 @@ main > section, iframe { min-width:0; max-width:100%; }
               border-right:0 !important;
             }
             .draft-comparison-strip .room-overall-line{
-              display:block !important;
+              display:grid !important;
+              grid-template-columns:minmax(0,1fr);
+              gap:10px;
+              align-content:start;
               margin:0 !important;
+            }
+            .draft-comparison-strip .draft-room-audit-link{
+              grid-column:1;
+              grid-row:1;
+              justify-self:end;
+              align-self:start;
+              margin:0;
+              padding:0;
+              font-size:9px;
+              line-height:1.35;
+              text-align:right;
+            }
+            .draft-comparison-strip .draft-offcampus-note{
+              grid-column:1 / -1;
             }
             .draft-comparison-strip .room-overall-line > span{
               display:flex;
@@ -885,10 +908,17 @@ main > section, iframe { min-width:0; max-width:100%; }
                 flex-wrap:wrap;
                 gap:0 !important;
               }
-              .draft-room-audit-link{
-                margin:0 !important;
-                padding:0 16px 10px;
-                white-space:normal !important;
+              .draft-comparison-strip .room-overall-line{
+                grid-template-columns:minmax(0,1fr) auto;
+              }
+              .draft-comparison-strip .draft-room-audit-link{
+                grid-column:2;
+                max-width:120px;
+                white-space:normal;
+              }
+              .draft-comparison-strip .room-overall-line > span{
+                grid-column:1;
+                grid-row:1;
               }
               .draft-campus-break-control{
                 grid-column:1;
