@@ -331,6 +331,26 @@
 }
 /* End lede/body type consistency */
 
+/* Keep article text and figures on the same responsive content rail. */
+html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+main > section, iframe { min-width:0; max-width:100%; }
+.lede, .story-copy { overflow-wrap:break-word; }
+.story-copy blockquote { font-size:inherit; line-height:inherit; }
+@media (max-width:980px) {
+  .graphic-sources { position:static; max-width:none; margin-bottom:12px; text-align:left; }
+  .rate-grid, .budget-grid { grid-template-columns:minmax(0,1fr); gap:14px; }
+  .rate, .budget { grid-template-columns:minmax(0,1fr) auto; gap:12px; }
+  .graphic .name { font-size:12px; }
+  .graphic .detail, .method, .budget-sub { font-size:11px; line-height:1.45; }
+  .graphic-sources { font-size:10px; }
+  .break-option label { font-size:11px; }
+  .lede, .story-copy { font-size:18px; line-height:1.55; }
+}
+@media (max-width:420px) {
+  .rate, .budget { grid-template-columns:minmax(0,1fr); gap:8px; }
+  .amount { text-align:left; white-space:normal; }
+}
+
 </style>
 </head>
 <body>
@@ -405,7 +425,7 @@
   </section>
 
   <section class="off-campus-embed" aria-label="Interactive off-campus housing map and rent listing summary">
-    <iframe id="off-campus-frame" src="index.html?v=20260916-aid-support#map" title="NC State off-campus housing map, advertised room rents and campus room comparison" loading="lazy"></iframe>
+    <iframe id="off-campus-frame" src="index.html?v=20260917-mobile#map" title="NC State off-campus housing map, advertised room rents and campus room comparison" loading="eager"></iframe>
   </section>
 
   <section class="story-copy" aria-label="University Housing response and comparison">
@@ -439,7 +459,7 @@
   </section>
 
   <section class="housing-rate-original-embed" aria-label="NC State University Housing projected rate increases compared with inflation">
-    <iframe id="housing-rate-frame" src="index.html?v=20260915-august-bls" title="University Housing rate increase from 2025–26 to 2026–27, with wages and price benchmarks" loading="lazy"></iframe>
+    <iframe id="housing-rate-frame" src="index.html?v=20260917-mobile" title="University Housing rate increase from 2025–26 to 2026–27, with wages and price benchmarks" loading="eager"></iframe>
   </section>
 
   <section class="story-copy" aria-label="Student wages and Federal Work-Study">
@@ -447,7 +467,7 @@
   </section>
 
   <section class="work-wages-original-embed" aria-label="Illustrative student work earnings at selected hours">
-    <iframe id="work-wages-frame" src="index.html" title="Illustrative gross earnings and Federal Work-Study hours" loading="lazy"></iframe>
+    <iframe id="work-wages-frame" src="index.html?v=20260917-mobile" title="Illustrative gross earnings and Federal Work-Study hours" loading="eager"></iframe>
   </section>
 
   <section class="story-copy" aria-label="Student work hours and academic pressure">
@@ -467,7 +487,7 @@
   </section>
 
   <section class="resources-original-embed" aria-label="How room rent compares with a student’s monthly resources">
-    <iframe id="resources-frame" src="index.html" title="How does room rent compare with a student’s monthly resources?" loading="lazy"></iframe>
+    <iframe id="resources-frame" src="index.html?v=20260917-mobile" title="How does room rent compare with a student’s monthly resources?" loading="eager"></iframe>
   </section>
 
   <section class="story-copy" aria-label="Housing insecurity and HOST">
@@ -735,7 +755,9 @@
             .draft-comparison-strip .rent-benchmark-value{
               margin-top:7px;
               text-align:left !important;
-              font-size:28px !important;
+              font-size:24px !important;
+              white-space:normal;
+              overflow-wrap:normal;
               line-height:1 !important;
             }
             .draft-comparison-strip .rent-benchmark-value span{
@@ -831,7 +853,7 @@
               border-left:0;
             }
 
-            @media(max-width:700px){
+            @media(max-width:800px){
               .draft-comparison-strip > *:nth-child(1),
               .draft-comparison-strip > .draft-campus-break-row,
               .draft-comparison-strip > *:nth-child(3),
@@ -850,6 +872,16 @@
               }
               .draft-comparison-strip > *:last-child{border-bottom:0 !important;}
               .draft-campus-break-row{grid-template-columns:1fr;}
+              .draft-comparison-strip > .draft-campus-break-row{
+                display:flex !important;
+                flex-wrap:wrap;
+                gap:0 !important;
+              }
+              .draft-room-audit-link{
+                margin:0 !important;
+                padding:0 16px 10px;
+                white-space:normal !important;
+              }
               .draft-campus-break-control{
                 grid-column:1;
                 border-left:0;
@@ -876,6 +908,15 @@
       resize();
       setTimeout(resize,250);
       setTimeout(resize,900);
+      // The summary and map can change after loading or rotating a phone.
+      if(frame.contentWindow.ResizeObserver){
+        let lastHeight=0;
+        const ro=new frame.contentWindow.ResizeObserver(()=>{
+          const height=Math.ceil(wrapper.getBoundingClientRect().height+4);
+          if(height!==lastHeight){lastHeight=height; frame.style.height=height+'px';}
+        });
+        ro.observe(wrapper);
+      }
     } catch(e) {
       // Same-origin GitHub Pages embed should allow trimming; if it does not, leave the source page intact.
     }
@@ -1017,9 +1058,13 @@
         const style=d.createElement('style');
         style.id='draft-resources-layout-style';
         style.textContent=`
-          @media (min-width:701px){
+          @media (min-width:901px){
             .burden-grid{
-              grid-template-columns:19fr 20fr !important;
+              grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+            }
+            .burden-grid > .burden-card{
+              grid-row:span 5;
+              grid-template-rows:subgrid;
             }
           }
         `;
@@ -1100,6 +1145,71 @@
   workFrame.addEventListener('load',afterLoad);
   resourcesFrame.addEventListener('load',afterLoad);
   afterLoad();
+})();
+
+// Keep embedded figure widths and heights in sync when mobile viewports change.
+(function(){
+  document.querySelectorAll('iframe').forEach(frame=>{
+    frame.addEventListener('load',()=>{
+      const d=frame.contentDocument;
+      if(!d) return;
+      const style=d.createElement('style');
+      style.textContent=`
+        html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+        .wrapper, .block, .combined-card { min-width:0; max-width:100%; }
+        .burden-card > .card-rent-area {
+          width:100%; max-width:100%; margin:12px 0 0;
+          display:grid; grid-template-columns:auto minmax(0,1fr); gap:8px;
+        }
+        .card-rent-area select { width:100%; min-width:0; max-width:100%; }
+        @media(max-width:900px) {
+          .burden-grid { grid-template-columns:minmax(0,1fr) !important; }
+          .burden-grid > .burden-card { grid-row:auto; grid-template-rows:auto auto 1fr auto auto; }
+          .aid-options { grid-template-columns:minmax(0,1fr); }
+          .aid-copy { min-width:0; }
+          .aid-name { white-space:normal; }
+          .burden-grid > .burden-legend { grid-template-columns:repeat(2,minmax(0,1fr)); }
+          .burden-grid > .burden-legend > .legend-action { grid-column:1 / -1; grid-row:2; justify-self:start; }
+        }
+        @media(max-width:600px) {
+          .room-band-table { width:100%; table-layout:fixed; }
+          .room-band-table th, .room-band-table td { padding:9px 4px; white-space:normal; overflow-wrap:break-word; }
+          .room-band-table th { font-size:10px; letter-spacing:.02em; }
+          .room-band-table td { font-size:12px; }
+          .summary-campus-buttons { width:100%; min-width:0; }
+          .summary-campus-buttons .campus-btn { min-width:0; padding:8px 4px; font-size:11px; }
+          .draft-campus-break-control { min-width:0; }
+          .draft-campus-break-control label { align-items:flex-start; }
+          .draft-campus-break-control input { flex-shrink:0; }
+          .burden-grid > .burden-legend { grid-template-columns:minmax(0,1fr); }
+          .burden-grid > .burden-legend > .legend-column,
+          .burden-grid > .burden-legend > .legend-action { grid-column:1; grid-row:auto; }
+        }
+      `;
+      d.head.appendChild(style);
+      const wrapper=d.querySelector('.wrapper');
+      if(!wrapper) return;
+      let lastWidth=0;
+      let scheduled=false;
+      function measure(){
+        scheduled=false;
+        const width=wrapper.getBoundingClientRect().width;
+        const height=Math.ceil(wrapper.getBoundingClientRect().height+4);
+        if(frame.style.height!==height+'px') frame.style.height=height+'px';
+        if(width!==lastWidth){
+          lastWidth=width;
+          frame.contentWindow.dispatchEvent(new Event('resize'));
+        }
+      }
+      function schedule(){
+        if(!scheduled){scheduled=true; requestAnimationFrame(measure);}
+      }
+      if(window.ResizeObserver) new ResizeObserver(schedule).observe(wrapper);
+      window.addEventListener('resize',schedule);
+      if(d.fonts) d.fonts.ready.then(schedule);
+      schedule();
+    });
+  });
 })();
 
 </script>
