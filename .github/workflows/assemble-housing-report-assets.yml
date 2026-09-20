@@ -13,18 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Assemble PDF and screenshot
+      - name: Fetch report and assemble exact screenshot
         shell: bash
         run: |
           set -euo pipefail
-          test -d data/audits/.housing-report-pdf-b64 || exit 0
           test -d data/audits/.housing-report-png-b64 || exit 0
           mkdir -p assets
-          cat data/audits/.housing-report-pdf-b64/part-* | tr -d '\n\r' | base64 --decode > assets/2023-food-and-housing-insecurity.pdf
+          curl -L --fail --retry 3             "https://dasa.ncsu.edu/wp-content/uploads/sites/76/2024/03/Homelessness-and-Food-and-Housing-Insecurity-Among-NC-State-Students-March-2024.pdf"             -o assets/2023-food-and-housing-insecurity.pdf
+          echo "9a154f911e56c4608820695724c8e0b0a1efaa5b14c2aed1a814000c4cf3f49c  assets/2023-food-and-housing-insecurity.pdf" | sha256sum -c -
           cat data/audits/.housing-report-png-b64/part-* | tr -d '\n\r' | base64 --decode > assets/housing-coa-4-of-14-evidence.png
-          test "$(stat -c%s assets/2023-food-and-housing-insecurity.pdf)" -gt 600000
-          test "$(stat -c%s assets/housing-coa-4-of-14-evidence.png)" -gt 100000
-      - name: Commit assembled assets
+          echo "d8ba945a9758c24cda86641c782e03bf3d557fa9f8f21a4fe4ff21fe9f634553  assets/housing-coa-4-of-14-evidence.png" | sha256sum -c -
+      - name: Commit report assets
         shell: bash
         run: |
           set -euo pipefail
