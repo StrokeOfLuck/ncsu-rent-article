@@ -614,7 +614,7 @@ h2 {
 <body>
 <main>
   <div class="kicker"><a class="article-back-link" href="index.html" aria-label="Back to NCSU rent article"><span aria-hidden="true">←</span> Back to NCSU rent article</a></div>
-  <h1>References & step-by-step math</h1><nav class="method-nav"><a href="#student-homelessness-2020">Housing insecurity highlights</a> · <a href="#bedroom-occupancy-audit">Bedroom audit</a> · <a href="#room-rent-audit">Room Excel audit</a> · <a href="#bedroom-visual-audit">Bedroom audit</a> · <a href="#rental-method">Room calculations</a> · <a href="#distance-math">Distances</a> · <a href="#sample-limits">Sample limits</a> · <a href="#aid-math">Earnings and aid</a></nav>
+  <h1>References & step-by-step math</h1><nav class="method-nav"><a href="#student-homelessness-2020">Housing insecurity highlights</a> · <a href="#bedroom-occupancy-audit">Bedroom audit</a> · <a href="#room-rent-audit">Room Excel audit</a> · <a href="#bedroom-visual-audit">Bedroom audit</a> · <a href="#utility-inclusion-audit">Utility audit</a> · <a href="#rental-method">Room calculations</a> · <a href="#distance-math">Distances</a> · <a href="#sample-limits">Sample limits</a> · <a href="#aid-math">Earnings and aid</a></nav>
   <div class="deck">September 9, 2026 advertised-price snapshot, reviewed September 13. Start with the room-only Excel audit to follow the saved data through the listing counts, sums and averages. Sources and assumptions for the earnings and aid comparison follow below.</div>
 
   <section class="reference-search" id="reference-search" role="search" aria-label="Search reporting references">
@@ -813,6 +813,35 @@ h2 {
     <div class="use-note"><strong>Frozen record:</strong> the CSV linked above is the final classification record for this review. The interactive HTML can be used to inspect the saved photos, description, prior text-only evidence and source link, but browser interactions do not alter the published CSV.</div>
 
     <div class="use-note"><strong>Distance field:</strong> the CSV uses the article’s recalculated straight-line Main Campus distance, derived from each listing’s saved scrape coordinates and the fixed Main Campus reference point at <code>35.77951, −78.68168</code>. It does not use the housing portal’s displayed travel-distance value.</div>
+  </div>
+</article>
+
+
+<article class="ref" id="utility-inclusion-audit">
+  <div class="ref-head">
+    <div>
+      <div class="ref-no">Utility-inclusion audit</div>
+      <div class="ref-title">What the advertised room rent says it includes</div>
+    </div>
+    <div class="tags">
+      <span class="tag">Sept. 9 snapshot</span>
+      <span class="tag">41 utility-including listings</span>
+      <span class="tag">8 all-utilities statements</span>
+    </div>
+  </div>
+  <div class="ref-body">
+    <div class="survey-highlight"><strong>Utility review:</strong> 41 of the 76 Main Campus room listings (<strong>53.9%</strong>) explicitly establish at least one core utility as included through the saved portal utility fields, saved listing wording or both. Eight listings (<strong>10.5%</strong>) explicitly state in their saved wording that all utilities are included or that the rent is inclusive of all utilities.</div>
+    <p>The broader 41-listing measure means <strong>at least one</strong> of the selected core utilities — electricity, gas, heat, trash removal or water/sewer — is affirmatively included. It does not mean exactly one utility, and it does not mean all utilities. The eight-listing measure is a manual review of explicit saved wording and is identified row by row in the audit rather than inferred from missing portal checkboxes.</p>
+    <div class="facts">
+      <div class="fact"><div class="fact-label">At least one core utility included</div><div class="fact-value"><strong>41 of 76 · 53.9%</strong><br>Mean advertised midpoint: <strong>$878.11/mo</strong></div></div>
+      <div class="fact"><div class="fact-label">Explicitly says all utilities included</div><div class="fact-value"><strong>8 of 76 · 10.5%</strong><br>Mean advertised midpoint: <strong>$823.25/mo</strong></div></div>
+      <div class="fact"><div class="fact-label">Structured-field cross-check</div><div class="fact-value"><strong>7 listings</strong> have all five selected core portal utility fields marked <code>Included</code>. This is retained as a cross-check, not the headline all-utilities definition.</div></div>
+      <div class="fact"><div class="fact-label">Required monthly fee field among the 8</div><div class="fact-value"><strong>7 show “None.”</strong> The Wilde does not report that portal field; its saved wording instead says the rent is all-inclusive outside a one-time administrative fee.</div></div>
+    </div>
+    <p><a class="audit-download" href="data/audits/ncsu-room-utilities-audit.xlsx?v=20260920" download>Download utility Excel audit</a>
+    <a class="audit-source-link" href="data/audits/ncsu-room-utilities-audit.csv?v=20260920" download>Download utility CSV</a></p>
+    <div class="use-note"><strong>Manual intervention is explicit:</strong> the CSV and workbook contain an <code>all_utilities_explicit_manual</code> field plus the exact saved wording used for every “Yes” classification. The workbook has separate <strong>Any utility included (41)</strong> and <strong>All utilities stated (8)</strong> sheets, with listing-level midpoint formulas and COUNT, SUM, MEAN and SUM ÷ COUNT checks at the bottom.</div>
+    <div class="use-note"><strong>Interpretation:</strong> a listing not counted in the 41 is not automatically a listing where the tenant pays every utility. It means the saved material used for this audit did not affirmatively establish one of the selected core utilities as included.</div>
   </div>
 </article>
 
