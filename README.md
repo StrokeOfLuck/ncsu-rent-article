@@ -130,10 +130,10 @@ Preferred source description:
 
 This dataset should not be described as every rental available around NC State or Raleigh.
 
-The article now displays only usable room/per-bedroom listings on its map, distance table and campus summary. Main Campus room counts are 20 + 46 + 10 = 76. The earnings comparison starts with Main Campus’s 76-listing room mean and follows the selected campus. The room-only workbook reproduces those figures directly. The broader workbook retains both categories and combined-area examples as supplementary evidence.
+The article now displays usable room/per-bedroom listings after the Sept. 20 bedroom-occupancy review. The original Main Campus candidate set contained 76 listings; one explicitly shared-bedroom listing and one occupancy-unclear listing remain preserved in the audit but are excluded from article means. Main Campus article counts are 18 + 46 + 10 = 74, with a midpoint mean of $868.53. The room-only workbook reproduces the final figures directly. The broader workbook retains the earlier pricing-only set and whole-unit examples as supplementary evidence.
 
 ### Room-only listing audit
 
-`data/audits/ncsu-room-rent-audit.xlsx` is the reader-facing room reference. It contains raw property/floor-plan tables, reviewed Listings, 78 Rooms, 90 Excluded IDs with reasons, and nine campus/distance-band tabs with COUNT, SUM, mean and median formulas beneath the listings. Summary pools band totals by listing count; the combined union is deduplicated by ID. Rebuild with `scripts/build_room_workbook.mjs` using the same runtime and output-directory options as the complete audit. Source-linked prices recalculate, but changed membership or new rows require a rebuild.
+`data/audits/ncsu-room-rent-audit.xlsx` is the reader-facing room reference. It contains raw property/floor-plan tables, reviewed Listings, 76 Rooms, 92 Excluded IDs with reasons, and nine campus/distance-band tabs with COUNT, SUM and mean formulas beneath the listings. Summary pools band totals by listing count; the combined union is deduplicated by ID. Rebuild with `scripts/build_room_workbook.mjs` using the same runtime and output-directory options as the complete audit. Source-linked prices recalculate, but changed membership or new rows require a rebuild.
 
 The page now combines band counts and pooled rent into one campus table. The hourly-pay arrows use whole-dollar steps, and the default $15 FWS context is shown beside reset.
