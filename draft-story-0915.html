@@ -439,7 +439,7 @@ main > section, iframe { min-width:0; max-width:100%; }
   </section>
 
   <section class="off-campus-embed" aria-label="Interactive off-campus housing map and rent listing summary">
-    <iframe id="off-campus-frame" src="index.html?v=20260917-mobile#map" title="NC State off-campus housing map, advertised room rents and campus room comparison" loading="eager"></iframe>
+    <iframe id="off-campus-frame" src="index.html?v=20260920-audit-link-cleanup" title="NC State off-campus housing map, advertised room rents and campus room comparison" loading="eager"></iframe>
   </section>
 
   <section class="story-copy" aria-label="University Housing response and comparison">
@@ -615,7 +615,7 @@ main > section, iframe { min-width:0; max-width:100%; }
         if(!overall.querySelector('.draft-offcampus-note')){
           const note=d.createElement('p');
           note.className='draft-offcampus-note';
-          note.innerHTML='<strong>Advertised rent only.</strong> Utilities and fees vary by listing; some are included and some are excluded as extra charges. <a href="references.html#rental-method">How this is calculated</a>';
+          note.innerHTML='<strong>Advertised rent only.</strong> Utilities and fees vary by listing; some are included and some are excluded as extra charges. <a href="references.html#room-rent-audit">Check the data and calculations</a>';
           overall.appendChild(note);
         }
         if(priceNote && priceNote.classList.contains('housing-monthly-note')){
@@ -630,14 +630,8 @@ main > section, iframe { min-width:0; max-width:100%; }
           breakRow.style.alignItems='center';
           breakRow.style.justifyContent='space-between';
           breakRow.style.gap='12px';
-          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span></div><a class="draft-room-audit-link" href="references.html#room-rent-audit" style="margin-left:auto;white-space:nowrap;font-size:9px;">Room-listing Excel audit</a>';
+          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span></div>';
           strip.insertBefore(breakRow, strip.children[1] || null);
-        }
-
-        const auditLink=breakRow.querySelector('.draft-room-audit-link');
-        if(auditLink){
-          auditLink.removeAttribute('style');
-          overall.appendChild(auditLink);
         }
 
         const embeddedBox=breakRow.querySelector('.draft-campus-break-checkbox');
