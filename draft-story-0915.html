@@ -451,7 +451,7 @@ main > section, iframe { min-width:0; max-width:100%; }
 
     <p>Of the listings in the Sept. 9 scrape, 74 were identified as offering a bedroom intended for one occupant. Those listings had a mean advertised price of <a href="references.html#main-campus-private-bedroom-math">about $869 per month</a>. Six listings, about 8% of the sample, explicitly advertised both all utilities and internet or Wi-Fi as included; their mean advertised rent was <a href="references.html#utility-internet-math">about $816 per month</a>.</p>
 
-    <p>NC State housing officials said more than 70% of residence hall room inventory is double occupancy. The double room price shown above represents one student’s cost to share a bedroom with another student, with a monthly equivalent of <a href="references.html?v=20260920-housing-math-scroll#residence-hall-monthly-math">about $916 per student</a>. Residence hall rates include utilities, laundry, maintenance and student support, while internet is billed through a separate required ResNet fee.</p>
+    <p>NC State housing officials said more than 70% of residence hall room inventory is double occupancy. The double room price shown above represents one student’s cost to share a bedroom with another student, with a monthly equivalent of <a href="references.html?v=20260920-housing-math-no-midpoint#residence-hall-monthly-math">about $916 per student</a>. Residence hall rates include utilities, laundry, maintenance and student support, while internet is billed through a separate required ResNet fee.</p>
 
     <p>Donna McGalliard, associate vice chancellor and associate dean for Student Life and Advocacy and executive director of University Housing, described double rooms as Housing’s “best kind of value.” She called the comparison between residence hall doubles and per-bedroom prices advertised off campus “apples and oranges,” saying University Housing compares on-campus apartments with off-campus apartments and considers amenities when setting rates.</p>
 
@@ -471,7 +471,7 @@ main > section, iframe { min-width:0; max-width:100%; }
   </section>
 
   <section class="housing-rate-original-embed" aria-label="NC State University Housing projected rate increases compared with inflation">
-    <iframe id="housing-rate-frame" src="index.html?v=20260920-housing-math-restored" title="University Housing rate increase from 2025–26 to 2026–27, with wages and price benchmarks" loading="eager"></iframe>
+    <iframe id="housing-rate-frame" src="index.html?v=20260920-housing-math-top-right" title="University Housing rate increase from 2025–26 to 2026–27, with wages and price benchmarks" loading="eager"></iframe>
   </section>
 
   <section class="story-copy" aria-label="Student wages and Federal Work-Study">
@@ -610,6 +610,14 @@ main > section, iframe { min-width:0; max-width:100%; }
         strip.appendChild(overall);
         if(single) strip.appendChild(single);
         if(shared) strip.appendChild(shared);
+        let housingMathLink=strip.querySelector('.draft-housing-math-link');
+        if(!housingMathLink){
+          housingMathLink=d.createElement('a');
+          housingMathLink.className='draft-housing-math-link';
+          housingMathLink.href='references.html?v=20260920-housing-math-no-midpoint#residence-hall-monthly-math';
+          housingMathLink.textContent='See monthly-equivalent math';
+          strip.appendChild(housingMathLink);
+        }
         housingMonthly.style.display='none';
 
         if(!overall.querySelector('.draft-offcampus-note')){
@@ -630,7 +638,7 @@ main > section, iframe { min-width:0; max-width:100%; }
           breakRow.style.alignItems='center';
           breakRow.style.justifyContent='space-between';
           breakRow.style.gap='12px';
-          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span></div><a class="draft-housing-math-link" href="references.html?v=20260920-housing-math-scroll#residence-hall-monthly-math">See monthly-equivalent math</a>';
+          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span></div>';
           strip.insertBefore(breakRow, strip.children[1] || null);
         }
 
@@ -743,9 +751,14 @@ main > section, iframe { min-width:0; max-width:100%; }
               line-height:1.35;
               text-align:right;
             }
+            .draft-comparison-strip{
+              position:relative;
+            }
             .draft-comparison-strip .draft-housing-math-link{
-              margin-left:auto;
-              align-self:center;
+              position:absolute;
+              top:8px;
+              right:10px;
+              z-index:3;
               font-size:9px;
               line-height:1.35;
               white-space:nowrap;
