@@ -719,7 +719,7 @@ h2 {
       <strong>Method:</strong> Each listing in the Main Campus room sample was manually reviewed using the saved Sept. 9 listing photographs and description. A listing was coded as a private bedroom when the saved material appeared to show or describe a sleeping room intended for one occupant; as shared when multiple occupants were shown or explicitly described as sharing the sleeping room; and as unclear when the available material did not establish the arrangement.
     </div>
     <div class="use-note">
-      <strong>Result wording:</strong> The visual audit supports saying that <strong>74 of 76 listings appeared to offer a bedroom intended for one occupant</strong>. One listing explicitly offered one of two beds in a shared bedroom, and one could not be determined from the available material.
+      <strong>Result wording:</strong> The visual audit supports saying that <strong>74 of 76 reviewed listings appeared to offer a bedroom intended for one occupant</strong>. One listing explicitly offered one of two beds in a shared bedroom, and one could not be determined from the available material. <strong>The article’s Main Campus rent analysis uses the 74 appeared-private listings and excludes the shared and unclear listings.</strong>
     </div>
     <div class="audit-source-note">
       The CSV is the frozen classification record. The visual audit is a reader-facing inspection tool containing the saved photo links, descriptions, prior text-only evidence and finalized classifications. The original listing pages may change after the Sept. 9 snapshot.
@@ -728,25 +728,25 @@ h2 {
 </article>
 
 <article class="ref" id="room-rent-audit"><div class="ref-head"><div><div class="ref-no">Start here: room-only Excel audit</div><div class="ref-title">Raw data, room listings and distance-band calculations</div></div></div><div class="ref-body">
-<p><a class="audit-download" href="data/audits/ncsu-room-rent-audit.xlsx?v=20260913-room-tabs" download>Download the room-only Excel audit</a></p>
-<p><strong>This workbook lets you check every room figure in the article.</strong> It starts with the saved data, separates the usable room offers, and shows the addition and division beneath each distance-band list. It contains <strong>78 room listings and 90 excluded records</strong>, accounting for all 168 saved listing IDs.</p>
+<p><a class="audit-download" href="data/audits/ncsu-room-rent-audit.xlsx?v=20260920-private74" download>Download the room-only Excel audit</a></p>
+<p><strong>This workbook lets you check every room figure in the article.</strong> It starts with the saved data, separates the usable room offers, and shows the addition and division beneath each distance-band list. It contains <strong>76 article room listings and 92 excluded records</strong>, accounting for all 168 saved listing IDs. The two additional exclusions come from the Sept. 20 bedroom-occupancy review.</p>
 <ol>
 <li><strong>Raw properties / Raw floorplans:</strong> all 168 saved listing records and 537 nested floor-plan records. Whole-unit offers stay here so the original evidence is preserved.</li>
-<li><strong>Listings / Rooms:</strong> Listings records the classification and price checks. Rooms pulls out the 78 usable room, per-bedroom and single-person suite offers within five miles of at least one campus point.</li>
+<li><strong>Listings / Rooms:</strong> Listings records the classification and price checks. Rooms pulls out the 76 usable room, per-bedroom and single-person suite offers within five miles of at least one campus point after the bedroom-occupancy exclusions.</li>
 <li><strong>Campus distance tabs:</strong> each campus has 0–1, more than 1–3 and more than 3–5 mile tabs. Each row shows a listing’s low price, high price, midpoint, distance, ID and source link. Scroll below the list for COUNT, SUM, mean and median formulas.</li>
-<li><strong>Summary / Excluded:</strong> Summary combines the bands by their listing counts. Excluded explains why each of the other 90 IDs is outside this article, including valid whole-unit prices, unusable prices and locations outside the study area.</li>
+<li><strong>Summary / Excluded:</strong> Summary combines the bands by their listing counts. Excluded explains why each of the other 92 IDs is outside this article, including valid whole-unit prices, unusable prices, locations outside the study area, the explicitly shared-bedroom listing and the occupancy-unclear listing.</li>
 </ol>
 <p><strong>Reading the math:</strong> a $600–$800 listing contributes a $700 midpoint: ($600 + $800) ÷ 2. Add all listing midpoints and divide by the listing count for the mean. The midpoint summarizes the advertised range; it is not a verified lease price or proof that a room is offered at exactly that price.</p>
-<p>Main Campus has <strong>20 + 46 + 10 = 76</strong> room listings, Centennial has <strong>10 + 53 + 13 = 76</strong>, and Biomedical has <strong>4 + 40 + 28 = 72</strong>. Campus areas overlap, so do not add their totals. Rooms counts each ID once.</p>
+<p>Main Campus has <strong>18 + 46 + 10 = 74</strong> article listings, Centennial has <strong>8 + 53 + 13 = 74</strong>, and Biomedical has <strong>4 + 38 + 28 = 70</strong>. Campus areas overlap, so do not add their totals. The Rooms sheet contains <strong>76 unique IDs</strong> across the union of the three areas.</p>
 <p>Formulas retain full precision and show cents. Filters do not change the published totals. These are fixed extracts: editing a linked price recalculates its midpoint and totals, but changing classification, location, inclusion decisions or source rows requires rebuilding the extracts. Live listings may have changed since the September 9 snapshot.</p>
 </div></article>
 
 <article class="ref" id="audit-downloads"><div class="ref-head"><div><div class="ref-no">Additional evidence</div><div class="ref-title">Source files, review log and broader audit</div></div></div><div class="ref-body">
-<p>The <a href="#room-rent-audit">room-only workbook above</a> reproduces the article directly. The broader audit retains whole-unit calculations and additional checks for readers who want to inspect the earlier, wider analysis.</p>
+<p>The <a href="#room-rent-audit">room-only workbook above</a> reproduces the article directly. The broader audit retains whole-unit calculations and additional checks for readers who want to inspect the earlier, wider analysis. It predates the Sept. 20 bedroom-occupancy refinement, so use the updated room-only workbook above for the article’s final room sample.</p>
 <p><a href="data/audits/ncsu-rent-audit.xlsx?v=20260913-kept2" download>Download the broader Excel audit</a> · <a href="rental-map-audit.html">Open the map and searchable listing checker</a></p>
 <details><summary>What the broader workbook includes</summary>
-<p>Its Kept tab contains 131 usable listings: 78 room offers and 53 whole-unit offers. Its Excluded tab contains 37 records: 25 price exclusions within the study area and 12 outside all three five-mile areas. These definitions differ from the room-only workbook, where all 90 records outside the room article are excluded. Reasons may overlap; each ID is counted once.</p>
-<p>Filter Kept to <strong>Price basis = Per bedroom</strong> for the article’s 78 unique room listings. Filter Main band to the three in-area bands for Main Campus’s 76. Summary and Budget retain combined-area examples, so use the room-only workbook and the Main Campus worked example on this page to match the article’s default.</p>
+<p>Its Kept tab contains 131 usable listings from the earlier pricing review: 78 room offers and 53 whole-unit offers. The final room article subsequently excludes two of those room offers after the bedroom-occupancy review. Its Excluded tab contains 37 records: 25 price exclusions within the study area and 12 outside all three five-mile areas. These definitions differ from the room-only workbook, where all 90 records outside the room article are excluded. Reasons may overlap; each ID is counted once.</p>
+<p>Filter Kept to <strong>Price basis = Per bedroom</strong> to inspect the earlier 78-offer room set. For the final article sample, use the updated room-only workbook: Main Campus contains 74 appeared-private listings after excluding one explicitly shared-bedroom listing and one occupancy-unclear listing.</p>
 <p>The broader file also retains sensitivity checks, housing-rate calculations, optional personal-budget inputs and a whole-unit sharing example. Those additional inputs are not part of the article interface.</p>
 <div id="worked-whole"></div>
 </details>
@@ -755,7 +755,7 @@ h2 {
 </div></article>
 
 <article class="ref" id="rental-method"><div class="ref-head"><div><div class="ref-no">Room-only scope and calculations</div><div class="ref-title">What the advertised room prices measure</div></div></div><div class="ref-body">
-<p><strong>The question is what one student is advertised a room for.</strong> The article uses room, per-bedroom and single-person suite offers from <a href="https://offcampus.dasa.ncsu.edu/housing">NC State’s Off-Campus Housing portal</a>. Whole-unit prices are excluded because the listing does not establish an individual student’s share. The analysis does not divide apartment prices by an assumed number of roommates.</p>
+<p><strong>The question is what one student is advertised a bedroom for.</strong> The article uses room, per-bedroom and single-person suite offers from <a href="https://offcampus.dasa.ncsu.edu/housing">NC State’s Off-Campus Housing portal</a>. Whole-unit prices are excluded because the listing does not establish an individual student’s share. For the Main Campus comparison, manual review also excludes one listing that explicitly offered a bed in a shared bedroom and one listing whose bedroom occupancy could not be determined. The analysis does not divide apartment prices by an assumed number of roommates.</p>
 <p><strong>One observation is one portal listing ID.</strong> A community advertisement and a separate room advertisement can refer to the same building. The unit being counted is an advertisement, not a distinct building, tenant, available bed or signed lease. Advertisers supply the prices; the university does not guarantee their accuracy.</p>
 <ol>
 <li><strong>Keep the snapshot fixed.</strong> Use the saved September 9 prices. The September 13 review clarifies classifications and exclusions without substituting newer live prices. Twenty saved titles say “Room in…” despite a whole-unit flag; three more descriptions establish room/suite offers. All 23 corrections are logged, including records that remain excluded for other reasons.</li>
@@ -794,9 +794,9 @@ h2 {
     </div>
   </div>
   <div class="ref-body">
-    <div class="survey-highlight"><strong>Manual review result:</strong> 74 of 76 listings appeared to offer a bedroom intended for one occupant. One listing explicitly offered one of two beds in a shared bedroom, and one listing could not be determined from the saved material.</div>
+    <div class="survey-highlight"><strong>Manual review result:</strong> 74 of 76 reviewed listings appeared to offer a bedroom intended for one occupant. One listing explicitly offered one of two beds in a shared bedroom, and one listing could not be determined from the saved material. <strong>The final Main Campus rent mean uses the 74 appeared-private listings.</strong></div>
 
-    <p><strong>What was reviewed:</strong> the saved Sept. 9, 2026 listing photographs and descriptions for the same 76-listing Main Campus room sample used in the article. “Unclear” was retained when the available material did not establish whether the sleeping room was exclusive to one occupant.</p>
+    <p><strong>What was reviewed:</strong> the saved Sept. 9, 2026 listing photographs and descriptions for the 76 Main Campus room candidates identified before occupancy review. “Unclear” was retained when the available material did not establish whether the sleeping room was exclusive to one occupant.</p>
 
     <p>
       <a class="audit-download" href="data/audits/ncsu-room-bedroom-visual-audit.csv?v=20260920-final" download>Download frozen bedroom audit CSV</a>
@@ -807,10 +807,10 @@ h2 {
       <div class="fact"><div class="fact-label">Appeared private</div><div class="fact-value"><strong>74</strong> listings</div></div>
       <div class="fact"><div class="fact-label">Explicitly shared</div><div class="fact-value"><strong>1</strong> listing</div></div>
       <div class="fact"><div class="fact-label">Unclear</div><div class="fact-value"><strong>1</strong> listing</div></div>
-      <div class="fact"><div class="fact-label">Distance bands</div><div class="fact-value"><strong>20</strong> at 0–1 mi · <strong>46</strong> at &gt;1–3 mi · <strong>10</strong> at &gt;3–5 mi</div></div>
+      <div class="fact"><div class="fact-label">Article analytic bands</div><div class="fact-value"><strong>18</strong> at 0–1 mi · <strong>46</strong> at &gt;1–3 mi · <strong>10</strong> at &gt;3–5 mi</div></div>
     </div>
 
-    <div class="use-note"><strong>Frozen record:</strong> the CSV linked above is the final classification record for this review. The interactive HTML can be used to inspect the saved photos, description, prior text-only evidence and source link, but browser interactions do not alter the published CSV.</div>
+    <div class="use-note"><strong>Frozen record:</strong> the CSV linked above preserves all 76 reviewed candidates, including the shared and unclear rows. The article analysis excludes those two rows rather than deleting them from the audit. The interactive HTML can be used to inspect the saved photos, description, prior text-only evidence and source link, but browser interactions do not alter the published CSV.</div>
 
     <div class="use-note"><strong>Distance field:</strong> the CSV uses the article’s recalculated straight-line Main Campus distance, derived from each listing’s saved scrape coordinates and the fixed Main Campus reference point at <code>35.77951, −78.68168</code>. It does not use the housing portal’s displayed travel-distance value.</div>
   </div>
@@ -830,15 +830,15 @@ h2 {
     </div>
   </div>
   <div class="ref-body">
-    <div class="survey-highlight"><strong>Utility review:</strong> 41 of the 76 Main Campus room listings (<strong>53.9%</strong>) explicitly establish at least one core utility as included through the saved portal utility fields, saved listing wording or both. Eight listings (<strong>10.5%</strong>) explicitly state in their saved wording that all utilities are included or that the rent is inclusive of all utilities. <strong>Six of those eight also explicitly include internet or Wi-Fi.</strong></div>
-    <p>The broader 41-listing measure means <strong>at least one</strong> of the selected core utilities — electricity, gas, heat, trash removal or water/sewer — is affirmatively included. It does not mean exactly one utility, and it does not mean all utilities. The eight-listing measure is a manual review of explicit saved wording and is identified row by row in the audit rather than inferred from missing portal checkboxes.</p>
+    <div class="survey-highlight"><strong>Utility review:</strong> 41 of the 74 Main Campus private-bedroom analytic listings (<strong>55.4%</strong>) explicitly establish at least one core utility as included through the saved portal utility fields, saved listing wording or both. Eight listings (<strong>10.8%</strong>) explicitly state in their saved wording that all utilities are included or that the rent is inclusive of all utilities. <strong>Six of those eight also explicitly include internet or Wi-Fi.</strong></div>
+    <p>The broader 41-listing measure means <strong>at least one</strong> of the selected core utilities — electricity, gas, heat, trash removal or water/sewer — is affirmatively included. It does not mean exactly one utility, and it does not mean all utilities. The eight-listing measure is a manual review of explicit saved wording and is identified row by row in the audit rather than inferred from missing portal checkboxes. Neither of the two occupancy-excluded listings was in the 41-listing utility-inclusion group, so the subgroup counts stay 41 and 8 while the denominator changes from 76 candidates to 74 analytic listings.</p>
     <div class="facts">
-      <div class="fact"><div class="fact-label">At least one core utility included</div><div class="fact-value"><strong>41 of 76 · 53.9%</strong><br>Mean advertised midpoint: <strong>$878.11/mo</strong></div></div>
-      <div class="fact"><div class="fact-label">Explicitly says all utilities included</div><div class="fact-value"><strong>8 of 76 · 10.5%</strong><br>Mean advertised midpoint: <strong>$823.25/mo</strong></div></div>
+      <div class="fact"><div class="fact-label">At least one core utility included</div><div class="fact-value"><strong>41 of 74 · 55.4%</strong><br>Mean advertised midpoint: <strong>$878.11/mo</strong></div></div>
+      <div class="fact"><div class="fact-label">Explicitly says all utilities included</div><div class="fact-value"><strong>8 of 74 · 10.8%</strong><br>Mean advertised midpoint: <strong>$823.25/mo</strong></div></div>
       <div class="fact"><div class="fact-label">Structured-field cross-check</div><div class="fact-value"><strong>7 listings</strong> have all five selected core portal utility fields marked <code>Included</code>. This is retained as a cross-check, not the headline all-utilities definition.</div></div>
       <div class="fact"><div class="fact-label">Internet/Wi-Fi among the 8</div><div class="fact-value"><strong>6 of 8</strong> explicitly include internet or Wi-Fi in the saved listing wording or portal utility fields. The other two say all utilities are included but do not specifically mention internet, so internet is not assumed for those listings.</div></div>
     </div>
-    <p><a class="audit-download" href="data/audits/ncsu-room-utilities-audit.xlsx?v=20260920-fixed" download>Download utility Excel audit</a>
+    <p><a class="audit-download" href="data/audits/ncsu-room-utilities-audit.xlsx?v=20260920-private74" download>Download utility Excel audit</a>
     <a class="audit-source-link" href="data/audits/ncsu-room-utilities-audit.csv?v=20260920" download>Download utility CSV</a></p>
     <div class="use-note"><strong>Manual intervention is explicit:</strong> the CSV and workbook contain an <code>all_utilities_explicit_manual</code> field plus the exact saved wording used for every “Yes” classification. The workbook has separate <strong>Any utility included (41)</strong> and <strong>All utilities stated (8)</strong> sheets, with listing-level midpoint formulas and COUNT, SUM, MEAN and SUM ÷ COUNT checks at the bottom.</div>
     <div class="use-note"><strong>Interpretation:</strong> a listing not counted in the 41 is not automatically a listing where the tenant pays every utility. It means the saved material used for this audit did not affirmatively establish one of the selected core utilities as included.</div>
