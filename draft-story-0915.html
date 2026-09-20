@@ -165,11 +165,27 @@
     margin:0 0 11px;
     padding-top:10px;
   }
+  .budget-heading-row {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+  }
   .budget-title {
     margin:0 0 4px;
     font-size:14px;
     font-weight:800;
   }
+  .budget-source {
+    flex:0 0 auto;
+    padding-top:1px;
+    color:#5f5b55;
+    font-size:8px;
+    line-height:1.35;
+    text-align:right;
+    white-space:nowrap;
+  }
+  .budget-source a { color:#315d86; }
   .budget-sub {
     margin:0 0 10px;
     color:#5f5b55;
@@ -240,6 +256,15 @@
       max-width:none;
       margin:0 0 12px;
       text-align:left;
+    }
+    .budget-heading-row {
+      flex-direction:column;
+      gap:3px;
+    }
+    .budget-source {
+      padding-top:0;
+      text-align:left;
+      white-space:normal;
     }
     .rate-grid,
     .budget-grid { grid-template-columns:1fr; gap:8px; }
@@ -377,7 +402,7 @@ main > section, iframe { min-width:0; max-width:100%; }
   <p class="lede">For many NC State students, college marks a new chapter of independence. That often includes a new home. But that independence comes at a price. For students already balancing tuition, food and other expenses, housing can quickly become one of the largest costs of attending college.</p>
 
   <section class="graphic" aria-label="NC State on-campus room rates and housing budget estimates">
-    <div class="graphic-sources">Sources: <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/">University Housing rates</a> · <a href="https://housing.dasa.ncsu.edu/assignments/break-and-transition-housing/">Winter Break Housing</a> · <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/">NC State Cost of Attendance</a></div>
+    <div class="graphic-sources">Sources: <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/">University Housing rates</a> · <a href="https://housing.dasa.ncsu.edu/assignments/break-and-transition-housing/">Winter Break Housing</a></div>
 
     <div class="eyebrow">On campus room rates</div>
     <h2>Residence hall monthly equivalent</h2>
@@ -408,8 +433,13 @@ main > section, iframe { min-width:0; max-width:100%; }
     </div>
 
     <div class="section-rule">
-      <div class="eyebrow">NC State budget estimates</div>
-      <div class="budget-title">Official NC State housing budgets</div>
+      <div class="budget-heading-row">
+        <div>
+          <div class="eyebrow">NC State budget estimates</div>
+          <div class="budget-title">Official NC State housing budgets</div>
+        </div>
+        <div class="budget-source">Source: <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/">NC State Cost of Attendance</a></div>
+      </div>
       <p class="budget-sub">2026–27 cost-of-attendance housing estimates for full-time fall + spring enrollment.</p>
       <div class="budget-grid">
         <div class="budget">
