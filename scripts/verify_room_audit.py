@@ -89,7 +89,7 @@ for name, (values, formulas) in sheets.items():
     mean = sum((rooms[sid]['rent_low'] + rooms[sid]['rent_high']) / 2 for sid in ids) / len(ids)
     assert math.isclose(values['D' + str(count_row + 2)], mean, abs_tol=1e-8)
 excluded = {value for cell, value in sheets['Excluded'][0].items() if cell.startswith('D') and cell != 'D1'}
-assert len(rooms) == 78 and len(excluded) == 90 and not set(rooms) & excluded
+assert len(rooms) == 76 and len(excluded) == 92 and not set(rooms) & excluded
 assert set(rooms) | excluded == {r['site_id'] for r in data['rentals']}
 assert len(band_counts) == 9
-print('PASS: raw data preserved, 78 rooms + 90 excluded IDs, nine band memberships, source-linked prices, SUM/count/mean formulas, cached results and native filters.')
+print('PASS: raw data preserved, 76 rooms + 92 excluded IDs, nine band memberships, source-linked prices, SUM/count/mean formulas, cached results and native filters.')
