@@ -146,10 +146,10 @@ for(let j=0;j<summaryItems.length;j++){
 ss.getRange('C6:G18').setNumberFormat(money);ss.getRange('A6:G18').format.rowHeight=25;
 const notes=[
  ['Read the math','Open a distance-band tab and scroll below its listings. COUNT, SUM, average and median are live Excel formulas.'],
- ['Main Campus count','20 + 46 + 10 = 76 room listings.'],
- ['Overlapping campuses','Do not add campus totals. Rooms has 78 unique IDs across the union of the three campus areas.'],
+ ['Main Campus count','18 + 46 + 10 = 74 article listings after the Sept. 20 bedroom-occupancy review.'],
+ ['Overlapping campuses','Do not add campus totals. Rooms has 76 unique IDs across the union of the three campus areas after the two occupancy exclusions.'],
  ['Raw to reviewed to rooms','Raw properties and Raw floorplans preserve the saved source values. Listings applies reviewed categories and formula checks. Rooms keeps usable room offers within five miles of any campus.'],
- ['Excluded scope','Excluded has 90 IDs not used in the room article. Valid whole-unit offers are outside this scope, not bad data. Reasons can overlap. Rooms plus Excluded account for all 168 raw IDs.'],
+ ['Excluded scope','Excluded has 92 IDs not used in the room article, including the explicitly shared-bedroom and occupancy-unclear listings. Valid whole-unit offers are outside this scope, not bad data. Reasons can overlap. Rooms plus Excluded account for all 168 raw IDs.'],
  ['Updating this audit','These are fixed, ID-keyed extracts. Source-linked values and formulas recalculate. Rebuild after changing membership, locations, categories or adding source rows. Filters do not change the published totals.'],
  ['Advertised offers','Includes future move-ins, waitlist mentions and varied lease lengths. It is not a count of vacancies available now. Live listings may have changed.'],
  ['What the mean measures','One contribution per listing ID. Not weighted by bedrooms, available units, student demand or closeness. Small groups deserve caution, especially Biomedical 0–1 mile (4 offers).'],
@@ -166,7 +166,7 @@ for(const [name,t] of Object.entries(totals)){
  const rs=d.rentals.filter(r=>t.ids.includes(r.site_id)),expected=A.stats(rs),v=sheets[name].getRange(`B${t.count}:D${t.mean}`).values;
  if(v[0].some(x=>x!==rs.length)||Math.abs(v[1][0]-expected.low_sum)>1e-7||Math.abs(v[1][1]-expected.high_sum)>1e-7||Math.abs(v[2][2]-expected.midpoint)>1e-7)throw Error('Room tab arithmetic mismatch: '+name);
 }
-if(roomRows.length!==78||excluded.length!==90||new Set([...roomRows,...excluded].map(r=>r.site_id)).size!==168)throw Error('Room/excluded partition');
+if(roomRows.length!==76||excluded.length!==92||new Set([...roomRows,...excluded].map(r=>r.site_id)).size!==168)throw Error('Room/excluded partition');
 for(let j=0;j<d.rentals.length;j++){
  const r=d.rentals[j],v=ls.getRange(`O${j+2}:U${j+2}`).values[0];
  if(v[0]!==+r.eligible_price||Math.abs(v[1]-r.distance_main)>1e-8||Math.abs(v[3]-r.distance_centennial)>1e-8||Math.abs(v[5]-r.distance_vet)>1e-8)throw Error('Source calculation mismatch: '+r.site_id);
@@ -174,7 +174,7 @@ for(let j=0;j<d.rentals.length;j++){
 // Verify a source price change reaches the extracted row and its mean, then restore.
 const probe=roomRows.find(r=>r.distance_main<=1),rawIndex=raw.properties.findIndex(r=>r.site_id===probe.site_id)+2,original=Number(raw.properties[rawIndex-2].rent_low),rt=totals['Main 0-1 mi'];
 const oldMean=sheets['Main 0-1 mi'].getRange('B'+rt.mean).values[0][0];sheets['Raw properties'].getRange(rawCol('rent_low')+rawIndex).values=[[original+20]];wb.recalculate();
-if(Math.abs(sheets['Main 0-1 mi'].getRange('B'+rt.mean).values[0][0]-oldMean-20/20)>1e-7)throw Error('Source-to-band recalculation failed');
+if(Math.abs(sheets['Main 0-1 mi'].getRange('B'+rt.mean).values[0][0]-oldMean-20/rt.ids.length)>1e-7)throw Error('Source-to-band recalculation failed');
 sheets['Raw properties'].getRange(rawCol('rent_low')+rawIndex).values=[[original]];wb.recalculate();
 console.log((await wb.inspect({kind:'region',sheetId:'Summary',range:'A6:G18',maxChars:2200,tableMaxRows:13,tableMaxCols:7})).ndjson);
 console.log((await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#NAME\\?|#N/A|#NUM!|#NULL!|#SPILL!|#CALC!',options:{useRegex:true,maxResults:10},maxChars:1200})).ndjson);
