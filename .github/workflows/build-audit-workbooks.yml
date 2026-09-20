@@ -1,56 +1,31 @@
-name: Build audit workbooks
+name: Validate audit workbooks
 
 on:
   push:
     branches: [main]
     paths:
       - '.github/workflows/build-audit-workbooks.yml'
-      - 'scripts/build_room_workbook.mjs'
-      - 'scripts/build_utilities_workbook.mjs'
+      - 'data/audits/ncsu-room-rent-audit.xlsx'
+      - 'data/audits/ncsu-room-utilities-audit.xlsx'
+      - 'data/audits/ncsu-room-utilities-audit.csv'
       - 'scripts/verify_room_audit.py'
       - 'data/reviewed-rentals.json'
-      - 'data/audits/ncsu-room-utilities-audit.csv'
       - 'assets/rent-analysis.js'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install workbook dependency
-        run: npm install --no-save --package-lock=false @oai/artifact-tool
-
-      - name: Build room audit
-        run: node scripts/build_room_workbook.mjs .
-
-      - name: Build utility audit
-        run: node scripts/build_utilities_workbook.mjs .
-
-      - name: Verify room audit
-        run: python scripts/verify_room_audit.py
 
       - name: Verify XLSX containers
         run: |
           unzip -t data/audits/ncsu-room-rent-audit.xlsx
           unzip -t data/audits/ncsu-room-utilities-audit.xlsx
 
-      - name: Commit regenerated workbooks
-        run: |
-          rm -f data/audits/.room-audit.b64.* data/audits/.r74.*.b64
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A data/audits
-          if ! git diff --cached --quiet; then
-            git commit -m "Regenerate audit workbooks for private-bedroom sample"
-            git push
-          fi
+      - name: Verify room audit
+        run: python scripts/verify_room_audit.py
