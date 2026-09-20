@@ -475,54 +475,150 @@ h2 {
   font-size:12px;
   line-height:1.35;
 }
-.rate-change-chart {
+.rate-change-chart{
   display:grid;
-  gap:9px;
-  margin-top:10px;
+  gap:8px;
+  margin-top:12px;
+  padding-top:8px;
+  border-top:1px solid var(--line);
 }
-.rate-change-row {
+.rate-change-axis,
+.rate-change-row{
   display:grid;
-  grid-template-columns:minmax(245px, 1.45fr) minmax(180px, 1fr) 58px;
-  gap:10px;
+  grid-template-columns:minmax(300px,1.25fr) 92px minmax(260px,1fr) 58px;
+  gap:12px;
   align-items:center;
 }
-.rate-change-label {
-  font-size:10.5px;
-  line-height:1.3;
+.rate-change-axis{
+  margin-bottom:8px;
 }
-.rate-change-label strong {
-  display:block;
-  font-size:11px;
-}
-.rate-change-track {
-  height:12px;
-  overflow:hidden;
-  border:1px solid var(--line);
-  background:var(--soft);
-}
-.rate-change-bar {
-  height:100%;
-  background:var(--accent);
-}
-.rate-change-value {
-  font-size:11px;
+.rate-change-type-heading,
+.rate-change-dollar-heading{
+  color:var(--muted);
+  font-size:8.5px;
   font-weight:800;
-  text-align:right;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.rate-change-dollar-heading{
+  text-align:center;
+}
+.rate-change-axis-plot{
+  position:relative;
+  height:32px;
+}
+.rate-change-axis-tick{
+  position:absolute;
+  bottom:-15px;
+  transform:translateX(-50%);
+  color:var(--muted);
+  font-size:8.5px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.rate-change-axis-tick.first{transform:none}
+.rate-change-axis-tick.last{transform:translateX(-100%)}
+.rate-change-benchmark-label{
+  position:absolute;
+  left:38.75%;
+  bottom:-15px;
+  transform:translateX(-50%);
+  color:#6fb4f2;
+  font-size:8.5px;
+  line-height:1;
+  font-weight:900;
+  white-space:nowrap;
+}
+.rate-change-benchmark-label::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:13px;
+  height:27px;
+  border-left:2px solid #6fb4f2;
+}
+.rate-change-label{
+  font-size:10px;
+  line-height:1.28;
+}
+.rate-change-label strong{
+  display:block;
+  color:var(--ink);
+  font-size:10.5px;
+}
+.rate-change-dollar{
+  text-align:center;
+  font-size:10.5px;
+  font-weight:800;
   font-variant-numeric:tabular-nums;
 }
-@media(max-width:700px) {
-  .range-source-grid { grid-template-columns:1fr; }
-  .rate-change-row {
-    grid-template-columns:1fr 46px;
-    gap:5px 8px;
+.rate-change-mobile-dollar{display:none}
+.rate-change-plot{
+  position:relative;
+  height:18px;
+}
+.rate-change-plot::before{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  border-top:1px solid var(--line);
+}
+.rate-change-benchmark-line{
+  position:absolute;
+  left:38.75%;
+  top:-13px;
+  bottom:-13px;
+  border-left:2px solid #6fb4f2;
+  z-index:1;
+}
+.rate-change-dot{
+  position:absolute;
+  top:50%;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:var(--accent);
+  box-shadow:0 0 0 2px var(--paper),0 0 0 3px var(--accent);
+  z-index:2;
+}
+.rate-change-value{
+  text-align:right;
+  font-size:10.5px;
+  font-weight:820;
+  font-variant-numeric:tabular-nums;
+}
+@media(max-width:800px){
+  .rate-change-axis,
+  .rate-change-row{
+    grid-template-columns:minmax(0,1fr) 48px;
+    gap:4px 8px;
   }
-  .rate-change-track {
+  .rate-change-axis .rate-change-type-heading,
+  .rate-change-axis .rate-change-dollar-heading,
+  .rate-change-axis > div:last-child,
+  .rate-change-dollar{display:none}
+  .rate-change-axis-plot{
+    grid-column:1 / -1;
+    height:32px;
+  }
+  .rate-change-plot{
     grid-column:1 / -1;
     grid-row:2;
   }
-  .rate-change-value {
+  .rate-change-value{
     grid-column:2;
     grid-row:1;
+  }
+  .rate-change-mobile-dollar{
+    display:inline;
+    margin-left:2px;
+    color:var(--muted);
+    font-size:.9em;
+    font-weight:750;
+    white-space:nowrap;
   }
 }
 
@@ -608,6 +704,7 @@ h2 {
 }
 
 .method-scroll{overflow-x:auto;margin:16px 0}.method-table{border-collapse:collapse;width:100%;font-size:12px}.method-table td,.method-table th{padding:10px;border-bottom:1px solid #ddd;text-align:left;vertical-align:top}.method-table th{background:#f4f1ec}.method-table td{min-width:90px}.method-table td:last-child{min-width:150px}.ref-body p,.ref-body li{line-height:1.65}.ref-body li{margin-bottom:9px}.method-nav{line-height:2;margin:16px 0}.audit-download{display:inline-block;padding:10px;background:#8b1f2d;color:white!important;border-radius:4px}details summary{cursor:pointer;font-weight:700}details[open] .method-table td:last-child{min-width:360px}.ref{scroll-margin-top:130px}
+#residence-hall-monthly-math{scroll-margin-top:165px;}
 .survey-highlight{margin:0;padding:16px;border-left:4px solid var(--accent);background:#fff2cc;color:var(--ink);font-size:15px;font-weight:650;line-height:1.65}
 </style>
 </head>
@@ -1532,20 +1629,31 @@ h2 {
 
     <h2>Projected rate increase from 2025–26 to 2026–27</h2>
     <div class="use-note">
-      <strong>Calculation:</strong> (2026–27 projected room rate − 2025–26 room rate) ÷ 2025–26 room rate × 100. This chart compares the published <strong>room-rate rows only</strong>; ResNet and the Coastal Quarters communication fee are excluded so the year-to-year rate change is like-for-like.
+      <strong>Calculation:</strong> (2026–27 projected room rate − 2025–26 room rate) ÷ 2025–26 room rate × 100. This chart compares the published <strong>room-rate rows only</strong>; ResNet and the Coastal Quarters communication fee are excluded so the year-to-year rate change is like-for-like. The dot plot mirrors the article graphic, with the August 2026 BLS <strong>lodging while at school</strong> increase of <strong>3.1%</strong> shown as a reference line.
     </div>
 
-    <div class="rate-change-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27">
-      <div class="rate-change-row"><div class="rate-change-label"><strong>Single</strong>$4,275 → $4,600</div><div class="rate-change-track"><div class="rate-change-bar" style="width:95%"></div></div><div class="rate-change-value">7.60%</div></div>
-      <div class="rate-change-row"><div class="rate-change-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375</div><div class="rate-change-track"><div class="rate-change-bar" style="width:93.75%"></div></div><div class="rate-change-value">7.50%</div></div>
-      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King/Western Manor — studio</strong>$3,900 → $4,150</div><div class="rate-change-track"><div class="rate-change-bar" style="width:80.13%"></div></div><div class="rate-change-value">6.41%</div></div>
-      <div class="rate-change-row"><div class="rate-change-label"><strong>Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms</strong>$4,500 → $4,780</div><div class="rate-change-track"><div class="rate-change-bar" style="width:77.75%"></div></div><div class="rate-change-value">6.22%</div></div>
-      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300</div><div class="rate-change-track"><div class="rate-change-bar" style="width:75%"></div></div><div class="rate-change-value">6.00%</div></div>
-      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King — 1-bedroom undergraduate double</strong>$4,125 → $4,350</div><div class="rate-change-track"><div class="rate-change-bar" style="width:68.13%"></div></div><div class="rate-change-value">5.45%</div></div>
-      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King/Western Manor — 1 bedroom</strong>$4,375 → $4,600</div><div class="rate-change-track"><div class="rate-change-bar" style="width:64.38%"></div></div><div class="rate-change-value">5.14%</div></div>
-      <div class="rate-change-row"><div class="rate-change-label"><strong>Double</strong>$3,800 → $3,970</div><div class="rate-change-track"><div class="rate-change-bar" style="width:55.88%"></div></div><div class="rate-change-value">4.47%</div></div>
-      <div class="rate-change-row"><div class="rate-change-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350</div><div class="rate-change-track"><div class="rate-change-bar" style="width:37%"></div></div><div class="rate-change-value">2.96%</div></div>
-      <div class="rate-change-row"><div class="rate-change-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025</div><div class="rate-change-track"><div class="rate-change-bar" style="width:23.75%"></div></div><div class="rate-change-value">1.90%</div></div>
+    <div class="rate-change-chart" aria-label="Projected percentage increase in NC State housing rates from 2025–26 to 2026–27. Dots show each housing rate increase on a zero to eight percent scale; a vertical line marks the August 2026 BLS lodging-while-at-school increase of 3.1 percent.">
+      <div class="rate-change-axis" aria-hidden="true">
+        <div class="rate-change-type-heading">Housing type/location</div>
+        <div class="rate-change-dollar-heading">Dollar increase</div>
+        <div class="rate-change-axis-plot">
+          <span class="rate-change-benchmark-label">Lodging while at school 3.1%</span>
+          <span class="rate-change-axis-tick first" style="left:0%">0%</span>
+          <span class="rate-change-axis-tick" style="left:75%">6%</span>
+          <span class="rate-change-axis-tick last" style="left:100%">8%</span>
+        </div>
+        <div></div>
+      </div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Doubles</strong>$3,800 → $3,970 <span class="rate-change-mobile-dollar">(+$170)</span></div><div class="rate-change-dollar">+$170</div><div class="rate-change-plot"><span class="rate-change-benchmark-line"></span><span class="rate-change-dot" style="left:55.875%"></span></div><div class="rate-change-value">4.47%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Singles</strong>$4,275 → $4,600 <span class="rate-change-mobile-dollar">(+$325)</span></div><div class="rate-change-dollar">+$325</div><div class="rate-change-plot"><span class="rate-change-benchmark-line"></span><span class="rate-change-dot" style="left:95%"></span></div><div class="rate-change-value">7.60%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Wolf Village/Wolf Ridge — 1 bedroom/studio</strong>$5,000 → $5,375 <span class="rate-change-mobile-dollar">(+$375)</span></div><div class="rate-change-dollar">+$375</div><div class="rate-change-plot"><span class="rate-change-benchmark-line"></span><span class="rate-change-dot" style="left:93.75%"></span></div><div class="rate-change-value">7.50%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Wolf Village/Wolf Ridge — 2, 3 or 4 bedrooms</strong>$4,500 → $4,780 <span class="rate-change-mobile-dollar">(+$280)</span></div><div class="rate-change-dollar">+$280</div><div class="rate-change-plot"><span class="rate-change-benchmark-line"></span><span class="rate-change-dot" style="left:77.75%"></span></div><div class="rate-change-value">6.22%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King — 1-bedroom undergraduate double</strong>$4,125 → $4,350 <span class="rate-change-mobile-dollar">(+$225)</span></div><div class="rate-change-dollar">+$225</div><div class="rate-change-plot"><span class="rate-change-benchmark-line"></span><span class="rate-change-dot" style="left:68.125%"></span></div><div class="rate-change-value">5.45%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King/Western Manor — studio</strong>$3,900 → $4,150 <span class="rate-change-mobile-dollar">(+$250)</span></div><div class="rate-change-dollar">+$250</div><div class="rate-change-plot"><span class="rate-change-benchmark-line"></span><span class="rate-change-dot" style="left:80.125%"></span></div><div class="rate-change-value">6.41%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King/Western Manor — 1 bedroom</strong>$4,375 → $4,600 <span class="rate-change-mobile-dollar">(+$225)</span></div><div class="rate-change-dollar">+$225</div><div class="rate-change-plot"><span class="rate-change-benchmark-line"></span><span class="rate-change-dot" style="left:64.25%"></span></div><div class="rate-change-value">5.14%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>E.S. King/Western Manor — 2 bedroom</strong>$5,000 → $5,300 <span class="rate-change-mobile-dollar">(+$300)</span></div><div class="rate-change-dollar">+$300</div><div class="rate-change-plot"><span class="rate-change-benchmark-line"></span><span class="rate-change-dot" style="left:75%"></span></div><div class="rate-change-value">6.00%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Coastal Quarters — single</strong>$4,225 → $4,350 <span class="rate-change-mobile-dollar">(+$125)</span></div><div class="rate-change-dollar">+$125</div><div class="rate-change-plot"><span class="rate-change-benchmark-line"></span><span class="rate-change-dot" style="left:37%"></span></div><div class="rate-change-value">2.96%</div></div>
+      <div class="rate-change-row"><div class="rate-change-label"><strong>Coastal Quarters — double</strong>$3,950 → $4,025 <span class="rate-change-mobile-dollar">(+$75)</span></div><div class="rate-change-dollar">+$75</div><div class="rate-change-plot"><span class="rate-change-benchmark-line"></span><span class="rate-change-dot" style="left:23.75%"></span></div><div class="rate-change-value">1.90%</div></div>
     </div>
 
     <div class="use-note">
