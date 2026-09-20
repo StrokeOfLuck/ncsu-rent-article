@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / 'data'
-REVIEWED = '2026-09-13'
+REVIEWED = '2026-09-20'
 CAMPUS = {
     'main': {'label': 'Main Campus', 'lat': 35.77951, 'lon': -78.68168},
     'centennial': {'label': 'Centennial Campus', 'lat': 35.7687, 'lon': -78.6775},
@@ -85,6 +85,9 @@ for p in properties:
     allin_diff = any(f['all_in_price_range'] and f['all_in_price_range'] != f['price_range'] for f in fs)
     if allin_diff:
         flags.append('floorplan_all_in_differs')
+    if decision.get('exclude_occupancy'):
+        reasons.append('Bedroom occupancy review: ' + decision['exclude_occupancy'])
+        flags.append('bedroom_occupancy_exclusion')
     if p['site_id'] == '7e6kx1w':
         flags.append('high_endpoint_review')
         note = 'Portal explicitly labels the entire $599–$2,157 range per bedroom (reviewed September 13). Retained as reported, but the high endpoint needs landlord confirmation. Sensitivity results also omit this listing; no assumed division by three.'
@@ -117,7 +120,7 @@ for p in properties:
 
 assert len({r['site_id'] for r in rows}) == len(rows)
 bundle = {
-    'version': '2026-09-13.1', 'snapshot_date': '2026-09-09', 'review_date': REVIEWED,
+    'version': '2026-09-20.1', 'snapshot_date': '2026-09-09', 'review_date': REVIEWED,
     'scope': 'All advertised offers in the saved snapshot, regardless of move-in date; not an available-now inventory.',
     'source_commit': '23a0fb6522cb13b0a4a243318599749cb406ec08',
     'raw_sha256': {n: hashlib.sha256((DATA / n).read_bytes()).hexdigest() for n in ['ncsu-properties.csv', 'ncsu-floorplans.csv']},
