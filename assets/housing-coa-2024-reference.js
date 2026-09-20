@@ -31,11 +31,11 @@
       <hr class="rule">
       <h2>Source passage — required on-campus living</h2>
       <div class="use-note">
-        <strong>Primary source:</strong>
-        <a href="https://dasa.ncsu.edu/wp-content/uploads/sites/76/2024/03/Homelessness-and-Food-and-Housing-Insecurity-Among-NC-State-Students-March-2024.pdf" target="_blank" rel="noopener noreferrer">Open the March 2024 NC State report PDF</a>.
-        The “Required on-campus living” passage states that the 2023–24 published housing estimate was $7,996 for two semesters and that, at that amount, students could afford only 4 of 14 on-campus residence halls after the required internet charge.
+        <strong>Archived source PDF:</strong>
+        <a href="assets/2023-food-and-housing-insecurity.pdf#page=28" target="_blank" rel="noopener noreferrer">Open the saved March 2024 NC State report at the “Required on-campus living” passage</a>.
+        The passage states that the 2023–24 published housing estimate was $7,996 for two semesters and that, at that amount, students could afford only 4 of 14 on-campus residence halls after the required internet charge.
       </div>
-      <div class="use-note"><strong>Evidence-image note:</strong> The prior image on this page was a recreated SVG, not the original screenshot. It has been removed. An exact screenshot can be added here once supplied.</div>
+      <div class="use-note"><strong>Archive note:</strong> This is the exact PDF supplied for the reporting archive. The earlier recreated SVG is no longer used as evidence.</div>
       <div class="use-note"><strong>Reporting note:</strong> These figures describe the 2023–24 academic year and should be treated as historical context. Current 2026–27 cost-of-attendance and University Housing rates are documented separately on this references page.</div>
     </div>
   `);
