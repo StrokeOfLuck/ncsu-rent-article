@@ -43,47 +43,11 @@
     aidRows.push([`$${wage}/hour`,name,usd(r.pay),usd(r.grant),usd(r.loan),usd(r.total),pct(main.midpoint/r.total*100)]);
   }
   document.getElementById('aid-presets-math').innerHTML=table(['Wage at 20 hours/week','Selection','Gross pay','Grant equivalent','Borrowed funds','Total resources','Main room mean ÷ resources'],aidRows);
-  document.getElementById('report-wording').innerHTML=`<strong>A supported description:</strong> The ${main.n} usable room/per-bedroom advertisements within five straight-line miles of the Main Campus reference point had a mean listing midpoint of ${usd(main.midpoint)} in the September 9 snapshot. That is ${pct(main.midpoint/1300*100)} of gross wages at $15/hour and 20 hours/week in a steady, year-round work example. This describes the portal sample and a wage comparison, not how many NC State students can afford housing.`;
 
   const refsContainer=document.querySelector('.refs');
   if(refsContainer){
     refsContainer.insertAdjacentHTML('beforeend', `
-<article class="ref" id="ncsu-local-market-housing-comparison">
-  <div class="ref-head">
-    <div>
-      <div class="ref-no">Reference 16</div>
-      <div class="ref-title">NC State Board of Trustees: Local Market Student Housing Rental Rate Comparison</div>
-    </div>
-    <div class="tags">
-      <span class="tag">Primary source</span>
-      <span class="tag">NC State</span>
-      <span class="tag">Housing market</span>
-      <span class="tag">Board of Trustees</span>
-    </div>
-  </div>
-  <div class="ref-body">
-    <div class="meta-grid">
-      <div class="meta-label">Committee</div>
-      <div class="meta-value">NC State Board of Trustees, Audit, Risk Management and Finance Committee</div>
-      <div class="meta-label">Document</div>
-      <div class="meta-value">November 2025 committee meeting book, Cates West presentation</div>
-      <div class="meta-label">Relevant page</div>
-      <div class="meta-value">PDF page 36</div>
-      <div class="meta-label">Source</div>
-      <div class="meta-value"><a href="https://leadership.ncsu.edu/wp-content/uploads/sites/2/2025/11/Meeting-Book-November-2025-Audit-Risk-Management-and-Finance-Committee-Meeting-2.pdf#page=36" target="_blank" rel="noopener noreferrer">Local Market Student Housing Rental Rate Comparison</a></div>
-    </div>
-    <hr class="rule">
-    <h2>Highlighted comparison</h2>
-    <div class="facts">
-      <div class="fact"><div class="fact-label">2025–26 NC State apartments</div><div class="fact-value"><strong>$11,000</strong></div></div>
-      <div class="fact"><div class="fact-label">2025–26 off-campus apartments</div><div class="fact-value"><strong>$13,151</strong></div></div>
-      <div class="fact"><div class="fact-label">Reported cost difference</div><div class="fact-value"><strong>$2,151</strong>, or <strong>19.6%</strong> lower for NC State apartments in the university comparison.</div></div>
-      <div class="fact"><div class="fact-label">Projection assumption</div><div class="fact-value">The slide assumes <strong>4% annual rate increases for peer institutions</strong>.</div></div>
-    </div>
-    <div class="citation" style="margin-top:12px">“University Housing remains well positioned in the local market throughout the project duration.”</div>
-    <div class="use-note"><strong>Reporting note:</strong> This is NC State's own market comparison, not the September 2026 room-listing sample used in this article. The slide compares apartment costs and explicitly notes that the local market requires a 12-month lease.</div>
-  </div>
-</article>
+
 
 `);
   }
