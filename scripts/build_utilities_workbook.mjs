@@ -114,7 +114,7 @@ const a = buildSheet(
   'Any utility included (41)',
   rows,
   'Utility Audit — At Least One Core Utility Included',
-  '41 of 74 Main Campus private-bedroom analytic listings (55.4%) explicitly establish at least one core utility as included through saved portal utility fields, saved listing wording or both. The original 76-listing bedroom review remains preserved separately.'
+  '41 of 74 Main Campus private-bedroom analytic listings (55.4%) explicitly establish at least one core utility as included through saved portal utility fields, saved listing wording or both. The denominator is the final 74-listing Main Campus analytic sample.'
 );
 const b = buildSheet(
   'All utilities stated (8)',
@@ -134,6 +134,32 @@ for (let j = 0; j < all8.length; j++) {
   }
 }
 if (internetRows.length !== 6) throw new Error('Expected 6 all-utilities + internet rows, got ' + internetRows.length);
+
+// Add a third sheet that preserves the source audit CSV columns and values for comparison.
+const raw = wb.worksheets.add('Source CSV (41)');
+const rawLastCol = col(headers.length - 1);
+raw.mergeCells(`A1:${rawLastCol}1`);
+raw.getRange('A1').values = [['Source CSV — Utility Audit Rows']];
+raw.getRange(`A1:${rawLastCol}1`).format.fill = red;
+raw.getRange(`A1:${rawLastCol}1`).format.font = { name: 'Arial', size: 15, bold: true, color: '#FFFFFF' };
+raw.mergeCells(`A2:${rawLastCol}3`);
+raw.getRange('A2').values = [['Direct comparison view of data/audits/ncsu-room-utilities-audit.csv. The first 41 rows are the listing-level audit data used to build the two formatted sheets; the four calculation rows at the bottom are preserved as text exactly as they appear in the CSV.']];
+raw.getRange(`A2:${rawLastCol}3`).format.fill = soft;
+raw.getRange(`A2:${rawLastCol}3`).format.font = { name: 'Arial', size: 10, color: '#4F4A43' };
+raw.getRange(`A2:${rawLastCol}3`).format.wrapText = true;
+raw.getRange(`A5:${rawLastCol}5`).values = [headers];
+raw.getRange(`A5:${rawLastCol}5`).format.fill = head;
+raw.getRange(`A5:${rawLastCol}5`).format.font = { name: 'Arial', size: 10, bold: true };
+raw.getRange(`A5:${rawLastCol}5`).format.wrapText = true;
+const rawRows = parsed.slice(1).filter(r => r.length === headers.length).map(r => r.map(v => String(v).startsWith('=') ? "'" + v : v));
+raw.getRange(`A6:${rawLastCol}${5 + rawRows.length}`).values = rawRows;
+raw.getRange(`A6:${rawLastCol}${5 + rawRows.length}`).format.wrapText = true;
+const rawWidths = [14,38,15,14,14,24,14,14,28,34,18,46,54,20,54,44,20,54,22,48];
+rawWidths.forEach((w, i) => raw.getRange(`${col(i)}:${col(i)}`).format.columnWidth = w);
+raw.freezePanes.freezeRows(5);
+const rawSummaryStart = 6 + 41;
+raw.getRange(`A${rawSummaryStart}:${rawLastCol}${5 + rawRows.length}`).format.fill = sum;
+raw.getRange(`A${rawSummaryStart}:${rawLastCol}${5 + rawRows.length}`).format.font = { name: 'Arial', size: 10, bold: true };
 
 // Keep the six-listing calculations on the eight-listing sheet.
 const subTitle = b.median + 2;
@@ -180,4 +206,4 @@ console.log((await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#N
 
 const xlsx = await SpreadsheetFile.exportXlsx(wb);
 await xlsx.save(outPath);
-console.log('Exported utility audit: 41 utility-including rows; 8 all-utilities rows; 6 green internet/Wi-Fi rows.');
+console.log('Exported utility audit: 41 utility-including rows; 8 all-utilities rows; 6 green internet/Wi-Fi rows; source CSV tab preserved.');
