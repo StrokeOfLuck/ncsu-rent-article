@@ -118,7 +118,7 @@ function buildSheet(name, data, title, subtitle) {
 }
 
 const a = buildSheet(
-  'Any utility included (41)',
+  'Utility evidence (41)',
   rows,
   'Utility Audit — At Least One Core Utility Included',
   '41 of 74 Main Campus private-bedroom analytic listings (55.4%) explicitly establish at least one core utility as included through saved portal utility fields, saved listing wording or both. The denominator is the final 74-listing Main Campus analytic sample.'
@@ -143,15 +143,15 @@ for (let j = 0; j < all8.length; j++) {
 if (internetRows.length !== 6) throw new Error('Expected 6 all-utilities + internet rows, got ' + internetRows.length);
 
 // Add the complete 74-listing Main Campus denominator for side-by-side comparison.
-const raw = wb.worksheets.add('Main sample (74)');
+const raw = wb.worksheets.add('Source population (74)');
 const rawHeaders = ['Listing ID','Listing','Advertised price','Rent low','Rent high','Midpoint','Distance (mi)','Distance band','In 41-listing utility subgroup?','All utilities explicit?','Internet/Wi-Fi explicit?','Original listing URL'];
 const rawLastCol = col(rawHeaders.length - 1);
 raw.mergeCells(`A1:${rawLastCol}1`);
-raw.getRange('A1').values = [['Main Campus Analytic Sample — 74 Listings']];
+raw.getRange('A1').values = [['Utility Audit — Source Population (74)']];
 raw.getRange(`A1:${rawLastCol}1`).format.fill = red;
 raw.getRange(`A1:${rawLastCol}1`).format.font = { name: 'Arial', size: 15, bold: true, color: '#FFFFFF' };
 raw.mergeCells(`A2:${rawLastCol}3`);
-raw.getRange('A2').values = [['All 74 private-bedroom/per-bedroom listings used in the article denominator. The utility subgroup column shows which 41 listings have at least one core utility explicitly included; all-utilities and internet/Wi-Fi flags come from the utility review.']];
+raw.getRange('A2').values = [['All 74 private-bedroom/per-bedroom listings used in the article denominator. The 41 listings with affirmative evidence that at least one selected core utility is included are marked Yes and highlighted green; all-utilities and internet/Wi-Fi flags come from the utility review.']];
 raw.getRange(`A2:${rawLastCol}3`).format.fill = soft;
 raw.getRange(`A2:${rawLastCol}3`).format.font = { name: 'Arial', size: 10, color: '#4F4A43' };
 raw.getRange(`A2:${rawLastCol}3`).format.wrapText = true;
@@ -168,6 +168,12 @@ const rawRows = mainRows.map(r => {
   ];
 });
 raw.getRange(`A6:${rawLastCol}${5 + rawRows.length}`).values = rawRows;
+for (let j = 0; j < mainRows.length; j++) {
+  if (utilityById.has(mainRows[j].listing_id)) {
+    const rr = 6 + j;
+    raw.getRange(`A${rr}:${rawLastCol}${rr}`).format.fill = '#E2F0D9';
+  }
+}
 raw.getRange(`D6:F${5 + rawRows.length}`).format.numberFormat = money;
 raw.getRange(`G6:G${5 + rawRows.length}`).format.numberFormat = '0.000';
 raw.getRange(`A6:${rawLastCol}${5 + rawRows.length}`).format.wrapText = true;
