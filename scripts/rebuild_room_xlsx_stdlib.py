@@ -120,6 +120,66 @@ rooms_sorted=sorted(rooms,key=lambda r:r["name"].lower())
 room_rows, room_meta = band_sheet("Rooms union - 76 unique room listings",rooms_sorted,None)
 sheets.append(("Rooms",sheet_xml(room_rows,[38,16,16,18,16,16,54,18,18],4,f"A4:I{room_meta['last']}")))
 
+# Main Campus analytic sample - the exact 74 listings used in the article.
+main_sample=[r for r in rooms_sorted if r["distance_main"]<=5]
+assert len(main_sample)==74
+
+main_rows=[
+    [T("Main Campus analytic sample - 74 room listings")],
+    [W("September 9, 2026 advertised-price snapshot; bedroom-occupancy classifications reviewed September 20. This is the exact 74-listing Main Campus sample used in the article: 18 listings at 0-1 mile, 46 at >1-3 miles and 10 at >3-5 miles.")],
+    [],
+    [H(x) for x in ["Listing name","Low ($/month)","High ($/month)","Midpoint ($/month)","Main distance (mi)","Main band","Listing ID","Source URL"]]
+]
+main_start=5
+for j,r in enumerate(main_sample,main_start):
+    d=r["distance_main"]
+    band="0-1 mi" if d<=1 else ("1-3 mi" if d<=3 else "3-5 mi")
+    main_rows.append([
+        r["name"], M(r["rent_low"]), M(r["rent_high"]),
+        M((r["rent_low"]+r["rent_high"])/2,f"(B{j}+C{j})/2"),
+        D(d), band, r["site_id"], r["listing_url"]
+    ])
+
+# Keep two blank rows between the listing table and the audit math.
+while len(main_rows)<80:
+    main_rows.append([])
+
+main_rows.append([T("Main Campus distance-band math")])
+main_rows.append([H(x) for x in ["Band","Listings","Low-price sum","High-price sum","Midpoint sum","Mean midpoint"]])
+
+main_band_defs=[("0-1 mi",0,1),("1-3 mi",1,3),("3-5 mi",3,5)]
+summary_start=83
+for idx,(label,low,high) in enumerate(main_band_defs,summary_start):
+    rs=[r for r in main_sample if r["distance_main"]<=high and (low==0 or r["distance_main"]>low)]
+    low_sum=sum(r["rent_low"] for r in rs)
+    high_sum=sum(r["rent_high"] for r in rs)
+    mid_sum=sum((r["rent_low"]+r["rent_high"])/2 for r in rs)
+    main_rows.append([
+        B(label),
+        {"v":len(rs),"f":f'COUNTIF(F{main_start}:F78,A{idx})'},
+        M(low_sum,f'SUMIF(F{main_start}:F78,A{idx},B{main_start}:B78)'),
+        M(high_sum,f'SUMIF(F{main_start}:F78,A{idx},C{main_start}:C78)'),
+        M(mid_sum,f'SUMIF(F{main_start}:F78,A{idx},D{main_start}:D78)'),
+        M(mid_sum/len(rs),f'E{idx}/B{idx}')
+    ])
+
+main_low=sum(r["rent_low"] for r in main_sample)
+main_high=sum(r["rent_high"] for r in main_sample)
+main_mid=sum((r["rent_low"]+r["rent_high"])/2 for r in main_sample)
+main_rows.append([
+    B("Main Campus total"),
+    B(len(main_sample),f"SUM(B83:B85)"),
+    M(main_low,f"SUM(C83:C85)"),
+    M(main_high,f"SUM(D83:D85)"),
+    M(main_mid,f"SUM(E83:E85)"),
+    M(main_mid/len(main_sample),f"E86/B86")
+])
+main_rows.append([])
+main_rows.append([B("Article check"),W("18 + 46 + 10 = 74 listings. Midpoint sum = $64,271.50; $64,271.50 / 74 = $868.53/month, displayed in the article as about $869.")])
+main_rows.append([B("Scope"),W("One portal listing ID receives one vote. Advertised prices may exclude utilities and fees. This sheet excludes the two cross-campus-only room listings that are outside the five-mile Main Campus sample.")])
+
+sheets.append(("Main sample (74)",sheet_xml(main_rows,[38,16,16,18,16,14,16,54],4,"A4:H78")))
+
 band_specs=[]
 for key in ("main","centennial","vet"):
     prefix={"main":"Main","centennial":"Centennial","vet":"Biomedical"}[key]
@@ -176,10 +236,10 @@ srows += [[],[B("Article check"),W("Main Campus: 18 + 46 + 10 = 74 listings; mea
 sheets.append(("Summary",sheet_xml(srows,[34,16,18,18,18,18,18],4,None)))
 
 # Desired sheet order.
-order=["Summary","Rooms"]+[name for _,name,_,_ in band_specs]+["Excluded","Listings"]
+order=["Summary","Rooms","Main sample (74)"]+[name for _,name,_,_ in band_specs]+["Excluded","Listings"]
 sheet_map=dict(sheets)
 sheets=[(name,sheet_map[name]) for name in order]
-assert len(sheets)==13
+assert len(sheets)==14
 
 styles='''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
@@ -220,7 +280,7 @@ with zipfile.ZipFile(OUT) as z:
     bad=z.testzip()
     assert bad is None, bad
     assert "xl/workbook.xml" in z.namelist()
-    assert len([n for n in z.namelist() if n.startswith("xl/worksheets/sheet")])==13
+    assert len([n for n in z.namelist() if n.startswith("xl/worksheets/sheet")])==14
 main=[r for r in rooms if r["distance_main"]<=5]
 mean=sum((r["rent_low"]+r["rent_high"])/2 for r in main)/len(main)
 assert len(main)==74 and abs(mean-868.5337837837837)<1e-8
