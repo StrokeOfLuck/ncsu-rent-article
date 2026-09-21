@@ -1,0 +1,33 @@
+name: Rebuild utilities audit XLSX from repaired snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.tmp/rebuild-utilities-xlsx.trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reassemble repaired workbook
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .tmp/utilities-xlsx.b64.part* | tr -d '\n\r ' | base64 --decode > data/audits/ncsu-room-utilities-audit.xlsx
+          echo "5539126e41c8dc91c75e249afff79fd81bd8995735fb6c4e476f2d0eaca5e658  data/audits/ncsu-room-utilities-audit.xlsx" | sha256sum -c -
+          unzip -t data/audits/ncsu-room-utilities-audit.xlsx
+      - name: Commit repaired workbook and clean staging files
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/audits/ncsu-room-utilities-audit.xlsx
+          git rm -f .tmp/utilities-xlsx.b64.part* .tmp/rebuild-utilities-xlsx.trigger
+          git commit -m "Repair utility audit Excel workbook"
+          git push
