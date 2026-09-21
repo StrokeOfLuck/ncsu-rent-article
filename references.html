@@ -290,6 +290,25 @@ h2 {
   line-height:1.45;
 }
 
+.audit-checker-callout {
+  margin:18px 0 6px;
+  padding:16px 18px;
+  border:2px solid var(--accent);
+  border-radius:6px;
+  background:#fff7f5;
+  text-align:center;
+}
+.audit-checker-callout a {
+  display:block;
+  color:var(--accent);
+  font:700 24px/1.18 Georgia,"Times New Roman",serif;
+  text-decoration:none;
+}
+.audit-checker-callout a:hover,
+.audit-checker-callout a:focus-visible {
+  text-decoration:underline;
+}
+
 
 .audit-map-embed {
   margin-top:14px;
@@ -442,8 +461,7 @@ h2 {
   .reference-search-row { gap:7px; }
   .reference-search-input { height:40px; font-size:12px; }
   .reference-search-count { min-width:auto; font-size:9.5px; }
-  .reference-search-help { display:none; }
-}
+  .reference-search-help { display:none; }\n  .audit-checker-callout { padding:14px 12px; }\n  .audit-checker-callout a { font-size:21px; }\n}
 
 
 /* Residence hall range + rate-change chart */
@@ -713,7 +731,7 @@ h2 {
 <body>
 <main>
   <div class="kicker"><a class="article-back-link" href="index.html" aria-label="Back to NCSU rent article"><span aria-hidden="true">←</span> Back to NCSU rent article</a></div>
-  <h1>References & step-by-step math</h1><nav class="method-nav"><a href="#student-homelessness-2020">Housing insecurity highlights</a> · <a href="#bedroom-occupancy-audit">Bedroom audit</a> · <a href="#room-rent-audit">Room Excel audit</a> · <a href="#bedroom-visual-audit">Bedroom audit</a> · <a href="#utility-inclusion-audit">Utility audit</a> · <a href="#rental-method">Room calculations</a> · <a href="#distance-math">Distances</a> · <a href="#sample-limits">Sample limits</a> · <a href="#aid-math">Earnings and aid</a></nav>
+  <h1>References & step-by-step math</h1><nav class="method-nav"><a href="#student-homelessness-2020">Housing insecurity highlights</a> · <a href="#bedroom-occupancy-audit">Bedroom audit</a> · <a href="#room-rent-audit">Room Excel audit</a> · <a href="#utility-inclusion-audit">Utility audit</a> · <a href="#rental-method">Room calculations</a> · <a href="#distance-math">Distances</a> · <a href="#sample-limits">Sample limits</a> · <a href="#aid-math">Earnings and aid</a></nav>
   <div class="deck">September 9, 2026 advertised-price snapshot, reviewed September 13. Start with the room-only Excel audit to follow the saved data through the listing counts, sums and averages. Sources and assumptions for the earnings and aid comparison follow below.</div>
 
   <section class="reference-search" id="reference-search" role="search" aria-label="Search reporting references">
@@ -798,9 +816,9 @@ h2 {
   </div>
   <div class="ref-body">
     <p>
-      <a class="audit-download" href="data/audits/ncsu-room-bedroom-visual-audit.html">Open the visual audit</a>
+      <a class="audit-download" href="data/audits/ncsu-room-bedroom-visual-audit.html?v=20260920-final" target="_blank" rel="noopener noreferrer">Open the visual audit</a>
       &nbsp;
-      <a class="audit-source-link" href="data/audits/ncsu-room-bedroom-visual-audit.csv" download>Download finalized CSV</a>
+      <a class="audit-source-link" href="data/audits/ncsu-room-bedroom-visual-audit.csv?v=20260920-final" download>Download finalized CSV</a>
     </p>
     <div class="facts">
       <div class="fact"><div class="fact-label">Appeared to offer a private bedroom</div><div class="fact-value"><strong>74 of 76</strong></div></div>
@@ -835,7 +853,7 @@ h2 {
 
 <article class="ref" id="audit-downloads"><div class="ref-head"><div><div class="ref-no">Additional evidence</div><div class="ref-title">Source files, review log and broader audit</div></div></div><div class="ref-body">
 <p>The <a href="#room-rent-audit">room-only workbook above</a> reproduces the article directly. The broader audit retains whole-unit calculations and additional checks for readers who want to inspect the earlier, wider analysis. It predates the Sept. 20 bedroom-occupancy refinement, so use the updated room-only workbook above for the article’s final room sample.</p>
-<p><a href="data/audits/ncsu-rent-audit.xlsx?v=20260913-kept2" download>Download the broader Excel audit</a> · <a href="rental-map-audit.html">Open the map and searchable listing checker</a></p>
+<p><a href="data/audits/ncsu-rent-audit.xlsx?v=20260913-kept2" download>Download the broader Excel audit</a></p>\n<p class="audit-checker-callout"><a href="rental-map-audit.html">Open the map and searchable listing checker →</a></p>
 <details><summary>What the broader workbook includes</summary>
 <p>Its Kept tab contains 131 usable listings from the earlier pricing review: 78 room offers and 53 whole-unit offers. The final room article subsequently excludes two of those room offers after the bedroom-occupancy review. Its Excluded tab contains 37 records: 25 price exclusions within the study area and 12 outside all three five-mile areas. These definitions differ from the updated room-only workbook, where 92 records are outside the room article. Reasons may overlap; each ID is counted once.</p>
 <p>Filter Kept to <strong>Price basis = Per bedroom</strong> to inspect the earlier 78-offer room set. For the final article sample, use the updated room-only workbook: Main Campus contains 74 appeared-private listings after excluding one explicitly shared-bedroom listing and one occupancy-unclear listing.</p>
@@ -871,42 +889,6 @@ h2 {
 <p>The saved CSVs contain 168 unique listing IDs and 537 floor-plan rows. The original collection log reported 168 exact results/map pins, five pages and a separate 527-result portal total. The saved records do not verify coverage of all 527 results or the full rental market. The original raw backend response archive is not published; the saved CSVs and their hashes are preserved. The log timestamp is <code>2026-09-09T02:24:45.953Z</code> (UTC). A listing’s “last updated” field is not its collection time.</p>
 </details>
 </div></article>
-
-
-<article class="ref" id="bedroom-visual-audit">
-  <div class="ref-head">
-    <div>
-      <div class="ref-no">Manual bedroom audit</div>
-      <div class="ref-title">Saved photos and descriptions: private vs. shared bedrooms</div>
-    </div>
-    <div class="tags">
-      <span class="tag">Sept. 9 snapshot</span>
-      <span class="tag">Reviewed Sept. 20</span>
-      <span class="tag">76 listings</span>
-    </div>
-  </div>
-  <div class="ref-body">
-    <div class="survey-highlight"><strong>Manual review result:</strong> 74 of 76 reviewed listings appeared to offer a bedroom intended for one occupant. One listing explicitly offered one of two beds in a shared bedroom, and one listing could not be determined from the saved material. <strong>The final Main Campus rent mean uses the 74 appeared-private listings.</strong></div>
-
-    <p><strong>What was reviewed:</strong> the saved Sept. 9, 2026 listing photographs and descriptions for the 76 Main Campus room candidates identified before occupancy review. “Unclear” was retained when the available material did not establish whether the sleeping room was exclusive to one occupant.</p>
-
-    <p>
-      <a class="audit-download" href="data/audits/ncsu-room-bedroom-visual-audit.csv?v=20260920-final" download>Download frozen bedroom audit CSV</a>
-      <a class="audit-source-link" href="data/audits/ncsu-room-bedroom-visual-audit.html?v=20260920-final" target="_blank" rel="noopener noreferrer">Open the visual audit</a>
-    </p>
-
-    <div class="facts">
-      <div class="fact"><div class="fact-label">Appeared private</div><div class="fact-value"><strong>74</strong> listings</div></div>
-      <div class="fact"><div class="fact-label">Explicitly shared</div><div class="fact-value"><strong>1</strong> listing</div></div>
-      <div class="fact"><div class="fact-label">Unclear</div><div class="fact-value"><strong>1</strong> listing</div></div>
-      <div class="fact"><div class="fact-label">Article analytic bands</div><div class="fact-value"><strong>18</strong> at 0–1 mi · <strong>46</strong> at &gt;1–3 mi · <strong>10</strong> at &gt;3–5 mi</div></div>
-    </div>
-
-    <div class="use-note"><strong>Frozen record:</strong> the CSV linked above preserves all 76 reviewed candidates, including the shared and unclear rows. The article analysis excludes those two rows rather than deleting them from the audit. The interactive HTML can be used to inspect the saved photos, description, prior text-only evidence and source link, but browser interactions do not alter the published CSV.</div>
-
-    <div class="use-note"><strong>Distance field:</strong> the CSV uses the article’s recalculated straight-line Main Campus distance, derived from each listing’s saved scrape coordinates and the fixed Main Campus reference point at <code>35.77951, −78.68168</code>. It does not use the housing portal’s displayed travel-distance value.</div>
-  </div>
-</article>
 
 
 <article class="ref" id="utility-inclusion-audit">
