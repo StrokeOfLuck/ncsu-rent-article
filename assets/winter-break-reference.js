@@ -7,7 +7,7 @@
     <hr class="rule">
     <h2>Winter break is separately priced</h2>
     <div class="evidence winter-break-evidence">
-      <a href="https://housing.dasa.ncsu.edu/assignments/break-and-transition-housing/" target="_blank" rel="noopener noreferrer"><img src="assets/references/ncsu-winter-break-costs-2025-26.png?v=20260920-source" alt="Original NC State University Housing Costs section stating that Winter Break Housing in 2025–2026 costs $360, or $15 per night, and covers the period between fall and spring semesters."></a>
+      <a href="https://housing.dasa.ncsu.edu/assignments/break-and-transition-housing/" target="_blank" rel="noopener noreferrer"><img src="assets/references/ncsu-winter-break-costs-2025-26.png?v=20260920-fullsource2" alt="Original NC State University Housing Costs section stating that Winter Break Housing in 2025–2026 costs $360, or $15 per night, and covers the period between fall and spring semesters."></a>
       <div class="caption"><strong>Original source excerpt.</strong> NC State University Housing's Winter Break Housing page showing the <strong>$360</strong> full-break charge used in the article's optional comparison. Select the image to open the source page.</div>
     </div>
     <div class="use-note"><strong>Reporting note:</strong> For most residents, winter break is not included in the fall + spring housing agreement. The 2026–27 Housing Agreement defines the academic year as fall and spring semesters, excluding winter break and summer, and says Winter Break housing is a separate term with an additional charge. E.S. King and Western Manor term agreements are exceptions, except for specified E.S. King undergraduate buildings.</div>
