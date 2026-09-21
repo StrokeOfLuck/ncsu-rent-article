@@ -222,6 +222,17 @@ for key in ("main","centennial","vet"):
 
 assert [len(rs) for p,n,rs,m in band_specs if p=="Main"] == [18,46,10]
 
+# All-three-band campus tabs for direct draft-page verification.
+centennial_all=[r for r in rooms_sorted if r["distance_centennial"]<=5]
+biomedical_all=[r for r in rooms_sorted if r["distance_vet"]<=5]
+assert len(centennial_all)==74
+assert len(biomedical_all)==70
+
+cent_rows,cent_meta=band_sheet("Centennial all bands (74)",centennial_all,"centennial")
+bio_rows,bio_meta=band_sheet("Biomedical all bands (70)",biomedical_all,"vet")
+sheets.append(("Centennial all bands (74)",sheet_xml(cent_rows,[38,16,16,18,16,16,54],4,f"A4:G{cent_meta['last']}")))
+sheets.append(("Biomedical all bands (70)",sheet_xml(bio_rows,[38,16,16,18,16,16,54],4,f"A4:G{bio_meta['last']}")))
+
 # Excluded
 def exclusion_reason(r):
     out=[]
@@ -262,10 +273,19 @@ srows += [[],[B("Article check"),W("Main Campus: 18 + 46 + 10 = 74 listings; mea
 sheets.append(("Summary",sheet_xml(srows,[34,16,18,18,18,18,18],4,None)))
 
 # Desired sheet order.
-order=["Summary","Main all three bands (74)"]+[name for _,name,_,_ in band_specs]+["Excluded","Listings"]
+order=[
+    "Summary",
+    "Main all three bands (74)",
+    "Main 0-1 mi","Main 1-3 mi","Main 3-5 mi",
+    "Centennial all bands (74)",
+    "Centennial 0-1 mi","Centennial 1-3 mi","Centennial 3-5 mi",
+    "Biomedical all bands (70)",
+    "Biomedical 0-1 mi","Biomedical 1-3 mi","Biomedical 3-5 mi",
+    "Excluded","Listings"
+]
 sheet_map=dict(sheets)
 sheets=[(name,sheet_map[name]) for name in order]
-assert len(sheets)==13
+assert len(sheets)==15
 
 styles='''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
@@ -306,8 +326,16 @@ with zipfile.ZipFile(OUT) as z:
     bad=z.testzip()
     assert bad is None, bad
     assert "xl/workbook.xml" in z.namelist()
-    assert len([n for n in z.namelist() if n.startswith("xl/worksheets/sheet")])==13
+    assert len([n for n in z.namelist() if n.startswith("xl/worksheets/sheet")])==15
 main=[r for r in rooms if r["distance_main"]<=5]
 mean=sum((r["rent_low"]+r["rent_high"])/2 for r in main)/len(main)
 assert len(main)==74 and abs(mean-868.5337837837837)<1e-8
-print(f"Wrote {OUT} with {len(sheets)} sheets; Main Campus {len(main)} listings, mean {mean:.2f}.")
+bio=[r for r in rooms if r["distance_vet"]<=5]
+bio_low=sum(r["rent_low"] for r in bio)/len(bio)
+bio_high=sum(r["rent_high"] for r in bio)/len(bio)
+bio_mid=sum((r["rent_low"]+r["rent_high"])/2 for r in bio)/len(bio)
+assert len(bio)==70
+assert abs(bio_low-828.1714285714286)<1e-8
+assert abs(bio_high-933.9285714285714)<1e-8
+assert abs(bio_mid-881.05)<1e-8
+print(f"Wrote {OUT} with {len(sheets)} sheets; Main Campus {len(main)} listings, mean {mean:.2f}; Biomedical all bands {len(bio)}, averages {bio_low:.2f}-{bio_high:.2f}, midpoint {bio_mid:.2f}.")
