@@ -30,7 +30,7 @@ revised pricing categories, exclusion reasons, move-in flags, source URLs and ha
   lease terms. It does not establish market coverage, current vacancies, students'
   actual housing burden or a causal effect of distance on rent.
 
-Start with the [room-only multi-tab Excel audit](data/audits/ncsu-room-rent-audit-excel.xml) to reproduce the article.
+Start with the [room-only multi-tab Excel audit](data/audits/ncsu-room-rent-audit.xlsx) to reproduce the article.
 
 The broader [Excel formula audit](data/audits/ncsu-rent-audit.xlsx) replaces the old
 browser-generated cumulative-radius workbooks. It contains raw source tables, linked
