@@ -79,9 +79,12 @@ sheets = []
 headers = ["Listing ID","Listing name","Source URL","Reviewed basis","Latitude","Longitude","Low ($/mo)","High ($/mo)","Midpoint ($/mo)","Main distance (mi)","Main band","Centennial distance (mi)","Centennial band","Biomedical distance (mi)","Biomedical band","In union","Room audit","Review status / reason"]
 rows = [[H(x) for x in headers]]
 for i,r in enumerate(all_rows,2):
+    low=r.get("rent_low")
+    high=r.get("rent_high")
+    mid=(low+high)/2 if isinstance(low,(int,float)) and isinstance(high,(int,float)) else None
     rows.append([
         r["site_id"],r["name"],r["listing_url"],r["pricing_type"],D(r["lat"]),D(r["lon"]),
-        M(r["rent_low"]),M(r["rent_high"]),M((r["rent_low"]+r["rent_high"])/2,f"(G{i}+H{i})/2"),
+        M(low),M(high),M(mid,f"(G{i}+H{i})/2" if mid is not None else None),
         D(r["distance_main"]),r["band_main"],D(r["distance_centennial"]),r["band_centennial"],
         D(r["distance_vet"]),r["band_vet"],1 if r["in_union"] else 0,1 if r["site_id"] in room_ids else 0,
         W(" | ".join(x for x in [r.get("review_status",""),r.get("exclusion_reason",""),r.get("review_note","")] if x))
