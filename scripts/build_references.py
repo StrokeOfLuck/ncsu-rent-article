@@ -16,8 +16,8 @@ for i,a in enumerate(kept):
 new=(ROOT/'docs/revised-methods.html').read_text()+'\n'+'\n'.join(kept)
 s=s[:start]+new+s[end:]
 s=s.replace('Working source log for data, quotes, methodology and supporting evidence used in the NC State rent article. Add new references here as reporting continues.', 'Source snapshot: September 9, 2026. Analysis revised September 13, 2026. Start with the worked math, then inspect the Excel audit and individual review decisions. Supporting reporting sources are retained below.')
-s=s.replace('<h1>Reporting references</h1>','<h1>References & step-by-step math</h1><nav class="method-nav"><a href="#rental-method">Rent math</a> · <a href="#audit-downloads">Excel & review log</a> · <a href="#distance-math">Distances</a> · <a href="#sample-limits">Sample limits</a> · <a href="#aid-math">Budget math</a></nav>')
-s=re.sub(r'<nav class="method-nav">.*?</nav>', '<nav class="method-nav"><a href="#room-rent-audit">Room Excel audit</a> · <a href="#rental-method">Room calculations</a> · <a href="#distance-math">Distances</a> · <a href="#sample-limits">Sample limits</a> · <a href="#aid-math">Earnings and aid</a></nav>', s, flags=re.S)
+s=s.replace('<h1>Reporting references</h1>','<h1>References & step-by-step math</h1>')
+s=re.sub(r'<nav class="method-nav">.*?</nav>', '', s, flags=re.S)
 s=re.sub(r'<div class="deck">.*?</div>', '<div class="deck">September 9, 2026 advertised-price snapshot, reviewed September 13. Start with the room-only Excel audit to follow the saved data through the listing counts, sums and averages. Sources and assumptions for the earnings and aid comparison follow below.</div>', s, count=1, flags=re.S)
 scripts='<script src="assets/reviewed-data.js"></script>\n<script src="assets/rent-analysis.js"></script>\n<script src="assets/reference-math.js"></script>\n'
 if 'src="assets/reference-math.js' not in s: s=s.replace('<script>',scripts+'<script>',1)
