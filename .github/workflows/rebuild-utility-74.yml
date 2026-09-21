@@ -38,7 +38,7 @@ jobs:
                   return list(csv.DictReader(f))
 
           main = read_csv(main_path)
-          util = read_csv(util_path)
+          util = [r for r in read_csv(util_path) if r.get('original_listing_url')]
           if len(main) != 74:
               raise SystemExit(f'Expected 74 source listings, got {len(main)}')
           if len(util) != 41:
