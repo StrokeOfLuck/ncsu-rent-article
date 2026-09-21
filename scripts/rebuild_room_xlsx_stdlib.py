@@ -306,7 +306,7 @@ with zipfile.ZipFile(OUT) as z:
     bad=z.testzip()
     assert bad is None, bad
     assert "xl/workbook.xml" in z.namelist()
-    assert len([n for n in z.namelist() if n.startswith("xl/worksheets/sheet")])==14
+    assert len([n for n in z.namelist() if n.startswith("xl/worksheets/sheet")])==13
 main=[r for r in rooms if r["distance_main"]<=5]
 mean=sum((r["rent_low"]+r["rent_high"])/2 for r in main)/len(main)
 assert len(main)==74 and abs(mean-868.5337837837837)<1e-8
