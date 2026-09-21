@@ -10,8 +10,8 @@
           <div class="facts">
             <div class="fact"><div class="fact-label">University Housing title</div><div class="fact-value"><strong>Director, Facilities and Business Operations</strong></div></div>
           </div>
-          <div class="use-note"><strong>Reporting note:</strong> NC State's University Housing staff directory lists Pete Fraccaroli as Director of Facilities and Business Operations. NC State DASA News also identifies him as University Housing's director of facilities and business operations.</div>
-          <p><a href="https://housing.dasa.ncsu.edu/staff/pdfracca/" target="_blank" rel="noopener noreferrer">NC State University Housing — Pete Fraccaroli staff profile</a> · <a href="https://news.dasa.ncsu.edu/university-housing-expands-campus-living-options-with-university-towers-acquisition-renovation/" target="_blank" rel="noopener noreferrer">NC State DASA News — University Towers acquisition</a></p>
+          <div class="use-note"><strong>Reporting note:</strong> NC State's University Housing staff directory lists Pete Fraccaroli as Director of Facilities and Business Operations.</div>
+          <p><a href="https://housing.dasa.ncsu.edu/staff/pdfracca/" target="_blank" rel="noopener noreferrer">NC State University Housing — Pete Fraccaroli staff profile</a></p>
         </div>
       `);
     }
