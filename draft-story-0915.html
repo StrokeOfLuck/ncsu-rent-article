@@ -469,7 +469,7 @@ main > section, iframe { min-width:0; max-width:100%; }
   </section>
 
   <section class="off-campus-embed" aria-label="Interactive off-campus housing map and rent listing summary">
-    <iframe id="off-campus-frame" src="index.html?v=20260920-top-audit-source" title="NC State off-campus housing map, advertised room rents and campus room comparison" loading="eager"></iframe>
+    <iframe id="off-campus-frame" src="index.html?v=20260920-draft-embed-guard" title="NC State off-campus housing map, advertised room rents and campus room comparison" loading="eager"></iframe>
   </section>
 
   <section class="story-copy" aria-label="University Housing response and comparison">
@@ -588,6 +588,17 @@ main > section, iframe { min-width:0; max-width:100%; }
     try {
       const d=frame.contentDocument;
       if(!d) return;
+
+      // This iframe is a clipped view of index.html. Never let a normal link
+      // replace the embedded map/summary with References or the audit page.
+      try {
+        const currentPath=new URL(frame.contentWindow.location.href).pathname;
+        if(!/\/index\.html$/.test(currentPath)){
+          frame.src='index.html?v=20260920-draft-embed-guard';
+          return;
+        }
+      } catch(e) {}
+
       const wrapper=d.querySelector('.wrapper');
       const mapStage=d.querySelector('.map-stage');
       const summaryBlock=d.querySelector('.rent-summary-block');
@@ -986,6 +997,26 @@ main > section, iframe { min-width:0; max-width:100%; }
           `;
           d.head.appendChild(style);
         }
+      }
+
+      // Links in the embedded source open outside the iframe so the map stays put.
+      d.querySelectorAll('a[href]').forEach(a=>{
+        if((a.getAttribute('href')||'').startsWith('#')) return;
+        a.setAttribute('target','_blank');
+        a.setAttribute('rel','noopener noreferrer');
+      });
+
+      // Catch links created later by map popups or other dynamic UI.
+      if(!d.documentElement.dataset.draftLinkGuard){
+        d.documentElement.dataset.draftLinkGuard='1';
+        d.addEventListener('click',ev=>{
+          const a=ev.target && ev.target.closest ? ev.target.closest('a[href]') : null;
+          if(!a) return;
+          const href=a.getAttribute('href')||'';
+          if(!href || href.startsWith('#')) return;
+          a.setAttribute('target','_blank');
+          a.setAttribute('rel','noopener noreferrer');
+        },true);
       }
 
       wrapper.style.width='100%';
