@@ -18,7 +18,11 @@
           <div class="fact"><div class="fact-label">Housing insecure</div><div class="fact-value"><strong>11.3%</strong> · 153 of 1,354 respondents</div></div>
           <div class="fact"><div class="fact-label">Survey question</div><div class="fact-value">“Are you confident about your ability to pay for the place you're currently staying, so you can remain there at least until the end of the school year?”</div></div>
         </div>
-        <div class="evidence" style="margin-top:14px"><img src="assets/housing-insecurity-11-3-evidence.svg" alt="Recreated excerpt from the March 2024 NC State report showing the housing insecurity question and Table 3, where 153 of 1,354 students, or 11.3 percent, were housing insecure."><div class="caption">Recreated from the report's housing insecurity definition and Table 3. The linked source contains the original report.</div></div>
+        <div class="evidence" style="margin-top:14px"><img src="assets/housing-insecurity-11-3-evidence.svg" alt="Recreated excerpt from the March 2024 NC State report showing the housing insecurity question and Table 3, where 153 of 1,354 students, or 11.3 percent, were housing insecure."><div class="caption"><strong>Readable recreation.</strong> Recreated from the report's housing insecurity definition and Table 3.</div></div>
+        <div class="evidence" style="margin-top:14px">
+          <a href="https://packessentials.dasa.ncsu.edu/food-and-housing-insecurity-at-nc-state/" target="_blank" rel="noopener noreferrer"><img src="assets/references/haskett-table-3-original.png?v=20260920-original" alt="Original Table 3 from the March 2024 NC State food and housing insecurity report, showing food security, housing security and experienced homelessness results."></a>
+          <div class="caption"><strong>Original Table 3.</strong> Saved from the March 2024 NC State report. Select the image to open NC State's current Campus Reports page.</div>
+        </div>
         <p><a href="https://doi.org/10.31234/osf.io/t46jv" target="_blank" rel="noopener noreferrer">Mary E. Haskett, Homelessness and Food &amp; Housing Insecurity among College Students: Third Wave</a> · March 2024 NC State report, 2023 survey data.</p>
         <div class="use-note"><strong>Reporting note:</strong> This article uses the 11.3% housing insecurity measure because it directly asks about students' confidence in paying for their current housing. It does not use the report's 14% homelessness figure as a direct affordability measure. That measure counts any of nine qualifying housing situations at any point during the previous 12 months, including temporary couch surfing, and the report does not establish a minimum duration.</div>
       </div>`;
@@ -130,7 +134,7 @@
       <div class="fact"><div class="fact-label">University explanation</div><div class="fact-value">Housing and dining are described as self-supporting programs, with higher costs tied to labor-market pressure, inflation and capital investment needs.</div></div>
       <div class="fact"><div class="fact-label">Board action</div><div class="fact-value">The committee motion recommending approval of the 2026–27 housing and dining rate requests to the full board passed.</div></div>
     </div>
-    <div class="use-note"><strong>Reporting note:</strong> The 5% figure is a weighted average across University Housing, not a 5% increase for every room type. The individual rate schedule above shows increases that vary by housing type.</div>
+    <div class="use-note"><strong>Why this matters for the inflation chart:</strong> The Board minutes support NC State's own aggregate description of the 2026–27 housing change — a <strong>5% weighted-average increase</strong> — and say the requested increases respond in part to inflationary pressures. The article's chart does something different: it calculates the change for each published housing-rate row and compares those individual increases with the BLS <strong>3.1% lodging-while-at-school</strong> benchmark. The 5% figure is a university-wide weighted summary, <strong>not</strong> the simple average of the chart's room-type percentages and <strong>not</strong> an inflation rate.</div>
   </div>
 </article>`);
   }
