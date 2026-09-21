@@ -1,6 +1,7 @@
 (function(){
   const d=RENT_DATA, A=RentAnalysis, rows=d.rentals, u=A.union(rows), s=A.summarize(u);
-  const main=A.summarize(A.campus(rows,'main')).perOverall;
+  const mainRows=A.campus(rows,'main').filter(r=>r.pricing_type==='Per bedroom'&&A.valid(r));
+  const main=A.stats(mainRows);
   const label=key=>key==='vet'?'Biomedical Campus':d.campuses[key].label;
   const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const usd=x=>x==null?'—':x.toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2});
@@ -28,7 +29,7 @@
       </div>`;
   }
 
-  document.getElementById('sample-flow').innerHTML=`<strong>Room-only selection:</strong> ${rows.length} saved listing IDs = ${s.perOverall.n} included room listings + ${rows.length-s.perOverall.n} outside the room article. The latter comprise ${rows.length-u.length} outside all three five-mile areas, ${s.wholeOverall.n} usable whole-unit offers inside the areas, and ${s.excluded} inside-area records with unusable or unresolved prices. Each ID is counted once in this reconciliation.`;
+  document.getElementById('sample-flow').innerHTML=`<strong>Room-only reconciliation:</strong> ${rows.length} saved listing IDs = ${s.perOverall.n} unique eligible room listings within five miles of at least one campus + ${rows.length-s.perOverall.n} other records. Of those ${s.perOverall.n} cross-campus union IDs, ${main.n} fall within five miles of Main Campus and form the article's Main Campus rent-and-earnings sample. The other records comprise ${rows.length-u.length} outside all three five-mile areas, ${s.wholeOverall.n} usable whole-unit offers inside the areas, and ${s.excluded} inside-area records with unusable or unresolved prices. Each ID is counted once in this reconciliation.`;
   const countRows=Object.keys(d.campuses).map(key=>{
     const v=A.summarize(A.campus(rows,key)).perOverall;
     const bands=[[0,1],[1,3],[3,5]].map(([lo,hi])=>A.summarize(A.campus(rows,key,lo,hi)).perOverall.n);
@@ -49,8 +50,8 @@
   }
   document.getElementById('band-math').innerHTML=table(['Campus','Distance','Rooms used','Low sum','High sum','Mean low','Mean high','Mean midpoint'],br);
 
-  const selections=[['Primary room sample',u],['Omit all-2027-or-later offers',u.filter(r=>!r.all_2027_or_later)],['Omit waitlist mentions',u.filter(r=>!r.flags.includes('waitlist_mentioned'))],['Omit flagged Centennial Ridge endpoint',u.filter(r=>r.site_id!=='7e6kx1w')],['Apply all three omissions',u.filter(r=>!r.all_2027_or_later&&!r.flags.includes('waitlist_mentioned')&&r.site_id!=='7e6kx1w')]];
-  document.getElementById('sensitivity-math').innerHTML='<p>These checks use the combined room sample across all three campus areas, counting each ID once.</p>'+table(['Scenario','Rooms used','Mean midpoint','Median midpoint'],selections.map(([name,set])=>{const v=A.summarize(set).perOverall;return [name,v.n,usd(v.midpoint),usd(v.median_midpoint)];}));
+  const selections=[['Primary Main Campus room sample',mainRows],['Omit all-2027-or-later offers',mainRows.filter(r=>!r.all_2027_or_later)],['Omit waitlist mentions',mainRows.filter(r=>!r.flags.includes('waitlist_mentioned'))],['Omit flagged Centennial Ridge endpoint',mainRows.filter(r=>r.site_id!=='7e6kx1w')],['Apply all three omissions',mainRows.filter(r=>!r.all_2027_or_later&&!r.flags.includes('waitlist_mentioned')&&r.site_id!=='7e6kx1w')]];
+  document.getElementById('sensitivity-math').innerHTML='<p>These checks use the '+main.n+'-listing Main Campus analytic sample so they match the article\'s rent-and-earnings comparison.</p>'+table(['Scenario','Rooms used','Mean midpoint','Median midpoint'],selections.map(([name,set])=>{const v=A.stats(set);return [name,v.n,usd(v.midpoint),usd(v.median_midpoint)];}));
   document.getElementById('review-log').innerHTML=table(['ID / original listing','Original basis','Reviewed basis','Price status','Reason / evidence'],rows.filter(r=>!r.eligible_price||r.pricing_type!==r.original_pricing_type||r.flags.includes('high_endpoint_review')).map(r=>[`<a href="${esc(r.listing_url)}">${esc(r.site_id)} · ${esc(r.name)}</a>`,esc(r.original_pricing_type),esc(r.pricing_type),esc(r.review_status),esc(r.review_note)]));
 
   document.getElementById('budget-worked').innerHTML=`<strong>Default article example, Main Campus:</strong> ${usd(main.midpoint)} mean room midpoint ÷ $1,300.00 monthly gross wages × 100 = <strong>${pct(main.midpoint/1300*100)}</strong> at $15/hour and 20 hours/week. At $7.25/hour it is <strong>${pct(main.midpoint/(7.25*20*52/12)*100)}</strong>. These percentages use unrounded values and assume 52 paid weeks. The ${usd(main.median_midpoint)} median is retained as a check; the article displays the mean.`;
