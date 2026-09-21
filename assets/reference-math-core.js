@@ -50,8 +50,13 @@
   }
   document.getElementById('band-math').innerHTML=table(['Campus','Distance','Rooms used','Low sum','High sum','Mean low','Mean high','Mean midpoint'],br);
 
-  const selections=[['Primary Main Campus room sample',mainRows],['Omit all-2027-or-later offers',mainRows.filter(r=>!r.all_2027_or_later)],['Omit waitlist mentions',mainRows.filter(r=>!r.flags.includes('waitlist_mentioned'))],['Omit flagged Centennial Ridge endpoint',mainRows.filter(r=>r.site_id!=='7e6kx1w')],['Apply all three omissions',mainRows.filter(r=>!r.all_2027_or_later&&!r.flags.includes('waitlist_mentioned')&&r.site_id!=='7e6kx1w')]];
-  document.getElementById('sensitivity-math').innerHTML='<p>These checks use the '+main.n+'-listing Main Campus analytic sample so they match the article\'s rent-and-earnings comparison.</p>'+table(['Scenario','Rooms used','Mean midpoint','Median midpoint'],selections.map(([name,set])=>{const v=A.stats(set);return [name,v.n,usd(v.midpoint),usd(v.median_midpoint)];}));
+  const selections=[
+    ['Final Main Campus sample',mainRows],
+    ['Exclude 7 offers dated entirely 2027 or later',mainRows.filter(r=>!r.all_2027_or_later)],
+    ['Exclude Centennial Ridge listing',mainRows.filter(r=>r.site_id!=='7e6kx1w')],
+    ['Exclude both 2027+ offers and Centennial Ridge',mainRows.filter(r=>!r.all_2027_or_later&&r.site_id!=='7e6kx1w')]
+  ];
+  document.getElementById('sensitivity-math').innerHTML='<p><strong>What these numbers mean:</strong> start with the final '+main.n+'-listing Main Campus sample used in the article. The rows below show how the mean changes if seven offers dated entirely 2027 or later are removed, if the single Centennial Ridge listing with the unusually wide advertised range is removed, or if both checks are applied. These are sensitivity checks, not alternate article samples.</p>'+table(['Scenario','Rooms used','Mean midpoint','Median midpoint'],selections.map(([name,set])=>{const v=A.stats(set);return [name,v.n,usd(v.midpoint),usd(v.median_midpoint)];}));
   document.getElementById('review-log').innerHTML=table(['ID / original listing','Original basis','Reviewed basis','Price status','Reason / evidence'],rows.filter(r=>!r.eligible_price||r.pricing_type!==r.original_pricing_type||r.flags.includes('high_endpoint_review')).map(r=>[`<a href="${esc(r.listing_url)}">${esc(r.site_id)} · ${esc(r.name)}</a>`,esc(r.original_pricing_type),esc(r.pricing_type),esc(r.review_status),esc(r.review_note)]));
 
   document.getElementById('budget-worked').innerHTML=`<strong>Default article example, Main Campus:</strong> ${usd(main.midpoint)} mean room midpoint ÷ $1,300.00 monthly gross wages × 100 = <strong>${pct(main.midpoint/1300*100)}</strong> at $15/hour and 20 hours/week. At $7.25/hour it is <strong>${pct(main.midpoint/(7.25*20*52/12)*100)}</strong>. These percentages use unrounded values and assume 52 paid weeks. The ${usd(main.median_midpoint)} median is retained as a check; the article displays the mean.`;
