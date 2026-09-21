@@ -120,16 +120,14 @@ def band_sheet(name, rs, key=None):
                       avg_low=sum(lows)/len(rs),avg_high=sum(highs)/len(rs),avg_mid=sum(mids)/len(rs))
 
 rooms_sorted=sorted(rooms,key=lambda r:r["name"].lower())
-room_rows, room_meta = band_sheet("Rooms union - 76 unique room listings",rooms_sorted,None)
-sheets.append(("Rooms",sheet_xml(room_rows,[38,16,16,18,16,16,54,18,18],4,f"A4:I{room_meta['last']}")))
 
-# Main Campus analytic sample - the exact 74 listings used in the article.
+# Main Campus all-three-bands audit - the exact 74 listings used in the article.
 main_sample=[r for r in rooms_sorted if r["distance_main"]<=5]
 assert len(main_sample)==74
 
 main_rows=[
-    [T("Main Campus analytic sample - 74 room listings")],
-    [W("September 9, 2026 advertised-price snapshot; bedroom-occupancy classifications reviewed September 20. This is the exact 74-listing Main Campus sample used in the article: 18 listings at 0-1 mile, 46 at >1-3 miles and 10 at >3-5 miles.")],
+    [T("Main Campus all three bands - 74 room listings")],
+    [W("Sept. 9, 2026 advertised-price snapshot; classifications reviewed Sept. 20. Exact Main Campus article sample: 18 listings at 0-1 mi, 46 at >1-3 mi, and 10 at >3-5 mi.")],
     [],
     [H(x) for x in ["Listing name","Low ($/month)","High ($/month)","Midpoint ($/month)","Main distance (mi)","Main band","Listing ID","Source URL"]]
 ]
@@ -143,45 +141,74 @@ for j,r in enumerate(main_sample,main_start):
         D(d), band, r["site_id"], r["listing_url"]
     ])
 
-# Keep two blank rows between the listing table and the audit math.
-while len(main_rows)<80:
+main_last=main_start+len(main_sample)-1
+overall_count=main_last+3
+overall_total=main_last+4
+overall_mean=main_last+5
+overall_median=main_last+6
+while len(main_rows)<overall_median:
     main_rows.append([])
 
-main_rows.append([T("Main Campus distance-band math")])
-main_rows.append([H(x) for x in ["Band","Listings","Low-price sum","High-price sum","Midpoint sum","Mean midpoint"]])
+main_low=sum(r["rent_low"] for r in main_sample)
+main_high=sum(r["rent_high"] for r in main_sample)
+main_mid=sum((r["rent_low"]+r["rent_high"])/2 for r in main_sample)
+main_mids=sorted((r["rent_low"]+r["rent_high"])/2 for r in main_sample)
+main_med=(main_mids[(len(main_mids)-1)//2] if len(main_mids)%2 else (main_mids[len(main_mids)//2-1]+main_mids[len(main_mids)//2])/2)
 
+main_rows[overall_count-1]=[
+    B("Prices used (COUNT)"),
+    B(74,f"COUNT(B{main_start}:B{main_last})"),
+    B(74,f"COUNT(C{main_start}:C{main_last})"),
+    B(74,f"COUNT(D{main_start}:D{main_last})")
+]
+main_rows[overall_total-1]=[
+    B("Total advertised rent (SUM)"),
+    M(main_low,f"SUM(B{main_start}:B{main_last})"),
+    M(main_high,f"SUM(C{main_start}:C{main_last})"),
+    M(main_mid,f"SUM(D{main_start}:D{main_last})")
+]
+main_rows[overall_mean-1]=[
+    B("Average (sum / count)"),
+    M(main_low/74,f"B{overall_total}/B{overall_count}"),
+    M(main_high/74,f"C{overall_total}/C{overall_count}"),
+    M(main_mid/74,f"D{overall_total}/D{overall_count}")
+]
+main_rows[overall_median-1]=[B("Median listing midpoint"),None,None,M(main_med,f"MEDIAN(D{main_start}:D{main_last})")]
+
+band_header=overall_median+3
+while len(main_rows)<band_header:
+    main_rows.append([])
+main_rows[band_header-1]=[H(x) for x in ["Main Campus band","Listings","Low-price sum","High-price sum","Midpoint sum","Mean midpoint"]]
+band_start=band_header+1
 main_band_defs=[("0-1 mi",0,1),("1-3 mi",1,3),("3-5 mi",3,5)]
-summary_start=83
-for idx,(label,low,high) in enumerate(main_band_defs,summary_start):
+for idx,(label,low,high) in enumerate(main_band_defs,band_start):
     rs=[r for r in main_sample if r["distance_main"]<=high and (low==0 or r["distance_main"]>low)]
     low_sum=sum(r["rent_low"] for r in rs)
     high_sum=sum(r["rent_high"] for r in rs)
     mid_sum=sum((r["rent_low"]+r["rent_high"])/2 for r in rs)
     main_rows.append([
         B(label),
-        {"v":len(rs),"f":f'COUNTIF(F{main_start}:F78,A{idx})'},
-        M(low_sum,f'SUMIF(F{main_start}:F78,A{idx},B{main_start}:B78)'),
-        M(high_sum,f'SUMIF(F{main_start}:F78,A{idx},C{main_start}:C78)'),
-        M(mid_sum,f'SUMIF(F{main_start}:F78,A{idx},D{main_start}:D78)'),
+        B(len(rs),f'COUNTIF(F{main_start}:F{main_last},A{idx})'),
+        M(low_sum,f'SUMIF(F{main_start}:F{main_last},A{idx},B{main_start}:B{main_last})'),
+        M(high_sum,f'SUMIF(F{main_start}:F{main_last},A{idx},C{main_start}:C{main_last})'),
+        M(mid_sum,f'SUMIF(F{main_start}:F{main_last},A{idx},D{main_start}:D{main_last})'),
         M(mid_sum/len(rs),f'E{idx}/B{idx}')
     ])
-
-main_low=sum(r["rent_low"] for r in main_sample)
-main_high=sum(r["rent_high"] for r in main_sample)
-main_mid=sum((r["rent_low"]+r["rent_high"])/2 for r in main_sample)
+all_row=band_start+3
 main_rows.append([
-    B("Main Campus total"),
-    B(len(main_sample),f"SUM(B83:B85)"),
-    M(main_low,f"SUM(C83:C85)"),
-    M(main_high,f"SUM(D83:D85)"),
-    M(main_mid,f"SUM(E83:E85)"),
-    M(main_mid/len(main_sample),f"E86/B86")
+    B("All three bands"),
+    B(74,f"SUM(B{band_start}:B{all_row-1})"),
+    M(main_low,f"SUM(C{band_start}:C{all_row-1})"),
+    M(main_high,f"SUM(D{band_start}:D{all_row-1})"),
+    M(main_mid,f"SUM(E{band_start}:E{all_row-1})"),
+    M(main_mid/74,f"E{all_row}/B{all_row}")
 ])
 main_rows.append([])
-main_rows.append([B("Article check"),W("18 + 46 + 10 = 74 listings. Midpoint sum = $64,271.50; $64,271.50 / 74 = $868.53/month, displayed in the article as about $869.")])
-main_rows.append([B("Scope"),W("One portal listing ID receives one vote. Advertised prices may exclude utilities and fees. This sheet excludes the two cross-campus-only room listings that are outside the five-mile Main Campus sample.")])
+main_rows.append([])
+main_rows.append([B("Article check"),W("Main Campus: 18 + 46 + 10 = 74 listings. Midpoint sum = $64,271.50; $64,271.50 / 74 = $868.53/month, displayed in the article as about $869.")])
+main_rows.append([B("Scope"),W("This is the exact 74-listing Main Campus analytic sample. One portal listing ID receives one vote. Advertised prices may exclude utilities and fees.")])
 
-sheets.append(("Main sample (74)",sheet_xml(main_rows,[38,16,16,18,16,14,16,54],4,"A4:H78")))
+sheets.append(("Main all three bands (74)",sheet_xml(main_rows,[38,16,16,18,16,14,16,54],4,f"A4:H{main_last}")))
 
 band_specs=[]
 for key in ("main","centennial","vet"):
@@ -229,20 +256,16 @@ for prefix in ("Main","Centennial","Biomedical"):
     srows.append([B(f"{prefix} Campus total"),B(cnt,f"SUM(B{start}:B{end})"),M(low,f"SUM(C{start}:C{end})"),M(high,f"SUM(D{start}:D{end})"),
                   M(low/cnt,f"C{excel_row}/B{excel_row}"),M(high/cnt,f"D{excel_row}/B{excel_row}"),M((low+high)/(2*cnt),f"(E{excel_row}+F{excel_row})/2")])
     excel_row += 1
-srows.append([B("All three areas, unique IDs"),B(len(rooms),f"'Rooms'!B{room_meta['count']}"),
-              M(sum(r["rent_low"] for r in rooms),f"'Rooms'!B{room_meta['total']}"),
-              M(sum(r["rent_high"] for r in rooms),f"'Rooms'!C{room_meta['total']}"),
-              M(room_meta["avg_low"],f"'Rooms'!B{room_meta['mean']}"),M(room_meta["avg_high"],f"'Rooms'!C{room_meta['mean']}"),M(room_meta["avg_mid"],f"'Rooms'!D{room_meta['mean']}")])
 srows += [[],[B("Article check"),W("Main Campus: 18 + 46 + 10 = 74 listings; mean midpoint = $868.53, displayed as about $869.")],
           [B("Scope"),W("Room/per-bedroom advertised offers within five miles of at least one campus point. Campus areas overlap; do not add campus totals.")],
           [B("Price note"),W("Advertised prices may exclude utilities and fees. Each listing receives equal weight.")]]
 sheets.append(("Summary",sheet_xml(srows,[34,16,18,18,18,18,18],4,None)))
 
 # Desired sheet order.
-order=["Summary","Rooms","Main sample (74)"]+[name for _,name,_,_ in band_specs]+["Excluded","Listings"]
+order=["Summary","Main all three bands (74)"]+[name for _,name,_,_ in band_specs]+["Excluded","Listings"]
 sheet_map=dict(sheets)
 sheets=[(name,sheet_map[name]) for name in order]
-assert len(sheets)==14
+assert len(sheets)==13
 
 styles='''<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
