@@ -7,6 +7,7 @@ on:
       - '.github/workflows/rebuild-room-audit-xlsx.yml'
       - 'scripts/rebuild_room_xlsx_stdlib.py'
       - 'data/reviewed-rentals.json'
+      - 'data/audits/rebuild-room-audit.trigger'
 
 permissions:
   contents: write
