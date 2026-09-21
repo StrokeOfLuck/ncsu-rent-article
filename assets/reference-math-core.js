@@ -29,34 +29,11 @@
       </div>`;
   }
 
-  document.getElementById('sample-flow').innerHTML=`<strong>Room-only reconciliation:</strong> ${rows.length} saved listing IDs = ${s.perOverall.n} unique eligible room listings within five miles of at least one campus + ${rows.length-s.perOverall.n} other records. Of those ${s.perOverall.n} cross-campus union IDs, ${main.n} fall within five miles of Main Campus and form the article's Main Campus rent-and-earnings sample. The other records comprise ${rows.length-u.length} outside all three five-mile areas, ${s.wholeOverall.n} usable whole-unit offers inside the areas, and ${s.excluded} inside-area records with unusable or unresolved prices. Each ID is counted once in this reconciliation.`;
-  const countRows=Object.keys(d.campuses).map(key=>{
-    const v=A.summarize(A.campus(rows,key)).perOverall;
-    const bands=[[0,1],[1,3],[3,5]].map(([lo,hi])=>A.summarize(A.campus(rows,key,lo,hi)).perOverall.n);
-    return [esc(label(key)),...bands,v.n,usd(v.midpoint)];
-  });
-  document.getElementById('count-reconciliation').innerHTML=table(['Campus','0–1 mi','>1–3 mi','>3–5 mi','Total rooms','Mean midpoint'],countRows);
-  const roomBands=[[0,1],[1,3],[3,5]].map(([lo,hi])=>A.summarize(A.campus(rows,'main',lo,hi)).perOverall);
-  document.getElementById('weighting-math').innerHTML=`<strong>Main Campus example:</strong> ${roomBands.map(b=>b.n).join(' + ')} = ${main.n} room listings. Their individual midpoints add to ${usd((main.low_sum+main.high_sum)/2)}. Divide by ${main.n} for a mean of <strong>${usd(main.midpoint)}</strong>. Band contributions reflect the number of advertisements, not student demand.`;
   function worked(v) {
     return `<ol><li>Low-price sum: ${usd(v.low_sum)} ÷ ${v.n} = <strong>${usd(v.avg_low)}</strong>.</li><li>High-price sum: ${usd(v.high_sum)} ÷ ${v.n} = <strong>${usd(v.avg_high)}</strong>.</li><li>Midpoint sum: (${usd(v.low_sum)} + ${usd(v.high_sum)}) ÷ 2 = ${usd((v.low_sum+v.high_sum)/2)}. Divide by ${v.n} = <strong>${usd(v.midpoint)}</strong>.</li><li>Median of the ${v.n} listing midpoints: <strong>${usd(v.median_midpoint)}</strong>.</li></ol>`;
   }
-  document.getElementById('worked-union').innerHTML=worked(s.perOverall);
   document.getElementById('worked-whole').innerHTML='<h2>Whole-unit calculation, outside the article’s room scope</h2>'+worked(s.wholeOverall);
-  const br=[];
-  for(const key of Object.keys(d.campuses)) for(const [inner,outer,band] of [[0,1,'0–1 mi'],[1,3,'>1–3 mi'],[3,5,'>3–5 mi'],[0,5,'Pooled 0–5 mi']]) {
-    const a=A.summarize(A.campus(rows,key,inner,outer)).perOverall;
-    br.push([esc(label(key)),band,a.n,usd(a.low_sum),usd(a.high_sum),usd(a.avg_low),usd(a.avg_high),usd(a.midpoint)]);
-  }
-  document.getElementById('band-math').innerHTML=table(['Campus','Distance','Rooms used','Low sum','High sum','Mean low','Mean high','Mean midpoint'],br);
 
-  const selections=[
-    ['Final Main Campus sample',mainRows],
-    ['Exclude 7 offers dated entirely 2027 or later',mainRows.filter(r=>!r.all_2027_or_later)],
-    ['Exclude Centennial Ridge listing',mainRows.filter(r=>r.site_id!=='7e6kx1w')],
-    ['Exclude both 2027+ offers and Centennial Ridge',mainRows.filter(r=>!r.all_2027_or_later&&r.site_id!=='7e6kx1w')]
-  ];
-  document.getElementById('sensitivity-math').innerHTML='<p><strong>What these numbers mean:</strong> start with the final '+main.n+'-listing Main Campus sample used in the article. The rows below show how the mean changes if seven offers dated entirely 2027 or later are removed, if the single Centennial Ridge listing with the unusually wide advertised range is removed, or if both checks are applied. These are sensitivity checks, not alternate article samples.</p>'+table(['Scenario','Rooms used','Mean midpoint','Median midpoint'],selections.map(([name,set])=>{const v=A.stats(set);return [name,v.n,usd(v.midpoint),usd(v.median_midpoint)];}));
   document.getElementById('review-log').innerHTML=table(['ID / original listing','Original basis','Reviewed basis','Price status','Reason / evidence'],rows.filter(r=>!r.eligible_price||r.pricing_type!==r.original_pricing_type||r.flags.includes('high_endpoint_review')).map(r=>[`<a href="${esc(r.listing_url)}">${esc(r.site_id)} · ${esc(r.name)}</a>`,esc(r.original_pricing_type),esc(r.pricing_type),esc(r.review_status),esc(r.review_note)]));
 
   document.getElementById('budget-worked').innerHTML=`<strong>Default article example, Main Campus:</strong> ${usd(main.midpoint)} mean room midpoint ÷ $1,300.00 monthly gross wages × 100 = <strong>${pct(main.midpoint/1300*100)}</strong> at $15/hour and 20 hours/week. At $7.25/hour it is <strong>${pct(main.midpoint/(7.25*20*52/12)*100)}</strong>. These percentages use unrounded values and assume 52 paid weeks. The ${usd(main.median_midpoint)} median is retained as a check; the article displays the mean.`;
@@ -108,40 +85,6 @@
   </div>
 </article>
 
-<article class="ref" id="ncsu-housing-weighted-increase-2026-27">
-  <div class="ref-head">
-    <div>
-      <div class="ref-no">Reference 17</div>
-      <div class="ref-title">NC State Board of Trustees: 5% Weighted Average Housing Rate Increase for 2026–27</div>
-    </div>
-    <div class="tags">
-      <span class="tag">Primary source</span>
-      <span class="tag">NC State</span>
-      <span class="tag">Housing rates</span>
-      <span class="tag">Board of Trustees</span>
-    </div>
-  </div>
-  <div class="ref-body">
-    <div class="meta-grid">
-      <div class="meta-label">Committee</div>
-      <div class="meta-value">NC State Board of Trustees, University Affairs Committee</div>
-      <div class="meta-label">Minutes</div>
-      <div class="meta-value">November 13, 2025 open-session minutes, reproduced in the February 2026 meeting book</div>
-      <div class="meta-label">Relevant page</div>
-      <div class="meta-value">PDF page 7, minutes page 2</div>
-      <div class="meta-label">Source</div>
-      <div class="meta-value"><a href="https://leadership.ncsu.edu/wp-content/uploads/sites/2/2026/02/Meeting-Book-February-2026-University-Affairs-Committee-Meeting.pdf#page=7" target="_blank" rel="noopener noreferrer">University Affairs Committee meeting book</a></div>
-    </div>
-    <hr class="rule">
-    <h2>Highlighted finding</h2>
-    <div class="citation">“Regarding university housing rates, the proposed increase on a weighted average basis is 5%.”</div>
-    <div class="facts" style="margin-top:12px">
-      <div class="fact"><div class="fact-label">Housing increase</div><div class="fact-value"><strong>5%</strong> proposed weighted-average increase for 2026–27.</div></div>
-      <div class="fact"><div class="fact-label">University explanation</div><div class="fact-value">Housing and dining are described as self-supporting programs, with higher costs tied to labor-market pressure, inflation and capital investment needs.</div></div>
-      <div class="fact"><div class="fact-label">Board action</div><div class="fact-value">The committee motion recommending approval of the 2026–27 housing and dining rate requests to the full board passed.</div></div>
-    </div>
-    <div class="use-note"><strong>Why this matters for the inflation chart:</strong> The Board minutes support NC State's own aggregate description of the 2026–27 housing change — a <strong>5% weighted-average increase</strong> — and say the requested increases respond in part to inflationary pressures. The article's chart does something different: it calculates the change for each published housing-rate row and compares those individual increases with the BLS <strong>3.1% lodging-while-at-school</strong> benchmark. The 5% figure is a university-wide weighted summary, <strong>not</strong> the simple average of the chart's room-type percentages and <strong>not</strong> an inflation rate.</div>
-  </div>
-</article>`);
+`);
   }
 })();
