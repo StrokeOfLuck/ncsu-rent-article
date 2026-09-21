@@ -7,11 +7,11 @@
     <hr class="rule">
     <h2>Winter break is separately priced</h2>
     <div class="evidence winter-break-evidence">
-      <img src="assets/winter-break-housing-costs.svg" alt="NC State Summer and Transition Housing Costs table showing Winter Break Housing at $15 per night for 2025 and projected 2026.">
-      <div class="caption">Recreated from NC State Housing's Summer and Transition Housing Costs table. Winter Break Housing is listed separately at <strong>$15 per night</strong>.</div>
+      <a href="https://housing.dasa.ncsu.edu/assignments/break-and-transition-housing/" target="_blank" rel="noopener noreferrer"><img src="assets/references/ncsu-winter-break-costs-2025-26.png?v=20260920-source" alt="Original NC State University Housing Costs section stating that Winter Break Housing in 2025–2026 costs $360, or $15 per night, and covers the period between fall and spring semesters."></a>
+      <div class="caption"><strong>Original source excerpt.</strong> NC State University Housing's Winter Break Housing page showing the <strong>$360</strong> full-break charge used in the article's optional comparison. Select the image to open the source page.</div>
     </div>
     <div class="use-note"><strong>Reporting note:</strong> For most residents, winter break is not included in the fall + spring housing agreement. The 2026–27 Housing Agreement defines the academic year as fall and spring semesters, excluding winter break and summer, and says Winter Break housing is a separate term with an additional charge. E.S. King and Western Manor term agreements are exceptions, except for specified E.S. King undergraduate buildings.</div>
-    <p><a href="https://housing.dasa.ncsu.edu/wp-content/uploads/sites/30/2025/12/University-Housing-Agreement-2026-2027.pdf" target="_blank" rel="noopener noreferrer">2026–27 University Housing Agreement</a></p>
+    <p><a href="https://housing.dasa.ncsu.edu/assignments/housing-agreement/" target="_blank" rel="noopener noreferrer">NC State University Housing — Housing Agreement</a></p>
 
     <h3>Latest published full-break example: 2025–26</h3>
     <div class="facts">
