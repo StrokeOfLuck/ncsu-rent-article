@@ -7,6 +7,7 @@ import { Workbook, SpreadsheetFile } from '@oai/artifact-tool';
 const root = path.resolve(process.argv[2] || path.dirname(path.dirname(fileURLToPath(import.meta.url))));
 const csvPath = path.join(root, 'data/audits/ncsu-room-utilities-audit.csv');
 const outPath = path.join(root, 'data/audits/ncsu-room-utilities-audit.xlsx');
+const mainSamplePath = path.join(root, 'data/audits/ncsu-main-campus-private-bedroom-audit.csv');
 
 function parseCsv(text) {
   const rows = [];
@@ -41,6 +42,12 @@ const rows = parsed.slice(1).filter(r => r.length === headers.length).map(r => O
 if (rows.length !== 41) throw new Error('Expected 41 utility-including rows, got ' + rows.length);
 const all8 = rows.filter(r => r.all_utilities_explicit_manual === 'Yes');
 if (all8.length !== 8) throw new Error('Expected 8 all-utilities rows, got ' + all8.length);
+
+const mainParsed = parseCsv((await fs.readFile(mainSamplePath, 'utf8')).replace(/^\uFEFF/, ''));
+const mainHeaders = mainParsed[0];
+const mainRows = mainParsed.slice(1).filter(r => r.length === mainHeaders.length).map(r => Object.fromEntries(mainHeaders.map((h, i) => [h, r[i]])));
+if (mainRows.length !== 74) throw new Error('Expected 74 Main Campus analytic rows, got ' + mainRows.length);
+const utilityById = new Map(rows.map(r => [r.listing_id, r]));
 
 const wb = Workbook.create();
 const red = '#8B1F2D', soft = '#F8F6F1', head = '#E9E4DB', sum = '#F3F0E9';
@@ -135,31 +142,38 @@ for (let j = 0; j < all8.length; j++) {
 }
 if (internetRows.length !== 6) throw new Error('Expected 6 all-utilities + internet rows, got ' + internetRows.length);
 
-// Add a third sheet that preserves the source audit CSV columns and values for comparison.
-const raw = wb.worksheets.add('Source CSV (41)');
-const rawLastCol = col(headers.length - 1);
+// Add the complete 74-listing Main Campus denominator for side-by-side comparison.
+const raw = wb.worksheets.add('Main sample (74)');
+const rawHeaders = ['Listing ID','Listing','Advertised price','Rent low','Rent high','Midpoint','Distance (mi)','Distance band','In 41-listing utility subgroup?','All utilities explicit?','Internet/Wi-Fi explicit?','Original listing URL'];
+const rawLastCol = col(rawHeaders.length - 1);
 raw.mergeCells(`A1:${rawLastCol}1`);
-raw.getRange('A1').values = [['Source CSV — Utility Audit Rows']];
+raw.getRange('A1').values = [['Main Campus Analytic Sample — 74 Listings']];
 raw.getRange(`A1:${rawLastCol}1`).format.fill = red;
 raw.getRange(`A1:${rawLastCol}1`).format.font = { name: 'Arial', size: 15, bold: true, color: '#FFFFFF' };
 raw.mergeCells(`A2:${rawLastCol}3`);
-raw.getRange('A2').values = [['Direct comparison view of data/audits/ncsu-room-utilities-audit.csv. The first 41 rows are the listing-level audit data used to build the two formatted sheets; the four calculation rows at the bottom are preserved as text exactly as they appear in the CSV.']];
+raw.getRange('A2').values = [['All 74 private-bedroom/per-bedroom listings used in the article denominator. The utility subgroup column shows which 41 listings have at least one core utility explicitly included; all-utilities and internet/Wi-Fi flags come from the utility review.']];
 raw.getRange(`A2:${rawLastCol}3`).format.fill = soft;
 raw.getRange(`A2:${rawLastCol}3`).format.font = { name: 'Arial', size: 10, color: '#4F4A43' };
 raw.getRange(`A2:${rawLastCol}3`).format.wrapText = true;
-raw.getRange(`A5:${rawLastCol}5`).values = [headers];
+raw.getRange(`A5:${rawLastCol}5`).values = [rawHeaders];
 raw.getRange(`A5:${rawLastCol}5`).format.fill = head;
 raw.getRange(`A5:${rawLastCol}5`).format.font = { name: 'Arial', size: 10, bold: true };
 raw.getRange(`A5:${rawLastCol}5`).format.wrapText = true;
-const rawRows = parsed.slice(1).filter(r => r.length === headers.length).map(r => r.map(v => String(v).startsWith('=') ? "'" + v : v));
+const rawRows = mainRows.map(r => {
+  const u = utilityById.get(r.listing_id);
+  return [
+    r.listing_id, r.listing, r.advertised_price, Number(r.rent_low), Number(r.rent_high), Number(r.midpoint),
+    Number(r.main_distance_miles), r.main_distance_band, u ? 'Yes' : 'No',
+    u?.all_utilities_explicit_manual || 'No', u?.internet_wifi_explicit || 'No', r.original_listing_url
+  ];
+});
 raw.getRange(`A6:${rawLastCol}${5 + rawRows.length}`).values = rawRows;
+raw.getRange(`D6:F${5 + rawRows.length}`).format.numberFormat = money;
+raw.getRange(`G6:G${5 + rawRows.length}`).format.numberFormat = '0.000';
 raw.getRange(`A6:${rawLastCol}${5 + rawRows.length}`).format.wrapText = true;
-const rawWidths = [14,38,15,14,14,24,14,14,28,34,18,46,54,20,54,44,20,54,22,48];
+const rawWidths = [14,38,15,12,12,12,12,14,20,18,18,52];
 rawWidths.forEach((w, i) => raw.getRange(`${col(i)}:${col(i)}`).format.columnWidth = w);
 raw.freezePanes.freezeRows(5);
-const rawSummaryStart = 6 + 41;
-raw.getRange(`A${rawSummaryStart}:${rawLastCol}${5 + rawRows.length}`).format.fill = sum;
-raw.getRange(`A${rawSummaryStart}:${rawLastCol}${5 + rawRows.length}`).format.font = { name: 'Arial', size: 10, bold: true };
 
 // Keep the six-listing calculations on the eight-listing sheet.
 const subTitle = b.median + 2;
@@ -206,4 +220,4 @@ console.log((await wb.inspect({kind:'match',searchTerm:'#REF!|#DIV/0!|#VALUE!|#N
 
 const xlsx = await SpreadsheetFile.exportXlsx(wb);
 await xlsx.save(outPath);
-console.log('Exported utility audit: 41 utility-including rows; 8 all-utilities rows; 6 green internet/Wi-Fi rows; source CSV tab preserved.');
+console.log('Exported utility audit: 41 utility-including rows; 8 all-utilities rows; 6 green internet/Wi-Fi rows; 74-listing Main Campus comparison tab preserved.');
