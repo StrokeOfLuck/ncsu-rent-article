@@ -751,6 +751,40 @@ h2 {
 #residence-hall-monthly-math{scroll-margin-top:165px;}
 #main-campus-private-bedroom-math{scroll-margin-top:165px;}
 .survey-highlight{margin:0;padding:16px;border-left:4px solid var(--accent);background:#fff2cc;color:var(--ink);font-size:15px;font-weight:650;line-height:1.65}
+
+.winter-break-source {
+  margin-top:12px;
+  border:1px solid var(--line);
+  background:#fff;
+  padding:14px 16px 12px;
+}
+.winter-break-source a {
+  display:block;
+  color:inherit;
+  text-decoration:none;
+}
+.winter-break-source-title {
+  margin:0 0 10px;
+  color:#c00;
+  font:700 22px/1.15 Arial,Helvetica,sans-serif;
+}
+.winter-break-source-copy {
+  margin:0;
+  max-width:760px;
+  font:400 15px/1.55 Arial,Helvetica,sans-serif;
+  color:#3f3f3f;
+}
+.winter-break-source-highlight {
+  background:#2f66d0;
+  color:#fff;
+  padding:2px 1px;
+  -webkit-box-decoration-break:clone;
+  box-decoration-break:clone;
+}
+.winter-break-source .caption {
+  margin-top:9px;
+}
+
 </style>
 </head>
 <body>
@@ -819,8 +853,8 @@ h2 {
       <div class="fact"><div class="fact-label">Structured-field cross-check</div><div class="fact-value"><strong>7 listings</strong> have all five selected core portal utility fields marked <code>Included</code>. This is retained as a cross-check, not the headline all-utilities definition.</div></div>
       <div class="fact" id="utility-internet-math"><div class="fact-label">All utilities + internet/Wi-Fi</div><div class="fact-value"><strong>6 of 8 · 75%</strong> of the all-utilities listings, or <strong>6 of 74 · 8.1%</strong> of the full private-bedroom analytic sample, explicitly include internet or Wi-Fi. Mean advertised midpoint: <strong>$815.83/mo</strong>. The other two all-utilities listings do not specifically mention internet, so internet is not assumed for them.</div></div>
     </div>
-    <p><a class="audit-download" href="data/audits/ncsu-room-utilities-audit.xlsx?v=20260920-repaired">Download utility Excel audit</a> · <a href="data/audits/ncsu-room-utilities-audit.csv" download>Download source audit CSV</a></p>
-    <div class="use-note"><strong>Manual intervention is explicit:</strong> the CSV contains an <code>all_utilities_explicit_manual</code> field plus the exact saved wording used for every “Yes” classification. It now also includes <code>internet_wifi_explicit</code> and <code>internet_wifi_evidence</code> fields so the six internet/Wi-Fi listings can be checked row by row. For example, the Brand New Luxury Furnished Townhome listing separately states “High-speed internet included.” The workbook keeps the two formatted utility views — <strong>Any utility included (41)</strong> and <strong>All utilities stated (8)</strong> — and adds a third <strong>Main sample (74)</strong> sheet with every listing in the article denominator. That tab makes it easy to see which of the 74 listings falls into the 41-listing utility-inclusion subgroup; the original utility-audit CSV remains available separately. In the eight-listing sheet, the six listings that also explicitly include internet or Wi-Fi are highlighted in green. Formula-backed COUNT, SUM, MEAN and SUM ÷ COUNT checks for those six appear directly below the eight-listing calculations, including the <strong>$815.83 mean</strong> used in the article.</div>
+    <p><a class="audit-download" href="data/audits/ncsu-room-utilities-audit.xlsx?v=20260920-repaired-green">Download utility Excel audit</a></p>
+    <div class="use-note"><strong>Manual intervention is explicit:</strong> the workbook preserves the exact saved wording used for every “all utilities” classification and separately records whether internet or Wi-Fi is explicitly included. The formatted views are <strong>Any utility included (41)</strong>, <strong>All utilities stated (8)</strong> and <strong>Main sample (74)</strong>. In the eight-listing sheet, the six listings that also explicitly include internet or Wi-Fi are highlighted in green, with formula-backed COUNT, SUM and MEAN checks for the <strong>$815.83 mean</strong> used in the article.</div>
     <div class="use-note"><strong>Interpretation:</strong> a listing not counted in the 41 is not automatically a listing where the tenant pays every utility. It means the saved material used for this audit did not affirmatively establish one of the selected core utilities as included.</div>
   </div>
 </article>
@@ -958,6 +992,14 @@ h2 {
     <div class="use-note">
       <strong>Adding full winter break:</strong> The checkbox uses NC State's <strong>$360 full-break charge for 2025–26</strong> as a reference because the 2026–27 winter-break rate has not yet been posted. The $360 is a separate one-time break charge, so it is added <strong>after</strong> the fall + spring semester charges are combined, then the total is divided by the same 9-month comparison period.
       <div style="margin-top:8px"><a href="https://housing.dasa.ncsu.edu/assignments/break-and-transition-housing/" target="_blank" rel="noopener noreferrer">NC State University Housing — Winter Break Housing costs</a> · <a href="https://housing.dasa.ncsu.edu/assignments/housing-agreement/" target="_blank" rel="noopener noreferrer">2026–27 Housing Agreement page</a></div>
+    </div>
+
+    <div class="winter-break-source">
+      <a href="https://housing.dasa.ncsu.edu/assignments/break-and-transition-housing/" target="_blank" rel="noopener noreferrer" aria-label="Open the NC State University Housing winter break source page">
+        <div class="winter-break-source-title">Costs</div>
+        <p class="winter-break-source-copy"><span class="winter-break-source-highlight">The cost for Winter Break Housing in 2025-2026 is <strong>$360</strong> ($15 per night) and covers the period between the end of the fall semester and the start of the spring semester.</span></p>
+      </a>
+      <div class="caption"><strong>Official source excerpt.</strong> NC State University Housing’s Break and Transition Housing page. Select the excerpt to open the source page.</div>
     </div>
 
     <div class="facts">
@@ -1275,9 +1317,6 @@ h2 {
 
           <div class="meta-label">Required on-campus living evidence</div>
           <div class="meta-value"><a href="assets/2023-food-and-housing-insecurity.pdf#page=28" target="_blank" rel="noopener noreferrer">Open the saved report at page 28</a></div>
-
-          <div class="meta-label">Campus reports page</div>
-          <div class="meta-value"><a href="https://packessentials.dasa.ncsu.edu/food-and-housing-insecurity-at-nc-state/" target="_blank" rel="noopener noreferrer">Pack Essentials — Campus Reports</a></div>
 
           <div class="meta-label">Accessed</div>
           <div class="meta-value">Sept. 9, 2026</div>
