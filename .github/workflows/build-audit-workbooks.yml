@@ -8,6 +8,8 @@ on:
       - 'data/audits/ncsu-room-rent-audit.xlsx'
       - 'data/audits/ncsu-room-utilities-audit.xlsx'
       - 'data/audits/ncsu-room-utilities-audit.csv'
+      - 'data/audits/ncsu-main-campus-private-bedroom-audit.csv'
+      - 'scripts/build_utilities_workbook.mjs'
       - 'scripts/verify_room_audit.py'
       - 'data/reviewed-rentals.json'
       - 'assets/rent-analysis.js'
