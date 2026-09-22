@@ -563,7 +563,7 @@ main > section, iframe { min-width:0; max-width:100%; }
 
     <p>Hearn said programs like HOST cannot meet the scale of the need without greater involvement from community and university leaders.</p>
 
-    <p><a href="references.html#mary-haskett-interview">Haskett</a> characterized NC State’s response to student housing insecurity as insufficient.</p>
+    <p>Haskett characterized NC State’s response to student housing insecurity as insufficient.</p>
 
     <blockquote>“Their response is one of what I refer to as charity,” Haskett said.</blockquote>
 
@@ -786,12 +786,14 @@ main > section, iframe { min-width:0; max-width:100%; }
               border-right:0 !important;
             }
             .draft-comparison-strip .room-overall-line{
-              display:grid !important;
-              grid-template-columns:minmax(0,1fr);
-              gap:10px;
-              align-content:start;
+              display:flex !important;
+              flex-direction:column;
+              justify-content:space-between;
+              gap:14px;
               height:100%;
               margin:0 !important;
+              padding-top:20px !important;
+              padding-bottom:13px !important;
             }
             .draft-comparison-strip .draft-room-audit-link{
               grid-column:1;
@@ -844,7 +846,7 @@ main > section, iframe { min-width:0; max-width:100%; }
               font:700 31px/1 Georgia,\"Times New Roman\",serif;
             }
             .draft-offcampus-note{
-              margin:10px 0 0 !important;
+              margin:auto 0 0 !important;
               padding:9px 0 0 !important;
               border-top:1px solid var(--line);
               color:#625d56;
