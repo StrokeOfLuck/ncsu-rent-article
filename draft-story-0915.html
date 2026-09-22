@@ -48,9 +48,9 @@
   .references-link:hover { text-decoration:underline; }
   .story-title {
     margin:0 0 22px;
-    font:700 clamp(28px, 4.5vw, 44px)/1.12 Georgia, "Times New Roman", serif;
+    font:700 clamp(30px, 4vw, 38px)/1.12 Georgia, "Times New Roman", serif;
     letter-spacing:-.02em;
-    overflow-wrap:break-word;
+    white-space:nowrap;
   }
   .lede {
     max-width:none;
@@ -287,6 +287,11 @@
   }
   @media (max-width:700px) {
     main { width:min(100% - 24px, 920px); padding-top:24px; }
+    .story-title {
+      font-size:28px;
+      white-space:normal;
+      overflow-wrap:break-word;
+    }
     .lede { font-size:18px; }
     .graphic-sources {
       position:static;
