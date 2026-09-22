@@ -775,6 +775,135 @@ h2 {
   margin-top:9px;
 }
 
+/* Cost-of-attendance housing budget compared with every published housing category */
+.housing-budget-summary {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:12px 0;
+}
+.housing-budget-summary .fact { min-width:0; }
+.housing-budget-audit-wrap {
+  margin-top:12px;
+  border:1px solid var(--line);
+  background:#fff;
+}
+.housing-budget-audit {
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+  font-size:10.5px;
+  line-height:1.35;
+  font-variant-numeric:tabular-nums;
+}
+.housing-budget-audit th,
+.housing-budget-audit td {
+  padding:9px 8px;
+  border-bottom:1px solid #e5e0d8;
+  text-align:right;
+  vertical-align:top;
+  overflow-wrap:anywhere;
+}
+.housing-budget-audit th {
+  background:var(--accent);
+  color:#fff;
+  font-size:9.5px;
+  font-weight:800;
+}
+.housing-budget-audit th:first-child,
+.housing-budget-audit td:first-child {
+  width:29%;
+  text-align:left;
+}
+.housing-budget-audit th:nth-child(2) { width:13%; }
+.housing-budget-audit th:nth-child(3) { width:13%; }
+.housing-budget-audit th:nth-child(4) { width:12%; }
+.housing-budget-audit th:nth-child(5) { width:14%; }
+.housing-budget-audit th:nth-child(6) { width:13%; }
+.housing-budget-audit th:nth-child(7) { width:6%; }
+.housing-budget-audit tbody tr:nth-child(even) td { background:var(--soft); }
+.housing-budget-audit tbody tr:last-child td { border-bottom:0; }
+.housing-budget-audit .within-budget td { background:#edf7ef; }
+.housing-budget-audit .over-budget td:last-child { background:#faeaea; }
+.housing-budget-audit .within-budget td:last-child {
+  background:#dff1e3;
+  color:#235f31;
+  font-weight:800;
+}
+.housing-budget-audit td:first-child { font-weight:700; }
+.housing-budget-formula {
+  margin-top:10px;
+  color:var(--muted);
+  font-size:10.5px;
+  line-height:1.5;
+}
+.housing-budget-source-grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin-top:12px;
+}
+.housing-budget-source-grid .evidence { margin-top:0; }
+.housing-budget-source-grid .evidence:first-child { grid-column:1 / -1; }
+
+@media(max-width:700px) {
+  .housing-budget-summary,
+  .housing-budget-source-grid { grid-template-columns:1fr; }
+  .housing-budget-source-grid .evidence:first-child { grid-column:auto; }
+  .housing-budget-audit-wrap {
+    border:0;
+    background:transparent;
+  }
+  .housing-budget-audit,
+  .housing-budget-audit tbody,
+  .housing-budget-audit tr,
+  .housing-budget-audit td {
+    display:block;
+    width:100%;
+  }
+  .housing-budget-audit { font-size:11px; }
+  .housing-budget-audit thead {
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+  .housing-budget-audit tr {
+    margin-bottom:12px;
+    border:1px solid var(--line);
+    background:#fff;
+  }
+  .housing-budget-audit td,
+  .housing-budget-audit td:first-child {
+    display:grid;
+    grid-template-columns:minmax(118px,42%) minmax(0,1fr);
+    gap:10px;
+    width:100%;
+    padding:8px 10px;
+    text-align:right;
+  }
+  .housing-budget-audit td:first-child {
+    background:var(--accent) !important;
+    color:#fff;
+  }
+  .housing-budget-audit td::before {
+    content:attr(data-label);
+    color:var(--muted);
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.04em;
+    text-align:left;
+    text-transform:uppercase;
+  }
+  .housing-budget-audit td:first-child::before { color:#f4d9dc; }
+  .housing-budget-audit tr:last-child { margin-bottom:0; }
+}
+
 </style>
 </head>
 <body>
@@ -1015,6 +1144,91 @@ h2 {
         <div class="fact-value">
           <strong>Standard single:</strong> (($4,600 + $150 ResNet) × 2 + $360 winter break) ÷ 9 = <strong>$1,095.56/month ≈ $1,096</strong>
         </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+<article class="ref" id="housing-budget-vs-published-rates">
+  <div class="ref-head">
+    <div>
+      <div class="ref-no">Cost-of-attendance housing audit</div>
+      <div class="ref-title">NC State Housing Budget Compared With Published 2026–27 Housing Rates</div>
+    </div>
+    <div class="tags">
+      <span class="tag">9-month math</span>
+      <span class="tag">Required fees included</span>
+      <span class="tag">Historical comparison</span>
+    </div>
+  </div>
+  <div class="ref-body">
+    <div class="meta-grid">
+      <div class="meta-label">Cost-of-attendance source</div>
+      <div class="meta-value"><a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/" target="_blank" rel="noopener noreferrer">NC State Undergraduate Student Estimated Cost of Attendance</a></div>
+      <div class="meta-label">Housing-rate source</div>
+      <div class="meta-value"><a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer">NC State University Housing — Costs</a></div>
+      <div class="meta-label">Historical source</div>
+      <div class="meta-value"><a href="https://osf.io/preprints/psyarxiv/t46jv_v1" target="_blank" rel="noopener noreferrer">Mary E. Haskett, <em>Food and Housing Security Among NC State Students</em></a></div>
+    </div>
+
+    <div class="housing-budget-summary">
+      <div class="fact"><div class="fact-label">2026–27 on-campus housing estimate</div><div class="fact-value"><strong>$8,738</strong> for full-time fall and spring enrollment</div></div>
+      <div class="fact"><div class="fact-label">Nine-month equivalent</div><div class="fact-value"><strong>$970.89 per month</strong><br>$8,738 ÷ 9</div></div>
+      <div class="fact"><div class="fact-label">Published categories within estimate</div><div class="fact-value"><strong>3 of 10</strong> after required fees are included</div></div>
+    </div>
+
+    <h2>Recreated comparison table</h2>
+    <div class="housing-budget-audit-wrap">
+      <table class="housing-budget-audit" aria-label="NC State 2026 to 2027 housing rates compared with the cost-of-attendance housing estimate">
+        <thead>
+          <tr>
+            <th>Housing type or location</th>
+            <th>Rate per semester</th>
+            <th>Two semesters</th>
+            <th>Required fees</th>
+            <th>Academic-year total</th>
+            <th>Nine-month equivalent</th>
+            <th>Within $8,738?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="within-budget"><td data-label="Housing type or location">Doubles</td><td data-label="Rate per semester">$3,970</td><td data-label="Two semesters">$7,940</td><td data-label="Required fees">$300</td><td data-label="Academic-year total">$8,240</td><td data-label="Nine-month equivalent">$915.56</td><td data-label="Within $8,738?">Yes</td></tr>
+          <tr class="over-budget"><td data-label="Housing type or location">Singles</td><td data-label="Rate per semester">$4,600</td><td data-label="Two semesters">$9,200</td><td data-label="Required fees">$300</td><td data-label="Academic-year total">$9,500</td><td data-label="Nine-month equivalent">$1,055.56</td><td data-label="Within $8,738?">No</td></tr>
+          <tr class="over-budget"><td data-label="Housing type or location">Wolf Village or Wolf Ridge, one bedroom or studio</td><td data-label="Rate per semester">$5,375</td><td data-label="Two semesters">$10,750</td><td data-label="Required fees">$300</td><td data-label="Academic-year total">$11,050</td><td data-label="Nine-month equivalent">$1,227.78</td><td data-label="Within $8,738?">No</td></tr>
+          <tr class="over-budget"><td data-label="Housing type or location">Wolf Village or Wolf Ridge, two, three or four bedrooms</td><td data-label="Rate per semester">$4,780</td><td data-label="Two semesters">$9,560</td><td data-label="Required fees">$300</td><td data-label="Academic-year total">$9,860</td><td data-label="Nine-month equivalent">$1,095.56</td><td data-label="Within $8,738?">No</td></tr>
+          <tr class="over-budget"><td data-label="Housing type or location">E.S. King, one-bedroom undergraduate double</td><td data-label="Rate per semester">$4,350</td><td data-label="Two semesters">$8,700</td><td data-label="Required fees">$300</td><td data-label="Academic-year total">$9,000</td><td data-label="Nine-month equivalent">$1,000.00</td><td data-label="Within $8,738?">No</td></tr>
+          <tr class="within-budget"><td data-label="Housing type or location">E.S. King or Western Manor, studio</td><td data-label="Rate per semester">$4,150</td><td data-label="Two semesters">$8,300</td><td data-label="Required fees">$300</td><td data-label="Academic-year total">$8,600</td><td data-label="Nine-month equivalent">$955.56</td><td data-label="Within $8,738?">Yes</td></tr>
+          <tr class="over-budget"><td data-label="Housing type or location">E.S. King or Western Manor, one bedroom</td><td data-label="Rate per semester">$4,600</td><td data-label="Two semesters">$9,200</td><td data-label="Required fees">$300</td><td data-label="Academic-year total">$9,500</td><td data-label="Nine-month equivalent">$1,055.56</td><td data-label="Within $8,738?">No</td></tr>
+          <tr class="over-budget"><td data-label="Housing type or location">E.S. King or Western Manor, two bedroom</td><td data-label="Rate per semester">$5,300</td><td data-label="Two semesters">$10,600</td><td data-label="Required fees">$300</td><td data-label="Academic-year total">$10,900</td><td data-label="Nine-month equivalent">$1,211.11</td><td data-label="Within $8,738?">No</td></tr>
+          <tr class="over-budget"><td data-label="Housing type or location">Coastal Quarters, single</td><td data-label="Rate per semester">$4,350</td><td data-label="Two semesters">$8,700</td><td data-label="Required fees">$600</td><td data-label="Academic-year total">$9,300</td><td data-label="Nine-month equivalent">$1,033.33</td><td data-label="Within $8,738?">No</td></tr>
+          <tr class="within-budget"><td data-label="Housing type or location">Coastal Quarters, double</td><td data-label="Rate per semester">$4,025</td><td data-label="Two semesters">$8,050</td><td data-label="Required fees">$600</td><td data-label="Academic-year total">$8,650</td><td data-label="Nine-month equivalent">$961.11</td><td data-label="Within $8,738?">Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="housing-budget-formula"><strong>Calculation:</strong> academic-year total = (projected semester room rate × 2) + required fees for two semesters. The required ResNet fee adds $300 for the academic year. Coastal Quarters adds the $300 ResNet total and its separate $300 communication-fee total. Nine-month equivalent = academic-year total ÷ 9.</div>
+
+    <hr class="rule">
+    <h2>Historical comparison with Haskett’s report</h2>
+    <div class="facts">
+      <div class="fact"><div class="fact-label">2023–24 report</div><div class="fact-value"><strong>$7,996</strong> published housing estimate for approximately nine months; <strong>$888 per month</strong> as reported. The report found the estimate could cover <strong>4 of 14</strong> on-campus residence halls, excluding two halls at half cost.</div></div>
+      <div class="fact"><div class="fact-label">2026–27 comparison</div><div class="fact-value"><strong>$8,738</strong> housing estimate; <strong>$970.89 per month</strong> across nine months. The calculation above finds <strong>3 of 10</strong> current categories within the estimate after required fees.</div></div>
+    </div>
+    <div class="use-note"><strong>Interpretation:</strong> The housing categories and rates changed between the two comparisons, so the counts should not be treated as identical measures. Both calculations show the official housing estimate falling below most published on-campus housing options available in their respective periods.</div>
+
+    <hr class="rule">
+    <h2>Original source images</h2>
+    <div class="housing-budget-source-grid">
+      <div class="evidence">
+        <a href="https://osf.io/preprints/psyarxiv/t46jv_v1" target="_blank" rel="noopener noreferrer"><img src="assets/references/haskett-housing-budget-2023-original.png" alt="Original excerpt from Mary Haskett's report describing the 2023 to 2024 housing estimate and how many residence halls it could cover"></a>
+        <div class="caption"><strong>Original report excerpt.</strong> Select the image to open the study.</div>
+      </div>
+      <div class="evidence">
+        <a href="https://housing.dasa.ncsu.edu/residential-communities/costs/" target="_blank" rel="noopener noreferrer"><img src="assets/references/ncsu-housing-rates-2026-27-original.png" alt="Original NC State University Housing table showing projected 2026 to 2027 semester rates and the required ResNet fee"></a>
+        <div class="caption"><strong>Original University Housing excerpt.</strong> Projected rates are per semester. Select the image to open the official source.</div>
+      </div>
+      <div class="evidence">
+        <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/" target="_blank" rel="noopener noreferrer"><img src="assets/references/ncsu-coa-housing-2026-27-original.png" alt="Original NC State cost-of-attendance table showing an 8738 dollar on-campus housing estimate for a North Carolina resident in 2026 to 2027"></a>
+        <div class="caption"><strong>Original cost-of-attendance excerpt.</strong> Select the image to open the official source.</div>
       </div>
     </div>
   </div>
