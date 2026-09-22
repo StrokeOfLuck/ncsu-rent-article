@@ -21,11 +21,15 @@
         </div>
         <div class="evidence" style="margin-top:14px"><img src="assets/housing-insecurity-11-3-evidence.svg" alt="Recreated excerpt from the March 2024 NC State report showing the housing insecurity question and Table 3, where 153 of 1,354 students, or 11.3 percent, were housing insecure."><div class="caption"><strong>Readable recreation.</strong> Recreated from the report's housing insecurity definition and Table 3.</div></div>
         <div class="evidence" style="margin-top:14px">
-          <a href="https://packessentials.dasa.ncsu.edu/food-and-housing-insecurity-at-nc-state/" target="_blank" rel="noopener noreferrer"><img src="assets/references/haskett-table-3-original.png?v=20260920-original" alt="Original Table 3 from the March 2024 NC State food and housing insecurity report, showing food security, housing security and experienced homelessness results."></a>
-          <div class="caption"><strong>Original Table 3.</strong> Saved from the March 2024 NC State report. Select the image to open NC State's current Campus Reports page.</div>
+          <a href="assets/references/haskett-table-3-and-table-4-context-original.png" target="_blank" rel="noopener noreferrer"><img src="assets/references/haskett-table-3-and-table-4-context-original.png?v=20260922-original" alt="Original report excerpt showing Table 3, including 190 of 1,357 students, or 14 percent, who experienced homelessness, and the report's discussion introducing Table 4."></a>
+          <div class="caption"><strong>Original report excerpt: Table 3 and Table 4 context.</strong> Select the image to open the full-resolution original.</div>
+        </div>
+        <div class="evidence" style="margin-top:14px">
+          <a href="assets/references/haskett-table-4-original.png" target="_blank" rel="noopener noreferrer"><img src="assets/references/haskett-table-4-original.png?v=20260922-original" alt="Original Table 4 from the March 2024 NC State report, listing students' housing situations and nine forms of homelessness experienced during the previous 12 months."></a>
+          <div class="caption"><strong>Original report excerpt: Table 4.</strong> Select the image to open the full-resolution original.</div>
         </div>
         <p><a href="https://doi.org/10.31234/osf.io/t46jv" target="_blank" rel="noopener noreferrer">Mary E. Haskett, Homelessness and Food &amp; Housing Insecurity among College Students: Third Wave</a> · March 2024 NC State report, 2023 survey data.</p>
-        <div class="use-note"><strong>Reporting note:</strong> This article uses the 11.3% housing insecurity measure because it directly asks about students' confidence in paying for their current housing. It does not use the report's 14% homelessness figure as a direct affordability measure. That measure counts any of nine qualifying housing situations at any point during the previous 12 months, including temporary couch surfing, and the report does not establish a minimum duration.</div>
+        <div class="use-note"><strong>Reporting note:</strong> The 11.3% housing insecurity measure asks about students' confidence in paying for their current housing. The separate 14% homelessness measure counts any of nine qualifying housing situations at any point during the previous 12 months, including temporary couch surfing; the report does not establish a minimum duration.</div>
       </div>`;
   }
 
