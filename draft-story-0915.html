@@ -741,7 +741,7 @@ main > section, iframe { min-width:0; max-width:100%; }
           breakRow.style.alignItems='center';
           breakRow.style.justifyContent='space-between';
           breakRow.style.gap='12px';
-          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span></div><a class="draft-housing-math-link" href="references.html?v=20260920-winter-break-math#residence-hall-monthly-math">See monthly-equivalent math</a>';
+          breakRow.innerHTML='<div class="draft-campus-break-control"><label><input type="checkbox" class="draft-campus-break-checkbox"> <strong>Add full winter break (+$360)</strong></label><span class="draft-campus-break-meta"><span class="draft-campus-break-year">2025–26 rate</span><span class="draft-campus-break-info" tabindex="0" role="img" aria-label="Uses NC State’s 2025–26 full-break rate of $360 at $15 per night. The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario." title="Uses NC State’s 2025–26 full-break rate of $360 ($15/night). The 2026–27 winter-break charge and dates have not yet been posted, so this is a reference scenario.">ⓘ</span></span></div><a class="draft-housing-math-link" href="references.html?v=20260920-winter-break-math#residence-hall-monthly-math">See monthly-equivalent math</a>';
           strip.insertBefore(breakRow, strip.children[1] || null);
         }
 
@@ -870,6 +870,12 @@ main > section, iframe { min-width:0; max-width:100%; }
               align-items:center;
               gap:7px;
               flex-wrap:nowrap;
+            }
+            .draft-campus-break-meta{
+              display:inline-flex;
+              align-items:center;
+              gap:6px;
+              flex:0 0 auto;
             }
             .draft-comparison-strip .draft-housing-math-link{
               flex:0 0 auto;
@@ -1043,9 +1049,34 @@ main > section, iframe { min-width:0; max-width:100%; }
               .draft-comparison-strip > *:last-child{border-bottom:0 !important;}
               .draft-campus-break-row{grid-template-columns:1fr;}
               .draft-comparison-strip > .draft-campus-break-row{
-                display:flex !important;
-                flex-wrap:wrap;
-                gap:0 !important;
+                display:block !important;
+              }
+              .draft-comparison-strip .draft-campus-break-control{
+                display:grid !important;
+                grid-template-columns:minmax(0,1fr) auto;
+                gap:5px 10px;
+                width:100%;
+                padding-bottom:4px;
+              }
+              .draft-comparison-strip .draft-campus-break-control label{
+                min-width:0;
+                display:flex;
+                align-items:center;
+                gap:7px;
+              }
+              .draft-comparison-strip .draft-campus-break-meta{
+                display:inline-flex;
+                align-items:center;
+                justify-self:end;
+                gap:5px;
+                white-space:nowrap;
+              }
+              .draft-comparison-strip .draft-housing-math-link{
+                display:block;
+                margin:0 !important;
+                padding:2px 16px 10px 39px;
+                text-align:left;
+                white-space:normal;
               }
               .draft-comparison-strip .room-overall-line{
                 grid-template-columns:minmax(0,1fr) auto;
