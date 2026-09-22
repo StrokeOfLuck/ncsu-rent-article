@@ -904,6 +904,40 @@ h2 {
   .housing-budget-audit tr:last-child { margin-bottom:0; }
 }
 
+
+  /* Compact interview quote audio players */
+  .quote-audio{
+    margin-top:9px;
+    padding-top:9px;
+    border-top:1px solid #e7e3dc;
+  }
+  .quote-audio + .quote-audio{ margin-top:8px; }
+  .quote-audio-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:5px;
+    color:#5f5b55;
+    font:700 10px/1.3 Arial, Helvetica, sans-serif;
+    letter-spacing:.02em;
+  }
+  .quote-audio-head span:last-child{
+    color:#817b73;
+    font-weight:400;
+  }
+  .quote-audio audio{
+    display:block;
+    width:100%;
+    max-width:520px;
+    height:34px;
+  }
+  @media (max-width:620px){
+    .quote-audio-head{ align-items:flex-start; flex-direction:column; gap:2px; }
+    .quote-audio audio{ max-width:none; }
+  }
+  /* End interview quote audio players */
+
 </style>
 </head>
 <body>
@@ -1275,15 +1309,42 @@ h2 {
       </div>
       <div class="fact">
         <div class="fact-label">Value and comparison</div>
-        <div class="fact-value">McGalliard described doubles as Housing’s <strong>“best kind of value”</strong> and called a residence-hall-double versus off-campus private-bedroom comparison <strong>“apples and oranges.”</strong></div>
+        <div class="fact-value">McGalliard described doubles as Housing’s <strong>“best kind of value”</strong> and called a residence-hall-double versus off-campus private-bedroom comparison <strong>“apples and oranges.”</strong>
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>McGalliard — “best kind of value”</span></div>
+            <audio controls preload="none" aria-label="Play Donna McGalliard saying best kind of value">
+              <source src="assets/audio/interview-excerpts/03-mcgalliard-best-value-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>McGalliard — “apples and oranges”</span></div>
+            <audio controls preload="none" aria-label="Play Donna McGalliard discussing apples and oranges">
+              <source src="assets/audio/interview-excerpts/04-mcgalliard-apples-oranges-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
       </div>
       <div class="fact">
         <div class="fact-label">Academic-year contract</div>
-        <div class="fact-value">Fraccaroli emphasized that students can live on campus from roughly August through early May without paying for a summer housing term; summer housing is separate.</div>
+        <div class="fact-value">Fraccaroli emphasized that students can live on campus from roughly August through early May without paying for a summer housing term; summer housing is separate.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Fraccaroli — August to May</span></div>
+            <audio controls preload="none" aria-label="Play Peter Fraccaroli discussing the August to May housing term">
+              <source src="assets/audio/interview-excerpts/05-fraccaroli-august-may-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
       </div>
       <div class="fact">
         <div class="fact-label">What goes into housing rates</div>
-        <div class="fact-value">McGalliard said Housing rates reflect operating costs beyond the room itself, including utilities, building and grounds contracts, housekeeping, activities and staffing.</div>
+        <div class="fact-value">McGalliard said Housing rates reflect operating costs beyond the room itself, including utilities, building and grounds contracts, housekeeping, activities and staffing.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>McGalliard — comprehensive housing costs</span></div>
+            <audio controls preload="none" aria-label="Play Donna McGalliard discussing costs included in housing rates">
+              <source src="assets/audio/interview-excerpts/06-mcgalliard-comprehensive-costs-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1328,11 +1389,25 @@ h2 {
     <div class="facts">
       <div class="fact">
         <div class="fact-label">Raleigh rent context</div>
-        <div class="fact-value">Barrie said rents had dipped somewhat as more rental housing was built, but remained expensive.</div>
+        <div class="fact-value">Barrie said rents had dipped somewhat as more rental housing was built, but remained expensive.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Barrie — rent dipped, still expensive</span></div>
+            <audio controls preload="none" aria-label="Play Thomas Barrie discussing Raleigh rents">
+              <source src="assets/audio/interview-excerpts/01-barrie-rent-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
       </div>
       <div class="fact">
         <div class="fact-label">Student work and academic pressure</div>
-        <div class="fact-value">Barrie described asking struggling architecture students how much they work and whether they can reduce those hours; when students say they cannot, he said faculty have to work with that financial reality.</div>
+        <div class="fact-value">Barrie described asking struggling architecture students how much they work and whether they can reduce those hours; when students say they cannot, he said faculty have to work with that financial reality.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Barrie — student work hours / “face value”</span></div>
+            <audio controls preload="none" aria-label="Play Thomas Barrie discussing student work hours and taking their financial reality at face value">
+              <source src="assets/audio/interview-excerpts/07-barrie-working-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
       </div>
       <div class="fact">
         <div class="fact-label">University response</div>
@@ -1385,11 +1460,31 @@ h2 {
     <div class="facts">
       <div class="fact">
         <div class="fact-label">University response</div>
-        <div class="fact-value">Haskett described NC State’s response as “charity” and said housing-related scholarships were funded by donors rather than university investment.</div>
+        <div class="fact-value">Haskett described NC State’s response as “charity” and said housing-related scholarships were funded by donors rather than university investment.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Haskett — “charity”</span></div>
+            <audio controls preload="none" aria-label="Play Mary Haskett describing the response as charity">
+              <source src="assets/audio/interview-excerpts/12-haskett-charity-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Haskett — donor-funded scholarships</span></div>
+            <audio controls preload="none" aria-label="Play Mary Haskett discussing donor-funded housing scholarships">
+              <source src="assets/audio/interview-excerpts/13-haskett-donor-scholarships-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
       </div>
       <div class="fact">
         <div class="fact-label">Enrollment and completion</div>
-        <div class="fact-value">She argued that increasing enrollment without ensuring students can afford to remain housed undermines the goal of increasing graduation.</div>
+        <div class="fact-value">She argued that increasing enrollment without ensuring students can afford to remain housed undermines the goal of increasing graduation.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Haskett — enrollment and graduation</span></div>
+            <audio controls preload="none" aria-label="Play Mary Haskett discussing enrollment, graduation and housing affordability">
+              <source src="assets/audio/interview-excerpts/14-haskett-enrollment-graduation-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1434,15 +1529,58 @@ h2 {
     <div class="facts">
       <div class="fact">
         <div class="fact-label">Fees can change the apparent rent</div>
-        <div class="fact-value">Hearn said guarantor-waiver fees, amenities fees and other charges can push a room advertised around $700 toward roughly $1,000 per month.</div>
+        <div class="fact-value">Hearn said guarantor-waiver fees, amenities fees and other charges can push a room advertised around $700 toward roughly $1,000 per month.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Hearn — $700 advertised rent and added fees</span></div>
+            <audio controls preload="none" aria-label="Play Alden Hearn discussing added fees on advertised student rent">
+              <source src="assets/audio/interview-excerpts/02-hearn-fees-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
       </div>
       <div class="fact">
         <div class="fact-label">Students served</div>
-        <div class="fact-value">Hearn said HOST had served <strong>just over 100 students</strong> since it began serving students in fall 2022 / early 2023.</div>
+        <div class="fact-value">Hearn said HOST had served <strong>just over 100 students</strong> since it began serving students in fall 2022 / early 2023.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Hearn — “just over 100 students”</span></div>
+            <audio controls preload="none" aria-label="Play Alden Hearn discussing the number of students HOST has served">
+              <source src="assets/audio/interview-excerpts/08-hearn-100-students-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
       </div>
       <div class="fact">
         <div class="fact-label">Fragile housing stability</div>
-        <div class="fact-value">He said a single setback — such as illness, job loss or a car repair — can quickly destabilize housing for students with little financial margin.</div>
+        <div class="fact-value">He said a single setback — such as illness, job loss or a car repair — can quickly destabilize housing for students with little financial margin.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Hearn — setback and eviction</span></div>
+            <audio controls preload="none" aria-label="Play Alden Hearn discussing setbacks and eviction">
+              <source src="assets/audio/interview-excerpts/09-hearn-setback-eviction-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Student homelessness can be invisible</div>
+        <div class="fact-value">Hearn called student homelessness <strong>“an invisible problem”</strong> and said people may assume that if someone is in college, their basic needs are stable.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Hearn — “an invisible problem”</span></div>
+            <audio controls preload="none" aria-label="Play Alden Hearn describing student homelessness as an invisible problem">
+              <source src="assets/audio/interview-excerpts/10-hearn-invisible-problem-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="fact-label">Couch surfing and housing gaps</div>
+        <div class="fact-value">Hearn said some students fill housing gaps by staying in a vehicle or <strong>couch surfing with friends</strong> when they do not have family they can return to during breaks.
+          <div class="quote-audio">
+            <div class="quote-audio-head"><span>Listen to quoted passage</span><span>Hearn — vehicle stays and couch surfing</span></div>
+            <audio controls preload="none" aria-label="Play Alden Hearn discussing vehicle stays and couch surfing">
+              <source src="assets/audio/interview-excerpts/11-hearn-couch-surfing-quote.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        </div>
       </div>
       <div class="fact">
         <div class="fact-label">Scale of the problem</div>
