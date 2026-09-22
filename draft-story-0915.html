@@ -206,14 +206,20 @@
     color:#5f5b55;
     font-size:8.5px;
   }
+  .budget-grid {
+    align-items:start;
+  }
   .budget {
     display:grid;
     grid-template-columns:minmax(0,1fr) auto;
     gap:16px;
-    align-items:center;
+    align-items:start;
+  }
+  .budget-copy {
+    align-self:center;
   }
   .budget .amount {
-    align-self:center;
+    align-self:start;
   }
   .budget strong {
     font-size:21px;
@@ -462,14 +468,14 @@ main > section, iframe { min-width:0; max-width:100%; }
     </div>
     <div class="budget-grid">
       <div class="budget">
-        <div>
+        <div class="budget-copy">
           <div class="name">NC State on-campus housing budget</div>
           <div class="detail">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment.</div>
         </div>
         <div class="amount"><strong>$8,738</strong><span>academic year</span><span class="monthly-equivalent">≈ $971/month over 9 months</span></div>
       </div>
       <div class="budget">
-        <div>
+        <div class="budget-copy">
           <div class="name">NC State off-campus housing budget</div>
           <div class="detail">Official 2026–27 cost-of-attendance estimate for full-time fall + spring enrollment.</div>
         </div>
