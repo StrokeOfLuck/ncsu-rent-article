@@ -181,9 +181,15 @@
     gap:12px;
   }
   .budget-title {
-    margin:0 0 4px;
+    margin:0;
     font-size:14px;
     font-weight:800;
+  }
+  .budget-title-line {
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    flex-wrap:wrap;
   }
   .budget-source {
     flex:0 0 auto;
@@ -196,7 +202,7 @@
   }
   .budget-source a { color:#315d86; }
   .budget-sub {
-    margin:0 0 10px;
+    margin:0;
     color:#5f5b55;
     font-size:8.5px;
   }
@@ -217,10 +223,7 @@
     padding-top:10px;
     padding-bottom:8px;
   }
-  .budget-graphic .budget-title {
-    margin-bottom:2px;
-  }
-  .budget-graphic .budget-sub {
+  .budget-graphic .budget-title-line {
     margin-bottom:4px;
   }
   @media (min-width:701px) {
@@ -294,6 +297,12 @@
     .budget-heading-row {
       flex-direction:column;
       gap:3px;
+    }
+    .budget-title-line {
+      display:block;
+    }
+    .budget-title-line .budget-title {
+      margin-bottom:2px;
     }
     .budget-source {
       padding-top:0;
@@ -437,13 +446,15 @@ main > section, iframe { min-width:0; max-width:100%; }
 
   <section class="graphic budget-graphic" aria-label="Official NC State housing budget estimates">
     <div class="budget-heading-row">
-      <div>
+      <div class="budget-heading-main">
         <div class="eyebrow">NC State budget estimates</div>
-        <div class="budget-title">Official NC State housing budgets</div>
+        <div class="budget-title-line">
+          <div class="budget-title">Official NC State housing budgets</div>
+          <div class="budget-sub">2026–27 cost-of-attendance housing estimates for full-time fall + spring enrollment.</div>
+        </div>
       </div>
       <div class="budget-source">Source: <a href="https://studentservices.ncsu.edu/finances/estimated-cost-of-attendance/undergraduate-student-estimated-cost-of-attendance/">NC State Cost of Attendance</a></div>
     </div>
-    <p class="budget-sub">2026–27 cost-of-attendance housing estimates for full-time fall + spring enrollment.</p>
     <div class="budget-grid">
       <div class="budget">
         <div>
