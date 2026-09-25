@@ -20,7 +20,7 @@ My approach to AI assistance is informed by [AP’s published guidance, dated Ju
 
 AP’s examples provide context; the following paragraph describes my use of AI in this project.
 
-I used AI assistance to help develop and debug the project's code, data-processing tools, and interactive presentation. I also used AI to suggest grammar and wording changes, which I reviewed before accepting. I retain responsibility for the reporting and accuracy of the work.
+I used AI assistance to help develop and debug the project's code, data-processing tools, and interactive presentation. I also used AI to suggest improvements to grammar, spelling, and clarity, which I reviewed before accepting. I retain responsibility for the reporting and accuracy of the work.
 
 ## Current analysis (revised September 13, 2026)
 
