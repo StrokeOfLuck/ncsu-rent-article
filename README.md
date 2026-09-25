@@ -9,19 +9,6 @@ This is a source checkpoint for the article and interactive map as of September 
 - [Open the main interactive](https://strokeofluck.github.io/ncsu-rent-article/)
 - [Open the reporting references](https://strokeofluck.github.io/ncsu-rent-article/references.html)
 
-## AI use
-
-My approach to AI assistance is informed by [AP’s published guidance, dated July 23, 2026](https://www.ap.org/the-definitive-source/announcements/ap-updates-newsroom-standards-for-artificial-intelligence/). That announcement identifies uses including:
-
-- Early research and document summaries.
-- Transcription and translation support.
-- Suggestions for headlines, story summaries, and shotlists.
-- Grammar, spelling, and search optimization assistance.
-
-AP’s examples provide context; the following paragraph describes my use of AI in this project.
-
-I used AI assistance to help develop and debug the project's code, data-processing tools, and interactive presentation. I also used AI to suggest improvements to grammar, spelling, and clarity, which I reviewed before accepting. I retain responsibility for the reporting and accuracy of the work.
-
 ## Current analysis (revised September 13, 2026)
 
 The website and references use `data/reviewed-rentals.json` and `assets/rent-analysis.js`.
