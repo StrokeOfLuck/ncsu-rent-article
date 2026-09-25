@@ -9,6 +9,12 @@ This is a source checkpoint for the article and interactive map as of September 
 - [Open the main interactive](https://strokeofluck.github.io/ncsu-rent-article/)
 - [Open the reporting references](https://strokeofluck.github.io/ncsu-rent-article/references.html)
 
+## AI use
+
+I used AI assistance to help develop and debug the project's code, data-processing tools, and interactive presentation. I also used AI to suggest grammar and wording changes, which I reviewed before accepting. I remain responsible for the reporting, editorial decisions, and accuracy of the work.
+
+The sources, methods, review decisions, and audit materials are documented in this repository so readers can inspect the basis for the analysis.
+
 ## Current analysis (revised September 13, 2026)
 
 The website and references use `data/reviewed-rentals.json` and `assets/rent-analysis.js`.
