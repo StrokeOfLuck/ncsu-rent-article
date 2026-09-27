@@ -28,6 +28,7 @@
   frame.title = figure[1];
   frame.src = 'draft-story-0915.html';
   frame.style.height = '800px';
+  frame.style.visibility = 'hidden';
   frame.addEventListener('load', () => {
     try {
       const doc = frame.contentDocument;
@@ -38,6 +39,7 @@
       style.textContent = 'html,body{margin:0!important;padding:0!important}main{width:100%!important;max-width:none!important;margin:0!important;padding:0!important}main>*{display:none!important}main>'+figure[0]+'{display:block!important;margin:0!important;padding-top:0!important;border-top:0!important}.off-campus-embed iframe{min-height:0!important}';
       doc.head.appendChild(style);
       status.remove();
+      frame.style.visibility = 'visible';
       let scheduled = false;
       function measure() {
         scheduled = false;
