@@ -38,7 +38,7 @@ if (typeof document !== 'undefined') {
     if (label) label.textContent = 'Rent ($) per bedroom';
 
     const aidNote = document.getElementById('preset-assumption');
-    const burdenClarifier = 'With aid selected, this is a share-of-resources example, not a formal housing-cost-burden measure.';
+    const burdenClarifier = 'With aid selected, this is a share-of-resources example using HUD’s 30% benchmark, not a formal housing-cost-burden measure.';
     if (aidNote && !aidNote.textContent.includes(burdenClarifier)) {
       const link = aidNote.querySelector('a');
       const note = document.createTextNode(` ${burdenClarifier} `);
