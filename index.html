@@ -4818,6 +4818,31 @@ try {
   if(typeof maplibregl !== 'undefined') map = new maplibregl.Map({container:'map',style:'https://tiles.openfreemap.org/styles/positron',center:[campuses.main.lon,campuses.main.lat],zoom:12.7});
 } catch(error) { document.getElementById('map').textContent='Map unavailable. The tables and calculator below still work.'; }
 if(map) {
+// Embeds can change container size without resizing the browser window.
+// Keep MapLibre's canvas aligned with the space actually available.
+if (typeof ResizeObserver !== 'undefined') {
+  const mapContainer = map.getContainer();
+  let resizeFrame = 0;
+  let lastMapWidth = -1;
+  let lastMapHeight = -1;
+  const mapSizeObserver = new ResizeObserver(() => {
+    if (resizeFrame) return;
+    resizeFrame = requestAnimationFrame(() => {
+      resizeFrame = 0;
+      const width = mapContainer.clientWidth;
+      const height = mapContainer.clientHeight;
+      if (!width || !height || (width === lastMapWidth && height === lastMapHeight)) return;
+      lastMapWidth = width;
+      lastMapHeight = height;
+      map.resize();
+    });
+  });
+  mapSizeObserver.observe(mapContainer);
+  map.on('remove', () => {
+    mapSizeObserver.disconnect();
+    if (resizeFrame) cancelAnimationFrame(resizeFrame);
+  });
+}
 map.addControl(new maplibregl.NavigationControl({showCompass:false}), "top-right");
 
 map.on("load", () => {
