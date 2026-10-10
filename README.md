@@ -2,6 +2,7 @@
 
 This repository contains the published interactive article examining advertised rental prices around NC State University campuses, along with its supporting data, sources and analysis.
 
+- [Read the published article on Technician](https://technicianonline.com/164314/news/can-nc-state-students-afford-to-live-near-campus/)
 - [Explore the interactive article](https://strokeofluck.github.io/ncsu-rent-article/)
 - [View the project in my data portfolio](https://strokeofluck.github.io/sean-data-portfolio/projects/housing-affordability.html)
 
